@@ -1,0 +1,86 @@
+$color-green: #94ff36;
+$color-red: #e83b35;
+$color-white: #dedede;
+$color-violet: #de81d9;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  transition: border 0.2s linear;
+}
+
+.form > * {
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.form input:not([type="checkbox"]):not([type="radio"]) {
+  width: 50%;
+}
+
+.checkboxesContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkboxesContainer > * {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.inputTitle {
+  color: $color-white;
+  margin-left: 10px;
+}
+
+.isInvalid {
+  border: 1px solid $color-red
+}
+
+.isValid {
+  border: 1px solid $color-green
+}
+
+._isBlinkForm {
+  animation: blink 0.3s linear none 3;
+}
+
+.infoContainer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.infoBox {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  min-width: 400px;
+  border: 1px solid $color-white;
+  padding: 10px;
+}
+
+.infoBox > h5 {
+  margin: 5px 0;
+  color: $color-violet;
+}
+
+.infoBox > *:not(h5) {
+  color: $color-white;
+}
+
+/* BLINK ANIMATION */
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}

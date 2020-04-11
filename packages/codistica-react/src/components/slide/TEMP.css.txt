@@ -1,0 +1,69 @@
+.slide-master {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden!important;
+    overflow-y: hidden!important;
+    -webkit-overflow-scrolling: auto!important;
+    /* BE CAREFUL */
+    /* DO NOT CHANGE */
+}
+
+.slide-track {
+    overflow-x: visible!important;
+    overflow-y: visible!important;
+    /* BE CAREFUL */
+    /* DO NOT CHANGE */
+}
+
+.slide-item {
+    overflow-x: hidden; /* HELPS IDENTIFYING WIDTH ISSUES */
+    overflow-y: hidden; /* HELPS IDENTIFYING WIDTH ISSUES */
+    /* BE CAREFUL */
+    /* USED BY JS */
+    /* DO NOT CHANGE */
+}
+
+.slide-item-active {
+    /* BE CAREFUL */
+    /* USED BY JS */
+    /* DO NOT CHANGE */
+}
+
+.slide-dots-container-row {
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+    /* BE CAREFUL */
+    /* DO NOT CHANGE */
+}
+
+.slide-dots-container-column {
+    position: absolute;
+    right: 16px;
+    top: 0;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none; /* TEMP */
+    /* BE CAREFUL */
+    /* DO NOT CHANGE */
+}
+
+.slide-dot {
+    height: 12px;
+    width: 12px;
+    margin: 7px;
+    background-color: rgba(0,0,0,0.10);
+    border-radius: 50%;
+    pointer-events: auto; /* TEMP */
+    /* BE CAREFUL */
+    /* DO NOT CHANGE */
+}
+
+.slide-dot-active {
+    border: 2px solid rgba(0,0,0,0.15);
+    pointer-events: none!important; /* TEMP */
+    /* BE CAREFUL */
+    /* DO NOT CHANGE */
+}

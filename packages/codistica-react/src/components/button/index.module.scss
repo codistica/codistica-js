@@ -1,0 +1,49 @@
+$color-gray: #333333;
+$color-white: #dedede;
+$color-gray-alpha: rgba(51, 51, 51, 0.1);
+$color-white-alpha: rgba(222, 222, 222, 0.1);
+
+._main { // FOR COMPONENT MAIN ELEMENT. DO NOT DELETE
+  border: 2px solid;
+  border-radius: 50px;
+  padding: 5px 30px;
+  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+  display: inline-block;
+  background-color: transparent;
+  outline: none;
+  font-size: 1em;
+  text-decoration: none;
+}
+
+._scope { // FOR HTML ELEMENT AND ATTRIBUTE SELECTORS. DO NOT DELETE
+
+}
+
+.dark {
+  border-color: $color-gray;
+  color: $color-gray;
+}
+
+.light {
+  border-color: $color-white;
+  color: $color-white;
+}
+
+:not(.disabled).dark:hover,
+:not(.disabled).dark:focus,
+:not(.disabled).dark:active {
+  background-color: $color-gray-alpha;
+}
+
+:not(.disabled).light:hover,
+:not(.disabled).light:focus,
+:not(.disabled).light:active {
+  background-color: $color-white-alpha;
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

@@ -1,0 +1,89 @@
+{
+    "name": "@codistica/react",
+    "version": "0.0.0",
+    "publishConfig": {
+        "access": "public"
+    },
+    "description": "Codistica React library package.",
+    "keywords": [
+        "codistica, main, library, react"
+    ],
+    "author": {
+        "name": "Codistica",
+        "email": "info@codistica.com",
+        "url": "https://github.com/codistica"
+    },
+    "contributors": [
+        {
+            "name": "Ernesto Stifano",
+            "email": "ernesto.stifano@codistica.com",
+            "url": "https://github.com/ernestostifano"
+        },
+        {
+            "name": "Javier Monguilo",
+            "email": "javier.monguilo@codistica.com",
+            "url": "https://github.com/jmonguilo"
+        }
+    ],
+    "homepage": "https://www.codistica.com",
+    "license": "ISC",
+    "main": "./lib/index.js",
+    "module": "./lib-es/index.js",
+    "directories": {
+        "lib": "./lib",
+        "test": "./lib/__tests__"
+    },
+    "files": [
+        "dist",
+        "lib",
+        "lib-es",
+        "!**/__tests__",
+        "!*.test.*",
+        "./types"
+    ],
+    "types": "./types/index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/codistica/codistica-js.git"
+    },
+    "bugs": {
+        "url": "https://github.com/codistica/codistica-js/issues"
+    },
+    "browserslist": [
+        "since 2015"
+    ],
+    "engines": {
+        "node": ">=10.0.0"
+    },
+    "scripts": {
+        "storybook": "start-storybook -p 6007",
+        "build-storybook": "build-storybook",
+        "flow": "flow"
+    },
+    "dependencies": {
+        "@babel/runtime-corejs3": "^7.5.5",
+        "@codistica/browser": "^0.0.0",
+        "@codistica/core": "^0.0.0",
+        "classnames": "^2.2.6",
+        "core-js": "^3.1.4",
+        "eventemitter3": "^4.0.0",
+        "react": "^16.8.6",
+        "react-dom": "^16.8.6",
+        "react-html-id": "^0.1.5",
+        "react-spring": "^8.0.27"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.4.5",
+        "@storybook/addon-actions": "^5.1.9",
+        "@storybook/addon-backgrounds": "^5.1.10",
+        "@storybook/addon-links": "^5.1.9",
+        "@storybook/addons": "^5.1.9",
+        "@storybook/react": "^5.1.9",
+        "babel-loader": "^8.0.6",
+        "chai": "^4.2.0",
+        "css-loader": "^3.0.0",
+        "node-sass": "^4.12.0",
+        "sass-loader": "^7.1.0",
+        "style-loader": "^0.23.1"
+    }
+}

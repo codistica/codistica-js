@@ -1,0 +1,72 @@
+{
+    "name": "@codistica/dev-tools",
+    "version": "0.0.0",
+    "publishConfig": {
+        "access": "public"
+    },
+    "description": "Codistica development tools library package.",
+    "keywords": [
+        "codistica, main, library, dev-tools"
+    ],
+    "author": {
+        "name": "Codistica",
+        "email": "info@codistica.com",
+        "url": "https://github.com/codistica"
+    },
+    "contributors": [
+        {
+            "name": "Ernesto Stifano",
+            "email": "ernesto.stifano@codistica.com",
+            "url": "https://github.com/ernestostifano"
+        },
+        {
+            "name": "Javier Monguilo",
+            "email": "javier.monguilo@codistica.com",
+            "url": "https://github.com/jmonguilo"
+        }
+    ],
+    "homepage": "https://www.codistica.com",
+    "license": "ISC",
+    "main": "./lib/index.js",
+    "module": "./lib-es/index.js",
+    "directories": {
+        "lib": "./lib",
+        "test": "./lib/__tests__"
+    },
+    "files": [
+        "dist",
+        "lib",
+        "lib-es",
+        "!**/__tests__",
+        "!*.test.*",
+        "./types"
+    ],
+    "types": "./types/index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/codistica/codistica-js.git"
+    },
+    "bugs": {
+        "url": "https://github.com/codistica/codistica-js/issues"
+    },
+    "browserslist": [
+        "since 2015"
+    ],
+    "engines": {
+        "node": ">=10.0.0"
+    },
+    "bin": {
+        "codistica-dev-tools": "./lib/bin/codistica-dev-tools.js"
+    },
+    "dependencies": {
+        "@babel/core": "^7.5.5",
+        "@babel/preset-env": "^7.4.5",
+        "@babel/register": "^7.4.4",
+        "@babel/runtime-corejs3": "^7.5.5",
+        "@codistica/node": "^0.0.0",
+        "core-js": "^3.1.4"
+    },
+    "devDependencies": {
+        "chai": "^4.2.0"
+    }
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebResourcesPaths">
+    <contentEntries>
+      <entry url="file://$PROJECT_DIR$">
+        <entryData>
+          <resourceRoots>
+            <path value="file://$PROJECT_DIR$/packages/codistica-browser/src" />
+            <path value="file://$PROJECT_DIR$/packages/codistica-core/src" />
+            <path value="file://$PROJECT_DIR$/packages/codistica-dev-tools/src" />
+            <path value="file://$PROJECT_DIR$/packages/codistica-node/src" />
+            <path value="file://$PROJECT_DIR$/packages/codistica-react/src" />
+            <path value="file://$PROJECT_DIR$/packages/codistica-scriptfiber/src" />
+            <path value="file://$PROJECT_DIR$/packages/codistica-types/src" />
+          </resourceRoots>
+        </entryData>
+      </entry>
+    </contentEntries>
+  </component>
+</project>

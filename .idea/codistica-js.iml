@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/packages/codistica-core/src/__tests__" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/packages/codistica-types/src/__tests__" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/editors" />
+      <excludeFolder url="file://$MODULE_DIR$/jsdoc" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-browser/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-browser/lib-es" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-browser/types" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-core/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-core/lib-es" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-core/types" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-dev-tools/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-dev-tools/lib-es" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-dev-tools/types" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-node/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-node/lib-es" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-node/types" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-react/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-react/lib-es" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-scriptfiber/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-scriptfiber/lib-es" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-scriptfiber/types" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-types/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-types/lib-es" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-types/types" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="@types/chai" level="application" />
+    <orderEntry type="library" name="@types/mocha" level="application" />
+    <orderEntry type="library" name="@types/react" level="application" />
+  </component>
+</module>

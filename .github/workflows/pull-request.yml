@@ -1,0 +1,26 @@
+name: Pull Request
+
+on:
+  pull_request:
+    branches: [ develop, master ]
+    types: [ opened, synchronize ]
+
+jobs:
+  internal_check:
+    name: Internal Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update Label
+        uses: codistica/actions/label@v1
+        with:
+          token: ${{ secrets.CODISTIBOT_TOKEN }}
+          number: ${{ github.event.pull_request.number }}
+          labels: '["⏳ Pending"]'
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - name: Install Dependencies
+        run: yarn install
+      - name: Build
+        run: yarn build
+      - name: Run Tests Using Mocha
+        run: yarn test
