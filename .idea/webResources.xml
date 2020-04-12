@@ -12,6 +12,7 @@
             <path value="file://$PROJECT_DIR$/packages/codistica-react/src" />
             <path value="file://$PROJECT_DIR$/packages/codistica-scriptfiber/src" />
             <path value="file://$PROJECT_DIR$/packages/codistica-types/src" />
+            <path value="file://$PROJECT_DIR$/packages/codistica-demo/src" />
           </resourceRoots>
         </entryData>
       </entry>
