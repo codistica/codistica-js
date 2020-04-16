@@ -1,4 +1,4 @@
-/** @module core/modules/number-utils/get-mean */
+/** @module core/modules/number-utils/get-arithmetic-mean */
 
 /**
  * @description Calculates the arithmetic mean of the input numbers array.
