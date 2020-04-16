@@ -59,7 +59,6 @@ class FormDemo extends React.Component<Props, State> {
      * @returns {void} Void.
      */
     onValidationResult(isValid: boolean, dataPackage: Object, report: Object) {
-        // console.log(dataPackage);
         this.setState({
             isValid,
             report,

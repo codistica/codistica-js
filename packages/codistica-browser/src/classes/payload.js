@@ -125,8 +125,6 @@ class Payload extends AJAXRequest {
      * @param {ProgressEvent} e - Progress event.
      */
     onProgressHandler(e) {
-        console.log(e.lengthComputable);
-
         if (this.status.isComputable) {
             if (e.loaded > this.progress.total) {
                 log.error(
