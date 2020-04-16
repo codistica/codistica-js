@@ -12,7 +12,6 @@
         "strict": true,
         "noImplicitAny": false,
         "strictNullChecks": false,
-        "types": ["node", "mocha", "chai"],
         "esModuleInterop": false,
         "forceConsistentCasingInFileNames": true,
         "useDefineForClassFields": true,

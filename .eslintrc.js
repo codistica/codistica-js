@@ -166,9 +166,7 @@ module.exports = {
                 param: 'param',
                 augments: 'extends',
                 description: 'description',
-                function: 'function',
-                class: false,
-                constructs: false
+                function: 'function'
             },
             overrideReplacesDocs: false,
             preferredTypes: {
