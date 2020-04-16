@@ -2,7 +2,7 @@
 
 /**
  * @description Checks if passed HTTP headers are accessible in the specified request.
- * @param {Object} req - Request object.
+ * @param {Object<string,*>} req - Request object.
  * @param {string|Array<string>} headers - Headers names to be checked.
  * @returns {boolean} Check Result.
  */

@@ -3,7 +3,7 @@
 import {log} from '@codistica/core';
 
 /**
- * @typedef {Object} threadOptionsType
+ * @typedef threadOptionsType
  * @property {number} [activeTimeThreshold=100] - Minimum measured time in milliseconds that must be accumulated before using for calculations.
  * @property {string|null} [threadIndex=null] - Thread index in Loader.
  */

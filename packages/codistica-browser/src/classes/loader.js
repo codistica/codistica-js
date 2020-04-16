@@ -18,14 +18,14 @@ import {Thread} from './thread.js';
  */
 
 /**
- * @typedef {Object} loaderOptionsType
+ * @typedef loaderOptionsType
  * @property {number} [maxThreads=4] - Maximum concurrent threads.
  * @property {number} [activeTimeThreshold=100] - Minimum measured time in milliseconds that must be accumulated before using for calculations.
  * @property {string|null} [threadIndex=null] - Thread index in Loader.
  */
 
 /**
- * @classdesc
+ * @classdesc A class for asynchronous assets download management.
  */
 class Loader extends EventEmitter {
     /**
@@ -195,7 +195,7 @@ class Loader extends EventEmitter {
                     }
                 });
             } else {
-                for (let i in location) {
+                for (const i in location) {
                     if (!location.hasOwnProperty(i)) {
                         continue;
                     }
