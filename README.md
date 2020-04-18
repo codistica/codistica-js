@@ -5,7 +5,7 @@
 
 <div align="center">
   <a href="https://www.codistica.com">
-    <img height="150" src="https://codistica-public.s3-eu-west-1.amazonaws.com/logo-full-dark.png" alt="CODISTICA">
+    <img height="200" src="https://codistica-public.s3-eu-west-1.amazonaws.com/logo-full.png" alt="CODISTICA">
   </a>
   <br>
   
