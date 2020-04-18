@@ -1,5 +1,5 @@
 ---
-name: "\U0001F41E Report a bug"
+name: "🦟 Report a bug"
 about: "Something is not behaving as expected."
 title: ''
 labels: 'Bug, :hourglass_flowing_sand: Pending'
