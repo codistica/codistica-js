@@ -5,8 +5,10 @@ import {eventUtilsTest} from './modules/event-utils/index.test.js';
 import {jsonUtilsTest} from './modules/json-utils/index.test.js';
 import {numberUtilsTest} from './modules/number-utils/index.test.js';
 import {objectUtilsTest} from './modules/object-utils/index.test.js';
+import {parsePrimitiveTest} from './modules/parse-primitive.test.js';
 import {regExpUtilsTestTest} from './modules/reg-exp-utils/index.test.js';
 import {stringUtilsTest} from './modules/string-utils/index.test.js';
+import {stringifyPrimitiveTest} from './modules/stringify-primitive.test.js';
 
 describe('@codistica/core', () => {
     // CONSTANTS
@@ -24,5 +26,7 @@ describe('@codistica/core', () => {
         objectUtilsTest();
         regExpUtilsTestTest();
         stringUtilsTest();
+        parsePrimitiveTest();
+        stringifyPrimitiveTest();
     });
 });
