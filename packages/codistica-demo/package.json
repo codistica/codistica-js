@@ -27,7 +27,7 @@
         }
     ],
     "homepage": "https://www.codistica.com",
-    "license": "ISC",
+    "license": "MIT",
     "main": "./lib/index.js",
     "module": "./lib-es/index.js",
     "directories": {

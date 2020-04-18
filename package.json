@@ -6,6 +6,7 @@
             "packages/*"
         ]
     },
+    "license": "MIT",
     "browserslist": [
         "since 2015"
     ],
