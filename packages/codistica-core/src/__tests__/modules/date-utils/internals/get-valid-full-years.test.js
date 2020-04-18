@@ -15,6 +15,10 @@ function getValidFullYearTest() {
                 getValidFullYear(currentYear - 1999),
                 currentYear - 99
             );
+            assert.strictEqual(getValidFullYear(99), 1999);
+        });
+        it('Should return the input', () => {
+            assert.strictEqual(getValidFullYear(2019), 2019);
         });
     });
 }

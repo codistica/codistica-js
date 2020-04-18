@@ -12,6 +12,15 @@ function flattenTest() {
                 3
             ]);
         });
+        it('Should save the input via callback', () => {
+            let output = [];
+            flatten(['1', [true, [3]]], (input) => {
+                output.push(input);
+            });
+            assert.strictEqual(output[0], '1');
+            assert.isTrue(output[1]);
+            assert.strictEqual(output[2], 3);
+        });
     });
 }
 

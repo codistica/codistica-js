@@ -17,6 +17,10 @@ function shuffleTest() {
                 shuffle([undefined, null, undefined, null]),
                 [null, undefined, false]
             );
+            assert.notSameOrderedMembers(shuffle(['Test1', {prop1: 'A'}], 3), [
+                'Test1',
+                {prop1: 'A'}
+            ]);
         });
     });
 }

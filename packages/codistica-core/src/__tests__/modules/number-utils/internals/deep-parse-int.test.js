@@ -10,6 +10,12 @@ function deepParseIntTest() {
                 345555
             );
         });
+        it('Should return the input.', () => {
+            assert.strictEqual(deepParseInt(0), 0);
+        });
+        it('Should return null', () => {
+            assert.isNull(deepParseInt(undefined));
+        });
     });
 }
 
