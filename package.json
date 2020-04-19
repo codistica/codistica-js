@@ -15,9 +15,9 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "node ./scripts/pre-commit.js",
-            "commit-msg": "node ./scripts/commit-msg.js",
-            "pre-push": "node ./scripts/pre-pull.js"
+            "pre-commit": "codistica-husky-hooks-handlers pre-commit prettify",
+            "commit-msg": "codistica-husky-hooks-handlers commit-msg ./packages",
+            "pre-push": "codistica-husky-hooks-handlers pre-push test:quick"
         }
     },
     "scripts": {
@@ -57,6 +57,7 @@
         "@babel/preset-env": "^7.9.0",
         "@babel/preset-flow": "^7.9.0",
         "@babel/preset-react": "^7.9.4",
+        "@codistica/husky-hooks-handlers": "^1.0.0",
         "@comandeer/babel-plugin-banner": "^5.0.0",
         "@types/chai": "^4.2.11",
         "@types/mocha": "^7.0.2",
