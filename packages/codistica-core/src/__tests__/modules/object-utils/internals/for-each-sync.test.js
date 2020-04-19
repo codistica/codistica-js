@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {forEachSync} from '../../../../modules/object-utils/internals/for-each-sync.js';
-import {getCircularObject} from '../../../test-utils/get-circular-object.js';
-import {getComplexObject} from '../../../test-utils/get-complex-object.js';
+import {getCircularObject} from '../../../__utils__/get-circular-object.js';
+import {getComplexObject} from '../../../__utils__/get-complex-object.js';
 
 const expected = {
     prop1: {

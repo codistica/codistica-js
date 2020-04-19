@@ -1,6 +1,6 @@
 import {assert} from 'chai';
 import {truncate} from '../../../../modules/object-utils/internals/truncate.js';
-import {getObject} from '../../../test-utils/get-object.js';
+import {getObject} from '../../../__utils__/get-object.js';
 
 /** @see module:codistica-core/modules/object-utils/truncate */
 function truncateTest() {

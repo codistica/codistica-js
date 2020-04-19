@@ -1,6 +1,6 @@
 import {assert} from 'chai';
 import {stringifyCircular} from '../../../../modules/object-utils/internals/stringify-circular.js';
-import {getCircularObject} from '../../../test-utils/get-circular-object.js';
+import {getCircularObject} from '../../../__utils__/get-circular-object.js';
 
 /** @see module:codistica-core/modules/object-utils/stringify-circular */
 function stringifyCircularTest() {
