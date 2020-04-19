@@ -1056,6 +1056,11 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@codistica/husky-hooks-handlers@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@codistica/husky-hooks-handlers/-/husky-hooks-handlers-1.0.0.tgz#0453322754477eb941c7a24834a96b133b38c7af"
+  integrity sha512-ERFWqYJhbcx8nYRXqcjKeanLfDhgSehepAg43DN0kJH2gC03jt9GVqnle8tzySr3aWtNgYBzNzexS8exyd/yNA==
+
 "@comandeer/babel-plugin-banner@^5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@comandeer/babel-plugin-banner/-/babel-plugin-banner-5.0.0.tgz#30969cb08e810b67810d41761d0cfac292231ea9"
