@@ -1,5 +1,6 @@
 import {deepParseIntTest} from './internals/deep-parse-int.test.js';
 import {firstAvailableIntegerTest} from './internals/first-available-integer.test.js';
+import {getArithmeticMeanTest} from './internals/get-arithmetic-mean.test.js';
 import {getFloorAtTest} from './internals/get-floor-at.test.js';
 import {isNegativeZeroTest} from './internals/is-negative-zero.test.js';
 import {isPositiveZeroTest} from './internals/is-positive-zero.test.js';
@@ -9,6 +10,7 @@ function numberUtilsTest() {
     describe('NumberUtils', () => {
         deepParseIntTest();
         firstAvailableIntegerTest();
+        getArithmeticMeanTest();
         getFloorAtTest();
         isNegativeZeroTest();
         isPositiveZeroTest();

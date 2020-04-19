@@ -1,5 +1,8 @@
+import {classFunctionCacheTest} from './classes/function-cache.test.js';
+import {classLoadingBarTest} from './classes/loading-bar.test.js';
 import {regExpsTest} from './constants/reg-exps.test.js';
 import {arrayUtilsTest} from './modules/array-utils/index.test.js';
+import {createTimeoutTest} from './modules/create-timeout.test.js';
 import {dateUtilsTest} from './modules/date-utils/index.test.js';
 import {eventUtilsTest} from './modules/event-utils/index.test.js';
 import {jsonUtilsTest} from './modules/json-utils/index.test.js';
@@ -11,6 +14,12 @@ import {stringUtilsTest} from './modules/string-utils/index.test.js';
 import {stringifyPrimitiveTest} from './modules/stringify-primitive.test.js';
 
 describe('@codistica/core', () => {
+    // CLASSES
+    describe('Classes', () => {
+        classFunctionCacheTest();
+        classLoadingBarTest();
+    });
+
     // CONSTANTS
     describe('Constants', () => {
         regExpsTest();
@@ -19,6 +28,7 @@ describe('@codistica/core', () => {
     // MODULES
     describe('Modules', () => {
         arrayUtilsTest();
+        createTimeoutTest();
         dateUtilsTest();
         eventUtilsTest();
         jsonUtilsTest();
