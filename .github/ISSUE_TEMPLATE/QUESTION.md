@@ -2,7 +2,7 @@
 name: "❓ Question"
 about: Questions and doubts.
 title: ''
-labels: 'Question, :hourglass_flowing_sand: Pending'
+labels: 'question, :hourglass_flowing_sand: pending'
 assignees: ''
 ---
 

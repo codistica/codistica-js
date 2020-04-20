@@ -15,7 +15,7 @@ jobs:
         with:
           token: ${{ secrets.CODISTIBOT_TOKEN }}
           number: ${{ github.event.pull_request.number }}
-          labels: '["⏳ Pending"]'
+          labels: '["⏳ pending"]'
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
       - name: Install Dependencies

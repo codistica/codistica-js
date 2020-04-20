@@ -2,7 +2,7 @@
 name: "⭐ Proposal"
 about: "Something codistica-js should add/modify/remove."
 title: ''
-labels: 'Proposal, :hourglass_flowing_sand: Pending'
+labels: 'proposal, :hourglass_flowing_sand: pending'
 assignees: ''
 ---
 

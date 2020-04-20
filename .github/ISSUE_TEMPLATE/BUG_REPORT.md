@@ -2,7 +2,7 @@
 name: "🦟 Report a bug"
 about: "Something is not behaving as expected."
 title: ''
-labels: 'Bug, :hourglass_flowing_sand: Pending'
+labels: 'bug, :hourglass_flowing_sand: pending'
 assignees: ''
 ---
 
