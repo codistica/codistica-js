@@ -1,20 +1,18 @@
 'use strict';
 
-const babelPluginProposalClassProperties = require('./configs/babel/babel-plugin-proposal-class-properties.js');
-const babelPresetFlow = require('./configs/babel/babel-preset-flow.js');
-const babelPresetReact = require('./configs/babel/babel-preset-react.js');
-const babelTestReactPackage = require('./configs/babel/babel-test-react-package.js');
-
 module.exports = {
     plugins: ['jsdoc-babel'],
     babel: {
         configFile: false,
         babelrc: false,
-        plugins: [babelPluginProposalClassProperties],
+        plugins: ['@babel/plugin-proposal-class-properties'],
         overrides: [
             {
-                test: babelTestReactPackage,
-                presets: [babelPresetReact, babelPresetFlow]
+                test: (file) =>
+                    /.+[\\/]packages[\\/]codistica-react[\\/].+\.js$/.test(
+                        file
+                    ),
+                presets: ['@babel/preset-react', '@babel/preset-flow']
             }
         ]
     },

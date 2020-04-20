@@ -865,7 +865,7 @@
     levenary "^1.1.1"
     semver "^5.5.0"
 
-"@babel/preset-env@^7.4.5", "@babel/preset-env@^7.9.0":
+"@babel/preset-env@^7.4.5", "@babel/preset-env@^7.9.5":
   version "7.9.5"
   resolved "https://registry.yarnpkg.com/@babel/preset-env/-/preset-env-7.9.5.tgz#8ddc76039bc45b774b19e2fc548f6807d8a8919f"
   integrity sha512-eWGYeADTlPJH+wq1F0wNfPbVS1w1wtmMJiYk55Td5Yu28AsdR9AsC97sZ0Qq8fHqQuslVSIYSGJMcblr345GfQ==
@@ -1055,6 +1055,19 @@
   dependencies:
     exec-sh "^0.3.2"
     minimist "^1.2.0"
+
+"@codistica/babel-preset-default@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@codistica/babel-preset-default/-/babel-preset-default-1.0.1.tgz#1ee176cbb975b1c143d4dbd17d47b9d505007660"
+  integrity sha512-RAvR73VICkOHB+N2YGHZmKciwiFEei+j6f6ojcyWSsA/6DeBELGqPKzuMVIIPTRV2t8So8/XNsDx0APJn7YYIw==
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/plugin-proposal-class-properties" "^7.8.3"
+    "@babel/plugin-transform-runtime" "^7.9.0"
+    "@babel/preset-env" "^7.9.5"
+    "@babel/preset-flow" "^7.9.0"
+    "@babel/preset-react" "^7.9.4"
+    "@comandeer/babel-plugin-banner" "^5.0.0"
 
 "@codistica/husky-hooks-handlers@^1.0.1":
   version "1.0.1"
