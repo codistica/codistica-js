@@ -12,13 +12,24 @@
 </div>
 
 
-# @codistica/demo
+# @codistica/node
 
 ## Documentation
 
-Documentation will be soon available in [Codistica's official website.][coidistica-js-docs-url]
+Documentation will be soon available in [Codistica's official website][coidistica-js-docs-url].
 
-See also [Create React App readme.][react-readme]
+
+## Install
+
+### npm
+```bash
+npm install @codistica/node
+```
+
+### yarn
+```bash
+yarn add @codistica/node
+```
 
 ## Contributing
 
@@ -31,5 +42,4 @@ See [LICENSE.md](https://github.com/codistica/codistica-js/blob/develop/LICENSE.
 
 
 <!--LINKS-->
-[react-readme]: docs/react-readme.md
 [coidistica-js-docs-url]: https://www.codistica.com/
