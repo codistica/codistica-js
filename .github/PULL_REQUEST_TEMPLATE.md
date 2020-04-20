@@ -4,32 +4,37 @@ Note: before making a pull request, be sure to read CONTRIBUTING.md
 (https://github.com/codistica/codistica-js/blob/develop/CONTRIBUTING.md)
 -->
 
-### Packages interested
+### Checklist
 <!-- Put a X to select -->
-- [ ] monorepo
-- [ ] codistica-browser
-- [X] codistica-core
-- [ ] codistica-demo
-- [ ] codistica-dev-tools
-- [ ] codistica-node
-- [ ] codistica-react
-- [ ] codistica-scriptfiber
-- [ ] codistica-types
+- [ ] I have read the [contributing guidelines.](https://github.com/codistica/codistica-js/blob/develop/CONTRIBUTING.md)
+- [ ] I have added my contribution to [CHANGELOG.md](https://github.com/codistica/codistica-js/blob/develop/CHANGELOG.md)
+
+### Packages interested
+<!-- Check interested packages using "✔" -->
+* root:
+* codistica-browser:
+* codistica-core:
+* codistica-demo:
+* codistica-dev-tools:
+* codistica-node:
+* codistica-react:
+* codistica-scriptfiber:
+* codistica-types:
 
 
 ### Purpose
-<!-- Put a X to select -->
-- [ ] New documentation.
-- [X] Bug fixing.
-- [ ] New features.
-- [ ] Refactoring.
-- [ ] New tests.
-- [ ] Other: <!--Write here-->
+<!-- Check interested packages using "✔" -->
+* New documentation:
+* Bug fixing:
+* New features:
+* Refactoring:
+* New tests:
+* Other: <!--Write here-->
 
 
 ### Description
 <!-- Describe your changes, mentioning any issue related to the pull request -->
-This pull request addresses #ISSUE_NUMBER <!--Substitute ISSUE_NUMBER with actual issue number-->
+e.g. This pull request addresses #ISSUE_NUMBER <!--Substitute ISSUE_NUMBER with actual issue number-->
 
 
 ### Relevant code pieces <!-- Optional -->
