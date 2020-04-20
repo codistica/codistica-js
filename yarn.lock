@@ -1069,6 +1069,14 @@
     "@babel/preset-react" "^7.9.4"
     "@comandeer/babel-plugin-banner" "^5.0.0"
 
+"@codistica/eslint-config-default@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@codistica/eslint-config-default/-/eslint-config-default-1.0.1.tgz#99329eac6770181f3153baa29af917ec7b7c9c22"
+  integrity sha512-gZVWipVFb/hh8sq9ruKFP6GvMiXx7dayo6aBl0qEoQz2XOiLtu/tR7JpgTY20f0AwReFATOKM2pknLVXj2X0Ug==
+  dependencies:
+    babel-eslint "^10.1.0"
+    eslint-config-prettier "^6.10.1"
+
 "@codistica/husky-hooks-handlers@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@codistica/husky-hooks-handlers/-/husky-hooks-handlers-1.0.1.tgz#2f3a7d497179e22055b3cc2df224d463bf357b0b"
