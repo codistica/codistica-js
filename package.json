@@ -58,6 +58,7 @@
         "@codistica/babel-preset-default": "^1.0.1",
         "@codistica/eslint-config-default": "^1.0.1",
         "@codistica/husky-hooks-handlers": "^1.0.1",
+        "@codistica/prettier-config-default": "^1.0.1",
         "@types/chai": "^4.2.11",
         "@types/mocha": "^7.0.2",
         "@types/node": "^13.11.0",

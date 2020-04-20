@@ -1082,6 +1082,11 @@
   resolved "https://registry.yarnpkg.com/@codistica/husky-hooks-handlers/-/husky-hooks-handlers-1.0.1.tgz#2f3a7d497179e22055b3cc2df224d463bf357b0b"
   integrity sha512-Yh5p8h1UV8ywnbMGQ6gmoI6pFX+n4nrV/k6JE5dqrzLy6oq5DutyuHtZLNQJIelbCQXD8tpdKSz5JG5Lz7Wwhw==
 
+"@codistica/prettier-config-default@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@codistica/prettier-config-default/-/prettier-config-default-1.0.1.tgz#b1be512d159f008db356d9c153300704ef7fa0ad"
+  integrity sha512-GPaoOj8nixY0HCC3J0j/VuAgYMWBeUQeTd6t2So/EwILWqMpbAQPshwfnX+vsLxoCrOciCc6yR8cljwLsnRHxQ==
+
 "@comandeer/babel-plugin-banner@^5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@comandeer/babel-plugin-banner/-/babel-plugin-banner-5.0.0.tgz#30969cb08e810b67810d41761d0cfac292231ea9"
