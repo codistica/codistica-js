@@ -57,7 +57,7 @@
         "@babel/preset-env": "^7.9.0",
         "@babel/preset-flow": "^7.9.0",
         "@babel/preset-react": "^7.9.4",
-        "@codistica/husky-hooks-handlers": "^1.0.0",
+        "@codistica/husky-hooks-handlers": "^1.0.1",
         "@comandeer/babel-plugin-banner": "^5.0.0",
         "@types/chai": "^4.2.11",
         "@types/mocha": "^7.0.2",
