@@ -61,5 +61,5 @@ See [CONTRIBUTING.md](https://github.com/codistica/codistica-js/blob/develop/CON
 
 ## License
 
-See [LICENSE](https://github.com/codistica/codistica-js/blob/develop/LICENSE.md)
+See [LICENSE.md](https://github.com/codistica/codistica-js/blob/develop/LICENSE.md)
 
