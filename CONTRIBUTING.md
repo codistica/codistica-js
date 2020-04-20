@@ -77,8 +77,8 @@ or
 yarn build
 yarn test
 ```
-(NOTE: The repository has to be built for tests to work, thats why
-yarn test by itself won't work).
+*(NOTE: The repository has to be built for tests to work, thats why
+yarn test by itself won't work.)*
 
 ### Tests locations 
 Tests are located under the ```__Tests__``` file of each package, having the same
@@ -148,6 +148,8 @@ On the [CHANGELOG.md][changelog-url] file, add your contribution under the
 ```
 [package-name] - Brief description ([#<Issue number>], [@<your github username>])
 ```
+*(NOTE: if you prefer, you can keep your username anonymous, just write 
+Anonymous as your github username)*
 
 Then, at the bottom of the CHANGELOG file, under the 'CONTRIBUTORS' section,
 link your username to your github profile link:

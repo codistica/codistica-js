@@ -10,26 +10,10 @@ Note: before making a pull request, be sure to read CONTRIBUTING.md
 - [ ] I have added my contribution to [CHANGELOG.md](https://github.com/codistica/codistica-js/blob/develop/CHANGELOG.md)
 
 ### Packages interested
-<!-- Check interested packages using "✔" -->
-* root:
-* codistica-browser:
-* codistica-core:
-* codistica-demo:
-* codistica-dev-tools:
-* codistica-node:
-* codistica-react:
-* codistica-scriptfiber:
-* codistica-types:
-
-
-### Purpose
-<!-- Check interested packages using "✔" -->
-* New documentation:
-* Bug fixing:
-* New features:
-* Refactoring:
-* New tests:
-* Other: <!--Write here-->
+<!-- Add interested packages -->
+e.g.:
+* root
+* codistica-core
 
 
 ### Description
