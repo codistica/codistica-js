@@ -1,26 +1,55 @@
 /** @module dev-tools/modules/babel-register */
 
-import {relative, resolve} from 'path';
-import {npmBin} from './npm-bin.js';
+import {isAbsolute, join, relative} from 'path';
+import {FileUtils} from '@codistica/node';
+import {engines} from '../../package.json';
+
+const targets = {
+    node: engines.node.replace(/[^0-9.]/g, '')
+};
 
 /**
  * @async
- * @description Runs the specified script using babelRegister.
- * @param {string} scriptPath - Path to the script to be run using babelRegister.
+ * @description Runs the specified script using Babel Register.
+ * @param {string} script - Absolute path or name of the script to be run.
  * @returns {Promise<*>} Promise. Executed script returned value.
+ * @throws {Error} If no Babel preset env is found.
+ * @throws {Error} If script argument is not of type string.
+ * @throws {Error} If no script is found.
  */
-async function babelRegister(scriptPath) {
+async function babelRegister(script) {
+    const babelPresetEnvPath = await FileUtils.searchUpwards(
+        __dirname,
+        './node_modules/@babel/preset-env',
+        process.cwd()
+    );
+
+    if (!babelPresetEnvPath) {
+        throw new Error('BABEL PRESET ENV NOT FOUND.');
+    }
+
+    if (typeof script !== 'string') {
+        throw new Error('NO VALID SCRIPT ARGUMENT FOUND.');
+    }
+
+    const foundScriptPath = await FileUtils.searchUpwards(
+        __dirname,
+        isAbsolute(script) ? script : join('./node_modules/.bin/', script),
+        process.cwd()
+    );
+
+    if (!foundScriptPath) {
+        throw new Error('SCRIPT NOT FOUND.');
+    }
+
     (await import('@babel/register'))({
         configFile: false,
         babelrc: false,
         presets: [
             [
-                resolve(__dirname, '../../node_modules/@babel/preset-env'), // CURRENT WORKING DIRECTORY WILL BE CALLER'S PACKAGE ROOT, SO PASS AN ABSOLUTE PATH
+                babelPresetEnvPath, // CURRENT WORKING DIRECTORY WILL BE CALLER'S PACKAGE ROOT, SO PASS AN ABSOLUTE PATH
                 {
-                    targets: {
-                        // TODO: PLACE IN CONFIG? USE CONFIG FILE? GET FROM engines IN package.json?
-                        node: '10.0.0'
-                    },
+                    targets,
                     useBuiltIns: 'usage',
                     corejs: 3
                 }
@@ -28,26 +57,7 @@ async function babelRegister(scriptPath) {
         ]
     });
 
-    try {
-        // SEARCH IN CALLERS PATH
-        return await import(relative(__dirname, resolve(scriptPath)));
-    } catch (err1) {
-        try {
-            // SEARCH IN LOCAL .bin
-            return await import(
-                relative(__dirname, resolve(await npmBin(), scriptPath))
-            );
-        } catch (err2) {
-            try {
-                // SEARCH IN GLOBAL .bin
-                return await import(
-                    relative(__dirname, resolve(await npmBin(true), scriptPath))
-                );
-            } catch (err3) {
-                console.error(err1, err2, err3);
-            }
-        }
-    }
+    return await import(relative(__dirname, foundScriptPath));
 }
 
 export {babelRegister};
