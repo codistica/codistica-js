@@ -2,9 +2,6 @@
     "name": "@codistica/demo",
     "version": "0.0.0",
     "private": true,
-    "publishConfig": {
-        "access": "public"
-    },
     "description": "Codistica demo package.",
     "keywords": [
         "codistica, main, library, demo"
@@ -28,20 +25,6 @@
     ],
     "homepage": "https://www.codistica.com",
     "license": "MIT",
-    "main": "./lib/index.js",
-    "module": "./lib-es/index.js",
-    "directories": {
-        "lib": "./lib",
-        "test": "./lib/__tests__"
-    },
-    "files": [
-        "dist",
-        "lib",
-        "lib-es",
-        "!**/__tests__",
-        "!*.test.*",
-        "./types"
-    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/codistica/codistica-js.git"

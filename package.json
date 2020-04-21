@@ -39,7 +39,6 @@
         "coverage": "nyc yarn run test",
         "flow:copy-lib": "lerna exec --parallel --scope @codistica/react \"flow-copy-source ./src ./lib\"",
         "flow:copy-lib-es": "lerna exec --parallel --scope @codistica/react \"flow-copy-source ./src ./lib-es\"",
-        "gitignoreFix": "git rm -r --cached . && git add . && git commit -m \".gitignore fix\"",
         "lint": "eslint \"./packages/*/src/**/*.js\"",
         "prepack": "yarn run build",
         "prettify": "prettier --loglevel warn --write \"**/*.{js,json}\"",
