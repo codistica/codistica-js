@@ -179,7 +179,7 @@ Fill the template and submit the pull request for review from the codistica team
 
 
 
-<!--LINKS-->
+<!--EXTERNAL LINKS-->
 [chai-url]: https://www.chaijs.com/api/assert/
 [changelog-url]: https://github.com/codistica/codistica-js/blob/develop/CHANGELOG.md
 [codistica-pr-url]: https://github.com/codistica/codistica-js/pulls

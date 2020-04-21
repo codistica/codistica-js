@@ -22,14 +22,18 @@ See also [Create React App readme.][react-readme]
 
 ## Contributing
 
-See [CONTRIBUTING.md](https://github.com/codistica/codistica-js/blob/develop/CONTRIBUTING.md)
+See [CONTRIBUTING.md][contributing]
 
 
 ## License
 
-See [LICENSE.md](https://github.com/codistica/codistica-js/blob/develop/LICENSE.md)
+See [LICENSE.md][license]
 
 
-<!--LINKS-->
-[react-readme]: docs/react-readme.md
+<!--INTERNAL LINKS-->
+[contributing]: ../../CONTRIBUTING.md
+[license]: ../../LICENSE.md
+
+<!--EXTERNAL LINKS-->
 [coidistica-js-docs-url]: https://www.codistica.com/
+[react-readme]: docs/react-readme.md

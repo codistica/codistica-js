@@ -24,6 +24,8 @@ Work in progress, coming soon!
 * [About Codistica](#about-codistica)
 * [Packages](#packages)
 * [Documentation](#documentation)
+* [Contributing](#contributing)
+* [License](#license)
 
 ## About codistica-js
 
@@ -36,30 +38,41 @@ allowing to build scalable projects for cutting-edge results.
 
 ## Packages
 
-- [browser](https://github.com/codistica/codistica-js/tree/develop/packages/codistica-browser) 
-- [core](https://github.com/codistica/codistica-js/tree/develop/packages/codistica-core)
-- [demo](https://github.com/codistica/codistica-js/tree/develop/packages/codistica-demo)
-- [dev-tools](https://github.com/codistica/codistica-js/tree/develop/packages/codistica-dev-tools)
-- [node](https://github.com/codistica/codistica-js/tree/develop/packages/codistica-node)
-- [react](https://github.com/codistica/codistica-js/tree/develop/packages/codistica-react)
-- [scriptfiber](https://github.com/codistica/codistica-js/tree/develop/packages/codistica-scriptfiber)
-- [types](https://github.com/codistica/codistica-js/tree/develop/packages/codistica-types)
+- [browser][codistica-browser]
+- [core][codistica-core]
+- [demo][codistica-demo]
+- [dev-tools][codistica-dev-tools]
+- [node][codistica-node]
+- [react][codistica-react]
+- [scriptfiber][codistica-scriptfiber]
+- [types][codistica-types]
 
 
 ## Documentation
 
-Documentation will be soon available [here][codistica-js-docs].
+Documentation will be soon available [here][codistica-js-docs-url].
 
 
 ## Contributing
 
-See [CONTRIBUTING.md](https://github.com/codistica/codistica-js/blob/develop/CONTRIBUTING.md)
-
-
-[codistica-js-docs]: https://www.codistica.com/
+See [CONTRIBUTING.md][contributing]
 
 
 ## License
 
-See [LICENSE.md](https://github.com/codistica/codistica-js/blob/develop/LICENSE.md)
+See [LICENSE.md][license]
 
+<!--INTERNAL LINKS-->
+[codistica-browser]: packages/codistica-browser/README.md
+[codistica-core]: packages/codistica-core/README.md
+[codistica-demo]: packages/codistica-demo/README.md
+[codistica-dev-tools]: packages/codistica-dev-tools/README.md
+[codistica-node]: packages/codistica-node/README.md
+[codistica-react]: packages/codistica-react/README.md
+[codistica-scriptfiber]: packages/codistica-scriptfiber/README.md
+[codistica-types]: packages/codistica-types/README.md
+[contributing]: CONTRIBUTING.md
+[license]: LICENSE.md
+
+<!--EXTERNAL LINKS-->
+[codistica-js-docs-url]: https://www.codistica.com/
