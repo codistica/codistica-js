@@ -215,7 +215,9 @@ class Form extends React.Component<Props, State> {
 
         this.isValid = true;
         for (const i in this.registeredInputs) {
-            if (!this.registeredInputs.hasOwnProperty(i)) {
+            if (
+                !Object.prototype.hasOwnProperty.call(this.registeredInputs, i)
+            ) {
                 continue;
             }
 
@@ -246,7 +248,9 @@ class Form extends React.Component<Props, State> {
 
     blinkInvalids() {
         for (const i in this.registeredInputs) {
-            if (!this.registeredInputs.hasOwnProperty(i)) {
+            if (
+                !Object.prototype.hasOwnProperty.call(this.registeredInputs, i)
+            ) {
                 continue;
             }
             const input = this.registeredInputs[i];
@@ -271,7 +275,9 @@ class Form extends React.Component<Props, State> {
     getInputsByName(name: string) {
         let output = [];
         for (const i in this.registeredInputs) {
-            if (!this.registeredInputs.hasOwnProperty(i)) {
+            if (
+                !Object.prototype.hasOwnProperty.call(this.registeredInputs, i)
+            ) {
                 continue;
             }
             if (this.registeredInputs[i].name === name) {

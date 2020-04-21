@@ -196,7 +196,7 @@ class Loader extends EventEmitter {
                 });
             } else {
                 for (const i in location) {
-                    if (!location.hasOwnProperty(i)) {
+                    if (!Object.prototype.hasOwnProperty.call(location, i)) {
                         continue;
                     }
                     payload =
@@ -240,7 +240,7 @@ class Loader extends EventEmitter {
             !this.status.stopRequested
         ) {
             for (const i in this.threads) {
-                if (!this.threads.hasOwnProperty(i)) {
+                if (!Object.prototype.hasOwnProperty.call(this.threads, i)) {
                     continue;
                 }
                 if (this.threads[i].payload === null) {
@@ -438,7 +438,7 @@ class Loader extends EventEmitter {
 
         this.performance.rttAhead = 0;
         for (const i in this.threads) {
-            if (!this.threads.hasOwnProperty(i)) {
+            if (!Object.prototype.hasOwnProperty.call(this.threads, i)) {
                 continue;
             }
             // GET LATENCY AHEAD
@@ -472,7 +472,7 @@ class Loader extends EventEmitter {
         }
 
         for (const i in this.threads) {
-            if (!this.threads.hasOwnProperty(i)) {
+            if (!Object.prototype.hasOwnProperty.call(this.threads, i)) {
                 continue;
             }
             if (requestUpdateFlag === true) {
@@ -534,7 +534,7 @@ class Loader extends EventEmitter {
         let rtt = null;
         for (const i in this.threads) {
             if (
-                !this.threads.hasOwnProperty(i) ||
+                !Object.prototype.hasOwnProperty.call(this.threads, i) ||
                 this.threads[i].performance.rtt === null
             ) {
                 continue;

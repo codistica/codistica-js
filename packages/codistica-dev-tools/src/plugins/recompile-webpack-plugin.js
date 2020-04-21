@@ -324,7 +324,7 @@ class RecompileWebpackPlugin {
      */
     updateStats(newStats) {
         for (const i in newStats) {
-            if (!newStats.hasOwnProperty(i)) {
+            if (!Object.prototype.hasOwnProperty.call(newStats, i)) {
                 continue;
             }
             this.stats[i] = newStats[i];

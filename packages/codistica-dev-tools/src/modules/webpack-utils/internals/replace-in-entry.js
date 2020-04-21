@@ -30,7 +30,7 @@ function replaceInEntry(webpackConfig, oldPath, newPath) {
         return true;
     } else if (ObjectUtils.isObject(webpackConfig.entry)) {
         for (const i in webpackConfig.entry) {
-            if (!webpackConfig.entry.hasOwnProperty(i)) {
+            if (!Object.prototype.hasOwnProperty.call(webpackConfig.entry, i)) {
                 continue;
             }
             if (webpackConfig.entry[i] === oldPath) {

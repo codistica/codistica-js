@@ -436,7 +436,9 @@ class Types {
                     checkResult = true;
                     if (content.length) {
                         for (const i in value) {
-                            if (!value.hasOwnProperty(i)) {
+                            if (
+                                !Object.prototype.hasOwnProperty.call(value, i)
+                            ) {
                                 continue;
                             }
                             if (!this.checkType(content, value[i])) {
@@ -523,21 +525,21 @@ class Types {
         } else {
             return false;
         }
-        if (input.hasOwnProperty('max')) {
+        if (Object.prototype.hasOwnProperty.call(input, 'max')) {
             validKeysFound++;
         }
-        if (input.hasOwnProperty('min')) {
+        if (Object.prototype.hasOwnProperty.call(input, 'min')) {
             validKeysFound++;
         }
-        if (input.hasOwnProperty('def')) {
+        if (Object.prototype.hasOwnProperty.call(input, 'def')) {
             validKeysFound++;
         }
-        if (input.hasOwnProperty('optional')) {
+        if (Object.prototype.hasOwnProperty.call(input, 'optional')) {
             if (typeof input.optional === 'boolean') {
                 validKeysFound++;
             }
         }
-        if (input.hasOwnProperty('strict')) {
+        if (Object.prototype.hasOwnProperty.call(input, 'strict')) {
             if (typeof input.strict === 'boolean') {
                 validKeysFound++;
             }

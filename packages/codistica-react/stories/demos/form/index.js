@@ -215,7 +215,12 @@ class FormDemo extends React.Component<Props, State> {
                             let output = [];
                             let index = 0;
                             for (const i in this.state.dataPackage) {
-                                if (!this.state.dataPackage.hasOwnProperty(i)) {
+                                if (
+                                    !Object.prototype.hasOwnProperty.call(
+                                        this.state.dataPackage,
+                                        i
+                                    )
+                                ) {
                                     continue;
                                 }
                                 output.push(

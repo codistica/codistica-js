@@ -48,7 +48,7 @@ function jsonWebpackLoader(source) {
     }
 
     for (const i in dataObject) {
-        if (!dataObject.hasOwnProperty(i)) {
+        if (!Object.prototype.hasOwnProperty.call(dataObject, i)) {
             continue;
         }
         loadedObject[i] = dataObject[i];

@@ -19,11 +19,14 @@ class FunctionCache {
         let store = this.store;
         let res = undefined;
         for (let i = 0; i < args.length; i++) {
-            if (!args.hasOwnProperty(i)) {
+            if (!Object.prototype.hasOwnProperty.call(args, i)) {
                 continue;
             }
             if (i === args.length - 1) {
-                return store.hasOwnProperty('value') && store.value === args[i];
+                return (
+                    Object.prototype.hasOwnProperty.call(store, 'value') &&
+                    store.value === args[i]
+                );
             }
             res = store.map.get(args[i]);
             if (!res) {
@@ -44,7 +47,7 @@ class FunctionCache {
         let res = undefined;
         let newStore = null;
         for (let i = 0; i < args.length; i++) {
-            if (!args.hasOwnProperty(i)) {
+            if (!Object.prototype.hasOwnProperty.call(args, i)) {
                 continue;
             }
             res = store.map.get(args[i]);
@@ -80,7 +83,7 @@ class FunctionCache {
         let store = this.store;
         let res = undefined;
         for (let i = 0; i < args.length; i++) {
-            if (!args.hasOwnProperty(i)) {
+            if (!Object.prototype.hasOwnProperty.call(args, i)) {
                 continue;
             }
             res = store.map.get(args[i]);
@@ -104,7 +107,7 @@ class FunctionCache {
         let store = this.store;
         let res = undefined;
         for (let i = 0; i < args.length; i++) {
-            if (!args.hasOwnProperty(i)) {
+            if (!Object.prototype.hasOwnProperty.call(args, i)) {
                 continue;
             }
             res = store.map.get(args[i]);

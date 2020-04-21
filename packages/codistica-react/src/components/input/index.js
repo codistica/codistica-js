@@ -734,7 +734,12 @@ class Input extends React.Component<Props, State> {
                             let subId = '';
                             let output = [];
                             for (const i in radioButtons) {
-                                if (!radioButtons.hasOwnProperty(i)) {
+                                if (
+                                    !Object.prototype.hasOwnProperty.call(
+                                        radioButtons,
+                                        i
+                                    )
+                                ) {
                                     continue;
                                 }
                                 subId = this.nextUniqueId();

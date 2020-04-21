@@ -88,7 +88,9 @@ class ManifestWebpackPlugin {
                 }
                 this.hasEmitted = false;
                 for (const i in this.toReset) {
-                    if (!this.toReset.hasOwnProperty(i)) {
+                    if (
+                        !Object.prototype.hasOwnProperty.call(this.toReset, i)
+                    ) {
                         continue;
                     }
                     this.toReset[i] = true;
