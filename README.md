@@ -19,21 +19,24 @@ Work in progress, coming soon!
 
 <!-- Put here badges -->
 
+
 ## Table of contents
 
-* [About Codistica](#about-codistica)
+* [About codistica-js](#about-codistica-js)
 * [Packages](#packages)
 * [Documentation](#documentation)
 * [Contributing](#contributing)
 * [License](#license)
 
+
 ## About codistica-js
 
-Javascript is beautiful! 
+JavaScript is beautiful! 
 
 Built in the most modularized way, 
 this monorepo squeezes the most JS can offer,
-allowing to build scalable projects for cutting-edge results.
+with security and performance in mind,
+making it suitable for the most demanding applications.
 
 
 ## Packages
