@@ -10,10 +10,12 @@ import {putJSONSync} from './internals/put-json-sync.js';
 import {putJSON} from './internals/put-json.js';
 import {scanSync} from './internals/scan-sync.js';
 import {scan} from './internals/scan.js';
+import {searchUpwards} from './internals/search-upwards.js';
 
 // TODO: RE-CHECK EVERYTHING. RETURNED VALUES, ERRORS, ETC.
 // TODO: IT IS NOT RECOMMENDED TO TEST ACCESSIBILITY BEFORE DOING OTHER OPERATIONS (READ/WRITE). RECOMMENDED WAY IS TO HANDLE ERRORS CASE-BASE-CASE. CREATE UTILITY?
 // TODO: CREATE INSTANCE UTILITY (SINGLETON, LIKE log), FOR ERRORS HANDLING! ADD CONFIGURABLE OPTION TO AUTOMATICALLY SEND LOGS TO SERVER (WITH ENVIRONMENT INFORMATION)
+// TODO: ADD OPTION TO EACH FUNCTION TO USE CUSTOM fs?
 
 export {
     clearDir,
@@ -26,6 +28,7 @@ export {
     getPathsTree,
     putJSON,
     putJSONSync,
+    scanSync,
     scan,
-    scanSync
+    searchUpwards
 };
