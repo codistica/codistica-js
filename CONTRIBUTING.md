@@ -141,15 +141,21 @@ the next release!. But hold on! before putting the pull request, let the communi
 know your contributions to codistica-js!
 
 ### Add your contribution to the CHANGELOG.md
-On the [CHANGELOG.md][changelog-url] file, add your contribution under the 
-'Unreleased' title (and the tag that better matches your contribution
-(Added, fixed, log)) as:
+On the [CHANGELOG.md][changelog-url] files of the interested packages,
+add your contribution under the 
+'Unreleased' title (and under the section(s) that better matches your contribution).
+Sections can be:
+* **New Features**
+* **Bug Fixes**
+* **Documentation**
+* **Polish**
 
-```
-[package-name] - Brief description ([#<Issue number>], [@<your github username>])
+Your contribution may look like this:
+```md
+Brief description ([#<Issue number>], [@<your github username>])
 ```
 *(NOTE: if you prefer, you can keep your username anonymous, just write 
-Anonymous as your github username)*
+"Anonymous" instead of your github username)*
 
 Then, at the bottom of the CHANGELOG file, under the 'CONTRIBUTORS' section,
 link your username to your github profile link:
@@ -166,6 +172,7 @@ request under the 'ISSUES' section:
 <!--ISSUES-->
 [#<Issue number>]: <issue link>
 ```
+*(NOTE: If your contribution has no issue related, you may avoid this part)*
 
 
 ### Now the actual pull request
