@@ -306,9 +306,9 @@ class RecompileWebpackPlugin {
      * @param {Object<string,*>} compilation - Webpack's Compilation instance.
      */
     getStats(compilation) {
-        /** @todo Follow https://github.com/DefinitelyTyped/DefinitelyTyped/issues/43952 issue. */
-        // @ts-ignore
-        const stats = compilation ? new Stats(compilation) : null;
+        const stats = compilation
+            ? new Stats(/** @type {*} */ (compilation))
+            : null;
         if (stats) {
             stats.startTime = this.startTime;
             stats.endTime = Date.now();
