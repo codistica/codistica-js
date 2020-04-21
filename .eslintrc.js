@@ -10,7 +10,7 @@ module.exports = {
             ],
             extends: ['@codistica/eslint-config-default/node-script']
         },
-        // COMMON JS
+        // STORYBOOK
         {
             files: [
                 './packages/*/stories/**/*.js',
@@ -19,33 +19,33 @@ module.exports = {
             env: {
                 'shared-node-browser': false,
                 browser: true,
-                node: true,
-                commonjs: true
+                node: true
             }
         },
         // REACT + FLOW PACKAGES
         {
             files: [
-                './packages/codistica-demo/**/*.js',
-                './packages/codistica-react/**/*.js'
+                './packages/codistica-demo/src/**/*.js',
+                './packages/codistica-react/src/**/*.js',
+                './packages/*/stories/**/*.js'
             ],
             extends: ['@codistica/eslint-config-default/react']
         },
         // BROWSER PACKAGES
         {
             files: [
-                './packages/codistica-browser/**/*.js',
-                './packages/codistica-demo/**/*.js',
-                './packages/codistica-react/**/*.js'
+                './packages/codistica-browser/src/**/*.js',
+                './packages/codistica-demo/src/**/*.js',
+                './packages/codistica-react/src/**/*.js'
             ],
             extends: ['@codistica/eslint-config-default/browser']
         },
         // NODE PACKAGES
         {
             files: [
-                './packages/codistica-node/**/*.js',
-                './packages/codistica-dev-tools/**/*.js',
-                './packages/codistica-scriptfiber/**/*.js'
+                './packages/codistica-node/src/**/*.js',
+                './packages/codistica-dev-tools/src/**/*.js',
+                './packages/codistica-scriptfiber/src/**/*.js'
             ],
             extends: ['@codistica/eslint-config-default/node-module']
         }
