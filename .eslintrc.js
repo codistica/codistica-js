@@ -25,7 +25,10 @@ module.exports = {
         },
         // REACT + FLOW PACKAGES
         {
-            files: ['./packages/codistica-react/**/*.js'],
+            files: [
+                './packages/codistica-demo/**/*.js',
+                './packages/codistica-react/**/*.js'
+            ],
             extends: ['@codistica/eslint-config-default/react']
         },
         // BROWSER PACKAGES

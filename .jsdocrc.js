@@ -8,10 +8,11 @@ module.exports = {
         plugins: ['@babel/plugin-proposal-class-properties'],
         overrides: [
             {
-                test: (file) =>
-                    /.+[\\/]packages[\\/]codistica-react[\\/].+\.js$/.test(
-                        file
-                    ),
+                test: (file) => {
+                    return [
+                        /.+[\\/]packages[\\/]codistica-react[\\/].+\.js$/
+                    ].some((regExp) => regExp.test(file));
+                },
                 presets: ['@babel/preset-react', '@babel/preset-flow']
             }
         ]

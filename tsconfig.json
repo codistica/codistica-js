@@ -20,7 +20,6 @@
     "files": [
         "./packages/codistica-browser/src/index.js",
         "./packages/codistica-core/src/index.js",
-        "./packages/codistica-demo/src/index.js",
         "./packages/codistica-dev-tools/src/index.js",
         "./packages/codistica-node/src/index.js",
         "./packages/codistica-scriptfiber/src/index.js",

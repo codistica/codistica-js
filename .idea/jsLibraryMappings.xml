@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="file://$PROJECT_DIR$" libraries="{@types/chai, @types/mocha}" />
     <file url="file://$PROJECT_DIR$/packages/codistica-browser" libraries="{HTML}" />
     <file url="file://$PROJECT_DIR$/packages/codistica-demo" libraries="{HTML}" />
     <file url="file://$PROJECT_DIR$/packages/codistica-dev-tools" libraries="{Node.js Core}" />
     <file url="file://$PROJECT_DIR$/packages/codistica-node" libraries="{Node.js Core}" />
-    <file url="file://$PROJECT_DIR$/packages/codistica-react" libraries="{@types/react, HTML}" />
+    <file url="file://$PROJECT_DIR$/packages/codistica-react" libraries="{HTML}" />
     <file url="file://$PROJECT_DIR$/packages/codistica-scriptfiber" libraries="{Node.js Core}" />
   </component>
 </project>
