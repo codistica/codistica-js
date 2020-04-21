@@ -38,7 +38,7 @@
         "lib-es",
         "!**/__tests__",
         "!*.test.*",
-        "./types"
+        "types"
     ],
     "types": "./types/index.d.ts",
     "repository": {
