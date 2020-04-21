@@ -60,7 +60,7 @@ addParameters({...BGS_LIGHT});
 // TODO: ADD RESET CSS TO STORYBOOK. REMOVE MARGINS
 // TODO: ADD STORIES FONTS GLOBALLY HERE. OTHER GLOBAL CSS AND JS TOO. GLOBAL RESET CSS (APART OF COMPONENTS OWN RESET CSS). // TODO: PLACE MORE GLOBALLY?
 
-storiesOf('@codistica-react', module).add('Welcome', () => (
+storiesOf('codistica-react', module).add('Welcome', () => (
     <div>WELCOME - Add Info Here</div>
 ));
 

@@ -66,7 +66,7 @@ function getScriptfiberConfig(configPath) {
         ));
 
         if (!getScriptfiberConfigConfigSchema.isValid()) {
-            throw new TypeError('INVALID CONFIGURATION');
+            throw new TypeError('INVALID CONFIGURATION.');
         }
 
         output.appPath = FileUtils.getAbsolutePath(output.appPath);

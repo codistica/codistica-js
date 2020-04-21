@@ -2,6 +2,8 @@
 
 import {parsePrimitive} from '@codistica/core';
 
+// TODO: REVIEW
+
 /**
  * @typedef parseCmdArgsOutputType
  * @property {(string|null)} _interpreter - Eventual interpreter used to run script.
@@ -25,6 +27,7 @@ function parseCmdArgs(argv) {
 
     for (i = 0; i < length; i++) {
         if (i === 0 && /^node$/i.test(argv[0])) {
+            // TODO: MUST BE IMPROVED.
             outputArgs._interpreter = 'node';
             outputArgs._script = argv[1];
         }
