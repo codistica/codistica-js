@@ -20,7 +20,12 @@ const isLocalhost = Boolean(
         )
 );
 
-export function register(config) {
+/**
+ * @description Register.
+ * @param {Object<string,*>} config - Config.
+ * @returns {void} Void.
+ */
+function register(config) {
     if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
         // The URL constructor is available in all browsers that support SW.
         const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
@@ -54,6 +59,12 @@ export function register(config) {
     }
 }
 
+/**
+ * @description Register valid service worker.
+ * @param {string} swUrl - Param: swUrl.
+ * @param {Object<string,*>} config - Config.
+ * @returns {void} Void.
+ */
 function registerValidSW(swUrl, config) {
     navigator.serviceWorker
         .register(swUrl)
@@ -98,6 +109,12 @@ function registerValidSW(swUrl, config) {
         });
 }
 
+/**
+ * @description Check valid service worker.
+ * @param {string} swUrl - Param: swUrl.
+ * @param {Object<string,*>} config - Config.
+ * @returns {void} Void.
+ */
 function checkValidServiceWorker(swUrl, config) {
     // Check if the service worker can be found. If it can't reload the page.
     fetch(swUrl, {
@@ -129,7 +146,11 @@ function checkValidServiceWorker(swUrl, config) {
         });
 }
 
-export function unregister() {
+/**
+ * @description Unregister.
+ * @returns {void} Void.
+ */
+function unregister() {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.ready
             .then((registration) => {
@@ -140,3 +161,5 @@ export function unregister() {
             });
     }
 }
+
+export {register, unregister};

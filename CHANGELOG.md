@@ -18,6 +18,11 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+### Added
+- Extended root ESLint config for packages using `create-react-app`.
+- `run:demo` script to launch `@codistica/demo`.
+- `types` property in root `tsconfig.json` file to avoid types conflicts.
+
 ## [2020-04-22]
 
 ### Packages Bumps

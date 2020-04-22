@@ -56,6 +56,11 @@ module.exports = {
             rules: {
                 'import/extensions': ['warn', 'never']
             }
+        },
+        // create-react-app PACKAGES
+        {
+            files: ['./packages/codistica-demo/src/**/*.js'],
+            extends: ['react-app']
         }
     ]
 };

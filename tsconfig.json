@@ -15,7 +15,8 @@
         "esModuleInterop": false,
         "forceConsistentCasingInFileNames": true,
         "useDefineForClassFields": true,
-        "removeComments": false
+        "removeComments": false,
+        "types": ["node", "mocha", "chai", "webpack", "tapable", "react"]
     },
     "files": [
         "./packages/codistica-browser/src/index.js",

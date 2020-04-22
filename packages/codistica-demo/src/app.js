@@ -1,7 +1,16 @@
+/** @flow */
+
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
+import './app.css';
 
+// TODO: ADAPT @codistica/demo create-react-app TEMPLATE RESULT TO CODISTICA CONVENTION.
+// TODO: CREATE CODISTICA TEMPLATE FOR create-react-app?
+
+/**
+ * @description App main component.
+ * @returns {React.Component} App main component.
+ */
 function App() {
     return (
         <div className='App'>
@@ -22,4 +31,4 @@ function App() {
     );
 }
 
-export default App;
+export {App};
