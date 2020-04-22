@@ -8,6 +8,8 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+## [1.0.0-beta.2] - 2020-04-23
+
 ### Fixed
 - Flow not detecting types when consuming components because 
 of full path being used for importing in `index.js` file. See [Flow #8354 Issue](https://github.com/facebook/flow/issues/8354).
@@ -22,5 +24,6 @@ of full path being used for importing in `index.js` file. See [Flow #8354 Issue]
 See [GitHub release notes](https://github.com/codistica/codistica-js/releases?after=@codistica/react@1.0.0-beta.1)
 for info on changes for earlier releases.
 
-[Unreleased]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.1...HEAD
+[Unreleased]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.2...HEAD
+[1.0.0-beta.2]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.1...@codistica/react@1.0.0-beta.2
 [1.0.0-beta.1]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.0...@codistica/react@1.0.0-beta.1
