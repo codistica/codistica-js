@@ -8,6 +8,8 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+## [1.0.0-beta.1] - 2020-04-22
+
 ### Fixed
 - Types not being published because of wrong directory path in package.json files property.
 - Wrong URLs in this Change Log.
@@ -16,4 +18,5 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 See [GitHub release notes](https://github.com/codistica/codistica-js/releases?after=@codistica/browser@1.0.0-beta.1)
 for info on changes for earlier releases.
 
-[Unreleased]: https://github.com/codistica/codistica-js/compare/@codistica/browser@1.0.0-beta.0...HEAD
+[Unreleased]: https://github.com/codistica/codistica-js/compare/@codistica/browser@1.0.0-beta.1...HEAD
+[1.0.0-beta.1]: https://github.com/codistica/codistica-js/compare/@codistica/browser@1.0.0-beta.0...@codistica/browser@1.0.0-beta.1
