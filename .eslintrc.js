@@ -48,6 +48,14 @@ module.exports = {
                 './packages/codistica-scriptfiber/src/**/*.js'
             ],
             extends: ['@codistica/eslint-config-default/node-module']
+        },
+        /** @todo FOLLOW https://github.com/facebook/flow/issues/8354 issue. */
+        // @codistica/react INDEX
+        {
+            files: ['./packages/codistica-react/src/index.js'],
+            rules: {
+                'import/extensions': ['warn', 'never']
+            }
         }
     ]
 };

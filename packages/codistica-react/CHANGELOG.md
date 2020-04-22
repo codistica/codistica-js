@@ -8,6 +8,10 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+### Fixed
+- Flow not detecting types when consuming components because 
+of full path being used for importing in `index.js` file. See [Flow #8354 Issue](https://github.com/facebook/flow/issues/8354).
+
 ## [1.0.0-beta.1] - 2020-04-22
 
 ### Fixed

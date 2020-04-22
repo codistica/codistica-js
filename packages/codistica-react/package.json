@@ -37,10 +37,8 @@
         "lib",
         "lib-es",
         "!**/__tests__",
-        "!*.test.*",
-        "types"
+        "!*.test.*"
     ],
-    "types": "./types/index.d.ts",
     "repository": {
         "type": "git",
         "url": "https://github.com/codistica/codistica-js.git"
@@ -84,5 +82,8 @@
         "node-sass": "^4.12.0",
         "sass-loader": "^7.1.0",
         "style-loader": "^0.23.1"
+    },
+    "peerDependencies": {
+        "node-sass": "^4.12.0"
     }
 }
