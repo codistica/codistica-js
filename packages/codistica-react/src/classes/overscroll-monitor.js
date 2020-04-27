@@ -370,7 +370,7 @@ class OverscrollMonitor {
             /**
              * @instance
              * @description React render method.
-             * @returns {Object<string,*>} React component.
+             * @returns {React.Component} React component.
              */
             render() {
                 const {children, forwardedRef, isolate, ...others} = this.props;

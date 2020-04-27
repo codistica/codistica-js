@@ -313,7 +313,7 @@ function onDragHOC(Component: Object | string) {
         /**
          * @instance
          * @description React render method.
-         * @returns {Object<string,*>} React component.
+         * @returns {React.Component} React component.
          */
         render() {
             const {

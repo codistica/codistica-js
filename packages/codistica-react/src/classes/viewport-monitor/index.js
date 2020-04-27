@@ -310,7 +310,7 @@ class ViewportMonitor extends EventEmitter {
             /**
              * @instance
              * @description React render method.
-             * @returns {Object<string,*>} React component.
+             * @returns {React.Component} React component.
              */
             render() {
                 const {children, forwardedRef, style, ...others} = this.props;

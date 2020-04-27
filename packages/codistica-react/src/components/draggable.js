@@ -4,7 +4,7 @@
 
 import classnames from 'classnames/dedupe';
 import React from 'react';
-import {onDragHOC} from '../../hocs/on-drag-hoc.js';
+import {onDragHOC} from '../hocs/on-drag-hoc.js';
 
 type Props = {
     children: any,
@@ -131,7 +131,7 @@ class Draggable extends React.Component<Props, State> {
     /**
      * @instance
      * @description React render method.
-     * @returns {Object<string,*>} React component.
+     * @returns {React.Component} React component.
      */
     render() {
         const {

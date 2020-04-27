@@ -5,8 +5,8 @@
 import {log} from '@codistica/core';
 import classnames from 'classnames/dedupe';
 import React from 'react';
-import {InputContext} from '../input/index.js'; // TODO: IMPORT PROVIDER TYPES? TO CHECK PASSED VALUES
-import type {InputAPI} from '../input/index.js'; // TODO: USE
+import {InputContext} from './input/index.js'; // TODO: IMPORT PROVIDER TYPES? TO CHECK PASSED VALUES
+import type {InputAPI} from './input/index.js'; // TODO: USE
 
 type Props = {
     className: string,
@@ -289,7 +289,7 @@ class Form extends React.Component<Props, State> {
     /**
      * @instance
      * @description React render method.
-     * @returns {Object<string,*>} React component.
+     * @returns {React.Component} React component.
      */
     render() {
         const {

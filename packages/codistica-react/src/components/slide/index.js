@@ -100,7 +100,7 @@ const DivDraggable = onDragHOC(Div);
 /**
  * @description A simple yet powerful slide component.
  * @param {slidePropsType} props - Component props.
- * @returns {Object<string,*>} React component.
+ * @returns {React.Component} React component.
  */
 function Slide(props: Props) {
     const {
