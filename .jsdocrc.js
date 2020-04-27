@@ -19,10 +19,9 @@ module.exports = {
     },
     recurseDepth: Infinity,
     source: {
-        include: ['./packages/'],
-        exclude: ['./packages/codistica-demo/'],
-        includePattern: '.+[\\/]packages[\\/][^\\/]+[\\/]src[\\/].+\\.js$',
-        excludePattern: '.+[\\/]packages[\\/][^\\/]+[\\/]src[\\/]__tests__/.+$'
+        include: ['./src'],
+        includePattern: '.+[\\/]src[\\/].+\\.js$',
+        excludePattern: '.+[\\/]src[\\/]__tests__/.+$'
     },
     sourceType: 'module',
     tags: {
