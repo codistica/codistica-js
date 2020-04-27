@@ -64,7 +64,7 @@ Slide.defaultProps = {
 const Div = animated(viewportMonitor.HOC('div'));
 const DivDraggable = onDragHOC(Div);
 
-// TODO: FIX STYLE REPLACEMENT IN viewportMonitor. ERROR WRITING TO read-only? CREATE DEEP CLONE FUNCTION? FIX ALL ObjectUtils? AND ADJUST USAGE (IN codistica AND PROJECTS, CHECK)
+// TODO: FIX STYLE REPLACEMENT IN viewportMonitor. ERROR WRITING TO read-only? CREATE DEEP CLONE FUNCTION? FIX ALL objectUtils? AND ADJUST USAGE (IN codistica AND PROJECTS, CHECK)
 // TODO: FIX UNITS CORRECTION MODEL. CORRECTION MUST BE BY A COEFFICIENT (CHECK 0 BEHAVIOUR)
 
 /**
@@ -146,8 +146,6 @@ function Slide(props: Props) {
 
     const MASTER_CLASSNAME = classnames(
         {[className]: className},
-        {[Styles._main]: true},
-        {[Styles._scope]: true},
         {[Styles.master]: true}
     );
 

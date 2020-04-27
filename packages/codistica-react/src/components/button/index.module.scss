@@ -3,9 +3,9 @@ $color-white: #dedede;
 $color-gray-alpha: rgba(51, 51, 51, 0.1);
 $color-white-alpha: rgba(222, 222, 222, 0.1);
 
-._main { // FOR COMPONENT MAIN ELEMENT. DO NOT DELETE
+.button {
   border: 2px solid;
-  border-radius: 50px;
+  border-radius: 12px;
   padding: 5px 30px;
   cursor: pointer;
   text-align: center;
@@ -15,32 +15,32 @@ $color-white-alpha: rgba(222, 222, 222, 0.1);
   outline: none;
   font-size: 1em;
   text-decoration: none;
+  user-select: none;
 }
 
-._scope { // FOR HTML ELEMENT AND ATTRIBUTE SELECTORS. DO NOT DELETE
-
-}
-
-.dark {
+.light {
   border-color: $color-gray;
   color: $color-gray;
 }
 
-.light {
+.dark {
   border-color: $color-white;
   color: $color-white;
 }
 
-:not(.disabled).dark:hover,
-:not(.disabled).dark:focus,
-:not(.disabled).dark:active {
+:not(.disabled).light:hover,
+:not(.disabled).light:focus {
   background-color: $color-gray-alpha;
 }
 
-:not(.disabled).light:hover,
-:not(.disabled).light:focus,
-:not(.disabled).light:active {
+:not(.disabled).dark:hover,
+:not(.disabled).dark:focus {
   background-color: $color-white-alpha;
+}
+
+:not(.disabled).light:active,
+:not(.disabled).dark:active {
+  opacity: 0.6;
 }
 
 .disabled {

@@ -7,7 +7,6 @@ import classnames from 'classnames/dedupe';
 import React from 'react';
 import {InputContext} from '../input/index.js'; // TODO: IMPORT PROVIDER TYPES? TO CHECK PASSED VALUES
 import type {InputAPI} from '../input/index.js'; // TODO: USE
-import Styles from './index.module.scss';
 
 type Props = {
     className: string,
@@ -302,11 +301,7 @@ class Form extends React.Component<Props, State> {
             matches,
             ...others
         } = this.props;
-        const mainClassName = classnames(
-            {[className]: className},
-            {[Styles._main]: true},
-            {[Styles._scope]: true}
-        );
+        const mainClassName = classnames({[className]: className});
         // UPDATE API STATE
         this.API.state = this.state;
         return (

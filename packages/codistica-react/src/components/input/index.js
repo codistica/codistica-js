@@ -664,7 +664,7 @@ class Input extends React.Component<Props, State> {
             isWarning
         } = this.state;
 
-        const mainClassName = classnames(Styles._main, Styles._scope);
+        const mainClassName = classnames(Styles.main);
 
         const inputClassName = classnames(
             {[Styles._valid]: isValid},

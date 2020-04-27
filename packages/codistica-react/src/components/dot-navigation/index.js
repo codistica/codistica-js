@@ -112,8 +112,7 @@ class DotNavigation extends React.Component<Props, State> {
         const {autoPosition} = this.state;
         const mainClassName = classnames(
             {[className]: className},
-            {[Styles._main]: true},
-            {[Styles._scope]: true}
+            {[Styles.container]: true}
         );
         return (
             <span

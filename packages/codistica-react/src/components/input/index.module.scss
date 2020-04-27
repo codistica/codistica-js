@@ -6,13 +6,7 @@ $color-green: #94ff36;
 $color-red: #e83b35;
 $color-yellow: #e8e639;
 
-._main { // FOR COMPONENT MAIN ELEMENT. DO NOT DELETE
-
-}
-
-._scope { // FOR HTML ELEMENT AND ATTRIBUTE SELECTORS. DO NOT DELETE
-
-  // RESET CSS
+.main {
   *,
   *::before,
   *::after {
@@ -27,7 +21,6 @@ $color-yellow: #e8e639;
     outline: none;
     border-radius: 0;
   }
-
 }
 
 .radioGroupContainer {

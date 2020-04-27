@@ -5,7 +5,6 @@
 import classnames from 'classnames/dedupe';
 import React from 'react';
 import {onDragHOC} from '../../hocs/on-drag-hoc.js';
-import Styles from './index.module.scss';
 
 type Props = {
     children: any,
@@ -144,11 +143,7 @@ class Draggable extends React.Component<Props, State> {
             ...others
         } = this.props;
         const {position, top, left} = this.state;
-        const mainClassName = classnames(
-            {[className]: className},
-            {[Styles._main]: true},
-            {[Styles._scope]: true}
-        );
+        const mainClassName = classnames({[className]: className});
         return (
             <Div
                 {...others}

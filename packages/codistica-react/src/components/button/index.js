@@ -19,7 +19,7 @@ type Props = {
  * @typedef buttonPropsType
  * @property {string} [className=''] - React prop.
  * @property {string} [text=''] - Button text.
- * @property {boolean} [dark=false] - Use dark style.
+ * @property {boolean} [dark=false] - Use dark theme.
  * @property {boolean} [disabled=false] - Button is disabled.
  * @property {Function} [onClick=null] - Callback for click event.
  * @property {Function} [onClickDisabled=null] - Callback for click event when button is disabled.
@@ -83,8 +83,7 @@ class Button extends React.Component<Props> {
         } = this.props;
         const mainClassName = classnames(
             {[className]: className},
-            {[Styles._main]: true},
-            {[Styles._scope]: true},
+            {[Styles.button]: true},
             {[Styles.dark]: dark},
             {[Styles.light]: !dark},
             {[Styles.disabled]: disabled}
