@@ -22,6 +22,13 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 - Coveralls integration to have feedback on code coverage.
 - Automate tag creation on push to master.
 
+### Changed
+- Other minor changes to monorepo configuration.
+- Complete build procedure added to Husky pre-push handler routine.
+- JSDoc documentation generation made local for each package instead of global for the entire monorepo.
+- Module groups naming convention to start with a lowercase (EX: `ObjectUtils` -> `objectUtils`).
+- All dependencies have been upgraded.
+
 ## [2020-04-23]
 
 ### Added

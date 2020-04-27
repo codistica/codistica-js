@@ -8,6 +8,25 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+### Added
+- New triangle-dropdown component.
+- New tooltip-hoc module.
+- New hover-icon and social-icons components.
+- Add custom JSS instance for components customization.
+
+## Changed
+- Package cleanup.
+- All dependencies have been upgraded.
+- All Storybook stories have been rewritten to match new CSF story format.
+- Improved JSDoc annotations.
+- Style import naming convention to start with a lowercase (EX: `Styles` -> `styles`).
+- Form and Input components have been completely rewritten:
+    - Logic has been split across multiple files for maintainability and scalability.
+    - Mandatory flags and input matching rules are now configurable at input level and not at form's.
+    - Blockers, filters and validators have been unified into a new `plugins` prop.
+    - Components are now customizable via `customStyles` and `customColors` props.
+    - Other stability and performance improvements.
+
 ## [1.0.0-beta.2] - 2020-04-23
 
 ### Fixed

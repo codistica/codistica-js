@@ -8,6 +8,12 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+### Added
+- New get-element-height and get-element-width modules.
+
+## Changed
+- All dependencies have been upgraded.
+
 ## [1.0.0-beta.1] - 2020-04-22
 
 ### Fixed
