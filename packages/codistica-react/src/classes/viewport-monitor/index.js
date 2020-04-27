@@ -2,7 +2,7 @@
 
 /** @module react/classes/viewport-monitor */
 
-import {ObjectUtils} from '@codistica/core';
+import {objectUtils} from '@codistica/core';
 import {EventEmitter} from 'eventemitter3';
 import React from 'react';
 import Styles from './index.module.scss';
@@ -342,8 +342,8 @@ class ViewportMonitor extends EventEmitter {
              * @returns {Object<string,*>} Resulting style object.
              */
             static replaceUnits(styleObj) {
-                return ObjectUtils.forEachSync(
-                    ObjectUtils.deepClone(styleObj),
+                return objectUtils.forEachSync(
+                    objectUtils.deepClone(styleObj),
                     (elem, API) => {
                         let newValue = elem;
                         if (typeof elem === 'string') {

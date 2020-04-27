@@ -20,7 +20,7 @@ import {stringToPathArrayTest} from './internals/string-to-path-array.test.js';
 import {truncateTest} from './internals/truncate.test.js';
 
 function objectUtilsTest() {
-    describe('ObjectUtils', () => {
+    describe('objectUtils', () => {
         addReadOnlyPropertyTest();
         deepCloneTest();
         forEachSyncTest();

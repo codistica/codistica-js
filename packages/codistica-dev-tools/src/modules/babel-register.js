@@ -1,7 +1,7 @@
 /** @module dev-tools/modules/babel-register */
 
 import {isAbsolute, join, relative} from 'path';
-import {FileUtils} from '@codistica/node';
+import {fileUtils} from '@codistica/node';
 import {engines} from '../../package.json';
 
 const targets = {
@@ -18,7 +18,7 @@ const targets = {
  * @throws {Error} If no script is found.
  */
 async function babelRegister(script) {
-    const babelPresetEnvPath = await FileUtils.searchUpwards(
+    const babelPresetEnvPath = await fileUtils.searchUpwards(
         __dirname,
         './node_modules/@babel/preset-env',
         process.cwd()
@@ -32,7 +32,7 @@ async function babelRegister(script) {
         throw new Error('NO VALID SCRIPT ARGUMENT FOUND.');
     }
 
-    const foundScriptPath = await FileUtils.searchUpwards(
+    const foundScriptPath = await fileUtils.searchUpwards(
         __dirname,
         isAbsolute(script) ? script : join('./node_modules/.bin/', script),
         process.cwd()

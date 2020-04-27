@@ -2,7 +2,7 @@ import {firstAvailableLetterTest} from './internals/first-available-letter.test.
 import {injectBeforeTest} from './internals/inject-before.test.js';
 
 function stringUtilsTest() {
-    describe('StringUtils', () => {
+    describe('stringUtils', () => {
         firstAvailableLetterTest();
         injectBeforeTest();
     });

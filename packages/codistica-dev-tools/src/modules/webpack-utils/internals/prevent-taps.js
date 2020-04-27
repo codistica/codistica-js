@@ -1,6 +1,6 @@
 /** @module dev-tools/modules/webpack-utils/prevent-taps */
 
-import {ArrayUtils, RegExpUtils, log} from '@codistica/core';
+import {arrayUtils, regExpUtils, log} from '@codistica/core';
 
 /** @typedef {(string|RegExp|Array<(string|RegExp)>)} preventTapsRawExpType */
 
@@ -32,7 +32,7 @@ import {ArrayUtils, RegExpUtils, log} from '@codistica/core';
  * @returns {void} Void.
  */
 function preventTaps(hooks, options) {
-    hooks = ArrayUtils.normalize(hooks);
+    hooks = arrayUtils.normalize(hooks);
     options =
         typeof options === 'object'
             ? options
@@ -81,8 +81,8 @@ function preventTaps(hooks, options) {
                 };
                 if (
                     (!options.test ||
-                        RegExpUtils.checkOne(tapInfo.name, options.test)) &&
-                    RegExpUtils.checkNone(tapInfo.name, options.ignore)
+                        regExpUtils.checkOne(tapInfo.name, options.test)) &&
+                    regExpUtils.checkNone(tapInfo.name, options.ignore)
                 ) {
                     switch (tapInfo.type) {
                         case 'promise':

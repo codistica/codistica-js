@@ -1,8 +1,8 @@
 // *** MODULE GROUPS EXPORT ***
 
-import * as WebpackUtils from './modules/webpack-utils/index.js';
+import * as webpackUtils from './modules/webpack-utils/index.js';
 
-export {WebpackUtils};
+export {webpackUtils};
 
 // *** NORMAL EXPORT ***
 

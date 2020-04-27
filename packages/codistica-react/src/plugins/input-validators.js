@@ -1,6 +1,6 @@
 /** @module react/plugins/input-validators */
 
-import {REG_EXPS, DateUtils, RegExpUtils, NumberUtils} from '@codistica/core';
+import {REG_EXPS, dateUtils, regExpUtils, numberUtils} from '@codistica/core';
 
 /**
  * @classdesc Input validators plugin for @codistica/react Input component.
@@ -191,10 +191,10 @@ class InputValidators {
                 separator: null
             };
         } else {
-            options.minDate = DateUtils.isValidDate(options.minDate)
+            options.minDate = dateUtils.isValidDate(options.minDate)
                 ? options.minDate
                 : null;
-            options.maxDate = DateUtils.isValidDate(options.maxDate)
+            options.maxDate = dateUtils.isValidDate(options.maxDate)
                 ? options.maxDate
                 : null;
             options.minAge =
@@ -231,7 +231,7 @@ class InputValidators {
                     return 'month';
                 }
             });
-            let dateArray = NumberUtils.parseIntAll(value) || [];
+            let dateArray = numberUtils.parseIntAll(value) || [];
             let dateElements = {
                 date: null,
                 month: null,
@@ -249,7 +249,7 @@ class InputValidators {
                     }
                     dateElements[key] = parseInt(dateArray[index]);
                 });
-                dateElements.year = DateUtils.getValidFullYear(
+                dateElements.year = dateUtils.getValidFullYear(
                     dateElements.year
                 );
                 dateElements.month--;
@@ -270,7 +270,7 @@ class InputValidators {
                         (
                             value.match(
                                 new RegExp(
-                                    RegExpUtils.escape(options.separator),
+                                    regExpUtils.escape(options.separator),
                                     'g'
                                 )
                             ) || []

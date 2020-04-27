@@ -3,7 +3,7 @@
 // TODO: ADD CACHE? (SHOULD IT BE HERE OR INSIDE TRAVERSING FUNCTIONS?)
 // TODO: DEDUPE main.module.scss? AND SEE IF GENERATED CSS FILES DEDUPE AS WELL
 
-import {WebpackUtils} from '@codistica/dev-tools';
+import {webpackUtils} from '@codistica/dev-tools';
 
 /**
  * @typedef getCacheGroupsDependencyType
@@ -60,7 +60,7 @@ function getCacheGroups(bootloaderPath, appPath) {
              */
             test(module) {
                 return (
-                    !WebpackUtils.isChildModuleOf(module, bootloaderPath) &&
+                    !webpackUtils.isChildModuleOf(module, bootloaderPath) &&
                     module.resource !== bootloaderPath
                 );
             }
@@ -75,8 +75,8 @@ function getCacheGroups(bootloaderPath, appPath) {
              */
             test(module) {
                 return (
-                    !WebpackUtils.isInitialModule(module) &&
-                    WebpackUtils.isChildModuleOf(module, bootloaderPath, {
+                    !webpackUtils.isInitialModule(module) &&
+                    webpackUtils.isChildModuleOf(module, bootloaderPath, {
                         forbiddenModules: [appPath]
                     })
                 );
@@ -93,8 +93,8 @@ function getCacheGroups(bootloaderPath, appPath) {
              */
             test(module) {
                 return (
-                    !WebpackUtils.isInitialModule(module) &&
-                    WebpackUtils.isChildModuleOf(module, appPath) &&
+                    !webpackUtils.isInitialModule(module) &&
+                    webpackUtils.isChildModuleOf(module, appPath) &&
                     /react/.test(module.resource)
                 );
             }
@@ -109,8 +109,8 @@ function getCacheGroups(bootloaderPath, appPath) {
              */
             test(module) {
                 return (
-                    !WebpackUtils.isInitialModule(module) &&
-                    WebpackUtils.isChildModuleOf(module, appPath) &&
+                    !webpackUtils.isInitialModule(module) &&
+                    webpackUtils.isChildModuleOf(module, appPath) &&
                     /[\\/]node_modules[\\/]/.test(module.resource)
                 );
             }
@@ -125,8 +125,8 @@ function getCacheGroups(bootloaderPath, appPath) {
              */
             test(module) {
                 return (
-                    !WebpackUtils.isInitialModule(module) &&
-                    (WebpackUtils.isChildModuleOf(module, appPath, {
+                    !webpackUtils.isInitialModule(module) &&
+                    (webpackUtils.isChildModuleOf(module, appPath, {
                         skipDynamics: true
                     }) ||
                         module.resource === appPath)

@@ -1,9 +1,9 @@
 // *** MODULE GROUPS EXPORT ***
 
-import * as FileUtils from './modules/file-utils/index.js';
+import * as fileUtils from './modules/file-utils/index.js';
 import * as promisifiedFs from './modules/promisified-fs/index.js';
 
-export {FileUtils, promisifiedFs};
+export {fileUtils, promisifiedFs};
 
 // *** NORMAL EXPORT ***
 

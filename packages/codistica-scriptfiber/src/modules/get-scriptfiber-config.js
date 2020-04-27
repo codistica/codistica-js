@@ -1,6 +1,6 @@
 /** @module scriptfiber/modules/get-scriptfiber-config */
 
-import {FileUtils} from '@codistica/node';
+import {fileUtils} from '@codistica/node';
 import {Types} from '@codistica/types';
 
 // TODO: CREATE SCRIPTFIBER CONFIG AND BOOTLOADER CONFIG JSON SCHEMAS
@@ -53,8 +53,8 @@ function getScriptfiberConfig(configPath) {
         // GET FROM CACHE
         output = cachedConfig;
     } else {
-        output = FileUtils.getJSONSync(
-            FileUtils.getAbsolutePath(
+        output = fileUtils.getJSONSync(
+            fileUtils.getAbsolutePath(
                 typeof configPath === 'string'
                     ? configPath
                     : './scriptfiber-config.json'
@@ -69,13 +69,13 @@ function getScriptfiberConfig(configPath) {
             throw new TypeError('INVALID CONFIGURATION.');
         }
 
-        output.appPath = FileUtils.getAbsolutePath(output.appPath);
+        output.appPath = fileUtils.getAbsolutePath(output.appPath);
 
-        output.bootloaderPath = FileUtils.getAbsolutePath(
+        output.bootloaderPath = fileUtils.getAbsolutePath(
             output.bootloaderPath
         );
 
-        output.bootloaderConfigPath = FileUtils.getAbsolutePath(
+        output.bootloaderConfigPath = fileUtils.getAbsolutePath(
             output.bootloaderConfigPath
         );
 

@@ -1,6 +1,6 @@
 /** @module node/plugins/log-file-logger/core */
 
-import {StringUtils, STRINGS} from '@codistica/core';
+import {stringUtils, STRINGS} from '@codistica/core';
 
 /**
  * @typedef logFileLoggerCoreLogObjType
@@ -24,19 +24,19 @@ class LogFileLoggerCore {
      */
     static getLogString(logObj) {
         return (
-            `${StringUtils.injectBefore(
+            `${stringUtils.injectBefore(
                 logObj.date.getHours(),
                 2,
                 '0'
-            )}:${StringUtils.injectBefore(
+            )}:${stringUtils.injectBefore(
                 logObj.date.getMinutes(),
                 2,
                 '0'
-            )}:${StringUtils.injectBefore(
+            )}:${stringUtils.injectBefore(
                 logObj.date.getSeconds(),
                 2,
                 '0'
-            )}:${StringUtils.injectBefore(
+            )}:${stringUtils.injectBefore(
                 logObj.date.getMilliseconds(),
                 3,
                 '0'

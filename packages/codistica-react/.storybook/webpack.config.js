@@ -9,7 +9,7 @@ const path = require('path');
  * @returns {Promise<Object<string,*>>} Promise. Output Webpack configuration object.
  */
 module.exports = async function config({config}) {
-    // TODO: USE WebpackUtils. USE create-react-app CONVENTION FOR CCS MODULES. CHECK CSS MODULES AFTER CHANGING
+    // TODO: USE webpackUtils. USE create-react-app CONVENTION FOR CCS MODULES. CHECK CSS MODULES AFTER CHANGING
 
     const includedPaths = [
         path.resolve(__dirname, '../src'),
@@ -65,7 +65,7 @@ module.exports = async function config({config}) {
         ]
     });
 
-    // TODO: USE WebpackUtils TO CORRECTLY REPLACE EXISTENT LOADER IN GIVEN TEST!
+    // TODO: USE webpackUtils TO CORRECTLY REPLACE EXISTENT LOADER IN GIVEN TEST!
     index = config.module.rules.findIndex((elem) => {
         return elem.test.toString() === /\.css$/.toString();
     });

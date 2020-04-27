@@ -1,6 +1,6 @@
 /** @flow */
 
-import {ObjectUtils} from '@codistica/core';
+import {objectUtils} from '@codistica/core';
 import classnames from 'classnames/dedupe';
 import React from 'react';
 import {Button} from '../../../src/components/button/index.js';
@@ -241,7 +241,7 @@ class FormDemo extends React.Component<Props, State> {
                             let title = '';
                             let output = [];
                             let index = 0;
-                            ObjectUtils.forEachSync(
+                            objectUtils.forEachSync(
                                 this.state.report,
                                 (value, API) => {
                                     let key = [];

@@ -1,6 +1,6 @@
 /** @module browser/classes/loader */
 
-import {log, SEEDS, Randomizer} from '@codistica/core';
+import {log, SEEDS, randomizer} from '@codistica/core';
 import {EventEmitter} from 'eventemitter3';
 import {Payload} from './payload.js';
 import {Thread} from './thread.js';
@@ -127,7 +127,7 @@ class Loader extends EventEmitter {
 
             payload = new Payload({
                 ...payloadData,
-                id: Randomizer.getUniqueId()
+                id: randomizer.getUniqueId()
             });
 
             // ATTACH HANDLERS

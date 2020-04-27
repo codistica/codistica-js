@@ -7,7 +7,7 @@ import {isPositiveZeroTest} from './internals/is-positive-zero.test.js';
 import {parseIntAllTest} from './internals/parse-int-all.test.js';
 
 function numberUtilsTest() {
-    describe('NumberUtils', () => {
+    describe('numberUtils', () => {
         deepParseIntTest();
         firstAvailableIntegerTest();
         getArithmeticMeanTest();

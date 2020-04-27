@@ -1,7 +1,7 @@
 /** @module node/modules/file-utils/get-paths-tree */
 
 import {statSync} from 'fs';
-import {ObjectUtils} from '@codistica/core';
+import {objectUtils} from '@codistica/core';
 import {scanSync} from './scan-sync.js';
 
 /**
@@ -31,12 +31,12 @@ function getPathsTree(startingDirectory) {
             output.ext[extension].push(path);
         }
         // BY DIRECTORY
-        ObjectUtils.seek(
+        objectUtils.seek(
             output.dir,
             relativePath
                 .replace(/\/[^/]*$/, '')
                 .replace(/^\//, '')
-                .replace(/\//g, '.') + '._only[]', // TODO: DO ObjectUtils.seek() FIRST
+                .replace(/\//g, '.') + '._only[]', // TODO: DO objectUtils.seek() FIRST
             path
         );
     });

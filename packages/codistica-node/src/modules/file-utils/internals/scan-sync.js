@@ -2,7 +2,7 @@
 
 import {readdirSync, statSync} from 'fs';
 import {join} from 'path';
-import {log, RegExpUtils} from '@codistica/core';
+import {log, regExpUtils} from '@codistica/core';
 import {Types} from '@codistica/types';
 import {getAbsolutePath} from './get-absolute-path.js';
 
@@ -75,7 +75,7 @@ function scanSync(startingDirectory, options) {
             currentPath = join(dirPath, name);
 
             // CHECK IGNORE
-            if (RegExpUtils.checkOne(currentPath, options.ignore)) {
+            if (regExpUtils.checkOne(currentPath, options.ignore)) {
                 continue;
             }
 

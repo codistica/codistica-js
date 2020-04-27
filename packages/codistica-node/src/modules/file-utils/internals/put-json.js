@@ -1,6 +1,6 @@
 /** @module node/modules/file-utils/put-json */
 
-import {JSONUtils} from '@codistica/core';
+import {jsonUtils} from '@codistica/core';
 import {writeFile} from '../../promisified-fs/internals/write-file.js';
 import {getAbsolutePath} from './get-absolute-path.js';
 
@@ -12,7 +12,7 @@ import {getAbsolutePath} from './get-absolute-path.js';
  * @returns {Promise<void>} Promise. Void.
  */
 async function putJSON(JSONObj, path) {
-    await writeFile(getAbsolutePath(path), JSONUtils.stringify(JSONObj));
+    await writeFile(getAbsolutePath(path), jsonUtils.stringify(JSONObj));
 }
 
 export {putJSON};

@@ -1,6 +1,6 @@
 /** @module core/modules/reg-exp-utils/replace */
 
-import {normalize as ArrayUtilsNormalize} from '../../array-utils/internals/normalize.js';
+import {normalize as arrayUtilsNormalize} from '../../array-utils/internals/normalize.js';
 import {isPureObject} from '../../object-utils/internals/is-pure-object.js';
 import {normalize} from './normalize.js';
 
@@ -21,7 +21,7 @@ import {normalize} from './normalize.js';
  * @returns {string} Resulting string.
  */
 function replace(str, replacer) {
-    ArrayUtilsNormalize(replacer).forEach((item) => {
+    arrayUtilsNormalize(replacer).forEach((item) => {
         if (typeof item === 'function') {
             str = item(str);
         } else if (isPureObject(item) && item.search && item.val) {

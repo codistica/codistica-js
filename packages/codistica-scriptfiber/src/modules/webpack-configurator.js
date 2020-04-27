@@ -3,7 +3,7 @@
 import {
     ManifestWebpackPlugin,
     RecompileWebpackPlugin,
-    WebpackUtils
+    webpackUtils
 } from '@codistica/dev-tools';
 import {CleanWebpackPlugin} from 'clean-webpack-plugin';
 import {default as CompressionWebpackPlugin} from 'compression-webpack-plugin';
@@ -26,7 +26,7 @@ function webpackConfigurator(webpackConfig, scriptfiberConfigPath) {
     const scriptfiberConfig = getScriptfiberConfig(scriptfiberConfigPath);
     const isDevMode = webpackConfig.mode === 'development';
 
-    WebpackUtils.replaceInEntry(
+    webpackUtils.replaceInEntry(
         webpackConfig,
         scriptfiberConfig.appPath,
         scriptfiberConfig.bootloaderPath
@@ -78,12 +78,12 @@ function webpackConfigurator(webpackConfig, scriptfiberConfigPath) {
         )
     };
 
-    WebpackUtils.addPlugin(
+    webpackUtils.addPlugin(
         webpackConfig,
         new ScriptfiberRuntimeWebpackPlugin()
     );
 
-    WebpackUtils.addPlugin(
+    webpackUtils.addPlugin(
         webpackConfig,
         new ManifestWebpackPlugin({
             webpackConfig: webpackConfig,
@@ -91,7 +91,7 @@ function webpackConfigurator(webpackConfig, scriptfiberConfigPath) {
         })
     );
 
-    WebpackUtils.addPlugin(
+    webpackUtils.addPlugin(
         webpackConfig,
         new RecompileWebpackPlugin({
             timestampFiles: [scriptfiberConfig.bootloaderConfigPath],
@@ -100,7 +100,7 @@ function webpackConfigurator(webpackConfig, scriptfiberConfigPath) {
     );
 
     /** @todo Follow https://github.com/webpack-contrib/compression-webpack-plugin/issues/133 issue. */
-    WebpackUtils.addPlugin(
+    webpackUtils.addPlugin(
         webpackConfig,
         new CompressionWebpackPlugin({
             cache: false,
@@ -115,7 +115,7 @@ function webpackConfigurator(webpackConfig, scriptfiberConfigPath) {
 
     // TODO: WHY IS THIS DELETING SOME NEEDED FILES IN PRODUCTION AND NOT IN DEVELOPMENT (DURING RE-COMPILE)? SEE ITS SOURCE CODE. (WHAT IS THE IMPLEMENTED LOGIC?)
     // TODO: INDEED NOTHING IS BEING REMOVED IN DEVELOPMENT. WHY?
-    WebpackUtils.addPlugin(
+    webpackUtils.addPlugin(
         webpackConfig,
         new CleanWebpackPlugin({
             dry: false,
@@ -132,7 +132,7 @@ function webpackConfigurator(webpackConfig, scriptfiberConfigPath) {
     );
 
     scriptfiberConfig.building.useAnalyzer &&
-        WebpackUtils.addPlugin(
+        webpackUtils.addPlugin(
             webpackConfig,
             new BundleAnalyzerPlugin({
                 analyzerHost: 'localhost',
@@ -143,7 +143,7 @@ function webpackConfigurator(webpackConfig, scriptfiberConfigPath) {
         );
 
     scriptfiberConfig.building.useProgressBar &&
-        WebpackUtils.addPlugin(webpackConfig, new WebpackBarPlugin());
+        webpackUtils.addPlugin(webpackConfig, new WebpackBarPlugin());
 
     return webpackConfig;
 }

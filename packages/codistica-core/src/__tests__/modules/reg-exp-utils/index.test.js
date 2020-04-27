@@ -6,7 +6,7 @@ import {normalizeTest} from './internals/normalize.test.js';
 import {replaceTest} from './internals/replace.test.js';
 
 function regExpUtilsTestTest() {
-    describe('RegExpUtils', () => {
+    describe('regExpUtils', () => {
         checkAllTest();
         checkNoneTest();
         checkOneTest();

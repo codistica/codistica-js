@@ -1,7 +1,7 @@
 /** @module node/modules/file-utils/get-json-sync */
 
 import {readFileSync} from 'fs';
-import {JSONUtils, STRINGS, log} from '@codistica/core';
+import {jsonUtils, STRINGS, log} from '@codistica/core';
 import {getAbsolutePath} from './get-absolute-path.js';
 
 /**
@@ -12,7 +12,7 @@ import {getAbsolutePath} from './get-absolute-path.js';
 function getJSONSync(path) {
     path = getAbsolutePath(path);
     try {
-        return JSONUtils.parse(
+        return jsonUtils.parse(
             readFileSync(path, {encoding: STRINGS.STD_ENCODING})
         );
     } catch (err) {

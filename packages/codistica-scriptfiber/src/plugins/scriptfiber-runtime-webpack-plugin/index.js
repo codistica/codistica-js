@@ -8,7 +8,7 @@ import {mainTemplateRequireEnsure} from './internals/main-template-require-ensur
 // TODO: SETUP FALLBACK EVENT FOR WHEN LOADER IS NOT AVAILABLE (WHEN USING INTERNAL IMPORT METHOD)
 
 // TODO: RECREATE mini-css-extract-plugin GENERATOR AND REPLACE RESPECTIVE FN INTERCEPTING TAP.
-// TODO: GET mini-css-extract-plugin OPTIONS FROM PLUGIN INSTANCE. GET IT USING WebpackUtils
+// TODO: GET mini-css-extract-plugin OPTIONS FROM PLUGIN INSTANCE. GET IT USING webpackUtils
 
 /**
  * @typedef ScriptfiberRuntimeWebpackPluginOptionsType

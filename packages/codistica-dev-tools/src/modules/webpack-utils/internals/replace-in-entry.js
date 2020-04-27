@@ -1,6 +1,6 @@
 /** @module dev-tools/modules/webpack-utils/replace-in-entry */
 
-import {log, ObjectUtils} from '@codistica/core';
+import {log, objectUtils} from '@codistica/core';
 
 /**
  * @description Replaces a path inside Webpack's entry configuration regardless of structure.
@@ -28,7 +28,7 @@ function replaceInEntry(webpackConfig, oldPath, newPath) {
             webpackConfig.entry = webpackConfig.entry[0];
         }
         return true;
-    } else if (ObjectUtils.isObject(webpackConfig.entry)) {
+    } else if (objectUtils.isObject(webpackConfig.entry)) {
         for (const i in webpackConfig.entry) {
             if (!Object.prototype.hasOwnProperty.call(webpackConfig.entry, i)) {
                 continue;

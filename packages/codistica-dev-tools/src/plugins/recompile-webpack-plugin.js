@@ -1,6 +1,6 @@
 /** @module dev-tools/plugins/recompile-webpack-plugin */
 
-import {FileUtils} from '@codistica/node';
+import {fileUtils} from '@codistica/node';
 import {SyncHook, SyncBailHook} from 'tapable';
 import {Stats} from 'webpack';
 import {getPluginName} from '../modules/webpack-utils/internals/get-plugin-name.js';
@@ -38,12 +38,12 @@ class RecompileWebpackPlugin {
         };
 
         this.options.purgeFiles = (options.purgeFiles || []).map((filePath) =>
-            FileUtils.getAbsolutePath(filePath)
+            fileUtils.getAbsolutePath(filePath)
         );
 
         this.options.timestampFiles = (
             options.timestampFiles || []
-        ).map((filePath) => FileUtils.getAbsolutePath(filePath));
+        ).map((filePath) => fileUtils.getAbsolutePath(filePath));
 
         this.options.maxRecompilations =
             typeof options.maxRecompilations === 'number'

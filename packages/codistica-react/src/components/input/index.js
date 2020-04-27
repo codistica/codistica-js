@@ -2,7 +2,7 @@
 
 /** @module react/components/input */
 
-import {EventUtils, ArrayUtils} from '@codistica/core';
+import {eventUtils, arrayUtils} from '@codistica/core';
 import classnames from 'classnames/dedupe';
 import React from 'react';
 import uniqueId from 'react-html-id';
@@ -165,7 +165,7 @@ class Input extends React.Component<Props, State> {
          * @returns {Array<*>} Output.
          */
         const normalizePlugin = function normalizePlugin(input: any) {
-            return Array.isArray(input) ? ArrayUtils.flatten(input) : [input];
+            return Array.isArray(input) ? arrayUtils.flatten(input) : [input];
         };
 
         const isType = props.type !== 'checkbox' && props.type !== 'radio';
@@ -294,7 +294,7 @@ class Input extends React.Component<Props, State> {
         this.blockers = this.blockers.map((blocker) => {
             let response = null;
             if (typeof blocker === 'function') {
-                response = blocker(EventUtils.getMockEvent());
+                response = blocker(eventUtils.getMockEvent());
                 if (typeof response === 'function') {
                     return response;
                 } else {
@@ -459,7 +459,7 @@ class Input extends React.Component<Props, State> {
         // EMULATE REAL onChange EVENT BEHAVIOUR
         if (e.target.value !== this.changeTracker) {
             this.onChangeFixed(
-                EventUtils.getMockEvent({
+                eventUtils.getMockEvent({
                     ...e,
                     type: 'change'
                 })

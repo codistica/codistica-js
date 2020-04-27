@@ -1,7 +1,7 @@
 /** @module node/modules/file-utils/scan */
 
 import {join} from 'path';
-import {log, RegExpUtils, catcher} from '@codistica/core';
+import {log, regExpUtils, catcher} from '@codistica/core';
 import {Types} from '@codistica/types';
 import {readdir} from '../../promisified-fs/internals/readdir.js';
 import {stat} from '../../promisified-fs/internals/stat.js';
@@ -78,7 +78,7 @@ async function scan(startingDirectory, options) {
             currentPath = join(dirPath, name);
 
             // CHECK IGNORE
-            if (RegExpUtils.checkOne(currentPath, options.ignore)) {
+            if (regExpUtils.checkOne(currentPath, options.ignore)) {
                 continue;
             }
 

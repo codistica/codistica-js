@@ -1,25 +1,25 @@
 // *** MODULE GROUPS EXPORT ***
 
-import * as ArrayUtils from './modules/array-utils/index.js';
-import * as DateUtils from './modules/date-utils/index.js';
-import * as EventUtils from './modules/event-utils/index.js';
-import * as JSONUtils from './modules/json-utils/index.js';
-import * as NumberUtils from './modules/number-utils/index.js';
-import * as ObjectUtils from './modules/object-utils/index.js';
-import * as Randomizer from './modules/randomizer/index.js';
-import * as RegExpUtils from './modules/reg-exp-utils/index.js';
-import * as StringUtils from './modules/string-utils/index.js';
+import * as arrayUtils from './modules/array-utils/index.js';
+import * as dateUtils from './modules/date-utils/index.js';
+import * as eventUtils from './modules/event-utils/index.js';
+import * as jsonUtils from './modules/json-utils/index.js';
+import * as numberUtils from './modules/number-utils/index.js';
+import * as objectUtils from './modules/object-utils/index.js';
+import * as randomizer from './modules/randomizer/index.js';
+import * as regExpUtils from './modules/reg-exp-utils/index.js';
+import * as stringUtils from './modules/string-utils/index.js';
 
 export {
-    ArrayUtils,
-    DateUtils,
-    EventUtils,
-    JSONUtils,
-    NumberUtils,
-    ObjectUtils,
-    Randomizer,
-    RegExpUtils,
-    StringUtils
+    arrayUtils,
+    dateUtils,
+    eventUtils,
+    jsonUtils,
+    numberUtils,
+    objectUtils,
+    randomizer,
+    regExpUtils,
+    stringUtils
 };
 
 // *** NORMAL EXPORT ***

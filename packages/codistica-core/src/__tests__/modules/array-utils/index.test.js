@@ -5,7 +5,7 @@ import {normalizeTest} from './internals/normalize.test.js';
 import {shuffleTest} from './internals/shuffle.test.js';
 
 function arrayUtilsTest() {
-    describe('ArrayUtils', () => {
+    describe('arrayUtils', () => {
         dedupeTest();
         flattenTest();
         getDuplicatesTest();

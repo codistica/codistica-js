@@ -5,7 +5,7 @@ import {isValidDateTest} from './internals/is-valid-date.test.js';
 import {parseSecondsTest} from './internals/parse-seconds.test.js';
 
 function dateUtilsTest() {
-    describe('DateUtils', () => {
+    describe('dateUtils', () => {
         daysInMonthTest();
         getValidFullYearTest();
         isLeapYearTest();

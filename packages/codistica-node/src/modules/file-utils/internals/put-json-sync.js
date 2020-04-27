@@ -1,7 +1,7 @@
 /** @module node/modules/file-utils/put-json */
 
 import {writeFileSync} from 'fs';
-import {STRINGS, JSONUtils} from '@codistica/core';
+import {STRINGS, jsonUtils} from '@codistica/core';
 import {getAbsolutePath} from './get-absolute-path.js';
 
 /**
@@ -11,7 +11,7 @@ import {getAbsolutePath} from './get-absolute-path.js';
  * @returns {void} Void.
  */
 function putJSONSync(JSONObj, path) {
-    writeFileSync(getAbsolutePath(path), JSONUtils.stringify(JSONObj), {
+    writeFileSync(getAbsolutePath(path), jsonUtils.stringify(JSONObj), {
         encoding: STRINGS.STD_ENCODING
     });
 }

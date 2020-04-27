@@ -1,6 +1,6 @@
 /** @module browser/classes/ajax-request */
 
-import {log, Randomizer} from '@codistica/core';
+import {log, randomizer} from '@codistica/core';
 import {EventEmitter} from 'eventemitter3';
 
 // TODO: LOG AND PASS ERRORS
@@ -31,7 +31,7 @@ class AJAXRequest extends EventEmitter {
         this.id =
             typeof options.id === 'string'
                 ? options.id
-                : Randomizer.getUniqueId();
+                : randomizer.getUniqueId();
 
         this.options = {
             requestMethod:
