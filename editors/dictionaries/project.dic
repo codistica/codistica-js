@@ -1,5 +1,6 @@
 abcdef
 abcdefghijklmnopqrstuvwxyz
+addon
 addons
 apdisk
 arraybuffer
@@ -12,6 +13,7 @@ browserslist
 bundler
 ccff
 checksums
+childs
 chokidar
 classdesc
 classnames
@@ -43,17 +45,21 @@ fusebox
 gtag
 hocs
 icns
+instagram
 istanbuljs
 itaven
 jscoverage
 jspm
 lerna
+linkedin
 memberof
 mpeltonen
 msapplication
 msix
 ncenter
 nodemon
+noopener
+noreferrer
 onlus
 overscroll
 pids
@@ -72,6 +78,7 @@ sonarlint
 stackdump
 stringified
 stringifying
+tapable
 timemachine
 tortious
 transpilation

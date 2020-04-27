@@ -20,9 +20,12 @@ module.exports = {
                 'shared-node-browser': false,
                 browser: true,
                 node: true
+            },
+            rules: {
+                'import/no-default-export': 'off'
             }
         },
-        // REACT + FLOW PACKAGES
+        // REACT + FLOW
         {
             files: [
                 './packages/codistica-demo/src/**/*.js',
@@ -31,7 +34,7 @@ module.exports = {
             ],
             extends: ['@codistica/eslint-config-default/react']
         },
-        // BROWSER PACKAGES
+        // BROWSER
         {
             files: [
                 './packages/codistica-browser/src/**/*.js',
@@ -40,7 +43,7 @@ module.exports = {
             ],
             extends: ['@codistica/eslint-config-default/browser']
         },
-        // NODE PACKAGES
+        // NODE
         {
             files: [
                 './packages/codistica-node/src/**/*.js',
@@ -49,18 +52,21 @@ module.exports = {
             ],
             extends: ['@codistica/eslint-config-default/node-module']
         },
-        /** @todo FOLLOW https://github.com/facebook/flow/issues/8354 issue. */
-        // @codistica/react INDEX
-        {
-            files: ['./packages/codistica-react/src/index.js'],
-            rules: {
-                'import/extensions': ['warn', 'never']
-            }
-        },
-        // create-react-app PACKAGES
+        // create-react-app
         {
             files: ['./packages/codistica-demo/src/**/*.js'],
             extends: ['react-app']
+        },
+        // EXCEPTIONS
+        /** @todo FOLLOW https://github.com/facebook/flow/issues/8354 and https://youtrack.jetbrains.com/issue/WEB-45239 issues. */
+        {
+            files: [
+                './packages/codistica-react/src/index.js',
+                './packages/codistica-react/src/components/social-icons/index.js'
+            ],
+            rules: {
+                'import/extensions': ['warn', 'never']
+            }
         }
     ]
 };

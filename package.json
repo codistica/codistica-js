@@ -17,7 +17,7 @@
         "hooks": {
             "pre-commit": "codistica-husky-hooks-handlers pre-commit prettify",
             "commit-msg": "codistica-husky-hooks-handlers commit-msg ./packages",
-            "pre-push": "codistica-husky-hooks-handlers pre-push test:quick"
+            "pre-push": "codistica-husky-hooks-handlers pre-push build"
         }
     },
     "scripts": {

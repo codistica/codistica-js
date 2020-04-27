@@ -2,11 +2,6 @@
 
 import {isAbsolute, join, relative} from 'path';
 import {fileUtils} from '@codistica/node';
-import {engines} from '../../package.json';
-
-const targets = {
-    node: engines.node.replace(/[^0-9.]/g, '')
-};
 
 /**
  * @async
@@ -49,7 +44,9 @@ async function babelRegister(script) {
             [
                 babelPresetEnvPath, // CURRENT WORKING DIRECTORY WILL BE CALLER'S PACKAGE ROOT, SO PASS AN ABSOLUTE PATH
                 {
-                    targets,
+                    targets: {
+                        node: '10.0.0'
+                    },
                     useBuiltIns: 'usage',
                     corejs: 3
                 }

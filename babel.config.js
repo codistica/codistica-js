@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @function babelConfig
  * @description Babel configuration function.
