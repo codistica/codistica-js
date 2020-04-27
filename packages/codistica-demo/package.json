@@ -50,7 +50,7 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
-        "test": "react-scripts test",
+        "test": "react-scripts test --setupFilesAfterEnv=\"./src/setup-tests.js\"",
         "eject": "react-scripts eject"
     },
     "dependencies": {
