@@ -1,13 +1,14 @@
 /** @flow */
 
 import React from 'react';
-import {Draggable} from '../../../src/components/draggable/index.js';
+import {BGS_LIGHT} from '../../../.storybook/custom-backgrounds.js';
+import {Draggable} from '../../../src/index.js';
 
 /**
- * @description Draggable demo.
- * @returns {Object<string,*>} React component.
+ * @description A draggable demo.
+ * @returns {React.Component} React component.
  */
-function DraggableDemo() {
+function SimpleDraggable() {
     return (
         <div
             style={{
@@ -27,4 +28,11 @@ function DraggableDemo() {
     );
 }
 
-export {DraggableDemo};
+export {SimpleDraggable};
+
+export default {
+    title: 'Draggable',
+    parameters: {
+        backgrounds: BGS_LIGHT
+    }
+};

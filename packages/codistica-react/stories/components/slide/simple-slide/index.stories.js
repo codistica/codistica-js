@@ -1,15 +1,15 @@
 /** @flow */
 
 import React, {useState} from 'react';
-import {Button} from '../../../../src/components/button/index.js';
-import {Slide} from '../../../../src/components/slide/index.js';
+import {BGS_LIGHT} from '../../../../.storybook/custom-backgrounds.js';
+import {Button, Slide} from '../../../../src/index.js';
 import Styles from './index.module.scss';
 
 /**
- * @description Slide simple demo.
- * @returns {Object<string,*>} React component.
+ * @description A simple slide demo.
+ * @returns {React.Component} React component.
  */
-function SlideDemoSimple() {
+function SimpleSlide() {
     const [slideAPI, setSlideAPI] = useState({
         switchBy: null,
         switchTo: null
@@ -42,7 +42,6 @@ function SlideDemoSimple() {
                 onClick={() => {
                     slideAPI.switchBy && slideAPI.switchBy(-1);
                 }}
-                dark={true}
                 text={'PREVIOUS'}
             />
             <Button
@@ -50,11 +49,17 @@ function SlideDemoSimple() {
                 onClick={() => {
                     slideAPI.switchBy && slideAPI.switchBy(1);
                 }}
-                dark={true}
                 text={'NEXT'}
             />
         </div>
     );
 }
 
-export {SlideDemoSimple};
+export {SimpleSlide};
+
+export default {
+    title: 'Slide',
+    parameters: {
+        backgrounds: BGS_LIGHT
+    }
+};

@@ -1,5 +1,3 @@
-'use strict';
-
 const path = require('path');
 
 /**
@@ -9,7 +7,7 @@ const path = require('path');
  * @returns {Promise<Object<string,*>>} Promise. Output Webpack configuration object.
  */
 module.exports = async function config({config}) {
-    // TODO: USE webpackUtils. USE create-react-app CONVENTION FOR CCS MODULES. CHECK CSS MODULES AFTER CHANGING
+    // TODO: USE webpackUtils. USE create-react-app CONVENTION FOR CCS MODULES (MAYBE CHANGED... FIRST IT WAS CAMEL CASE. CHANGE LIBRARY CONVENTION?). CHECK CSS MODULES AFTER CHANGING
 
     const includedPaths = [
         path.resolve(__dirname, '../src'),

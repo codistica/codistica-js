@@ -1,15 +1,15 @@
 /** @flow */
 
 import React, {useState} from 'react';
-import {Button} from '../../../../src/components/button/index.js';
-import {Slide} from '../../../../src/components/slide/index.js';
+import {BGS_LIGHT} from '../../../../.storybook/custom-backgrounds.js';
+import {Button, Slide} from '../../../../src/index.js';
 import Styles from './index.module.scss';
 
 /**
- * @description Slide viewport children demo.
- * @returns {Object<string,*>} React component.
+ * @description A viewport responsive slide demo.
+ * @returns {React.Component} React component.
  */
-function SlideDemoViewportChildren() {
+function ViewportResponsiveSlide() {
     const [slideAPI, setSlideAPI] = useState({
         switchBy: null,
         switchTo: null
@@ -44,7 +44,6 @@ function SlideDemoViewportChildren() {
                 onClick={() => {
                     slideAPI.switchBy && slideAPI.switchBy(-1);
                 }}
-                dark={true}
                 text={'PREVIOUS'}
             />
             <Button
@@ -52,11 +51,17 @@ function SlideDemoViewportChildren() {
                 onClick={() => {
                     slideAPI.switchBy && slideAPI.switchBy(1);
                 }}
-                dark={true}
                 text={'NEXT'}
             />
         </div>
     );
 }
 
-export {SlideDemoViewportChildren};
+export {ViewportResponsiveSlide};
+
+export default {
+    title: 'Slide',
+    parameters: {
+        backgrounds: BGS_LIGHT
+    }
+};

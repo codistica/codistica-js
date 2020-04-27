@@ -1,15 +1,15 @@
 /** @flow */
 
 import React, {useState} from 'react';
-import {DotNavigation} from '../../../../src/components/dot-navigation/index.js';
-import {Slide} from '../../../../src/components/slide/index.js';
+import {BGS_LIGHT} from '../../../../.storybook/custom-backgrounds.js';
+import {DotNavigation, Slide} from '../../../../src/index.js';
 import Styles from './index.module.scss';
 
 /**
- * @description Slide full screen demo.
- * @returns {Object<string,*>} React component.
+ * @description A full screen slide demo.
+ * @returns {React.Component} React component.
  */
-function SlideDemoFullScreen() {
+function FullScreenSlide() {
     const [slideAPI, setSlideAPI] = useState({
         switchBy: null,
         switchTo: null
@@ -55,4 +55,11 @@ function SlideDemoFullScreen() {
     );
 }
 
-export {SlideDemoFullScreen};
+export {FullScreenSlide};
+
+export default {
+    title: 'Slide',
+    parameters: {
+        backgrounds: BGS_LIGHT
+    }
+};

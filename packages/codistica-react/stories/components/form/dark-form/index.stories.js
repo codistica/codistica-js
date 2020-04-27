@@ -3,12 +3,14 @@
 import {objectUtils} from '@codistica/core';
 import classnames from 'classnames/dedupe';
 import React from 'react';
-import {Button} from '../../../src/components/button/index.js';
-import {Form} from '../../../src/components/form/index.js';
-import type {FormAPI} from '../../../src/components/form/index.js';
-import {Input} from '../../../src/components/input/index.js';
-import {InputPresets} from '../../../src/plugins/input-presets.js';
-import {InputValidators} from '../../../src/plugins/input-validators.js';
+import {BGS_DARK} from '../../../../.storybook/custom-backgrounds.js';
+import {
+    Button,
+    Form,
+    Input,
+    InputPresets,
+    InputValidators
+} from '../../../../src/index.js';
 import Styles from './index.module.scss';
 
 type Props = {};
@@ -23,8 +25,8 @@ type State = {
 /**
  * @classdesc Form demo.
  */
-class FormDemo extends React.Component<Props, State> {
-    formAPI: FormAPI | any;
+class DarkForm extends React.Component<Props, State> {
+    formAPI: Object;
 
     /**
      * @description Constructor.
@@ -90,7 +92,7 @@ class FormDemo extends React.Component<Props, State> {
     /**
      * @instance
      * @description React render method.
-     * @returns {Object<string,*>} React component.
+     * @returns {React.Component} React component.
      */
     render() {
         const mainClassName = classnames(
@@ -203,7 +205,7 @@ class FormDemo extends React.Component<Props, State> {
                     <Button
                         style={{marginTop: '30px'}}
                         text={'SUBMIT'}
-                        dark={false}
+                        dark={true}
                         onClick={this.submitForm}
                     />
                 </Form>
@@ -276,4 +278,19 @@ class FormDemo extends React.Component<Props, State> {
     }
 }
 
-export {FormDemo};
+/**
+ * @description Auxiliary functional component.
+ * @returns {React.Component} React component.
+ */
+function darkForm() {
+    return <DarkForm />;
+}
+
+export {darkForm};
+
+export default {
+    title: 'Form',
+    parameters: {
+        backgrounds: BGS_DARK
+    }
+};
