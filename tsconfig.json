@@ -16,7 +16,8 @@
         "forceConsistentCasingInFileNames": true,
         "useDefineForClassFields": true,
         "removeComments": false,
-        "types": ["node", "mocha", "chai", "webpack", "tapable", "react"]
+        "types": ["node", "mocha", "chai", "webpack", "tapable", "react"],
+        "allowSyntheticDefaultImports": true
     },
     "files": [
         "./packages/codistica-browser/src/index.js",
