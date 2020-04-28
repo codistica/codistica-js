@@ -18,6 +18,9 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+### Added
+- Coveralls integration to have feedback on code coverage.
+
 ## [2020-04-23]
 
 ### Added

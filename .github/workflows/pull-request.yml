@@ -6,7 +6,7 @@ on:
     types: [ opened, synchronize ]
 
 jobs:
-  internal_check:
+  build:
     name: Internal Check
     runs-on: ubuntu-latest
     steps:
@@ -22,5 +22,9 @@ jobs:
         run: yarn install
       - name: Build
         run: yarn build
-      - name: Run Tests Using Mocha
-        run: yarn test
+      - name: Create Coverage File
+        run: yarn coverage
+      - name: Report Coverage
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
