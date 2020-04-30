@@ -5,6 +5,8 @@
 import {eventListenerObjectSupport} from '@codistica/browser';
 import React from 'react';
 
+// TODO: CORRECTLY ANNOTATE RETURNED ELEMENT
+
 /**
  * @description Creates a higher order component with clickOutside event support.
  * @param {(Object<string,*>|string)} Component - React component.

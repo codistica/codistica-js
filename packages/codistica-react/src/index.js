@@ -20,6 +20,7 @@ export {Form} from './components/form';
 export {HoverIcon} from './components/hover-icon';
 export {Input} from './components/input';
 export {Slide} from './components/slide';
+export {TriangleDropdown} from './components/triangle-dropdown';
 
 // HOCs
 export {onClickOutsideHOC} from './hocs/on-click-outside-hoc';
@@ -36,3 +37,5 @@ export {InputPresets} from './plugins/input-presets';
 export {InputValidators} from './plugins/input-validators';
 
 // TODO: WRITE OWN classnames/dedupe LIKE UTILITY FUNCTION AND REPLACE IN PROJECTS
+// TODO: DEFINE/USE CUSTOMIZATION SYSTEM/CONVENTION
+// TODO: USE colors PROP AND style AND className FOR EACH COMPONENT CUSTOMIZABLE PIECE. LET THEM OVERRIDE INTERNALS.
