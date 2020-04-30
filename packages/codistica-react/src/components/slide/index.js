@@ -7,7 +7,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import {useSpring, animated} from 'react-spring';
 import {onDragHOC} from '../../hocs/on-drag-hoc.js';
 import {viewportMonitor} from '../../modules/viewport-monitor.js';
-import Styles from './index.module.scss';
+import styles from './index.module.scss';
 
 type Props = {
     className: string,
@@ -146,18 +146,18 @@ function Slide(props: Props) {
 
     const MASTER_CLASSNAME = classnames(
         {[className]: className},
-        {[Styles.master]: true}
+        {[styles.master]: true}
     );
 
     const TRACK_CLASSNAME = classnames(
-        {[Styles.trackRow]: isRow},
-        {[Styles.trackColumn]: !isRow}
+        {[styles.trackRow]: isRow},
+        {[styles.trackColumn]: !isRow}
     );
 
     const ITEM_CLASSNAME = classnames(
-        {[Styles.item]: justifyType !== 'dynamic'},
-        {[Styles.itemDynamicRow]: justifyType === 'dynamic' && isRow},
-        {[Styles.itemDynamicColumn]: justifyType === 'dynamic' && !isRow}
+        {[styles.item]: justifyType !== 'dynamic'},
+        {[styles.itemDynamicRow]: justifyType === 'dynamic' && isRow},
+        {[styles.itemDynamicColumn]: justifyType === 'dynamic' && !isRow}
     );
 
     const innerStyles = {

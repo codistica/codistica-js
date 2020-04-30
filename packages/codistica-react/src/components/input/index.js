@@ -6,7 +6,7 @@ import {eventUtils, arrayUtils} from '@codistica/core';
 import classnames from 'classnames/dedupe';
 import React from 'react';
 import uniqueId from 'react-html-id';
-import Styles from './index.module.scss';
+import styles from './index.module.scss';
 
 type Preset = {
     validators?: Validator | Array<Validator>,
@@ -664,13 +664,13 @@ class Input extends React.Component<Props, State> {
             isWarning
         } = this.state;
 
-        const mainClassName = classnames(Styles.main);
+        const mainClassName = classnames(styles.main);
 
         const inputClassName = classnames(
-            {[Styles._valid]: isValid},
-            {[Styles._invalid]: isValid !== null && !isValid},
-            {[Styles._isHighlight]: isHighlight},
-            {[Styles._isWarning]: isWarning}
+            {[styles._valid]: isValid},
+            {[styles._invalid]: isValid !== null && !isValid},
+            {[styles._isHighlight]: isHighlight},
+            {[styles._isWarning]: isWarning}
         );
 
         const classNames = {
@@ -678,7 +678,7 @@ class Input extends React.Component<Props, State> {
                 main: classnames(
                     containerClassName,
                     mainClassName,
-                    Styles.typeInput
+                    styles.typeInput
                 ),
                 input: classnames(className, inputClassName)
             },
@@ -686,13 +686,13 @@ class Input extends React.Component<Props, State> {
                 main: classnames(
                     containerClassName,
                     mainClassName,
-                    Styles.radioGroupContainer
+                    styles.radioGroupContainer
                 ),
-                inputParent: classnames(className, Styles.nonTypeInput),
+                inputParent: classnames(className, styles.nonTypeInput),
                 input: inputClassName
             },
             isCheckbox: {
-                main: classnames(className, mainClassName, Styles.nonTypeInput),
+                main: classnames(className, mainClassName, styles.nonTypeInput),
                 input: inputClassName
             }
         };
@@ -745,7 +745,7 @@ class Input extends React.Component<Props, State> {
                                 subId = this.nextUniqueId();
                                 output.push(
                                     <span
-                                        className={Styles.radioWrapper}
+                                        className={styles.radioWrapper}
                                         key={index}>
                                         <span
                                             style={style}
@@ -774,7 +774,7 @@ class Input extends React.Component<Props, State> {
                                                 {label}
                                             </label>
                                         </span>
-                                        <span className={Styles.radioTitle}>
+                                        <span className={styles.radioTitle}>
                                             {radioButtons[i]}
                                         </span>
                                     </span>

@@ -4,7 +4,7 @@
 
 import classnames from 'classnames/dedupe';
 import React from 'react';
-import Styles from './index.module.scss';
+import styles from './index.module.scss';
 
 type Props = {
     style: Object,
@@ -112,7 +112,7 @@ class DotNavigation extends React.Component<Props, State> {
         const {autoPosition} = this.state;
         const mainClassName = classnames(
             {[className]: className},
-            {[Styles.container]: true}
+            {[styles.container]: true}
         );
         return (
             <span
@@ -128,8 +128,8 @@ class DotNavigation extends React.Component<Props, State> {
                                 key={i}
                                 className={
                                     i === (auto ? autoPosition : dotIndex)
-                                        ? Styles.active
-                                        : Styles.inactive
+                                        ? styles.active
+                                        : styles.inactive
                                 }
                                 style={{height: size, width: size}}
                                 onClick={this.onSwitch.bind(this, i)}

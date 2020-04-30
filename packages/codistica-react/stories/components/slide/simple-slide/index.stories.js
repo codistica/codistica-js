@@ -3,7 +3,7 @@
 import React, {useState} from 'react';
 import {BGS_LIGHT} from '../../../../.storybook/custom-backgrounds.js';
 import {Button, Slide} from '../../../../src/index.js';
-import Styles from './index.module.scss';
+import styles from './index.module.scss';
 
 /**
  * @description A simple slide demo.
@@ -16,7 +16,7 @@ function SimpleSlide() {
     });
 
     return (
-        <div className={Styles.container}>
+        <div className={styles.container}>
             <Slide
                 masterStyle={{
                     height: '200px',
@@ -30,7 +30,7 @@ function SimpleSlide() {
                     (color, index) => (
                         <span
                             key={index}
-                            className={Styles.slideItem}
+                            className={styles.slideItem}
                             style={{backgroundColor: color}}>
                             {index}
                         </span>
@@ -38,14 +38,14 @@ function SimpleSlide() {
                 )}
             </Slide>
             <Button
-                className={Styles.button}
+                className={styles.button}
                 onClick={() => {
                     slideAPI.switchBy && slideAPI.switchBy(-1);
                 }}
                 text={'PREVIOUS'}
             />
             <Button
-                className={Styles.button}
+                className={styles.button}
                 onClick={() => {
                     slideAPI.switchBy && slideAPI.switchBy(1);
                 }}

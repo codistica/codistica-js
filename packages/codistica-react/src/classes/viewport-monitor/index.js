@@ -5,7 +5,7 @@
 import {objectUtils} from '@codistica/core';
 import {EventEmitter} from 'eventemitter3';
 import React from 'react';
-import Styles from './index.module.scss';
+import styles from './index.module.scss';
 
 type HOCProps = {
     style: Object,
@@ -81,8 +81,8 @@ class ViewportMonitor extends EventEmitter {
 
         // APPEND MEASURE BOXES TO DOM
         const measureAreas = [
-            Styles.measureBoxViewport,
-            Styles.measureBoxPercent
+            styles.measureBoxViewport,
+            styles.measureBoxPercent
         ].map((className) => {
             let elem = document.createElement('div');
             elem.className = className;

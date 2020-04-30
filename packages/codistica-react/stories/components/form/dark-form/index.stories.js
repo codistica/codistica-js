@@ -11,7 +11,7 @@ import {
     InputPresets,
     InputValidators
 } from '../../../../src/index.js';
-import Styles from './index.module.scss';
+import styles from './index.module.scss';
 
 type Props = {};
 
@@ -96,10 +96,10 @@ class DarkForm extends React.Component<Props, State> {
      */
     render() {
         const mainClassName = classnames(
-            {[Styles.form]: true},
-            {[Styles.isValid]: this.state.isValid},
-            {[Styles.isInvalid]: !this.state.isValid},
-            {[Styles._isBlinkForm]: this.state.isBlinkForm}
+            {[styles.form]: true},
+            {[styles.isValid]: this.state.isValid},
+            {[styles.isInvalid]: !this.state.isValid},
+            {[styles._isBlinkForm]: this.state.isBlinkForm}
         );
 
         return (
@@ -150,7 +150,7 @@ class DarkForm extends React.Component<Props, State> {
                         type={'password'}
                     />
                     <div>
-                        <span className={Styles.checkboxesContainer}>
+                        <span className={styles.checkboxesContainer}>
                             <span>
                                 <Input
                                     name={'check1'}
@@ -158,7 +158,7 @@ class DarkForm extends React.Component<Props, State> {
                                     value={'check1'}
                                     validators={InputValidators.presence}
                                 />
-                                <span className={Styles.inputTitle}>
+                                <span className={styles.inputTitle}>
                                     Check 1 (Optional)
                                 </span>
                             </span>
@@ -169,7 +169,7 @@ class DarkForm extends React.Component<Props, State> {
                                     value={'check2'}
                                     validators={InputValidators.presence}
                                 />
-                                <span className={Styles.inputTitle}>
+                                <span className={styles.inputTitle}>
                                     Check 2
                                 </span>
                             </span>
@@ -180,7 +180,7 @@ class DarkForm extends React.Component<Props, State> {
                                     value={'check3'}
                                     validators={InputValidators.presence}
                                 />
-                                <span className={Styles.inputTitle}>
+                                <span className={styles.inputTitle}>
                                     Check 3
                                 </span>
                             </span>
@@ -210,8 +210,8 @@ class DarkForm extends React.Component<Props, State> {
                     />
                 </Form>
 
-                <div className={Styles.infoContainer}>
-                    <div className={Styles.infoBox}>
+                <div className={styles.infoContainer}>
+                    <div className={styles.infoBox}>
                         <h5>[DATA]</h5>
                         {(() => {
                             let output = [];
@@ -237,7 +237,7 @@ class DarkForm extends React.Component<Props, State> {
                         })()}
                     </div>
 
-                    <div className={Styles.infoBox}>
+                    <div className={styles.infoBox}>
                         <h5>[REPORTS]</h5>
                         {(() => {
                             let title = '';

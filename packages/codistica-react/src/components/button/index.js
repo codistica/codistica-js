@@ -4,7 +4,7 @@
 
 import classnames from 'classnames/dedupe';
 import React from 'react';
-import Styles from './index.module.scss';
+import styles from './index.module.scss';
 
 type Props = {
     className: string,
@@ -83,10 +83,10 @@ class Button extends React.Component<Props> {
         } = this.props;
         const mainClassName = classnames(
             {[className]: className},
-            {[Styles.button]: true},
-            {[Styles.dark]: dark},
-            {[Styles.light]: !dark},
-            {[Styles.disabled]: disabled}
+            {[styles.button]: true},
+            {[styles.dark]: dark},
+            {[styles.light]: !dark},
+            {[styles.disabled]: disabled}
         );
         return (
             <button

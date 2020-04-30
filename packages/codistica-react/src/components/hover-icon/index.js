@@ -4,7 +4,7 @@
 
 import classnames from 'classnames/dedupe';
 import React from 'react';
-import Styles from './index.module.scss';
+import styles from './index.module.scss';
 
 type Props = {
     defaultImg: string,
@@ -35,14 +35,14 @@ HoverIcon.defaultProps = {
 function HoverIcon(props: Props) {
     const {defaultImg, onHoverImg, className, style, href, ...other} = props;
     const elementClassName = classnames(
-        {[Styles.container]: !href},
-        {[Styles.element]: true},
-        {[Styles.notAvailable]: !href}
+        {[styles.container]: !href},
+        {[styles.element]: true},
+        {[styles.notAvailable]: !href}
     );
     const anchorClassName = classnames(
-        {[Styles.container]: href},
-        {[Styles.anchor]: true},
-        {[Styles.switchChilds]: true}
+        {[styles.container]: href},
+        {[styles.anchor]: true},
+        {[styles.switchChilds]: true}
     );
     const HoverIconComponent = (
         <span
