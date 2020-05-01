@@ -1,0 +1,34 @@
+name: Release Monorepo Tags
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+
+      - name: Intall dependencies
+        run: yarn install
+
+      - name: Check if Codistica member
+        id: is-member
+        uses: codistica/actions/is-member@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          org: codistica
+          username: ${{ github.event.sender.login }}
+          throwError: false
+
+      - name: Release Tags
+        if: steps.is-member.outputs.result == '1'
+        id: tags
+        uses: codistica/actions/monorepo-release-tags@v1
+        with:
+          token: ${{ secrets.CODISTIBOT_TOKEN }}
+          monorepo-name: "@codistica"
