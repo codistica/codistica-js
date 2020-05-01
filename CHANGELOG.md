@@ -20,6 +20,7 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ### Added
 - Coveralls integration to have feedback on code coverage.
+- Automate tag creation on push to master.
 
 ## [2020-04-23]
 
