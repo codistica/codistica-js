@@ -4,15 +4,14 @@
 
 import {eventListenerObjectSupport} from '@codistica/browser';
 import React from 'react';
-
-// TODO: CORRECTLY ANNOTATE RETURNED ELEMENT
+import type {ComponentType} from 'react';
 
 /**
  * @description Creates a higher order component with clickOutside event support.
  * @param {(Object<string,*>|string)} Component - React component.
  * @returns {Object<string,*>} Created higher order component.
  */
-function onClickOutsideHOC(Component: Object | string) {
+function onClickOutsideHOC(Component: ComponentType<any> | string) {
     type HOCProps = {
         children: any,
         onClickOutside: Function,
@@ -36,7 +35,7 @@ function onClickOutsideHOC(Component: Object | string) {
             forwardedRef: null
         };
 
-        componentRef: Object;
+        componentRef: any;
         isOutside: boolean;
 
         /**
@@ -123,9 +122,8 @@ function onClickOutsideHOC(Component: Object | string) {
          * @param {Object<string,*>} e - Triggering event.
          * @returns {void} Void.
          */
-        onStart(e: Object) {
+        onStart(e: {[string]: any}) {
             if (e.type === 'touchstart') {
-                e.preventDefault(); // PREVENT MOUSE EVENTS FROM FIRING
                 if (e.touches.length !== 1) {
                     return;
                 }
@@ -140,10 +138,9 @@ function onClickOutsideHOC(Component: Object | string) {
          * @param {Object<string,*>} e - Triggering event.
          * @returns {void} Void.
          */
-        onEnd(e: Object) {
+        onEnd(e: {[string]: any}) {
             let target = null;
             if (e.type === 'touchend') {
-                e.preventDefault(); // PREVENT MOUSE EVENTS FROM FIRING
                 if (e.touches.length === 1) {
                     this.isOutside = false;
                     return;
@@ -171,7 +168,7 @@ function onClickOutsideHOC(Component: Object | string) {
          * @param {Object<string,*>} ref - Component reference.
          * @returns {void} Void.
          */
-        setComponentRef(ref: Object) {
+        setComponentRef(ref: any) {
             // FORWARD REF
             const {forwardedRef} = this.props;
             if (typeof forwardedRef === 'function') {
@@ -190,7 +187,7 @@ function onClickOutsideHOC(Component: Object | string) {
         /**
          * @instance
          * @description React render method.
-         * @returns {React.Component} React component.
+         * @returns {Object<string,*>} React component.
          */
         render() {
             const {
@@ -207,9 +204,11 @@ function onClickOutsideHOC(Component: Object | string) {
         }
     }
 
-    return (React: Function).forwardRef((props: Object, ref: Function) => {
-        return <HOC {...props} forwardedRef={ref} />;
-    });
+    return (React: Function).forwardRef(
+        (props: {[string]: any}, ref: Function) => {
+            return <HOC {...props} forwardedRef={ref} />;
+        }
+    );
 }
 
 export {onClickOutsideHOC};

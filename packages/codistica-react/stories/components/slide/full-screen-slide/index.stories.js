@@ -7,7 +7,7 @@ import styles from './index.module.scss';
 
 /**
  * @description A full screen slide demo.
- * @returns {React.Component} React component.
+ * @returns {Object<string,*>} React component.
  */
 function FullScreenSlide() {
     const [slideAPI, setSlideAPI] = useState({

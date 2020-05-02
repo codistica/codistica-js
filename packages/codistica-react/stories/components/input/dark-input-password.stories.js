@@ -11,7 +11,7 @@ import {
 
 /**
  * @description A dark input password demo.
- * @returns {React.Component} React component.
+ * @returns {Object<string,*>} React component.
  */
 function DarkInputPassword() {
     return (

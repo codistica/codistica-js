@@ -55,7 +55,7 @@ class Button extends React.Component<Props> {
      * @param {Object<string,*>} e - Triggering event.
      * @returns {void} Void.
      */
-    onClick(e: Object) {
+    onClick(e: {[string]: any}) {
         if (this.props.disabled) {
             if (typeof this.props.onClickDisabled === 'function') {
                 this.props.onClickDisabled(e);
@@ -70,7 +70,7 @@ class Button extends React.Component<Props> {
     /**
      * @instance
      * @description React render method.
-     * @returns {React.Component} React component.
+     * @returns {Object<string,*>} React component.
      */
     render() {
         const {
@@ -82,7 +82,7 @@ class Button extends React.Component<Props> {
             ...others
         } = this.props;
         const mainClassName = classnames(
-            {[className]: className},
+            {[className]: !!className},
             {[styles.button]: true},
             {[styles.dark]: dark},
             {[styles.light]: !dark},

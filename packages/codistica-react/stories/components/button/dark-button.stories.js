@@ -6,7 +6,7 @@ import {Button} from '../../../src/index.js';
 
 /**
  * @description A dark button demo.
- * @returns {React.Component} React component.
+ * @returns {Object<string,*>} React component.
  */
 function DarkButton() {
     return <Button text={'Dark Button'} dark={true} />;

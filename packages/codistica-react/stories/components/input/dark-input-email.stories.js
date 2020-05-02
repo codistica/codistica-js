@@ -6,7 +6,7 @@ import {Input, inputPresets} from '../../../src/index.js';
 
 /**
  * @description A dark input email demo.
- * @returns {React.Component} React component.
+ * @returns {Object<string,*>} React component.
  */
 function DarkInputEmail() {
     return (

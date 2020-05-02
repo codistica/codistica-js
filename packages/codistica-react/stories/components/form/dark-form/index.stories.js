@@ -26,7 +26,7 @@ type State = {
  * @classdesc Form demo.
  */
 class DarkForm extends React.Component<Props, State> {
-    formInstance: {[string]: any};
+    formInstance: any;
 
     /**
      * @description Constructor.
@@ -87,7 +87,7 @@ class DarkForm extends React.Component<Props, State> {
     /**
      * @instance
      * @description React render method.
-     * @returns {React.Component} React component.
+     * @returns {Object<string,*>} React component.
      */
     render() {
         const mainClassName = classnames(
@@ -284,7 +284,7 @@ class DarkForm extends React.Component<Props, State> {
 
 /**
  * @description Auxiliary functional component.
- * @returns {React.Component} React component.
+ * @returns {Object<string,*>} React component.
  */
 function darkForm() {
     return <DarkForm />;

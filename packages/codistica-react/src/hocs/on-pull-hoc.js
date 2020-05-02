@@ -5,6 +5,7 @@
 // TODO: WORK IN PROGRESS.
 
 import React from 'react';
+import type {ComponentType} from 'react';
 // import {eventListenerObjectSupport} from '@codistica/browser';
 
 /**
@@ -12,7 +13,7 @@ import React from 'react';
  * @param {(Object<string,*>|string)} Component - React component.
  * @returns {Object<string,*>} Created higher order component.
  */
-function onPullHOC(Component: Object | string) {
+function onPullHOC(Component: ComponentType<any> | string) {
     type HOCProps = {
         children: any,
         onPull: Function,
@@ -36,7 +37,7 @@ function onPullHOC(Component: Object | string) {
             forwardedRef: null
         };
 
-        componentRef: Object;
+        componentRef: any;
 
         /**
          * @description Constructor.
@@ -61,7 +62,7 @@ function onPullHOC(Component: Object | string) {
          * @param {Object<string,*>} ref - Component reference.
          * @returns {void} Void.
          */
-        setComponentRef(ref: Object) {
+        setComponentRef(ref: any) {
             // FORWARD REF
             const {forwardedRef} = this.props;
             if (typeof forwardedRef === 'function') {
@@ -80,7 +81,7 @@ function onPullHOC(Component: Object | string) {
         /**
          * @instance
          * @description React render method.
-         * @returns {React.Component} React component.
+         * @returns {Object<string,*>} React component.
          */
         render() {
             const {onPull, children, forwardedRef, ...others} = this.props;
@@ -92,9 +93,11 @@ function onPullHOC(Component: Object | string) {
         }
     }
 
-    return (React: Function).forwardRef((props: Object, ref: Function) => {
-        return <HOC {...props} forwardedRef={ref} />;
-    });
+    return (React: Function).forwardRef(
+        (props: {[string]: any}, ref: Function) => {
+            return <HOC {...props} forwardedRef={ref} />;
+        }
+    );
 }
 
 export {onPullHOC};

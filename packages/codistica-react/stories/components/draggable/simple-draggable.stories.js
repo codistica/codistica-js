@@ -6,7 +6,7 @@ import {Draggable} from '../../../src/index.js';
 
 /**
  * @description A draggable demo.
- * @returns {React.Component} React component.
+ * @returns {Object<string,*>} React component.
  */
 function SimpleDraggable() {
     return (

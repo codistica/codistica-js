@@ -8,11 +8,11 @@ import styles from './index.module.scss';
 
 type Props = {
     title: string,
-    items: Object,
+    items: {[string]: string},
     autoClose: boolean,
     autoSpacing: 'top' | 'bottom' | null,
     className: string,
-    style: Object
+    style: {[string]: any}
 };
 
 TriangleDropdown.defaultProps = {
@@ -32,14 +32,14 @@ const Div = onClickOutsideHOC('div');
  * @property {Object<string,string>} [items={}] - Menu items.
  * @property {boolean} [autoClose=false] - Auto close menu on click outside.
  * @property {('top'|'bottom'|null)} [autoSpacing=null] - Auto reserve space for menu opening.
- * @property {string} [className=''] - Component className.
- * @property {Object<string,*>} [style={}] - Component style.
+ * @property {string} [className=''] - React prop.
+ * @property {Object<string,*>} [style={}] - React prop.
  */
 
 /**
  * @description A modern triangle dropdown list.
  * @param {triangleDropdownPropsType} props - Props.
- * @returns {React.Component} Component.
+ * @returns {Object<string,*>} Component.
  */
 function TriangleDropdown(props: Props) {
     const containerRef = useRef(null);
@@ -81,7 +81,7 @@ function TriangleDropdown(props: Props) {
                         ? headerHeight + listHeight
                         : undefined
             }}
-            onClickOutside={() => open && setOpen(false)}>
+            onClickOutside={autoClose ? () => open && setOpen(false) : null}>
             <div className={styles.header} onClick={() => setOpen(!open)}>
                 <div
                     className={styles.triangleRight}
@@ -118,7 +118,7 @@ function TriangleDropdown(props: Props) {
      * @param {Object<string,*>} ref - Master element reference.
      * @returns {void} Void.
      */
-    function setContainerRef(ref: Object) {
+    function setContainerRef(ref: any) {
         containerRef.current = ref;
         if (open === null) {
             setOpen(false);

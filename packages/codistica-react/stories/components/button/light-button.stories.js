@@ -6,7 +6,7 @@ import {Button} from '../../../src/index.js';
 
 /**
  * @description A light button demo.
- * @returns {React.Component} React component.
+ * @returns {Object<string,*>} React component.
  */
 function LightButton() {
     return <Button text={'Light Button'} />;

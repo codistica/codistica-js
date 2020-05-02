@@ -7,7 +7,7 @@ import React from 'react';
 import styles from './index.module.scss';
 
 type Props = {
-    style: Object,
+    style: {[string]: any},
     className: string,
     quantity: number,
     dotIndex: number,
@@ -95,7 +95,7 @@ class DotNavigation extends React.Component<Props, State> {
     /**
      * @instance
      * @description React render method.
-     * @returns {React.Component} React component.
+     * @returns {Object<string,*>} React component.
      */
     render() {
         const {
@@ -107,11 +107,12 @@ class DotNavigation extends React.Component<Props, State> {
             direction,
             size,
             style,
+            waitForCallback,
             ...others
         } = this.props;
         const {autoPosition} = this.state;
         const mainClassName = classnames(
-            {[className]: className},
+            {[className]: !!className},
             {[styles.container]: true}
         );
         return (

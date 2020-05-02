@@ -5,16 +5,17 @@
 import {objectUtils} from '@codistica/core';
 import {EventEmitter} from 'eventemitter3';
 import React from 'react';
+import type {ComponentType} from 'react';
 import styles from './index.module.scss';
 
 type HOCProps = {
-    style: Object,
+    style: {[string]: any},
     children: any,
     forwardedRef: Function
 };
 
 type HOCState = {
-    viewportStyle: Object
+    viewportStyle: {[string]: any}
 };
 
 /**
@@ -110,7 +111,7 @@ class ViewportMonitor extends EventEmitter {
      * @param {Object<string,*>} e - Triggering event.
      * @returns {void} Void.
      */
-    viewportFix(e: Object) {
+    viewportFix(e?: {[string]: any}) {
         let outerMeasure = null;
         let innerMeasure = null;
         let deltaVh = null;
@@ -120,7 +121,7 @@ class ViewportMonitor extends EventEmitter {
         let cssRoot = null;
 
         if (typeof e === 'object' && e.type === 'touch') {
-            e.preventDefault(); // PREVENT MOUSE EVENTS FROM FIRING
+            e.preventDefault(); // PREVENT MOUSE EVENTS FROM FIRING // TODO: REMOVE?
         }
 
         // GET WINDOW RATIO
@@ -244,7 +245,7 @@ class ViewportMonitor extends EventEmitter {
      * @param {(Object<string,*>|string)} Component - React component.
      * @returns {Object<string,*>} Created higher order component.
      */
-    HOC(Component: Object | string) {
+    HOC(Component: ComponentType<any> | string) {
         const that = this; // ALLOW THIS METHOD RETURNED HOCs TO BE TIED TO THE CLASS INSTANCE :)
 
         /**
@@ -310,7 +311,7 @@ class ViewportMonitor extends EventEmitter {
             /**
              * @instance
              * @description React render method.
-             * @returns {React.Component} React component.
+             * @returns {Object<string,*>} React component.
              */
             render() {
                 const {children, forwardedRef, style, ...others} = this.props;

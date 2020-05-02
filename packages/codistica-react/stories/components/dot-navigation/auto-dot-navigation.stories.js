@@ -6,7 +6,7 @@ import {DotNavigation} from '../../../src/index.js';
 
 /**
  * @description An auto dot navigation demo.
- * @returns {React.Component} React component.
+ * @returns {Object<string,*>} React component.
  */
 function AutoDotNavigation() {
     return <DotNavigation quantity={5} direction={'column'} />;

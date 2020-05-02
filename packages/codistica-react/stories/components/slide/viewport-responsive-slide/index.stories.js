@@ -7,7 +7,7 @@ import styles from './index.module.scss';
 
 /**
  * @description A viewport responsive slide demo.
- * @returns {React.Component} React component.
+ * @returns {Object<string,*>} React component.
  */
 function ViewportResponsiveSlide() {
     const [slideAPI, setSlideAPI] = useState({

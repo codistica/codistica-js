@@ -220,7 +220,7 @@ class InputText extends React.Component<Props, State> {
     /**
      * @instance
      * @description React render method.
-     * @returns {React.Component} React component.
+     * @returns {Object<string,*>} React component.
      */
     render() {
         const {id, name, label, type, placeholder, status} = this.props;

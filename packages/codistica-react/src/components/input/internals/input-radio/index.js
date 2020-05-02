@@ -15,7 +15,7 @@ type Props = {
     status: 'valid' | 'invalid' | 'highlight' | 'warning' | null,
     onNewValue: Function,
     containerClassName: string,
-    containerStyle: {[string]: string}
+    containerStyle: {[string]: any}
 };
 
 type State = {
@@ -81,7 +81,7 @@ class InputRadio extends React.Component<Props, State> {
     /**
      * @instance
      * @description React render method.
-     * @returns {React.Component} React component.
+     * @returns {Object<string,*>} React component.
      */
     render() {
         const {

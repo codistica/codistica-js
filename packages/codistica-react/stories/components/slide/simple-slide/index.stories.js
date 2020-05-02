@@ -7,7 +7,7 @@ import styles from './index.module.scss';
 
 /**
  * @description A simple slide demo.
- * @returns {React.Component} React component.
+ * @returns {Object<string,*>} React component.
  */
 function SimpleSlide() {
     const [slideAPI, setSlideAPI] = useState({

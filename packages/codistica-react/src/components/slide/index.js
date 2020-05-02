@@ -11,10 +11,10 @@ import styles from './index.module.scss';
 
 type Props = {
     className: string,
-    style: Object,
-    masterStyle: Object,
-    trackStyle: Object,
-    itemStyle: Object,
+    style: {[string]: any},
+    masterStyle: {[string]: any},
+    trackStyle: {[string]: any},
+    itemStyle: {[string]: any},
     direction: 'row' | 'column',
     itemsPerView: number,
     startingPosition: number,
@@ -100,7 +100,7 @@ const DivDraggable = onDragHOC(Div);
 /**
  * @description A simple yet powerful slide component.
  * @param {slidePropsType} props - Component props.
- * @returns {React.Component} React component.
+ * @returns {Object<string,*>} React component.
  */
 function Slide(props: Props) {
     const {
@@ -332,7 +332,7 @@ function Slide(props: Props) {
      * @param {Object<string,*>} e - Triggering event.
      * @returns {void} Void.
      */
-    function onDrag(e: Object) {
+    function onDrag(e: {[string]: any}) {
         setTranslateValue(
             (translateValue || 0) - (isRow ? e.deltaX : e.deltaY)
         );
@@ -433,13 +433,16 @@ function Slide(props: Props) {
      * @param {Object<string,*>} ref - Master element reference.
      * @returns {void} Void.
      */
-    function setRefs(ref: Object) {
+    function setRefs(ref: any) {
         masterRef.current = ref;
         itemsRef.current = masterRef.current
             ? masterRef.current.firstElementChild.children
             : [];
     }
 }
+
+// TODO: RECALCULATE AND UPDATE translateValue (WITHOUT CALLING setTranslateValue?) WHEN RESIZING TO AVOID BUG WHEN DRAGGING AFTER RESIZING.
+// TODO: OR! STORE RELATIVE UNITS VALUES IN translateValue! (CREATE NEEDED AUX FUNCTIONS) (ALWAYS USE RELATIVE UNITS? EVEN WHEN NOT RESPONSIVE? TO SIMPLIFY THINGS)
 
 // TODO: SUPPORT FOR DRAG (SET POINTER TOO)
 // TODO: SUPPORT FOR SCROLL AND SWIPE (smartScroll, WITH SETTINGS)

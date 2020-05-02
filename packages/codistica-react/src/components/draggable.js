@@ -8,7 +8,7 @@ import {onDragHOC} from '../hocs/on-drag-hoc.js';
 
 type Props = {
     children: any,
-    style: Object,
+    style: {[string]: any},
     className: string,
     noLimit: boolean,
     isolate: boolean
@@ -43,7 +43,7 @@ class Draggable extends React.Component<Props, State> {
         isolate: true
     };
 
-    elementRef: Object;
+    elementRef: any;
     containerHeight: number;
     containerWidth: number;
 
@@ -97,7 +97,7 @@ class Draggable extends React.Component<Props, State> {
      * @param {Object<string,*>} e - Triggering event.
      * @returns {void} Void.
      */
-    onDrag(e: Object) {
+    onDrag(e: {[string]: any}) {
         this.setState((prevState) => {
             const limitTop =
                 this.containerHeight - this.elementRef.offsetHeight;
@@ -123,7 +123,7 @@ class Draggable extends React.Component<Props, State> {
      * @param {Object<string,*>} ref - Component reference.
      * @returns {void} Void.
      */
-    setElementRef(ref: Object) {
+    setElementRef(ref: any) {
         // SAVE REF
         this.elementRef = ref;
     }
@@ -131,7 +131,7 @@ class Draggable extends React.Component<Props, State> {
     /**
      * @instance
      * @description React render method.
-     * @returns {React.Component} React component.
+     * @returns {Object<string,*>} React component.
      */
     render() {
         const {
@@ -143,7 +143,7 @@ class Draggable extends React.Component<Props, State> {
             ...others
         } = this.props;
         const {position, top, left} = this.state;
-        const mainClassName = classnames({[className]: className});
+        const mainClassName = classnames({[className]: !!className});
         return (
             <Div
                 {...others}

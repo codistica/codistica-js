@@ -5,6 +5,7 @@
 import {eventListenerObjectSupport} from '@codistica/browser';
 import {log} from '@codistica/core';
 import React from 'react';
+import type {ComponentType} from 'react';
 
 // TODO: ADD DAMPING OPTION (FUNCTION)
 // TODO: ADD MOMENTUM OPTION (COEFFICIENT)
@@ -15,10 +16,10 @@ import React from 'react';
  * @param {(Object<string,*>|string)} Component - React component.
  * @returns {Object<string,*>} Created higher order component.
  */
-function onDragHOC(Component: Object | string) {
+function onDragHOC(Component: ComponentType<any> | string) {
     type HOCProps = {
         children: any,
-        style: Object,
+        style: {[string]: any},
         isolate: boolean,
         onDragStart: Function,
         onDrag: Function,
@@ -56,7 +57,7 @@ function onDragHOC(Component: Object | string) {
             forwardedRef: null
         };
 
-        componentRef: Object;
+        componentRef: any;
         touchIdentifier: number | null;
         xPos: number;
         yPos: number;
@@ -155,7 +156,7 @@ function onDragHOC(Component: Object | string) {
          * @param {Object<string,*>} e - Triggering event.
          * @returns {void} Void.
          */
-        onStart(e: Object) {
+        onStart(e: {[string]: any}) {
             // TODO: ATTACH TO REACT EVENTS IN RENDER INSTEAD? CAN BREAK IF PROPS CHAIN IS INTERRUPTED
 
             if (
@@ -209,7 +210,7 @@ function onDragHOC(Component: Object | string) {
          * @param {Object<string,*>} e - Triggering event.
          * @returns {void} Void.
          */
-        onEnd(e: Object) {
+        onEnd(e: {[string]: any}) {
             // TODO: ATTACH TO REACT EVENTS IN RENDER INSTEAD? CAN BREAK IF PROPS CHAIN IS INTERRUPTED
 
             if (
@@ -258,7 +259,7 @@ function onDragHOC(Component: Object | string) {
          * @param {Object<string,*>} e - Triggering event.
          * @returns {void} Void.
          */
-        onMove(e: Object) {
+        onMove(e: {[string]: any}) {
             if (
                 this.state.isGrabbed &&
                 (e.type === 'mousemove' ||
@@ -294,7 +295,7 @@ function onDragHOC(Component: Object | string) {
          * @param {Object<string,*>} ref - Component reference.
          * @returns {void} Void.
          */
-        setComponentRef(ref: Object) {
+        setComponentRef(ref: any) {
             // FORWARD REF
             const {forwardedRef} = this.props;
             if (typeof forwardedRef === 'function') {
@@ -313,7 +314,7 @@ function onDragHOC(Component: Object | string) {
         /**
          * @instance
          * @description React render method.
-         * @returns {React.Component} React component.
+         * @returns {Object<string,*>} React component.
          */
         render() {
             const {
@@ -338,9 +339,11 @@ function onDragHOC(Component: Object | string) {
         }
     }
 
-    return (React: Function).forwardRef((props: Object, ref: Function) => {
-        return <HOC {...props} forwardedRef={ref} />;
-    });
+    return (React: Function).forwardRef(
+        (props: {[string]: any}, ref: Function) => {
+            return <HOC {...props} forwardedRef={ref} />;
+        }
+    );
 }
 
 export {onDragHOC};

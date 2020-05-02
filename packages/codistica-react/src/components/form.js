@@ -12,7 +12,7 @@ type Props = {
     onMount: Function,
     children: any,
     className: string,
-    style: {[string]: string}
+    style: {[string]: any}
 };
 
 /**
@@ -208,7 +208,7 @@ class Form extends React.Component<Props> {
     /**
      * @instance
      * @description React render method.
-     * @returns {React.Component} React component.
+     * @returns {Object<string,*>} React component.
      */
     render() {
         const {

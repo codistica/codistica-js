@@ -9,7 +9,7 @@ import './app.css';
 
 /**
  * @description App main component.
- * @returns {React.Component} App main component.
+ * @returns {Object<string,*>} App main component.
  */
 function App() {
     return (

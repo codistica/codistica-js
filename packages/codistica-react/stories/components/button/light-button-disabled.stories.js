@@ -6,7 +6,7 @@ import {Button} from '../../../src/index.js';
 
 /**
  * @description A light button disabled demo.
- * @returns {React.Component} React component.
+ * @returns {Object<string,*>} React component.
  */
 function LightButtonDisabled() {
     return <Button text={'Disabled Button'} disabled={true} />;

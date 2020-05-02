@@ -4,6 +4,7 @@
 
 import {eventListenerObjectSupport} from '@codistica/browser';
 import React from 'react';
+import type {ComponentType} from 'react';
 
 type HOCProps = {
     isolate: boolean,
@@ -129,7 +130,7 @@ class OverscrollMonitor {
      * @param {Object<string,*>} e - Scrolling event.
      * @returns {void} Void.
      */
-    eventKiller(e: Object) {
+    eventKiller(e: {[string]: any}) {
         // IMPORTANT. KILL PROPAGATED EVENTS
         if (this.killPropagated && e.cancelable) {
             e.preventDefault();
@@ -143,7 +144,7 @@ class OverscrollMonitor {
      * @param {overscrollMonitorHOCPropsType} props - HOC Props.
      * @returns {void} Void.
      */
-    overscrollBlocker(e: Object, props: HOCProps) {
+    overscrollBlocker(e: {[string]: any}, props: HOCProps) {
         // TODO: OPTION TO RESPECT BROWSER BEHAVIOUR AT LIMITS
         // TODO: OPTION TO ALLOW BODY SCROLLING (APPLY HANDLERS TO BODY (OR documentElement?)) (safePageScroll?)
         // TODO: FORCE SCROLL STOP WHEN #document TARGET? FIXING HEIGHT OR SETTING overflow: hidden. WITH OPTION IN HOC
@@ -167,11 +168,11 @@ class OverscrollMonitor {
         if (e.type === 'touchstart') {
             this.touchPoint = e.touches[0].screenY;
             this.multiTouch = e.touches.length > 1;
-            e.preventDefault(); // PREVENT MOUSE EVENTS FROM FIRING
+            e.preventDefault(); // PREVENT MOUSE EVENTS FROM FIRING // TODO: REMOVE?
             return;
         } else if (e.type === 'touchend') {
             this.multiTouch = e.touches.length > 1;
-            e.preventDefault(); // PREVENT MOUSE EVENTS FROM FIRING
+            e.preventDefault(); // PREVENT MOUSE EVENTS FROM FIRING // TODO: REMOVE?
             return;
         }
 
@@ -232,7 +233,7 @@ class OverscrollMonitor {
      * @param {(Object<string,*>|string)} Component - React component.
      * @returns {Object<string,*>} Created higher order component.
      */
-    HOC(Component: Object | string) {
+    HOC(Component: ComponentType<any> | string) {
         const that = this; // ALLOW THIS METHOD RETURNED HOCs TO BE TIED TO THE CLASS INSTANCE :)
 
         /**
@@ -245,7 +246,7 @@ class OverscrollMonitor {
                 forwardedRef: null
             };
 
-            componentRef: Object;
+            componentRef: any;
             boundHandler: Function;
 
             /**
@@ -263,7 +264,7 @@ class OverscrollMonitor {
                  * @param {Event} e - Event object.
                  * @returns {void} Void.
                  */
-                this.boundHandler = function boundHandler(e: Object) {
+                this.boundHandler = function boundHandler(e: {[string]: any}) {
                     return that.overscrollBlocker(e, props);
                 };
 
@@ -351,7 +352,7 @@ class OverscrollMonitor {
              * @param {Object<string,*>} ref - Component reference.
              * @returns {void} Void.
              */
-            setComponentRef(ref: Object) {
+            setComponentRef(ref: any) {
                 // FORWARD REF
                 const {forwardedRef} = this.props;
                 if (typeof forwardedRef === 'function') {
@@ -370,7 +371,7 @@ class OverscrollMonitor {
             /**
              * @instance
              * @description React render method.
-             * @returns {React.Component} React component.
+             * @returns {Object<string,*>} React component.
              */
             render() {
                 const {children, forwardedRef, isolate, ...others} = this.props;

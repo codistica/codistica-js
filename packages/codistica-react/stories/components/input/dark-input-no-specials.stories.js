@@ -6,7 +6,7 @@ import {Input, inputBlockers, inputFilters} from '../../../src/index.js';
 
 /**
  * @description A dark input no specials demo.
- * @returns {React.Component} React component.
+ * @returns {Object<string,*>} React component.
  */
 function DarkInputNoSpecials() {
     return (

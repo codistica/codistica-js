@@ -6,7 +6,7 @@ import {TriangleDropdown} from '../../../src/index.js';
 
 /**
  * @description A simple triangle dropdown demo.
- * @returns {React.Component} React component.
+ * @returns {Object<string,*>} React component.
  */
 function SimpleTriangleDropdown() {
     return (

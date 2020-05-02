@@ -15,6 +15,8 @@
 
 // TODO: SAVE TYPE ERRORS IN AN ARRAY TO BE USED AFTER VALIDATION.
 
+// TODO: ALLOW PASSING CONSTRUCTOR AS TYPE (EX: Date) TO CHECK instanceof AND CHECK USAGES TO APPLY WHERE POSSIBLE.
+
 /**
  * @typedef {(typesRuleType|typesRuleSetType)} typesSchemaType
  */
