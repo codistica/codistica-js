@@ -6,14 +6,14 @@ import {BGS_DARK} from '../../../.storybook/custom-backgrounds.js';
 import {socialIcons} from '../../../src/index.js';
 
 /**
- * @description A Facebook icon demo.
+ * @description A Facebook not available icon demo.
  * @returns {Object<string,*>} React component.
  */
-function Facebook() {
-    return <socialIcons.Facebook href={'https://www.facebook.com'} />;
+function FacebookNotAvailable() {
+    return <socialIcons.Facebook />;
 }
 
-export {Facebook};
+export {FacebookNotAvailable};
 
 export default {
     title: 'Social Icons',

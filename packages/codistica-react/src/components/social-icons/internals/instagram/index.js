@@ -11,12 +11,12 @@ type Props = {
     height: string | number,
     width: string | number,
     href: ?string,
-    style: Object
+    style: {[string]: any}
 };
 
 Instagram.defaultProps = {
-    height: 40,
-    width: 'auto',
+    height: undefined,
+    width: undefined,
     href: null,
     style: {}
 };
@@ -26,20 +26,30 @@ Instagram.defaultProps = {
  * @property {string} [height=40] - Icon height.
  * @property {string} [width='auto'] - Icon width.
  * @property {(string|null)} [href=null] - Social media link.
- * @property {Object} [style={}] - Style object.
+ * @property {Object<string,*>} [style={}] - React prop.
  */
 
 /**
  * @description Instagram icon component.
  * @param {instagramPropsType} props - Props.
- * @returns {React.Component} Component.
+ * @returns {Object<string,*>} Component.
  */
 function Instagram(props: Props) {
     const {height, width, href, style, ...others} = props;
+    const sizeStyle =
+        !height && !width
+            ? {
+                  height: 40,
+                  width: 'auto'
+              }
+            : {
+                  height: height ? height : 'auto',
+                  width: width ? width : 'auto'
+              };
     return (
         <HoverIcon
             {...others}
-            style={{height, width, ...style}}
+            style={{...sizeStyle, ...(style: any)}}
             onHoverImg={instagramColorIcon}
             defaultImg={instagramGrayIcon}
             href={href}

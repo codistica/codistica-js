@@ -4,13 +4,14 @@
 
 import classnames from 'classnames/dedupe';
 import React from 'react';
+import {tooltipHOC} from '../../hocs/tooltip-hoc/index.js';
 import styles from './index.module.scss';
 
 type Props = {
     defaultImg: string,
     onHoverImg: string,
     className: string,
-    style: Object,
+    style: {[string]: any},
     href: ?string
 };
 
@@ -19,6 +20,8 @@ HoverIcon.defaultProps = {
     style: {},
     href: null
 };
+
+const WithTooltip = tooltipHOC('span');
 
 /**
  * @typedef hoverIconPropsType
@@ -30,7 +33,7 @@ HoverIcon.defaultProps = {
 /**
  * @description A component for switching icons on hover.
  * @param {hoverIconPropsType} props - Props.
- * @returns {React.Component} Component.
+ * @returns {Object<string,*>} Component.
  */
 function HoverIcon(props: Props) {
     const {defaultImg, onHoverImg, className, style, href, ...other} = props;
@@ -44,25 +47,27 @@ function HoverIcon(props: Props) {
         {[styles.anchor]: true},
         {[styles.switchChilds]: true}
     );
+    const Element = href ? 'span' : WithTooltip;
     const HoverIconComponent = (
-        <span
+        <Element
             {...other}
             className={elementClassName}
             onTouchStart={() => {}}
-            tabIndex={-1}>
+            tabIndex={-1}
+            tooltipText={href ? undefined : '🚫'}>
             <img
                 src={defaultImg}
                 alt={'icon'}
                 style={style}
-                className={className}
+                className={className ? className : undefined}
             />
             <img
                 src={onHoverImg}
                 alt={'icon'}
                 style={style}
-                className={className}
+                className={className ? className : undefined}
             />
-        </span>
+        </Element>
     );
     return href ? (
         <a

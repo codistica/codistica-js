@@ -15,21 +15,28 @@
   border: none;
 }
 
-.container img:last-child,
-.switchChilds img:last-child {
+.container img:last-of-type,
+.switchChilds img:last-of-type {
   display: none;
 }
 
-.switchChilds:hover img:first-child,
-.switchChilds:focus img:first-child {
+.switchChilds:hover img:first-of-type,
+.switchChilds:focus img:first-of-type {
   display: none;
 }
 
-.switchChilds:hover img:last-child,
-.switchChilds:focus img:last-child {
+.switchChilds:hover img:last-of-type,
+.switchChilds:focus img:last-of-type {
   display: inline;
 }
 
 .notAvailable {
   cursor: not-allowed;
+}
+
+.container:hover,
+.container:focus,
+.container:active {
+  outline: none;
+  box-shadow: none;
 }
