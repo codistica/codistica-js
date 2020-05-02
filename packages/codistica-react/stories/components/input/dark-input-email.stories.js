@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {BGS_DARK} from '../../../.storybook/custom-backgrounds.js';
-import {Input, InputPresets} from '../../../src/index.js';
+import {Input, inputPresets} from '../../../src/index.js';
 
 /**
  * @description A dark input email demo.
@@ -10,7 +10,10 @@ import {Input, InputPresets} from '../../../src/index.js';
  */
 function DarkInputEmail() {
     return (
-        <Input placeholder={'Email Validation'} presets={InputPresets.email} />
+        <Input
+            placeholder={'Email Validation'}
+            presets={inputPresets.emailPreset}
+        />
     );
 }
 

@@ -8,8 +8,8 @@ import {
     Button,
     Form,
     Input,
-    InputPresets,
-    InputValidators
+    inputPresets,
+    inputValidators
 } from '../../../../src/index.js';
 import styles from './index.module.scss';
 
@@ -18,15 +18,15 @@ type Props = {};
 type State = {
     isValid: boolean,
     isBlinkForm: boolean,
-    report: Object,
-    dataPackage: Object
+    reports: {[string]: any},
+    dataPackage: {[string]: any}
 };
 
 /**
  * @classdesc Form demo.
  */
 class DarkForm extends React.Component<Props, State> {
-    formAPI: Object;
+    formInstance: {[string]: any};
 
     /**
      * @description Constructor.
@@ -38,42 +38,37 @@ class DarkForm extends React.Component<Props, State> {
         this.state = {
             isValid: false,
             isBlinkForm: false,
-            report: {},
+            reports: {},
             dataPackage: {}
         };
 
-        this.formAPI = null;
+        this.formInstance = null;
 
         // BIND METHODS
-        (this: Function).onValidationResult = this.onValidationResult.bind(
+        (this: Function).onValidationResultHandler = this.onValidationResultHandler.bind(
             this
         );
-        (this: Function).submitForm = this.submitForm.bind(this);
         (this: Function).blinkForm = this.blinkForm.bind(this);
     }
 
     /**
      * @instance
      * @description Handler for validationResult event.
-     * @param {boolean} isValid - Form validation result.
+     * @param {boolean} result - Form validation result.
      * @param {Object<string,*>} dataPackage - Form data.
-     * @param {Object<string,*>} report - Form validation report.
+     * @param {Object<string,*>} reports - Form validation reports.
      * @returns {void} Void.
      */
-    onValidationResult(isValid: boolean, dataPackage: Object, report: Object) {
+    onValidationResultHandler(
+        result: boolean,
+        dataPackage: {[string]: any},
+        reports: {[string]: any}
+    ) {
         this.setState({
-            isValid,
-            report,
-            dataPackage
+            isValid: result,
+            dataPackage,
+            reports
         });
-    }
-
-    submitForm() {
-        if (!this.state.isValid) {
-            this.formAPI.blinkInvalids();
-        } else {
-            this.blinkForm();
-        }
     }
 
     blinkForm() {
@@ -99,35 +94,34 @@ class DarkForm extends React.Component<Props, State> {
             {[styles.form]: true},
             {[styles.isValid]: this.state.isValid},
             {[styles.isInvalid]: !this.state.isValid},
-            {[styles._isBlinkForm]: this.state.isBlinkForm}
+            {[styles.blinkingForm]: this.state.isBlinkForm}
         );
 
         return (
             <div>
                 <Form
                     className={mainClassName}
-                    onValidationResult={this.onValidationResult}
-                    mandatory={{surname: false, check1: false}}
-                    matches={[['password', 'repeat_password']]}
-                    onAPI={(API) => {
-                        this.formAPI = API;
+                    onValidationResult={this.onValidationResultHandler}
+                    onMount={(formInstance) => {
+                        this.formInstance = formInstance;
                     }}>
                     <Input
                         placeholder={'Name'}
                         name={'name'}
-                        presets={InputPresets.prettify}
-                        validators={InputValidators.presence}
+                        presets={inputPresets.prettifyPreset}
+                        plugins={inputValidators.presenceValidator}
                     />
                     <Input
                         placeholder={'Surname (optional)'}
                         name={'surname'}
-                        presets={InputPresets.prettify}
-                        validators={InputValidators.presence}
+                        presets={inputPresets.prettifyPreset}
+                        plugins={inputValidators.presenceValidator}
+                        mandatory={false}
                     />
                     <Input
                         placeholder={'Birthday (+18) (day/month/year)'}
                         name={'birthday'}
-                        validators={InputValidators.date({
+                        plugins={inputValidators.dateValidator({
                             minAge: 18,
                             separator: '/',
                             minDate: new Date(1900, 1, 0)
@@ -136,18 +130,19 @@ class DarkForm extends React.Component<Props, State> {
                     <Input
                         placeholder={'Email'}
                         name={'email'}
-                        presets={InputPresets.email}
+                        presets={inputPresets.emailPreset}
                     />
                     <Input
                         placeholder={'Password (strong)'}
                         name={'password'}
                         type={'password'}
-                        presets={InputPresets.password}
+                        presets={inputPresets.passwordPreset}
                     />
                     <Input
                         placeholder={'Repeat Password'}
                         name={'repeat_password'}
                         type={'password'}
+                        match={'password'}
                     />
                     <div>
                         <span className={styles.checkboxesContainer}>
@@ -156,7 +151,8 @@ class DarkForm extends React.Component<Props, State> {
                                     name={'check1'}
                                     type={'checkbox'}
                                     value={'check1'}
-                                    validators={InputValidators.presence}
+                                    plugins={inputValidators.presenceValidator}
+                                    mandatory={false}
                                 />
                                 <span className={styles.inputTitle}>
                                     Check 1 (Optional)
@@ -167,7 +163,7 @@ class DarkForm extends React.Component<Props, State> {
                                     name={'check2'}
                                     type={'checkbox'}
                                     value={'check2'}
-                                    validators={InputValidators.presence}
+                                    plugins={inputValidators.presenceValidator}
                                 />
                                 <span className={styles.inputTitle}>
                                     Check 2
@@ -178,7 +174,7 @@ class DarkForm extends React.Component<Props, State> {
                                     name={'check3'}
                                     type={'checkbox'}
                                     value={'check3'}
-                                    validators={InputValidators.presence}
+                                    plugins={inputValidators.presenceValidator}
                                 />
                                 <span className={styles.inputTitle}>
                                     Check 3
@@ -190,12 +186,15 @@ class DarkForm extends React.Component<Props, State> {
                         <Input
                             name={'radioGroup'}
                             type={'radio'}
-                            radioButtons={{
+                            radios={{
                                 radio1: 'Radio 1',
                                 radio2: 'Radio 2 (Correct)',
                                 radio3: 'Radio 3'
                             }}
-                            validators={'radio2'}
+                            plugins={{
+                                type: 'validator',
+                                plugin: 'radio2'
+                            }}
                             containerStyle={{
                                 display: 'flex',
                                 flexDirection: 'column'
@@ -206,7 +205,12 @@ class DarkForm extends React.Component<Props, State> {
                         style={{marginTop: '30px'}}
                         text={'SUBMIT'}
                         dark={true}
-                        onClick={this.submitForm}
+                        disabled={!this.state.isValid}
+                        onClick={this.blinkForm}
+                        onClickDisabled={() => {
+                            this.formInstance &&
+                                this.formInstance.warnInvalids();
+                        }}
                     />
                 </Form>
 
@@ -244,7 +248,7 @@ class DarkForm extends React.Component<Props, State> {
                             let output = [];
                             let index = 0;
                             objectUtils.forEachSync(
-                                this.state.report,
+                                this.state.reports,
                                 (value, API) => {
                                     let key = [];
                                     if (API.depth === 3) {

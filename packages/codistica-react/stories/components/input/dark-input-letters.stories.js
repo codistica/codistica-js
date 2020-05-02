@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {BGS_DARK} from '../../../.storybook/custom-backgrounds.js';
-import {Input, InputBlockers, InputFilters} from '../../../src/index.js';
+import {Input, inputBlockers, inputFilters} from '../../../src/index.js';
 
 /**
  * @description A dark input letters demo.
@@ -12,8 +12,10 @@ function DarkInputLetters() {
     return (
         <Input
             placeholder={'Only Letters'}
-            filters={InputFilters.onlyLetters}
-            blockers={InputBlockers.onlyLetters}
+            plugins={[
+                inputBlockers.nonLetterBlocker,
+                inputFilters.nonLetterFilter
+            ]}
         />
     );
 }

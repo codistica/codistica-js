@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {BGS_DARK} from '../../../.storybook/custom-backgrounds.js';
-import {Input, InputPresets} from '../../../src/index.js';
+import {Input, inputPresets} from '../../../src/index.js';
 
 /**
  * @description A dark input prettify demo.
@@ -10,7 +10,10 @@ import {Input, InputPresets} from '../../../src/index.js';
  */
 function DarkInputPrettify() {
     return (
-        <Input placeholder={'Prettify Input'} presets={InputPresets.prettify} />
+        <Input
+            placeholder={'Prettify Input'}
+            presets={inputPresets.prettifyPreset}
+        />
     );
 }
 

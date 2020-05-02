@@ -53,6 +53,7 @@ jscoverage
 jspm
 lerna
 linkedin
+lowercases
 memberof
 mpeltonen
 msapplication
@@ -87,6 +88,7 @@ transpiled
 trirong
 uglyfier
 uglyfiers
+uppercases
 unsanitized
 vuepress
 woff

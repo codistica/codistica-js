@@ -21,75 +21,23 @@ $color-yellow: #e8e639;
     outline: none;
     border-radius: 0;
   }
-}
 
-.radioGroupContainer {
   display: flex;
 }
 
-.radioWrapper {
+.wrapper {
   display: flex;
   margin: 5px 10px;
   align-items: center;
 }
 
-.radioTitle {
+.title {
   color: $color-white;
   margin-left: 10px;
 }
 
-.typeInput {
-
-  // *** TYPE INPUTS ***
-
-  input {
-    display: inline-block;
-    border-bottom: 1px solid $color-white;
-    color: $color-white;
-    padding: 5px 2px;
-    transition: border-bottom 0.2s linear;
-  }
-
-  // HIDE LABEL
-  input + label {
-    display: none;
-  }
-
-  input:focus {
-    border-bottom: 1px solid $color-orange;
-  }
-
-  input::placeholder {
-    color: $color-white;
-    opacity: 0.4;
-  }
-
-  // INDICATIVE STYLES
-  ._valid {
-    border-bottom: 1px solid $color-green!important;
-  }
-
-  ._invalid {
-    border-bottom: 1px solid $color-red!important;
-  }
-
-  ._isHighlight {
-    border-bottom: 1px solid $color-white!important;
-    color: $color-white!important;
-    animation: blink 0.3s linear none 3;
-  }
-
-  ._isWarning {
-    border-bottom: 1px solid $color-yellow!important;
-    color: $color-yellow!important;
-    animation: blink 0.3s linear none 3;
-  }
-
-}
-
-.nonTypeInput { // TODO: OTHER PROPS TO RESET?
-
-  // *** RADIO AND CHECKBOX INPUTS ***
+.inputParent {
+  // RADIO INPUTS
 
   // INPUT CONTAINER AND RESET DEFAULT STYLES
   display: inline-block;
@@ -118,6 +66,7 @@ $color-yellow: #e8e639;
     border: none;
     outline: none;
     font-size: 0;
+    cursor: pointer;
   }
 
   // HIDE DEFAULT ELEMENTS
@@ -131,30 +80,16 @@ $color-yellow: #e8e639;
     color: transparent;
   }
 
-  // CREATE NEW OUTER BOX
-  input[type="checkbox"] + label::before {
-    border: 1px solid rgba(255,255,255,0.7);
-    background-color: rgba(255,255,255,0.1);
-    transition: border 0.2s linear;
-  }
-
   // CREATE NEW OUTER CIRCLE
-  input[type="radio"] + label::before {
+  input + label::before {
     border-radius: 50%;
     border: 1px solid rgba(255,255,255,0.7);
     background-color: rgba(255,255,255,0.1);
     transition: border 0.2s linear;
   }
 
-  // CREATE NEW INNER SQUARE
-  input[type="checkbox"] + label::after {
-    height: 70%;
-    width: 70%;
-    background-color: #ffffff;
-  }
-
   // CREATE NEW INNER DOT
-  input[type="radio"] + label::after {
+  input + label::after {
     height: 70%;
     width: 70%;
     border-radius: 50%;
@@ -167,21 +102,18 @@ $color-yellow: #e8e639;
     z-index: 10;
   }
 
-  // MAKE OUTER BOX/CIRCLE ALWAYS VISIBLE
-  input[type="checkbox"] + label::before,
-  input[type="radio"] + label::before {
+  // MAKE OUTER CIRCLE ALWAYS VISIBLE
+  input + label::before {
     content: "";
   }
 
-  // MAKE INNER SQUARE/DOT HIDDEN BY DEFAULT
-  input[type="checkbox"] + label::after,
-  input[type="radio"] + label::after {
+  // MAKE INNER DOT HIDDEN BY DEFAULT
+  input + label::after {
     content: none;
   }
 
-  // SHOW INNER SQUARE/DOT IN CHECKED INPUTS
-  input[type="checkbox"]:checked + label::after,
-  input[type="radio"]:checked + label::after {
+  // SHOW INNER DOT IN CHECKED INPUTS
+  input:checked + label::after {
     content: "";
   }
 
@@ -191,37 +123,36 @@ $color-yellow: #e8e639;
   }
 
   // INDICATIVE STYLES
-  ._valid:checked + label::before {
+  .valid:checked + label::before {
     border: 1px solid $color-green!important;
   }
 
-  ._invalid:checked + label::before {
+  .invalid:checked + label::before {
     border: 1px solid $color-red!important;
   }
 
-  ._isHighlight + label,
-  ._isWarning + label { // DO NOT INCLUDE INPUT (INPUT OPACITY MUST NOT BE OVERRIDDEN)
+  .highlight + label,
+  .warning + label { // DO NOT INCLUDE INPUT (INPUT OPACITY MUST NOT BE OVERRIDDEN)
     animation: blink 0.3s linear none 3;
   }
 
-  ._isHighlight + label::before,
-  ._isHighlight:checked + label::before {
+  .highlight + label::before,
+  .highlight:checked + label::before {
     border: 1px solid $color-white!important;
   }
 
-  ._isHighlight:checked + label::after {
+  .highlight:checked + label::after {
     background-color: $color-white!important;
   }
 
-  ._isWarning + label::before,
-  ._isWarning:checked + label::before{
+  .warning + label::before,
+  .warning:checked + label::before{
     border: 1px solid $color-yellow!important;
   }
 
-  ._isWarning:checked + label::after {
+  .warning:checked + label::after {
     background-color: $color-yellow!important;
   }
-
 }
 
 /* BLINK ANIMATION */

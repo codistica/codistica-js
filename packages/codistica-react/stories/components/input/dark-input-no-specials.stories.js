@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {BGS_DARK} from '../../../.storybook/custom-backgrounds.js';
-import {Input, InputBlockers, InputFilters} from '../../../src/index.js';
+import {Input, inputBlockers, inputFilters} from '../../../src/index.js';
 
 /**
  * @description A dark input no specials demo.
@@ -12,8 +12,7 @@ function DarkInputNoSpecials() {
     return (
         <Input
             placeholder={'No Specials'}
-            filters={InputFilters.noSpecials}
-            blockers={InputBlockers.noSpecials}
+            plugins={[inputBlockers.specialBlocker, inputFilters.specialFilter]}
         />
     );
 }

@@ -4,9 +4,9 @@ import React from 'react';
 import {BGS_DARK} from '../../../.storybook/custom-backgrounds.js';
 import {
     Input,
-    InputBlockers,
-    InputFilters,
-    InputValidators
+    inputBlockers,
+    inputFilters,
+    inputValidators
 } from '../../../src/index.js';
 
 /**
@@ -18,13 +18,15 @@ function DarkInputPassword() {
         <Input
             type={'password'}
             placeholder={'Password Validator (medium)'}
-            filters={InputFilters.noSpaces}
-            blockers={InputBlockers.noSpaces}
-            validators={InputValidators.password({
-                minLength: 8,
-                maxLength: 30,
-                specials: 0
-            })}
+            plugins={[
+                inputBlockers.spaceBlocker,
+                inputFilters.spaceFilter,
+                inputValidators.passwordValidator({
+                    minLength: 8,
+                    maxLength: 30,
+                    specials: 0
+                })
+            ]}
         />
     );
 }

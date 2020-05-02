@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {BGS_DARK} from '../../../.storybook/custom-backgrounds.js';
-import {Input, InputBlockers, InputFilters} from '../../../src/index.js';
+import {Input, inputBlockers, inputFilters} from '../../../src/index.js';
 
 /**
  * @description A dark input numbers demo.
@@ -12,8 +12,10 @@ function DarkInputNumbers() {
     return (
         <Input
             placeholder={'Only Numbers'}
-            filters={InputFilters.onlyNumbers}
-            blockers={InputBlockers.onlyNumbers}
+            plugins={[
+                inputBlockers.nonNumberBlocker,
+                inputFilters.nonNumberFilter
+            ]}
         />
     );
 }

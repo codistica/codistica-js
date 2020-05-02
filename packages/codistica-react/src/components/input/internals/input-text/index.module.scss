@@ -1,0 +1,82 @@
+$color-white: #dedede;
+$color-orange: #e88b0e;
+$color-green: #94ff36;
+$color-red: #e83b35;
+$color-yellow: #e8e639;
+
+.main {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+
+  input {
+    background-color: transparent;
+    outline: none;
+    border-radius: 0;
+  }
+}
+
+.main {
+  // TEXT INPUTS
+
+  input {
+    display: inline-block;
+    border-bottom: 1px solid $color-white;
+    color: $color-white;
+    padding: 5px 2px;
+    transition: border-bottom 0.2s linear;
+  }
+
+  // HIDE LABEL
+  input + label {
+    display: none;
+  }
+
+  input:focus {
+    border-bottom: 1px solid $color-orange;
+  }
+
+  input::placeholder {
+    color: $color-white;
+    opacity: 0.4;
+  }
+
+  // INDICATIVE STYLES
+  .valid {
+    border-bottom: 1px solid $color-green!important;
+  }
+
+  .invalid {
+    border-bottom: 1px solid $color-red!important;
+  }
+
+  .highlight {
+    border-bottom: 1px solid $color-white!important;
+    color: $color-white!important;
+    animation: blink 0.3s linear none 3;
+  }
+
+  .warning {
+    border-bottom: 1px solid $color-yellow!important;
+    color: $color-yellow!important;
+    animation: blink 0.3s linear none 3;
+  }
+}
+
+/* BLINK ANIMATION */
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}

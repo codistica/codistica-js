@@ -2,112 +2,139 @@
 
 /** @module react/components/input */
 
-import {eventUtils, arrayUtils} from '@codistica/core';
-import classnames from 'classnames/dedupe';
-import React from 'react';
-import uniqueId from 'react-html-id';
-import styles from './index.module.scss';
-
-type Preset = {
-    validators?: Validator | Array<Validator>,
-    filters?: Filter | Array<Filter>,
-    blockers?: Blocker | Array<Blocker>
-};
-type Validator = Function | RegExp | string;
-type Filter = Function;
-type Blocker = Function;
-
-// TODO: SPLIT IN InputRadio, InputCheckbox and InputText THAT EXTENDS InputCore! TO SHORTEN FILE AND SIMPLIFY RENDER METHOD.
-
 // TODO: SUPPORT FOR any TYPE value IN PROPS?
 // TODO: RADIOS: ADD SUPPORT FOR DOUBLE CLICK (TOUCH) TO UNCHECK. ADD SUPPORT FOR INITIALLY CHECKED (IN radioButtons?)
 // TODO: IMPROVE FOCUS WHEN INPUT HAS VALUE
 // TODO: IMPROVE radio TITLES SYSTEM. MAKE A LITTLE MORE CUSTOMIZABLE?
 // TODO: MAKE label = name WHEN NOT SPECIFIED?
+// TODO: RESET BROWSERS AUTOFILL STYLES!
+// TODO: ADD CLEAR INPUT BUTTON AND SHOW PASSWORD BUTTON OPTIONS (WITH FOCUS SUPPORT).
+// TODO: SUPPORT FOR interpretation TOOLTIP?
+// TODO: CHECK TAB NAVIGATION FOR RADIO BUTTONS AND CHECKBOXES IN Safari.
+
+// TODO: CHECK INPUTS STYLE FILES.
+// TODO: CHECK STYLES CORRECTNESS IN WEB INSPECTOR.
+
+// TODO: ALLOW COMMANDS (LIKE cmd + v) IN ALL INPUTS DESPITE OF BLOCKERS, FILTERS, VALIDATORS, ETC.
+// TODO: ALLOW CLICKING CHECKBOXES AND RADIOS BY CLICKING ON 'LABEL' (TITLE) TO MATCH NATIVE BEHAVIOUR.
+
+import {objectUtils, arrayUtils} from '@codistica/core';
+import React from 'react';
+import uniqueId from 'react-html-id';
+import {InputCheckbox} from './internals/input-checkbox/index.js';
+import {InputRadio} from './internals/input-radio/index.js';
+import {InputText} from './internals/input-text/index.js';
+
+type BlockerInstance = (e: {[string]: any}) => boolean;
+type Blocker = {type: 'blocker', plugin: BlockerInstance};
+
+type FilterInstance = (value: string) => string;
+type Filter = {type: 'filter', plugin: FilterInstance};
+
+type ValidatorInstance =
+    | string
+    | RegExp
+    | ((value: string) => {result: boolean, report: {[string]: any}});
+type Validator = {type: 'validator', plugin: ValidatorInstance};
+
+type Plugins = Blocker | Filter | Validator;
+type PluginWrapper = (options?: any) => Plugins;
+
+type Plugin = Plugins | PluginWrapper;
+type Preset = Plugin | Array<Plugin>;
 
 type Props = {
     name: string,
     label: string,
-    type: string,
     value: string,
-    checked: boolean | null,
-    radioButtons: Object,
+    checked: boolean,
+    radios: {[string]: string},
     placeholder: string,
-    style: Object,
-    containerStyle: Object,
-    className: string,
-    containerClassName: string,
-    onRegistration: Function,
-    onKeyDown: Function,
-    onInput: Function,
-    onChangeFixed: Function,
-    onChange: Function,
-    onBlur: Function,
-    onAPI: Function,
-    onValidationResult: Function,
+    type: string,
+    mandatory: boolean,
+    match: string,
+    plugins: Plugin | Array<Plugin>,
     presets: Preset | Array<Preset>,
-    validators: Validator | Array<Validator>,
-    filters: Filter | Array<Filter>,
-    blockers: Blocker | Array<Blocker>
+    onValidationResult: Function
 };
 
 type State = {
-    id: string,
-    name: string,
-    value: string,
-    isType: boolean,
-    isRadio: boolean,
-    isCheckbox: boolean,
-    isChecked: boolean | null,
-    isValid: boolean | null,
-    isWarning: boolean,
-    isHighlight: boolean
+    status: 'valid' | 'invalid' | 'highlight' | 'warning' | null
 };
 
-// TODO: DOCUMENT FUNCTIONS?
-type InputAPI = {
-    state: State,
-    setValidation: Function,
-    overrideValidation: Function,
-    blinkHighlight: Function,
-    blinkWarning: Function
-};
-
-const InputContext: Object = React.createContext({
-    onRegistration: null,
+const InputContext: {[string]: any} = React.createContext({
+    onMount: null,
     onValidationResult: null
 });
 
-// TODO: CREATE THEMES. RESET BROWSERS AUTOFILL STYLES!
+/**
+ * @callback inputBlockerInstanceType
+ * @param {Object<string,*>} e - Input event object.
+ * @returns {boolean} - Should block.
+ */
+
+/**
+ * @typedef inputBlockerType
+ * @property {'blocker'} type - Plugin type.
+ * @property {inputBlockerInstanceType} plugin - Blocker instance.
+ */
+
+/**
+ * @callback inputFilterInstanceType
+ * @param {string} value - Input value.
+ * @returns {string} - Filtered output.
+ */
+
+/**
+ * @typedef inputFilterType
+ * @property {'filter'} type - Plugin type.
+ * @property {inputFilterInstanceType} plugin - Filter instance.
+ */
+
+/**
+ * @typedef {(string|RegExp|function(string): {result: boolean, report: Object<string,*>})} inputValidatorInstanceType
+ */
+
+/**
+ * @typedef inputValidatorType
+ * @property {'validator'} type - Plugin type.
+ * @property {inputValidatorInstanceType} plugin - Validator instance.
+ */
+
+/**
+ * @typedef {(inputBlockerType|inputFilterType|inputValidatorType)} inputPluginsType
+ */
+
+/**
+ * @callback inputPluginWrapperType
+ * @param {*} [options] - Plugin options.
+ * @returns {inputPluginsType} - Plugin.
+ */
+
+/**
+ * @typedef {(inputPluginsType|inputPluginWrapperType)} inputPluginType
+ */
+
+/**
+ * @typedef {(inputPluginType|Array<inputPluginType>)} inputPresetType
+ */
+
 /**
  * @typedef inputPropsType
  * @property {string} [name=''] - Input name.
  * @property {string} [label=''] - Input label.
- * @property {string} [type='text'] - Input type.
  * @property {string} [value=''] - Input value.
- * @property {(boolean|null)} [checked=null] - Input checked attribute.
- * @property {Object<string,*>} [radioButtons={}] - Radio buttons object.
- * @property {string} [placeholder=''] - Input placeholder.
- * @property {Object<string,*>} [style={}] - React prop.
- * @property {Object<string,*>} [containerStyle={}] - Style to be applied to container element.
- * @property {string} [className=''] - React prop.
- * @property {string} [containerClassName=''] - ClassName to be applied to container element.
- * @property {Function} [onRegistration=null] - Callback for registration event.
- * @property {Function} [onKeyDown=null] - Callback for key down event.
- * @property {Function} [onInput=null] - Callback for input event.
- * @property {Function} [onChangeFixed=null] - Callback for fixed change event.
- * @property {Function} [onChange=null] - Callback for change event.
- * @property {Function} [onBlur=null] - Callback for blur event.
- * @property {Function} [onAPI=null] - Callback for API event.
- * @property {Function} [onValidationResult=null] - Callback for validationResult event.
- * @property {Array<*>} [presets=[]] - Input validation presets array.
- * @property {Array<*>} [validator=[]] - Input validators array.
- * @property {Array<*>} [filters=[]] - Input filters array.
- * @property {Array<*>} [blockers=[]] - Input blockers array.
+ * @property {boolean} [checked=false] - Input checked attribute.
+ * @property {Object<string,string>} [radios=''] - Radio inputs definitions.
+ * @property {string} [type='text'] - Input type.
+ * @property {boolean} [mandatory=false] - Input mandatory flag.
+ * @property {(string|null)} [match=null] - Name of input that has to be matched.
+ * @property {(inputPluginType|Array<inputPluginType>)} [plugins=[]] - Input plugins.
+ * @property {(inputPresetType|Array<inputPresetType>)} [presets=[]] - Input presets.
  */
 
 /**
- * @classdesc A draggable component.
+ * @classdesc A beautiful input component.
  */
 class Input extends React.Component<Props, State> {
     static contextType = InputContext;
@@ -115,42 +142,32 @@ class Input extends React.Component<Props, State> {
     static defaultProps = {
         name: '',
         label: '',
-        type: 'text',
         value: '',
-        checked: null,
-        radioButtons: {},
+        checked: false,
+        radios: {},
         placeholder: '',
-        style: {},
-        containerStyle: {},
-        className: '',
-        containerClassName: '',
-        onRegistration: null,
-        onKeyDown: null,
-        onInput: null,
-        onChangeFixed: null,
-        onChange: null,
-        onBlur: null,
-        onAPI: null,
-        onValidationResult: null,
+        type: 'text',
+        mandatory: true,
+        match: null,
+        plugins: [],
         presets: [],
-        validators: [],
-        filters: [],
-        blockers: []
+        onValidationResult: null
     };
 
     nextUniqueId: Function;
-    changeTracker: string;
+
+    id: string;
+    value: string;
+
+    validationResult: boolean | null;
+    validationReport: Array<Object>;
     externalValidation: boolean | null | typeof undefined;
     externalOverrideValidation: boolean | null | typeof undefined;
-    isValidating: boolean;
-    inputRef: Object;
-    API: Object;
-    presets: Array<Preset>;
-    validators: Array<Validator>;
-    filters: Array<Filter>;
-    blockers: Array<Blocker>;
 
-    // TODO: ADD CLEAR INPUT BUTTON AND SHOW PASSWORD BUTTON OPTIONS (WITH FOCUS SUPPORT). SUPPORT FOR interpretation TOOLTIP?
+    validators: Array<ValidatorInstance>;
+    filters: Array<FilterInstance>;
+    blockers: Array<BlockerInstance>;
+
     /**
      * @description Constructor.
      * @param {inputPropsType} [props] - Component props.
@@ -158,171 +175,48 @@ class Input extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        /**
-         * @function normalizePlugin
-         * @description Normalizes received plugin structure.
-         * @param {*} input - Input.
-         * @returns {Array<*>} Output.
-         */
-        const normalizePlugin = function normalizePlugin(input: any) {
-            return Array.isArray(input) ? arrayUtils.flatten(input) : [input];
-        };
-
-        const isType = props.type !== 'checkbox' && props.type !== 'radio';
-        const isRadio = props.type === 'radio';
-        const isCheckbox = props.type === 'checkbox';
-        const value = isType
-            ? props.value
-            : isRadio
-            ? ''
-            : props.checked
-            ? props.value
-            : '';
-
         uniqueId.enableUniqueIds(this);
 
-        this.changeTracker = value;
+        this.id = this.nextUniqueId();
+        this.value =
+            props.type === 'checkbox'
+                ? props.checked
+                    ? props.value
+                    : ''
+                : props.type === 'radio'
+                ? ''
+                : props.value;
+
+        this.validationResult = null;
+        this.validationReport = [];
         this.externalValidation = undefined;
         this.externalOverrideValidation = undefined;
-        this.isValidating = false;
-        this.inputRef = {};
 
-        this.state = {
-            id: this.nextUniqueId(),
-            name: props.name,
-            value: value,
-            isType: isType,
-            isRadio: isRadio,
-            isCheckbox: isCheckbox,
-            isChecked: isCheckbox ? props.checked || false : null,
-            isValid: null,
-            isWarning: false,
-            isHighlight: false
-        };
-
-        // BIND METHODS
-        (this: Function).onKeyDown = this.onKeyDown.bind(this);
-        (this: Function).onInput = this.onInput.bind(this);
-        (this: Function).onChangeFixed = this.onChangeFixed.bind(this);
-        (this: Function).onChange = this.onChange.bind(this);
-        (this: Function).onBlur = this.onBlur.bind(this);
-        (this: Function).setValue = this.setValue.bind(this);
-        (this: Function).setValidation = this.setValidation.bind(this);
-        (this: Function).overrideValidation = this.overrideValidation.bind(
-            this
-        );
-        (this: Function).validateInput = this.validateInput.bind(this);
-        (this: Function).blinkHighlight = this.blinkHighlight.bind(this);
-        (this: Function).blinkWarning = this.blinkWarning.bind(this);
-        (this: Function).setInputRef = this.setInputRef.bind(this);
-
-        this.API = {
-            state: this.state,
-            setValidation: this.setValidation,
-            overrideValidation: this.overrideValidation,
-            blinkHighlight: this.blinkHighlight,
-            blinkWarning: this.blinkWarning
-        };
-
-        this.presets = [];
         this.validators = [];
         this.filters = [];
         this.blockers = [];
 
-        // LOAD PRESETS
-        this.presets = this.presets.concat(normalizePlugin(props.presets));
-        this.presets.forEach((preset: Preset) => {
-            if (typeof preset === 'object' && preset !== null) {
-                if (typeof preset.validators !== 'undefined') {
-                    this.validators = this.validators.concat(
-                        normalizePlugin(preset.validators)
-                    );
-                }
-                if (typeof preset.filters !== 'undefined') {
-                    this.filters = this.filters.concat(
-                        normalizePlugin(preset.filters)
-                    );
-                }
-                if (typeof preset.blockers !== 'undefined') {
-                    this.blockers = this.blockers.concat(
-                        normalizePlugin(preset.blockers)
-                    );
-                }
-            }
-        });
+        this.loadPresets(props.presets);
+        this.loadPlugins(props.plugins);
 
-        // GET VALIDATORS
-        this.validators = this.validators.concat(
-            normalizePlugin(props.validators)
+        this.state = {
+            status: null
+        };
+
+        // BIND METHODS
+        (this: Function).newValueHandler = this.newValueHandler.bind(this);
+        (this: Function).setValidation = this.setValidation.bind(this);
+        (this: Function).setOverrideValidation = this.setOverrideValidation.bind(
+            this
         );
-        this.validators = this.validators.map((validator) => {
-            let response = null;
-            if (typeof validator === 'function') {
-                response = validator('');
-                if (
-                    typeof response === 'function' ||
-                    typeof response === 'string' ||
-                    response instanceof RegExp
-                ) {
-                    return response;
-                } else {
-                    return validator;
-                }
-            } else {
-                return validator;
-            }
-        });
-
-        // GET FILTERS
-        this.filters = this.filters.concat(normalizePlugin(props.filters));
-        this.filters = this.filters.map((filter) => {
-            let response = null;
-            if (typeof filter === 'function') {
-                response = filter('');
-                if (typeof response === 'function') {
-                    return response;
-                } else {
-                    return filter;
-                }
-            } else {
-                return filter;
-            }
-        });
-
-        // GET BLOCKERS
-        this.blockers = this.blockers.concat(normalizePlugin(props.blockers));
-        this.blockers = this.blockers.map((blocker) => {
-            let response = null;
-            if (typeof blocker === 'function') {
-                response = blocker(eventUtils.getMockEvent());
-                if (typeof response === 'function') {
-                    return response;
-                } else {
-                    return blocker;
-                }
-            } else {
-                return blocker;
-            }
-        });
-
-        // TODO: WARN ABOUT NOT VALID PROPS FOR SELECTED type
-        // TODO: ERROR IF isRadio AND NO NAME?
-        // TODO: WARN IF value AND radioButtons
+        (this: Function).validateInput = this.validateInput.bind(this);
+        (this: Function).highlight = this.highlight.bind(this);
+        (this: Function).warn = this.warn.bind(this);
     }
 
     componentDidMount() {
-        // EXPOSE API
-        if (typeof this.props.onAPI === 'function') {
-            this.props.onAPI(this.API);
-        }
-
-        // REGISTER INPUT
-        if (typeof this.context.onRegistration === 'function') {
-            this.context.onRegistration(this.state.id, this.API);
-        }
-        if (typeof this.props.onRegistration === 'function') {
-            this.props.onRegistration(this.state.id, this.API);
-        }
+        // EXPOSE INSTANCE
+        this.context.onMount && this.context.onMount(this);
 
         // VALIDATE INITIAL VALUE
         this.validateInput();
@@ -330,162 +224,74 @@ class Input extends React.Component<Props, State> {
 
     /**
      * @instance
-     * @description Handler for keyDown event.
-     * @param {Object<string,*>} e - Triggering event.
-     * @returns {void} Void.
+     * @description Loads presets into component's instance.
+     * @param {(inputPresetType|Array<inputPresetType>)} presets - Array of presets to be loaded.
      */
-    onKeyDown(e: Object) {
-        const isPrintable = e.key && e.key.length === 1;
+    loadPresets(presets: Preset | Array<Preset>) {
+        this.loadPlugins(arrayUtils.flatten(arrayUtils.normalize(presets)));
+    }
 
-        // CHAIN PASSED EVENT HANDLER IF NECESSARY
-        if (typeof this.props.onKeyDown === 'function') {
-            this.props.onKeyDown(e);
-        }
-
-        if (this.state.isType) {
-            if (e.cancelable) {
-                // CALL BLOCKERS
-                this.blockers.forEach((elem) => {
-                    if (typeof elem === 'function') {
-                        if (
-                            isPrintable &&
-                            elem({
-                                target: {
-                                    selectionStart: e.target.selectionStart,
-                                    selectionEnd: e.selectionEnd,
-                                    value: e.target.value
-                                },
-                                key: e.key
-                            })
-                        ) {
-                            e.preventDefault();
-                        }
-                    }
-                });
-
-                if (e.defaultPrevented) {
-                    this.blinkHighlight();
-                }
+    /**
+     * @instance
+     * @description Loads plugins into component's instance.
+     * @param {(inputPluginType|Array<inputPluginType>)} plugins - Array of plugins to be loaded.
+     */
+    loadPlugins(plugins: Plugin | Array<Plugin>) {
+        arrayUtils.normalize(plugins).forEach((plugin) => {
+            const pluginObject = this.normalizePlugin(plugin);
+            if (!pluginObject) {
+                return;
             }
-        }
-    }
-
-    /**
-     * @instance
-     * @description Handler for input event.
-     * @param {Object<string,*>} e - Triggering event.
-     * @returns {void} Void.
-     */
-    onInput(e: Object) {
-        // CHAIN PASSED EVENT HANDLER IF NECESSARY
-        if (typeof this.props.onInput === 'function') {
-            this.props.onInput(e);
-        }
-
-        if (this.state.isType) {
-            // UPDATE INPUT
-            this.setValue(e.target.value);
-        }
-    }
-
-    /**
-     * @instance
-     * @description Handler for change fixed event.
-     * @param {Object<string,*>} e - Triggering event.
-     * @returns {void} Void.
-     */
-    onChangeFixed(e: Object) {
-        // CHAIN PASSED EVENT HANDLER IF NECESSARY
-        if (typeof this.props.onChangeFixed === 'function') {
-            this.props.onChangeFixed(e);
-        }
-
-        if (this.state.isType) {
-            // CALL FILTERS
-            e.target.value = this.filters.reduce((acc, elem) => {
-                let result = null;
-                if (typeof elem === 'function') {
-                    result = elem(acc);
-                    if (typeof result === 'string') {
-                        return result;
-                    } else {
-                        return acc;
-                    }
-                } else {
-                    return acc;
-                }
-            }, e.target.value);
-
-            // UPDATE INPUT
-            this.setValue(e.target.value, true);
-        }
-    }
-
-    /**
-     * @instance
-     * @description Handler for change event.
-     * @param {Object<string,*>} e - Triggering event.
-     * @returns {void} Void.
-     */
-    onChange(e: Object) {
-        // CHAIN PASSED EVENT HANDLER IF NECESSARY
-        if (typeof this.props.onChange === 'function') {
-            this.props.onChange();
-        }
-
-        if (!this.state.isType) {
-            // UPDATE INPUT
-            if (this.state.isRadio) {
-                this.setValue(e.target.value);
-            } else {
-                this.setState({isChecked: e.target.checked}); // TODO: GOES HERE? MERGE WITH setValue()?
-                this.setValue(e.target.checked ? this.props.value : '');
+            switch (pluginObject.type) {
+                case 'blocker':
+                    this.blockers.push(pluginObject.plugin);
+                    break;
+                case 'filter':
+                    this.filters.push(pluginObject.plugin);
+                    break;
+                case 'validator':
+                    this.validators.push(pluginObject.plugin);
+                    break;
+                default:
+                    break;
             }
-        }
+        });
     }
 
     /**
      * @instance
-     * @description Handler for blur event.
-     * @param {Object<string,*>} e - Triggering event.
-     * @returns {void} Void.
+     * @description Initializes plugin if not already initialized.
+     * @param {inputPluginType} plugin - Plugin to be normalized.
+     * @returns {(inputPluginsType|null)} Normalized plugin.
      */
-    onBlur(e: Object) {
-        // CHAIN PASSED EVENT HANDLER IF NECESSARY
-        if (typeof this.props.onBlur === 'function') {
-            this.props.onBlur();
+    normalizePlugin(plugin: Plugin): Plugins | null {
+        if (typeof plugin === 'function') {
+            const returnedValue = plugin();
+            if (objectUtils.isPureObject(returnedValue) && returnedValue.type) {
+                return returnedValue;
+            }
+        } else if (objectUtils.isPureObject(plugin) && plugin.type) {
+            return plugin;
         }
-
-        // EMULATE REAL onChange EVENT BEHAVIOUR
-        if (e.target.value !== this.changeTracker) {
-            this.onChangeFixed(
-                eventUtils.getMockEvent({
-                    ...e,
-                    type: 'change'
-                })
-            );
-
-            // RESET changeTracker
-            this.changeTracker = e.target.value;
-        }
+        return null;
     }
 
     /**
      * @instance
-     * @description Set input value.
+     * @description Handler for newValue event.
      * @param {string} value - New value.
-     * @param {boolean} [blink] - Blink input after setting value.
+     * @param {boolean} [highlight] - Highlight input after setting value.
      * @returns {void} Void.
      */
-    setValue(value: string, blink?: boolean) {
-        if (value !== this.state.value) {
+    newValueHandler(value: string, highlight?: boolean) {
+        if (value !== this.value) {
             // SET NEW VALUE
-            this.setState({value});
-            // BLINK IF REQUESTED
-            blink && this.blinkHighlight();
+            this.value = value;
             // VALIDATE NEW VALUE
-            this.validateInput(value);
+            this.validateInput();
         }
+        // BLINK IF REQUESTED
+        highlight && this.highlight();
     }
 
     /**
@@ -494,7 +300,7 @@ class Input extends React.Component<Props, State> {
      * @param {(boolean|null)} result - Validation result to be set.
      * @returns {void} Void.
      */
-    setValidation(result: boolean | null) {
+    setValidation(result: boolean | null | typeof undefined) {
         if (result !== this.externalValidation) {
             this.externalValidation = result;
             this.validateInput();
@@ -507,7 +313,7 @@ class Input extends React.Component<Props, State> {
      * @param {(boolean|null)} result - Validation result to be set.
      * @returns {void} Void.
      */
-    overrideValidation(result: boolean | null) {
+    setOverrideValidation(result: boolean | null | typeof undefined) {
         if (result !== this.externalOverrideValidation) {
             this.externalOverrideValidation = result;
             this.validateInput();
@@ -517,113 +323,103 @@ class Input extends React.Component<Props, State> {
     /**
      * @instance
      * @description Run input validation process.
-     * @param {string} [value] - Value to be used for validation. Value saved in state is used by default.
      * @returns {void} Void.
      */
-    validateInput(value?: string) {
-        let isValid = null;
-        let validationResult = null;
-        let validationReport = [];
+    validateInput() {
+        let internalValidation = null;
 
-        value = typeof value === 'string' ? value : this.state.value;
-
-        if (this.isValidating) {
-            return;
-        }
-
-        this.isValidating = true;
+        this.validationResult = null;
+        this.validationReport = [];
 
         // CALL VALIDATORS
-        if (value.length !== 0 && this.validators.length !== 0) {
-            validationResult = this.validators.every((elem) => {
+        if (this.value.length !== 0 && this.validators.length !== 0) {
+            internalValidation = this.validators.every((validator) => {
                 let result = null;
                 let report = null;
-                if (typeof elem === 'function') {
-                    ({result, report} = elem(value));
-                    validationReport.push(report);
+                if (typeof validator === 'function') {
+                    ({result, report} = validator(this.value));
+                    this.validationReport.push(report);
                     return result;
-                } else if (typeof elem === 'string') {
-                    return elem === value;
+                } else if (typeof validator === 'string') {
+                    return validator === this.value;
                 } else if (
-                    elem instanceof RegExp &&
-                    typeof value === 'string'
+                    validator instanceof RegExp &&
+                    typeof this.value === 'string'
                 ) {
-                    return elem.test(value);
+                    return validator.test(this.value);
                 } else {
                     return true;
                 }
             });
         }
 
-        // EMIT VALIDATION RESULT
-        if (typeof this.context.onValidationResult === 'function') {
-            this.context.onValidationResult(this.state.id, value, {
-                validationResult,
-                validationReport
-            });
-        }
-        if (typeof this.props.onValidationResult === 'function') {
-            this.props.onValidationResult(this.state.id, value, {
-                validationResult,
-                validationReport
-            });
-        }
-
-        // VALIDATION PRIORITY LOGIC
+        // APPLY VALIDATION PRIORITY LOGIC
         if (typeof this.externalOverrideValidation !== 'undefined') {
-            isValid = this.externalOverrideValidation;
+            this.validationResult = this.externalOverrideValidation;
         } else {
             if (typeof this.externalValidation !== 'undefined') {
-                isValid =
-                    (validationResult !== null ? validationResult : true) &&
+                this.validationResult =
+                    (internalValidation !== null ? internalValidation : true) &&
                     this.externalValidation;
             } else {
-                isValid = validationResult;
+                this.validationResult = internalValidation;
             }
         }
 
         this.setState({
-            isValid: isValid
+            status:
+                typeof this.validationResult === 'boolean'
+                    ? this.validationResult
+                        ? 'valid'
+                        : 'invalid'
+                    : null
         });
 
-        this.isValidating = false;
+        // EMIT VALIDATION RESULT
+        this.context.onValidationResult &&
+            this.context.onValidationResult(
+                this.id,
+                this.validationResult,
+                this.validationReport
+            );
+        this.props.onValidationResult &&
+            this.props.onValidationResult(
+                this.id,
+                this.validationResult,
+                this.validationReport
+            );
     }
 
-    blinkHighlight() {
-        if (!this.state.isWarning && !this.state.isHighlight) {
+    highlight() {
+        const previousStatus = this.state.status;
+        if (previousStatus !== 'warning' && previousStatus !== 'highlight') {
             this.setState({
-                isHighlight: true
+                status: 'highlight'
             });
             setTimeout(() => {
-                this.setState({
-                    isHighlight: false
-                });
+                if (this.state.status === 'highlight') {
+                    this.setState({
+                        status: previousStatus
+                    });
+                }
             }, 900);
         }
     }
 
-    blinkWarning() {
-        if (!this.state.isWarning && !this.state.isHighlight) {
+    warn() {
+        const previousStatus = this.state.status;
+        if (previousStatus !== 'warning' && previousStatus !== 'highlight') {
             this.setState({
-                isWarning: true
+                status: 'warning'
             });
             setTimeout(() => {
-                this.setState({
-                    isWarning: false
-                });
+                if (this.state.status === 'warning') {
+                    this.setState({
+                        status: previousStatus
+                    });
+                }
             }, 900);
         }
-    }
-
-    /**
-     * @instance
-     * @description Save component reference.
-     * @param {Object<string,*>} ref - Component reference.
-     * @param {string} id - Input id.
-     * @returns {void} Void.
-     */
-    setInputRef(ref: Object, id: string) {
-        this.inputRef[id] = ref;
     }
 
     /**
@@ -633,181 +429,43 @@ class Input extends React.Component<Props, State> {
      */
     render() {
         const {
+            name,
             label,
-            type,
-            radioButtons,
+            value,
+            checked,
+            radios,
             placeholder,
-            style,
-            containerStyle,
-            className,
-            containerClassName,
-            onRegistration,
-            onChangeFixed,
-            onAPI,
-            onValidationResult,
-            presets,
-            validators,
-            filters,
-            blockers,
+            type,
             ...others
         } = this.props;
+        const {status} = this.state;
+        const {id, newValueHandler, filters, blockers} = this;
 
-        const {
-            id,
-            name,
-            value,
-            isType,
-            isRadio,
-            isChecked,
-            isValid,
-            isHighlight,
-            isWarning
-        } = this.state;
+        const Input =
+            type === 'radio'
+                ? InputRadio
+                : type === 'checkbox'
+                ? InputCheckbox
+                : InputText;
 
-        const mainClassName = classnames(styles.main);
-
-        const inputClassName = classnames(
-            {[styles._valid]: isValid},
-            {[styles._invalid]: isValid !== null && !isValid},
-            {[styles._isHighlight]: isHighlight},
-            {[styles._isWarning]: isWarning}
+        return (
+            <Input
+                {...others}
+                id={id}
+                name={name}
+                label={label}
+                value={value}
+                status={status}
+                type={type}
+                checked={checked}
+                radios={radios}
+                placeholder={placeholder}
+                onNewValue={newValueHandler}
+                filters={filters}
+                blockers={blockers}
+            />
         );
-
-        const classNames = {
-            isType: {
-                main: classnames(
-                    containerClassName,
-                    mainClassName,
-                    styles.typeInput
-                ),
-                input: classnames(className, inputClassName)
-            },
-            isRadio: {
-                main: classnames(
-                    containerClassName,
-                    mainClassName,
-                    styles.radioGroupContainer
-                ),
-                inputParent: classnames(className, styles.nonTypeInput),
-                input: inputClassName
-            },
-            isCheckbox: {
-                main: classnames(className, mainClassName, styles.nonTypeInput),
-                input: inputClassName
-            }
-        };
-
-        // UPDATE API STATE
-        this.API.state = this.state;
-
-        if (isType) {
-            return (
-                <span style={containerStyle} className={classNames.isType.main}>
-                    <input
-                        {...others}
-                        ref={(ref) => {
-                            this.setInputRef(ref, id);
-                        }}
-                        id={id}
-                        type={type}
-                        name={name}
-                        value={value}
-                        placeholder={placeholder}
-                        style={style}
-                        className={classNames.isType.input}
-                        onKeyDown={this.onKeyDown}
-                        onInput={this.onInput}
-                        onBlur={this.onBlur}
-                        onChange={this.onChange}
-                    />
-                    <label htmlFor={id}>{label}</label>
-                </span>
-            );
-        } else {
-            if (isRadio) {
-                return (
-                    <span
-                        style={containerStyle}
-                        className={classNames.isRadio.main}>
-                        {(() => {
-                            let index = 0;
-                            let subId = '';
-                            let output = [];
-                            for (const i in radioButtons) {
-                                if (
-                                    !Object.prototype.hasOwnProperty.call(
-                                        radioButtons,
-                                        i
-                                    )
-                                ) {
-                                    continue;
-                                }
-                                subId = this.nextUniqueId();
-                                output.push(
-                                    <span
-                                        className={styles.radioWrapper}
-                                        key={index}>
-                                        <span
-                                            style={style}
-                                            className={
-                                                classNames.isRadio.inputParent
-                                            }>
-                                            <input
-                                                {...others}
-                                                ref={(ref) => {
-                                                    this.setInputRef(
-                                                        ref,
-                                                        subId
-                                                    );
-                                                }}
-                                                id={subId}
-                                                type={type}
-                                                name={name}
-                                                value={i}
-                                                checked={value === i}
-                                                className={
-                                                    classNames.isRadio.input
-                                                }
-                                                onChange={this.onChange}
-                                            />
-                                            <label htmlFor={subId}>
-                                                {label}
-                                            </label>
-                                        </span>
-                                        <span className={styles.radioTitle}>
-                                            {radioButtons[i]}
-                                        </span>
-                                    </span>
-                                );
-                                index++;
-                            }
-                            return output;
-                        })()}
-                    </span>
-                );
-            } else {
-                return (
-                    <span style={style} className={classNames.isCheckbox.main}>
-                        <input
-                            {...others}
-                            ref={(ref) => {
-                                this.setInputRef(ref, id);
-                            }}
-                            id={id}
-                            type={type}
-                            name={name}
-                            value={value}
-                            checked={isChecked}
-                            className={classNames.isCheckbox.input}
-                            onChange={this.onChange}
-                        />
-                        <label htmlFor={id}>{label}</label>
-                    </span>
-                );
-            }
-        }
     }
 }
 
-export type {InputAPI};
 export {InputContext, Input};

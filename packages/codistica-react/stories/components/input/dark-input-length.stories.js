@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {BGS_DARK} from '../../../.storybook/custom-backgrounds.js';
-import {Input, InputValidators} from '../../../src/index.js';
+import {Input, inputValidators} from '../../../src/index.js';
 
 /**
  * @description A dark input length demo.
@@ -12,7 +12,10 @@ function DarkInputLength() {
     return (
         <Input
             placeholder={'Min: 8 - Max: 10'}
-            validators={InputValidators.length({minLength: 8, maxLength: 10})}
+            plugins={inputValidators.lengthValidator({
+                minLength: 8,
+                maxLength: 10
+            })}
         />
     );
 }

@@ -3,57 +3,47 @@
 /** @module react/components/form */
 
 import {log} from '@codistica/core';
-import classnames from 'classnames/dedupe';
 import React from 'react';
-import {InputContext} from './input/index.js'; // TODO: IMPORT PROVIDER TYPES? TO CHECK PASSED VALUES
-import type {InputAPI} from './input/index.js'; // TODO: USE
+import {InputContext} from './input/index.js';
+import type {Input} from './input/index.js';
 
 type Props = {
-    className: string,
+    onValidationResult: Function,
+    onMount: Function,
     children: any,
-    mandatory: Object,
-    matches: Array<Array<string>>,
-    onValidationResult: Function | null,
-    onAPI: Function | null
-};
-
-type State = {};
-
-type FormAPI = {
-    state: State,
-    blinkInvalids: Function
+    className: string,
+    style: {[string]: string}
 };
 
 /**
  * @typedef formPropsType
+ * @property {Function} [onValidationResult=null] - Callback for validationResult event.
+ * @property {Function} [onMount=null] - Callback for componentDidMount event.
  * @property {string} [className=''] - React prop.
  * @property {string} [children=null] - React prop.
- * @property {Object<string,*>} [mandatory={}] - Mandatory fields object.
- * @property {Array<Array<string>>} [matches] - Fields match array.
- * @property {Function} [onValidationResult=null] - Callback for validationResult event.
- * @property {Function} [onAPI=null] - Callback for API event.
  */
 
 /**
- * @classdesc A draggable component.
+ * @classdesc A beautiful form component.
  */
-class Form extends React.Component<Props, State> {
+class Form extends React.Component<Props> {
     // TODO: PASSWORDS DIFFERENCE COLORING SUPPORT? DATA COLLECTION FILTERS: toLowercase ALL, GET EPOCH FROM DATES, ETC...
 
     static defaultProps = {
-        className: '',
-        children: null,
-        mandatory: {},
-        matches: [],
         onValidationResult: null,
-        onAPI: null
+        onMount: null,
+        className: '',
+        style: {},
+        children: null
     };
 
-    registeredInputs: Object;
-    validationReport: Object;
-    isValid: boolean | null;
-    API: Object;
-    contextValue: Object;
+    registeredInputs: {[string]: Input};
+    validationResult: boolean;
+
+    contextValue: {
+        onMount: Function,
+        onValidationResult: Function
+    };
 
     /**
      * @description Constructor.
@@ -65,95 +55,55 @@ class Form extends React.Component<Props, State> {
         super(props);
 
         this.registeredInputs = {};
-        this.validationReport = {};
-        this.isValid = null;
-
-        this.state = {}; // TODO: ADD STATE TO BE SHARED IN API. EX: isValid?
+        this.validationResult = false;
 
         // BIND METHODS
-        (this: Function).inputRegistrationHandler = this.inputRegistrationHandler.bind(
-            this
-        );
-        (this: Function).inputValidationHandler = this.inputValidationHandler.bind(
+        (this: Function).inputMountHandler = this.inputMountHandler.bind(this);
+        (this: Function).inputValidationResultHandler = this.inputValidationResultHandler.bind(
             this
         );
         (this: Function).validateForm = this.validateForm.bind(this);
-        (this: Function).blinkInvalids = this.blinkInvalids.bind(this);
+        (this: Function).warnInvalids = this.warnInvalids.bind(this);
         (this: Function).getInputsByName = this.getInputsByName.bind(this);
 
-        this.API = {
-            state: this.state,
-            blinkInvalids: this.blinkInvalids
-        };
-
         this.contextValue = {
-            onRegistration: this.inputRegistrationHandler,
-            onValidationResult: this.inputValidationHandler
+            onMount: this.inputMountHandler,
+            onValidationResult: this.inputValidationResultHandler
         };
     }
 
     componentDidMount() {
-        // EXPOSE API
-        if (typeof this.props.onAPI === 'function') {
-            this.props.onAPI(this.API);
-        }
+        // EXPOSE INSTANCE
+        this.props.onMount && this.props.onMount(this);
     }
 
     /**
      * @instance
-     * @description Handler to register input and its relative API in the form component.
-     * @param {string} id - Input id.
-     * @param {Object<string,*>} API - Input API.
+     * @description Handler to register input in the form component.
+     * @param {Input} input - Input instance.
      * @returns {void} Void.
      */
-    inputRegistrationHandler(id: string, API: InputAPI) {
+    inputMountHandler(input: Input) {
         // TODO: DEFINE GROUPS SYSTEM? MAYBE NOT NECESSARY
 
-        const {name} = API.state;
-
-        if (this.getInputsByName(name).length !== 0) {
+        if (this.getInputsByName(input.props.name).length !== 0) {
             log.warning(
                 'inputValidationHandler()',
                 'DUPLICATE NAME DETECTED'
             )();
         }
 
-        this.registeredInputs[id] = {
-            name: name,
-            API: API,
-            value: API.state.value,
-            isValid: API.state.isValid,
-            mandatory:
-                typeof this.props.mandatory[name] !== 'boolean'
-                    ? true
-                    : this.props.mandatory[name]
-        };
-
-        this.validationReport[id] = null;
+        this.registeredInputs[input.id] = input;
     }
 
     /**
      * @instance
      * @description Handler to track inputs validations.
      * @param {string} id - Input id.
-     * @param {string} value - Input value.
-     * @param {{validationResult: boolean, validationReport: Object<string,*>}} validationObject - Input inner validation object.
      * @returns {void} Void.
      */
-    inputValidationHandler(
-        id: string,
-        value: string,
-        validationObject: {
-            validationResult: boolean | null,
-            validationReport: Object
-        }
-    ) {
-        // TODO: IMPORT types
-
-        const {validationResult, validationReport} = validationObject;
-        const input = this.registeredInputs[id];
-
-        if (typeof input === 'undefined') {
+    inputValidationResultHandler(id: string) {
+        if (!this.registeredInputs[id]) {
             log.error(
                 'inputValidationHandler()',
                 'INPUT IS NOT REGISTERED. ABORTING'
@@ -161,58 +111,14 @@ class Form extends React.Component<Props, State> {
             return;
         }
 
-        if (input.API.state.name !== input.name) {
-            log.warning(
-                'inputValidationHandler()',
-                'INPUT NAME CHANGE DETECTED. KEEPING ORIGINAL NAME'
-            )();
-        }
-
-        input.value = value;
-        input.isValid = validationResult;
-
-        this.validationReport[id] =
-            validationReport.length !== 0 ? validationReport : null;
-
         this.validateForm();
     }
 
     validateForm() {
-        let dataPackage = {};
+        const dataPackage = {};
+        const validationReports = {};
 
-        // CHECK MATCHES
-        this.props.matches.forEach((matchArray) => {
-            // TODO: ITERATE ALL NAMES?
-            matchArray.forEach((name, index) => {
-                let input;
-                if (index !== 0) {
-                    input = this.registeredInputs[
-                        this.getInputsByName(name)[0]
-                    ];
-                    if (typeof input !== 'undefined') {
-                        if (input.value.length !== 0) {
-                            if (
-                                input.value ===
-                                this.registeredInputs[
-                                    this.getInputsByName(matchArray[0])[0]
-                                ].value
-                            ) {
-                                input.isValid = true;
-                                input.API.setValidation(true);
-                            } else {
-                                input.isValid = false;
-                                input.API.setValidation(false);
-                            }
-                        } else {
-                            input.isValid = null;
-                            input.API.setValidation(null);
-                        }
-                    }
-                }
-            });
-        });
-
-        this.isValid = true;
+        this.validationResult = true;
         for (const i in this.registeredInputs) {
             if (
                 !Object.prototype.hasOwnProperty.call(this.registeredInputs, i)
@@ -222,30 +128,43 @@ class Form extends React.Component<Props, State> {
 
             const input = this.registeredInputs[i];
 
-            // CHECK VALIDITY
+            // CHECK MATCH
+            if (input.props.match) {
+                if (!input.value.length) {
+                    input.setValidation(null);
+                } else {
+                    input.setValidation(
+                        this.getInputsByName(input.props.match).every(
+                            (matchedInput) => matchedInput.value === input.value
+                        )
+                    );
+                }
+            }
+
+            // CHECK VALIDITY // TODO: MAKE AUX FUNCTION? IN Input?
             if (
-                input.isValid === false ||
-                (input.isValid === null &&
+                input.validationResult === false ||
+                (input.validationResult === null &&
                     input.value.length === 0 &&
-                    input.mandatory)
+                    input.props.mandatory)
             ) {
-                this.isValid = false;
+                this.validationResult = false;
             }
 
             // COLLECT DATA
-            dataPackage[input.name] = input.value; // TODO: FIX! MAKE IT READABLE? EASY TO DIGEST. SUPPORT GROUPS. CASE DUPLICATE NAMES?
+            dataPackage[input.props.name] = input.value; // TODO: FIX! MAKE IT READABLE? EASY TO DIGEST. SUPPORT GROUPS. CASE DUPLICATE NAMES?
+            validationReports[input.props.name] = input.validationReport; // TODO: FIX! MAKE IT READABLE? EASY TO DIGEST. SUPPORT GROUPS. CASE DUPLICATE NAMES?
         }
 
-        if (typeof this.props.onValidationResult === 'function') {
+        this.props.onValidationResult &&
             this.props.onValidationResult(
-                this.isValid,
+                this.validationResult,
                 dataPackage,
-                this.validationReport
+                validationReports
             );
-        }
     }
 
-    blinkInvalids() {
+    warnInvalids() {
         for (const i in this.registeredInputs) {
             if (
                 !Object.prototype.hasOwnProperty.call(this.registeredInputs, i)
@@ -253,14 +172,14 @@ class Form extends React.Component<Props, State> {
                 continue;
             }
             const input = this.registeredInputs[i];
-            // CHECK VALIDITY
+            // CHECK VALIDITY // TODO: MAKE AUX FUNCTION? IN Input?
             if (
-                input.isValid === false ||
-                (input.isValid === null &&
+                input.validationResult === false ||
+                (input.validationResult === null &&
                     input.value.length === 0 &&
-                    input.mandatory)
+                    input.props.mandatory)
             ) {
-                input.API.blinkWarning();
+                input.warn();
             }
         }
     }
@@ -269,18 +188,18 @@ class Form extends React.Component<Props, State> {
      * @instance
      * @description Search registered inputs and returns matched name inputs.
      * @param {string} name - Input name.
-     * @returns {Array<*>} Found inputs array.
+     * @returns {Array<Input>} Found inputs array.
      */
-    getInputsByName(name: string) {
-        let output = [];
+    getInputsByName(name: string): Array<Input> {
+        const output = [];
         for (const i in this.registeredInputs) {
             if (
                 !Object.prototype.hasOwnProperty.call(this.registeredInputs, i)
             ) {
                 continue;
             }
-            if (this.registeredInputs[i].name === name) {
-                output.push(i);
+            if (this.registeredInputs[i].props.name === name) {
+                output.push(this.registeredInputs[i]);
             }
         }
         return output;
@@ -295,17 +214,13 @@ class Form extends React.Component<Props, State> {
         const {
             children,
             className,
-            onAPI,
+            style,
             onValidationResult,
-            mandatory,
-            matches,
+            onMount,
             ...others
         } = this.props;
-        const mainClassName = classnames({[className]: className});
-        // UPDATE API STATE
-        this.API.state = this.state;
         return (
-            <form {...others} className={mainClassName}>
+            <form {...others} className={className} style={style}>
                 <InputContext.Provider value={this.contextValue}>
                     {children}
                 </InputContext.Provider>
@@ -314,5 +229,4 @@ class Form extends React.Component<Props, State> {
     }
 }
 
-export type {FormAPI};
 export {Form};
