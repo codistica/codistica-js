@@ -1,11 +1,8 @@
 /** @flow */
 
 import React from 'react';
+import styles from './app.module.scss';
 import logo from './logo.svg';
-import './app.css';
-
-// TODO: ADAPT @codistica/demo create-react-app TEMPLATE RESULT TO CODISTICA CONVENTION.
-// TODO: CREATE CODISTICA TEMPLATE FOR create-react-app?
 
 /**
  * @description App main component.
@@ -13,14 +10,14 @@ import './app.css';
  */
 function App() {
     return (
-        <div className='App'>
-            <header className='App-header'>
-                <img src={logo} className='App-logo' alt='logo' />
+        <div className={styles.app}>
+            <header className={styles.appHeader}>
+                <img src={logo} className={styles.appLogo} alt='logo' />
                 <p>
                     Edit <code>src/App.js</code> and save to reload.
                 </p>
                 <a
-                    className='App-link'
+                    className={styles.appLink}
                     href='https://reactjs.org'
                     target='_blank'
                     rel='noopener noreferrer'>
