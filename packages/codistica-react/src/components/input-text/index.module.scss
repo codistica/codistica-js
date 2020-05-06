@@ -1,0 +1,33 @@
+.input {
+  display: inline-block;
+  margin: 0;
+  padding: 10px;
+  border: none;
+  outline: none;
+  transition: border-bottom 0.2s linear, border 0.2s linear;
+  background-color: transparent;
+}
+
+.input::placeholder {
+  opacity: 0.4;
+}
+
+.input + label {
+  display: none;
+}
+
+.blink {
+  animation: blink 0.3s linear none 3;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}

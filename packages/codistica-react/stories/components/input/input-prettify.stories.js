@@ -1,27 +1,27 @@
 /** @flow */
 
 import React from 'react';
-import {BGS_DARK} from '../../../.storybook/custom-backgrounds.js';
-import {Input, inputPresets} from '../../../src/index.js';
+import {BGS_LIGHT} from '../../../.storybook/custom-backgrounds.js';
+import {InputText, inputPresets} from '../../../src/index.js';
 
 /**
  * @description A dark input prettify demo.
  * @returns {Object<string,*>} React component.
  */
-function DarkInputPrettify() {
+function InputPrettify() {
     return (
-        <Input
+        <InputText
             placeholder={'Prettify Input'}
             presets={inputPresets.prettifyPreset}
         />
     );
 }
 
-export {DarkInputPrettify};
+export {InputPrettify};
 
 export default {
     title: 'Input',
     parameters: {
-        backgrounds: BGS_DARK
+        backgrounds: BGS_LIGHT
     }
 };

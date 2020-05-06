@@ -1,0 +1,71 @@
+.root {
+  display: inline-block;
+  position: relative;
+}
+
+// POSITION/CENTER ALL ELEMENTS AND RESET DEFAULT STYLES
+.input,
+.label,
+.label::before,
+.label::after {
+  display: inline-block;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  font-size: 0;
+  cursor: pointer;
+}
+
+// HIDE DEFAULT ELEMENTS
+.input {
+  opacity: 0!important; // USING VISIBILITY PROPERTY WOULD BREAK FUNCTIONALITY
+  z-index: -10!important;
+}
+
+.label {
+  color: transparent; // HIDE LABEL TEXT
+}
+
+// CREATE NEW OUTER BOX
+.label::before {
+  border: 1px solid;
+  transition: border 0.2s linear;
+  content: ""; // MAKE OUTER BOX ALWAYS VISIBLE
+  z-index: 10;
+}
+
+// CREATE NEW INNER SQUARE
+.label::after {
+  height: 70%;
+  width: 70%;
+  content: none; // HIDDEN BY DEFAULT
+  z-index: 10;
+}
+
+// SHOW INNER SQUARE IN CHECKED INPUTS
+.input:checked + .label::after {
+  content: "";
+}
+
+.blink {
+  animation: blink 0.3s linear none 3;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}

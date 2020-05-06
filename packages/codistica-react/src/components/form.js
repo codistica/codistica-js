@@ -2,10 +2,12 @@
 
 /** @module react/components/form */
 
+// TODO: ADD SUBMISSION PLUGINS SUPPORT. (TO CREATE PASSWORD HASHES, ETC)
+
 import {log} from '@codistica/core';
 import React from 'react';
-import {InputContext} from './input/index.js';
-import type {Input} from './input/index.js';
+import {InputContext} from './input-renderer.js';
+import type {InputRenderer} from './input-renderer.js'; // TODO: USE TYPES FORM EACH INPUT COMPONENT (USE & TYPE OPERATOR).
 
 type Props = {
     onValidationResult: Function,
@@ -37,7 +39,7 @@ class Form extends React.Component<Props> {
         children: null
     };
 
-    registeredInputs: {[string]: Input};
+    registeredInputs: {[string]: InputRenderer};
     validationResult: boolean;
 
     contextValue: {
@@ -80,10 +82,10 @@ class Form extends React.Component<Props> {
     /**
      * @instance
      * @description Handler to register input in the form component.
-     * @param {Input} input - Input instance.
+     * @param {InputRenderer} input - Input instance.
      * @returns {void} Void.
      */
-    inputMountHandler(input: Input) {
+    inputMountHandler(input: InputRenderer) {
         // TODO: DEFINE GROUPS SYSTEM? MAYBE NOT NECESSARY
 
         if (this.getInputsByName(input.props.name).length !== 0) {
@@ -141,7 +143,7 @@ class Form extends React.Component<Props> {
                 }
             }
 
-            // CHECK VALIDITY // TODO: MAKE AUX FUNCTION? IN Input?
+            // CHECK VALIDITY
             if (
                 input.validationResult === false ||
                 (input.validationResult === null &&
@@ -172,7 +174,7 @@ class Form extends React.Component<Props> {
                 continue;
             }
             const input = this.registeredInputs[i];
-            // CHECK VALIDITY // TODO: MAKE AUX FUNCTION? IN Input?
+            // CHECK VALIDITY
             if (
                 input.validationResult === false ||
                 (input.validationResult === null &&
@@ -188,9 +190,9 @@ class Form extends React.Component<Props> {
      * @instance
      * @description Search registered inputs and returns matched name inputs.
      * @param {string} name - Input name.
-     * @returns {Array<Input>} Found inputs array.
+     * @returns {Array<InputRenderer>} Found inputs array.
      */
-    getInputsByName(name: string): Array<Input> {
+    getInputsByName(name: string): Array<InputRenderer> {
         const output = [];
         for (const i in this.registeredInputs) {
             if (

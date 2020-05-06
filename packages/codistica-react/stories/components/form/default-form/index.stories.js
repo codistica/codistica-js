@@ -1,13 +1,15 @@
 /** @flow */
 
 import {objectUtils} from '@codistica/core';
-import classnames from 'classnames/dedupe';
+import {default as classNames} from 'classnames';
 import React from 'react';
-import {BGS_DARK} from '../../../../.storybook/custom-backgrounds.js';
+import {BGS_LIGHT} from '../../../../.storybook/custom-backgrounds.js';
 import {
     Button,
     Form,
-    Input,
+    InputText,
+    InputCheckbox,
+    InputRadio,
     inputPresets,
     inputValidators
 } from '../../../../src/index.js';
@@ -25,7 +27,7 @@ type State = {
 /**
  * @classdesc Form demo.
  */
-class DarkForm extends React.Component<Props, State> {
+class DefaultForm extends React.Component<Props, State> {
     formInstance: any;
 
     /**
@@ -90,35 +92,35 @@ class DarkForm extends React.Component<Props, State> {
      * @returns {Object<string,*>} React component.
      */
     render() {
-        const mainClassName = classnames(
-            {[styles.form]: true},
-            {[styles.isValid]: this.state.isValid},
-            {[styles.isInvalid]: !this.state.isValid},
-            {[styles.blinkingForm]: this.state.isBlinkForm}
-        );
+        const rootClassName = classNames({
+            [styles.form]: true,
+            [styles.isValid]: this.state.isValid,
+            [styles.isInvalid]: !this.state.isValid,
+            [styles.blinkingForm]: this.state.isBlinkForm
+        });
 
         return (
             <div>
                 <Form
-                    className={mainClassName}
+                    className={rootClassName}
                     onValidationResult={this.onValidationResultHandler}
                     onMount={(formInstance) => {
                         this.formInstance = formInstance;
                     }}>
-                    <Input
+                    <InputText
                         placeholder={'Name'}
                         name={'name'}
                         presets={inputPresets.prettifyPreset}
                         plugins={inputValidators.presenceValidator}
                     />
-                    <Input
+                    <InputText
                         placeholder={'Surname (optional)'}
                         name={'surname'}
                         presets={inputPresets.prettifyPreset}
                         plugins={inputValidators.presenceValidator}
                         mandatory={false}
                     />
-                    <Input
+                    <InputText
                         placeholder={'Birthday (+18) (day/month/year)'}
                         name={'birthday'}
                         plugins={inputValidators.dateValidator({
@@ -127,18 +129,18 @@ class DarkForm extends React.Component<Props, State> {
                             minDate: new Date(1900, 1, 0)
                         })}
                     />
-                    <Input
+                    <InputText
                         placeholder={'Email'}
                         name={'email'}
                         presets={inputPresets.emailPreset}
                     />
-                    <Input
+                    <InputText
                         placeholder={'Password (strong)'}
                         name={'password'}
                         type={'password'}
                         presets={inputPresets.passwordPreset}
                     />
-                    <Input
+                    <InputText
                         placeholder={'Repeat Password'}
                         name={'repeat_password'}
                         type={'password'}
@@ -147,9 +149,8 @@ class DarkForm extends React.Component<Props, State> {
                     <div>
                         <span className={styles.checkboxesContainer}>
                             <span>
-                                <Input
+                                <InputCheckbox
                                     name={'check1'}
-                                    type={'checkbox'}
                                     value={'check1'}
                                     plugins={inputValidators.presenceValidator}
                                     mandatory={false}
@@ -159,9 +160,8 @@ class DarkForm extends React.Component<Props, State> {
                                 </span>
                             </span>
                             <span>
-                                <Input
+                                <InputCheckbox
                                     name={'check2'}
-                                    type={'checkbox'}
                                     value={'check2'}
                                     plugins={inputValidators.presenceValidator}
                                 />
@@ -170,9 +170,8 @@ class DarkForm extends React.Component<Props, State> {
                                 </span>
                             </span>
                             <span>
-                                <Input
+                                <InputCheckbox
                                     name={'check3'}
-                                    type={'checkbox'}
                                     value={'check3'}
                                     plugins={inputValidators.presenceValidator}
                                 />
@@ -183,9 +182,8 @@ class DarkForm extends React.Component<Props, State> {
                         </span>
                     </div>
                     <div>
-                        <Input
+                        <InputRadio
                             name={'radioGroup'}
-                            type={'radio'}
                             radios={{
                                 radio1: 'Radio 1',
                                 radio2: 'Radio 2 (Correct)',
@@ -204,7 +202,6 @@ class DarkForm extends React.Component<Props, State> {
                     <Button
                         style={{marginTop: '30px'}}
                         text={'SUBMIT'}
-                        dark={true}
                         disabled={!this.state.isValid}
                         onClick={this.blinkForm}
                         onClickDisabled={() => {
@@ -286,15 +283,15 @@ class DarkForm extends React.Component<Props, State> {
  * @description Auxiliary functional component.
  * @returns {Object<string,*>} React component.
  */
-function darkForm() {
-    return <DarkForm />;
+function defaultForm() {
+    return <DefaultForm />;
 }
 
-export {darkForm};
+export {defaultForm};
 
 export default {
     title: 'Form',
     parameters: {
-        backgrounds: BGS_DARK
+        backgrounds: BGS_LIGHT
     }
 };

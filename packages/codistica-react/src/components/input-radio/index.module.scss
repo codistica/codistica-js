@@ -1,0 +1,93 @@
+.root {
+  display: flex;
+}
+
+.inputRow {
+  display: flex;
+  margin: 5px 10px;
+  align-items: center;
+}
+
+.title {
+  margin-left: 10px;
+}
+
+.inputWrapper {
+  display: inline-block;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  font-size: 0;
+}
+
+// POSITION/CENTER ALL ELEMENTS AND RESET DEFAULT STYLES
+.input,
+.label,
+.label::before,
+.label::after {
+  display: inline-block;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  font-size: 0;
+  cursor: pointer;
+}
+
+// HIDE DEFAULT ELEMENTS
+.input {
+  opacity: 0!important; // USING VISIBILITY PROPERTY WOULD BREAK FUNCTIONALITY
+  z-index: -10!important;
+}
+
+// HIDE LABEL TEXT
+.label {
+  color: transparent;
+}
+
+// CREATE NEW OUTER CIRCLE
+.label::before {
+  border-radius: 50%;
+  border: 1px solid;
+  transition: border 0.2s linear;
+  content: ""; // MAKE OUTER CIRCLE ALWAYS VISIBLE
+  z-index: 10;
+}
+
+// CREATE NEW INNER DOT
+.label::after {
+  height: 70%;
+  width: 70%;
+  border-radius: 50%;
+  content: none; // MAKE INNER DOT HIDDEN BY DEFAULT
+  z-index: 10;
+}
+
+// SHOW INNER DOT IN CHECKED INPUTS
+.input:checked + .label::after {
+  content: "";
+}
+
+.blink {
+  animation: blink 0.3s linear none 3;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}

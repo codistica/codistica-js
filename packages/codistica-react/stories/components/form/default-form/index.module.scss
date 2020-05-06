@@ -1,6 +1,6 @@
 $color-green: #94ff36;
 $color-red: #e83b35;
-$color-white: #dedede;
+$color-black: #232323;
 $color-violet: #de81d9;
 
 .form {
@@ -32,7 +32,7 @@ $color-violet: #de81d9;
 }
 
 .inputTitle {
-  color: $color-white;
+  color: $color-black;
   margin-left: 10px;
 }
 
@@ -59,7 +59,7 @@ $color-violet: #de81d9;
   flex-direction: column;
   margin: 10px;
   min-width: 400px;
-  border: 1px solid $color-white;
+  border: 1px solid $color-black;
   padding: 10px;
 }
 
@@ -69,10 +69,9 @@ $color-violet: #de81d9;
 }
 
 .infoBox > *:not(h5) {
-  color: $color-white;
+  color: $color-black;
 }
 
-/* BLINK ANIMATION */
 @keyframes blink {
   0% {
     opacity: 1;

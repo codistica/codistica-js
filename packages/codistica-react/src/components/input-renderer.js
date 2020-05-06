@@ -1,29 +1,29 @@
 /** @flow */
 
-/** @module react/components/input */
+/** @module react/components/input-renderer */
 
-// TODO: SUPPORT FOR any TYPE value IN PROPS?
-// TODO: RADIOS: ADD SUPPORT FOR DOUBLE CLICK (TOUCH) TO UNCHECK. ADD SUPPORT FOR INITIALLY CHECKED (IN radioButtons?)
+// TODO: RADIOS: ADD SUPPORT FOR DOUBLE CLICK (TOUCH) TO UNCHECK. ADD SUPPORT FOR INITIALLY CHECKED (IN radios PROP?)
 // TODO: IMPROVE FOCUS WHEN INPUT HAS VALUE
 // TODO: IMPROVE radio TITLES SYSTEM. MAKE A LITTLE MORE CUSTOMIZABLE?
 // TODO: MAKE label = name WHEN NOT SPECIFIED?
 // TODO: RESET BROWSERS AUTOFILL STYLES!
 // TODO: ADD CLEAR INPUT BUTTON AND SHOW PASSWORD BUTTON OPTIONS (WITH FOCUS SUPPORT).
-// TODO: SUPPORT FOR interpretation TOOLTIP?
 // TODO: CHECK TAB NAVIGATION FOR RADIO BUTTONS AND CHECKBOXES IN Safari.
 
-// TODO: CHECK INPUTS STYLE FILES.
-// TODO: CHECK STYLES CORRECTNESS IN WEB INSPECTOR.
-
-// TODO: ALLOW COMMANDS (LIKE cmd + v) IN ALL INPUTS DESPITE OF BLOCKERS, FILTERS, VALIDATORS, ETC.
+// TODO: ALLOW COMMANDS (LIKE cmd + v) IN ALL INPUTS DESPITE OF BLOCKERS.
 // TODO: ALLOW CLICKING CHECKBOXES AND RADIOS BY CLICKING ON 'LABEL' (TITLE) TO MATCH NATIVE BEHAVIOUR.
+
+// TODO: ADD SUPPORT FOR INPUT TOOLTIPS (WITH PLUGINS)
+// TODO: ADD SUPPORT FOR INPUT REPORTS RENDERING (WITH EXTRA ELEMENT. VIA FORM PROVIDER? OR INDEPENDENT (BETTER) ?)
+
+// TODO: CHECK JSDOC (ALL FORM/INPUT COMPONENTS)
+// TODO: CHECK FLOW TYPES (ALL FORM/INPUT COMPONENTS)
+// TODO: REUSE TYPES AND DEFAULT VALUES WHEN POSSIBLE
 
 import {objectUtils, arrayUtils} from '@codistica/core';
 import React from 'react';
-import uniqueId from 'react-html-id';
-import {InputCheckbox} from './internals/input-checkbox/index.js';
-import {InputRadio} from './internals/input-radio/index.js';
-import {InputText} from './internals/input-text/index.js';
+import type {Node} from 'react';
+import {default as uniqueId} from 'react-html-id';
 
 type BlockerInstance = (e: {[string]: any}) => boolean;
 type Blocker = {type: 'blocker', plugin: BlockerInstance};
@@ -43,23 +43,28 @@ type PluginWrapper = (options?: any) => Plugins;
 type Plugin = Plugins | PluginWrapper;
 type Preset = Plugin | Array<Plugin>;
 
+type Status = 'valid' | 'invalid' | 'highlight' | 'warning' | null;
+
+type RendererParams = {
+    id: string,
+    status: Status,
+    newValueHandler: (value: string, highlight?: boolean) => void,
+    blockers: Array<BlockerInstance>,
+    filters: Array<FilterInstance>
+};
+
 type Props = {
+    inputRenderFn: (rendererParams: RendererParams) => Node,
     name: string,
-    label: string,
-    value: string,
-    checked: boolean,
-    radios: {[string]: string},
-    placeholder: string,
-    type: string,
     mandatory: boolean,
-    match: string,
+    match: string | null,
     plugins: Plugin | Array<Plugin>,
     presets: Preset | Array<Preset>,
     onValidationResult: Function
 };
 
 type State = {
-    status: 'valid' | 'invalid' | 'highlight' | 'warning' | null
+    status: Status
 };
 
 const InputContext: {[string]: any} = React.createContext({
@@ -120,33 +125,22 @@ const InputContext: {[string]: any} = React.createContext({
  */
 
 /**
- * @typedef inputPropsType
- * @property {string} [name=''] - Input name.
- * @property {string} [label=''] - Input label.
- * @property {string} [value=''] - Input value.
- * @property {boolean} [checked=false] - Input checked attribute.
- * @property {Object<string,string>} [radios=''] - Radio inputs definitions.
- * @property {string} [type='text'] - Input type.
- * @property {boolean} [mandatory=false] - Input mandatory flag.
- * @property {(string|null)} [match=null] - Name of input that has to be matched.
+ * @typedef inputRendererPropsType
+ * @property {Object<string,*>} [inputRenderFn=null] - Input component render prop.
  * @property {(inputPluginType|Array<inputPluginType>)} [plugins=[]] - Input plugins.
  * @property {(inputPresetType|Array<inputPresetType>)} [presets=[]] - Input presets.
+ * @property {Function} [onValidationResult=null] - Callback for validationResult event.
  */
 
 /**
  * @classdesc A beautiful input component.
  */
-class Input extends React.Component<Props, State> {
+class InputRenderer extends React.Component<Props, State> {
     static contextType = InputContext;
 
     static defaultProps = {
+        inputRenderFn: null,
         name: '',
-        label: '',
-        value: '',
-        checked: false,
-        radios: {},
-        placeholder: '',
-        type: 'text',
         mandatory: true,
         match: null,
         plugins: [],
@@ -170,7 +164,7 @@ class Input extends React.Component<Props, State> {
 
     /**
      * @description Constructor.
-     * @param {inputPropsType} [props] - Component props.
+     * @param {inputRendererPropsType} [props] - Component props.
      */
     constructor(props: Props) {
         super(props);
@@ -178,14 +172,6 @@ class Input extends React.Component<Props, State> {
         uniqueId.enableUniqueIds(this);
 
         this.id = this.nextUniqueId();
-        this.value =
-            props.type === 'checkbox'
-                ? props.checked
-                    ? props.value
-                    : ''
-                : props.type === 'radio'
-                ? ''
-                : props.value;
 
         this.validationResult = null;
         this.validationReport = [];
@@ -214,12 +200,14 @@ class Input extends React.Component<Props, State> {
         (this: Function).warn = this.warn.bind(this);
     }
 
+    /**
+     * @instance
+     * @description React lifecycle.
+     * @returns {void} Void.
+     */
     componentDidMount() {
         // EXPOSE INSTANCE
         this.context.onMount && this.context.onMount(this);
-
-        // VALIDATE INITIAL VALUE
-        this.validateInput();
     }
 
     /**
@@ -390,7 +378,13 @@ class Input extends React.Component<Props, State> {
             );
     }
 
-    highlight() {
+    /**
+     * @instance
+     * @description Triggers highlight state for the specified amount of time.
+     * @param {number} duration - State duration.
+     * @returns {void} Void.
+     */
+    highlight(duration?: number) {
         const previousStatus = this.state.status;
         if (previousStatus !== 'warning' && previousStatus !== 'highlight') {
             this.setState({
@@ -402,11 +396,17 @@ class Input extends React.Component<Props, State> {
                         status: previousStatus
                     });
                 }
-            }, 900);
+            }, duration || 1000);
         }
     }
 
-    warn() {
+    /**
+     * @instance
+     * @description Triggers warning state for the specified amount of time.
+     * @param {number} duration - State duration.
+     * @returns {void} Void.
+     */
+    warn(duration?: number) {
         const previousStatus = this.state.status;
         if (previousStatus !== 'warning' && previousStatus !== 'highlight') {
             this.setState({
@@ -418,7 +418,7 @@ class Input extends React.Component<Props, State> {
                         status: previousStatus
                     });
                 }
-            }, 900);
+            }, duration || 1000);
         }
     }
 
@@ -428,44 +428,20 @@ class Input extends React.Component<Props, State> {
      * @returns {Object<string,*>} React component.
      */
     render() {
-        const {
-            name,
-            label,
-            value,
-            checked,
-            radios,
-            placeholder,
-            type,
-            ...others
-        } = this.props;
         const {status} = this.state;
         const {id, newValueHandler, filters, blockers} = this;
 
-        const Input =
-            type === 'radio'
-                ? InputRadio
-                : type === 'checkbox'
-                ? InputCheckbox
-                : InputText;
-
-        return (
-            <Input
-                {...others}
-                id={id}
-                name={name}
-                label={label}
-                value={value}
-                status={status}
-                type={type}
-                checked={checked}
-                radios={radios}
-                placeholder={placeholder}
-                onNewValue={newValueHandler}
-                filters={filters}
-                blockers={blockers}
-            />
-        );
+        return this.props.inputRenderFn
+            ? this.props.inputRenderFn({
+                  id,
+                  status,
+                  newValueHandler,
+                  blockers,
+                  filters
+              })
+            : null;
     }
 }
 
-export {InputContext, Input};
+export {InputContext, InputRenderer};
+export type {Plugin, Preset};

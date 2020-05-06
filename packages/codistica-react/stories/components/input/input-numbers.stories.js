@@ -1,16 +1,16 @@
 /** @flow */
 
 import React from 'react';
-import {BGS_DARK} from '../../../.storybook/custom-backgrounds.js';
-import {Input, inputBlockers, inputFilters} from '../../../src/index.js';
+import {BGS_LIGHT} from '../../../.storybook/custom-backgrounds.js';
+import {InputText, inputBlockers, inputFilters} from '../../../src/index.js';
 
 /**
  * @description A dark input numbers demo.
  * @returns {Object<string,*>} React component.
  */
-function DarkInputNumbers() {
+function InputNumbers() {
     return (
-        <Input
+        <InputText
             placeholder={'Only Numbers'}
             plugins={[
                 inputBlockers.nonNumberBlocker,
@@ -20,11 +20,11 @@ function DarkInputNumbers() {
     );
 }
 
-export {DarkInputNumbers};
+export {InputNumbers};
 
 export default {
     title: 'Input',
     parameters: {
-        backgrounds: BGS_DARK
+        backgrounds: BGS_LIGHT
     }
 };
