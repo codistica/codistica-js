@@ -18,6 +18,8 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+## [2020-05-07]
+
 ### Added
 - Coveralls integration to have feedback on code coverage.
 - Automate tag creation on push to master.
@@ -55,5 +57,6 @@ See [GitHub release notes](https://github.com/codistica/codistica-js/releases?af
 for info on changes for earlier releases.
 
 [Unreleased]: https://github.com/codistica/codistica-js/compare/master...HEAD
+[2020-05-07]: https://github.com/codistica/codistica-js/compare/2020/04/23...2020/05/07
 [2020-04-23]: https://github.com/codistica/codistica-js/compare/2020/04/22...2020/04/23
 [2020-04-22]: https://github.com/codistica/codistica-js/compare/2020/04/21...2020/04/22
