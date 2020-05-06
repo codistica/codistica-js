@@ -2,7 +2,7 @@
 
 /** @module react/components/slide */
 
-import classnames from 'classnames/dedupe';
+import {default as classNames} from 'classnames';
 import React, {useState, useEffect, useRef} from 'react';
 import {useSpring, animated} from 'react-spring';
 import {onDragHOC} from '../../hocs/on-drag-hoc.js';
@@ -12,7 +12,7 @@ import styles from './index.module.scss';
 type Props = {
     className: string,
     style: {[string]: any},
-    masterStyle: {[string]: any},
+    rootStyle: {[string]: any},
     trackStyle: {[string]: any},
     itemStyle: {[string]: any},
     direction: 'row' | 'column',
@@ -38,7 +38,7 @@ type Props = {
 Slide.defaultProps = {
     className: '',
     style: {},
-    masterStyle: {},
+    rootStyle: {},
     trackStyle: {},
     itemStyle: {},
     direction: 'row',
@@ -69,7 +69,7 @@ const DivDraggable = onDragHOC(Div);
 
 /**
  * @typedef trackBehaviourType
- * @property {boolean} [inheritSize=false] - Makes slide track match master element size.
+ * @property {boolean} [inheritSize=false] - Makes slide track match root element size.
  * @property {(number|null)} [viewportSpeedRatio=null] - When present, slide track size is set using viewport units. Passed coefficient will be applied to calculated size.
  * @property {(number|null)} [minSize=null] - Track minimum size value.
  * @property {(number|null)} [maxSize=null] - Track maximum size value.
@@ -79,7 +79,7 @@ const DivDraggable = onDragHOC(Div);
  * @typedef slidePropsType
  * @property {string} [className=''] - React prop.
  * @property {Object<string,*>} [style={}] - React prop.
- * @property {Object<string,*>} [masterStyle={}] - Style to be applied to slide master element.
+ * @property {Object<string,*>} [rootStyle={}] - Style to be applied to slide root element.
  * @property {Object<string,*>} [trackStyle={}] - Style to be applied to slide track.
  * @property {Object<string,*>} [itemStyle={}] - Style to be applied to slide items.
  * @property {string} [direction='row'] - Slide direction.
@@ -113,7 +113,7 @@ function Slide(props: Props) {
         onAPI,
         responsive,
         style,
-        masterStyle,
+        rootStyle,
         trackStyle,
         itemStyle,
         trackBehaviour,
@@ -125,7 +125,7 @@ function Slide(props: Props) {
         ...other
     } = props;
 
-    const masterRef = useRef(null);
+    const rootRef = useRef(null);
     const itemsRef = useRef([]);
     const noAnimationRef = useRef(false);
     const isDraggingRef = useRef(false);
@@ -144,26 +144,26 @@ function Slide(props: Props) {
         typeof trackBehaviour.maxSize !== 'number';
     const _sizeKey = isRow ? 'width' : 'height';
 
-    const MASTER_CLASSNAME = classnames(
-        {[className]: className},
-        {[styles.master]: true}
-    );
+    const rootClassName = classNames({
+        [className]: className,
+        [styles.root]: true
+    });
 
-    const TRACK_CLASSNAME = classnames(
-        {[styles.trackRow]: isRow},
-        {[styles.trackColumn]: !isRow}
-    );
+    const trackClassName = classNames({
+        [styles.trackRow]: isRow,
+        [styles.trackColumn]: !isRow
+    });
 
-    const ITEM_CLASSNAME = classnames(
-        {[styles.item]: justifyType !== 'dynamic'},
-        {[styles.itemDynamicRow]: justifyType === 'dynamic' && isRow},
-        {[styles.itemDynamicColumn]: justifyType === 'dynamic' && !isRow}
-    );
+    const itemClassName = classNames({
+        [styles.item]: justifyType !== 'dynamic',
+        [styles.itemDynamicRow]: justifyType === 'dynamic' && isRow,
+        [styles.itemDynamicColumn]: justifyType === 'dynamic' && !isRow
+    });
 
     const innerStyles = {
-        masterStyle: {
-            ...masterStyle,
-            visibility: masterRef.current ? 'visible' : 'hidden'
+        rootStyle: {
+            ...rootStyle,
+            visibility: rootRef.current ? 'visible' : 'hidden'
         },
         trackStyle: {
             ...trackStyle
@@ -179,8 +179,8 @@ function Slide(props: Props) {
     let referenceUnits = '';
     let relativeSize = 0;
 
-    if (masterRef.current) {
-        slideSize = masterRef.current.getBoundingClientRect()[_sizeKey];
+    if (rootRef.current) {
+        slideSize = rootRef.current.getBoundingClientRect()[_sizeKey];
         viewportSize = isRow
             ? viewportMonitor.getViewportWidth()
             : viewportMonitor.getViewportHeight();
@@ -195,7 +195,7 @@ function Slide(props: Props) {
         relativeSize = (slideSize * 100) / referenceSize;
 
         if (responsive) {
-            innerStyles.masterStyle[
+            innerStyles.rootStyle[
                 _sizeKey
             ] = `${relativeSize}${referenceUnits}`;
         }
@@ -269,11 +269,11 @@ function Slide(props: Props) {
     return (
         <Div
             {...other}
-            className={MASTER_CLASSNAME}
-            style={innerStyles.masterStyle}
+            className={rootClassName}
+            style={innerStyles.rootStyle}
             ref={setRefs}>
             <DivDraggable
-                className={TRACK_CLASSNAME}
+                className={trackClassName}
                 style={innerStyles.trackStyle}
                 onDrag={onDrag}
                 onDragStart={onDragStart}
@@ -282,7 +282,7 @@ function Slide(props: Props) {
                     return (
                         <Div
                             key={index}
-                            className={ITEM_CLASSNAME}
+                            className={itemClassName}
                             style={innerStyles.itemStyle}>
                             {item}
                         </Div>
@@ -429,14 +429,14 @@ function Slide(props: Props) {
     }
 
     /**
-     * @description Save master element and items references.
-     * @param {Object<string,*>} ref - Master element reference.
+     * @description Save root element and items references.
+     * @param {Object<string,*>} ref - Root element reference.
      * @returns {void} Void.
      */
     function setRefs(ref: any) {
-        masterRef.current = ref;
-        itemsRef.current = masterRef.current
-            ? masterRef.current.firstElementChild.children
+        rootRef.current = ref;
+        itemsRef.current = rootRef.current
+            ? rootRef.current.firstElementChild.children
             : [];
     }
 }

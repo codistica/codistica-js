@@ -2,7 +2,7 @@
 
 /** @module react/components/dot-navigation */
 
-import classnames from 'classnames/dedupe';
+import {default as classNames} from 'classnames';
 import React from 'react';
 import styles from './index.module.scss';
 
@@ -111,14 +111,14 @@ class DotNavigation extends React.Component<Props, State> {
             ...others
         } = this.props;
         const {autoPosition} = this.state;
-        const mainClassName = classnames(
-            {[className]: !!className},
-            {[styles.container]: true}
-        );
+        const rootClassName = classNames({
+            [className]: !!className,
+            [styles.container]: true
+        });
         return (
             <span
                 {...others}
-                className={mainClassName}
+                className={rootClassName}
                 style={{...style, flexDirection: direction}}>
                 {(() => {
                     let i = 0;

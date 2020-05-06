@@ -1,20 +1,19 @@
 .container {
-  box-sizing: border-box;
   display: inline-flex;
   flex-direction: column;
   justify-content: center;
   text-align: center;
   vertical-align: center;
-}
 
-.container * {
-  box-sizing: border-box;
-}
+  * {
+    box-sizing: border-box;
+  }
 
-.container a,
-.container a:visited {
-  color: #ffffff;
-  text-decoration: none;
+  a,
+  a:visited {
+    color: #ffffff;
+    text-decoration: none;
+  }
 }
 
 .header {

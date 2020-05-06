@@ -2,7 +2,7 @@
 
 /** @module react/hocs/tooltip-hoc */
 
-import classnames from 'classnames/dedupe';
+import {default as classNames} from 'classnames';
 import React from 'react';
 import type {ComponentType} from 'react';
 import styles from './index.module.scss';
@@ -89,14 +89,14 @@ function tooltipHOC(Component: ComponentType<any> | string) {
                 forwardedRef,
                 ...others
             } = this.props;
-            const mainClassName = classnames(
-                {[className]: !!className},
-                {[styles.container]: true}
-            );
+            const rootClassName = classNames({
+                [className]: !!className,
+                [styles.container]: true
+            });
             return (
                 <Component
                     {...others}
-                    className={mainClassName}
+                    className={rootClassName}
                     ref={this.setComponentRef}
                     tabIndex={0}>
                     <span className={styles.tooltip}>{tooltipText}</span>

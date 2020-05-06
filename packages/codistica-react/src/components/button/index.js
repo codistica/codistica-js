@@ -2,7 +2,7 @@
 
 /** @module react/components/button */
 
-import classnames from 'classnames/dedupe';
+import {default as classNames} from 'classnames';
 import React from 'react';
 import styles from './index.module.scss';
 
@@ -81,17 +81,17 @@ class Button extends React.Component<Props> {
             onClickDisabled,
             ...others
         } = this.props;
-        const mainClassName = classnames(
-            {[className]: !!className},
-            {[styles.button]: true},
-            {[styles.dark]: dark},
-            {[styles.light]: !dark},
-            {[styles.disabled]: disabled}
-        );
+        const rootClassName = classNames({
+            [className]: !!className,
+            [styles.button]: true,
+            [styles.dark]: dark,
+            [styles.light]: !dark,
+            [styles.disabled]: disabled
+        });
         return (
             <button
                 {...others}
-                className={mainClassName}
+                className={rootClassName}
                 type={'button'}
                 onClick={this.onClick}>
                 {text}

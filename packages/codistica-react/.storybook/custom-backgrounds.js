@@ -1,5 +1,5 @@
 const BGS = {
-    LIGHT: {name: 'LIGHT', value: '#dedede'},
+    LIGHT: {name: 'LIGHT', value: '#fefefe'},
     DARK: {name: 'DARK', value: '#333333'},
     TWITTER: {name: 'TWITTER', value: '#00aced'},
     FACEBOOK: {name: 'FACEBOOK', value: '#3b5998'}

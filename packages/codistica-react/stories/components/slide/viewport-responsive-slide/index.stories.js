@@ -18,7 +18,7 @@ function ViewportResponsiveSlide() {
     return (
         <div className={styles.container}>
             <Slide
-                masterStyle={{
+                rootStyle={{
                     height: '10vh',
                     width: '15vw',
                     marginBottom: '50px'

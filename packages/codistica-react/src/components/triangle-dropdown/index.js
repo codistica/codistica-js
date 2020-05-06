@@ -1,7 +1,7 @@
 /** @flow */
 
 import {getElementHeight} from '@codistica/browser';
-import classnames from 'classnames/dedupe';
+import {default as classNames} from 'classnames';
 import React, {useRef, useState} from 'react';
 import {onClickOutsideHOC} from '../../hocs/on-click-outside-hoc.js';
 import styles from './index.module.scss';
@@ -53,10 +53,10 @@ function TriangleDropdown(props: Props) {
         style,
         ...other
     } = props;
-    const mainClassName = classnames(
-        {[className]: !!className},
-        {[styles.container]: true}
-    );
+    const rootClassName = classNames({
+        [className]: !!className,
+        [styles.container]: true
+    });
 
     const Element = autoClose ? Div : 'div';
 
@@ -67,7 +67,7 @@ function TriangleDropdown(props: Props) {
     return (
         <Element
             {...other}
-            className={mainClassName}
+            className={rootClassName}
             ref={setContainerRef}
             style={{
                 ...style,
@@ -114,8 +114,8 @@ function TriangleDropdown(props: Props) {
     );
 
     /**
-     * @description Save master element and items references.
-     * @param {Object<string,*>} ref - Master element reference.
+     * @description Save container element reference.
+     * @param {Object<string,*>} ref - Container element reference.
      * @returns {void} Void.
      */
     function setContainerRef(ref: any) {

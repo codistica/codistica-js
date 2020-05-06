@@ -18,7 +18,7 @@ function SimpleSlide() {
     return (
         <div className={styles.container}>
             <Slide
-                masterStyle={{
+                rootStyle={{
                     height: '200px',
                     width: '200px',
                     marginBottom: '50px'

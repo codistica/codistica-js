@@ -2,7 +2,7 @@
 
 /** @module react/components/hover-icon */
 
-import classnames from 'classnames/dedupe';
+import {default as classNames} from 'classnames';
 import React from 'react';
 import {tooltipHOC} from '../../hocs/tooltip-hoc/index.js';
 import styles from './index.module.scss';
@@ -37,16 +37,16 @@ const WithTooltip = tooltipHOC('span');
  */
 function HoverIcon(props: Props) {
     const {defaultImg, onHoverImg, className, style, href, ...other} = props;
-    const elementClassName = classnames(
-        {[styles.container]: !href},
-        {[styles.element]: true},
-        {[styles.notAvailable]: !href}
-    );
-    const anchorClassName = classnames(
-        {[styles.container]: href},
-        {[styles.anchor]: true},
-        {[styles.switchChilds]: true}
-    );
+    const elementClassName = classNames({
+        [styles.container]: !href,
+        [styles.element]: true,
+        [styles.notAvailable]: !href
+    });
+    const anchorClassName = classNames({
+        [styles.container]: href,
+        [styles.anchor]: true,
+        [styles.switchChilds]: true
+    });
     const Element = href ? 'span' : WithTooltip;
     const HoverIconComponent = (
         <Element

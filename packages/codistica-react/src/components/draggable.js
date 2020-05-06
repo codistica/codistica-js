@@ -2,7 +2,7 @@
 
 /** @module react/components/draggable */
 
-import classnames from 'classnames/dedupe';
+import {default as classNames} from 'classnames';
 import React from 'react';
 import {onDragHOC} from '../hocs/on-drag-hoc.js';
 
@@ -143,12 +143,11 @@ class Draggable extends React.Component<Props, State> {
             ...others
         } = this.props;
         const {position, top, left} = this.state;
-        const mainClassName = classnames({[className]: !!className});
         return (
             <Div
                 {...others}
                 isolate={isolate}
-                className={mainClassName}
+                className={className}
                 style={{...style, position, top, left}}
                 onDrag={this.onDrag}
                 ref={this.setElementRef}>

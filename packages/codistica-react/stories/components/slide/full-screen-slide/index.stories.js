@@ -20,7 +20,7 @@ function FullScreenSlide() {
     return (
         <div className={styles.container}>
             <Slide
-                masterStyle={{height: '100vh', width: '100vw'}}
+                rootStyle={{height: '100vh', width: '100vw'}}
                 responsive={true}
                 direction={'column'}
                 onAPI={(API) => {
