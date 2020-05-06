@@ -20,6 +20,7 @@ export {
 
 // CLASSES
 export {OverscrollMonitor} from './classes/overscroll-monitor';
+export {Sophistication} from './classes/sophistication';
 export {ViewportMonitor} from './classes/viewport-monitor';
 
 // COMPONENTS
