@@ -6,12 +6,6 @@ import {eventListenerObjectSupport} from '@codistica/browser';
 import React from 'react';
 import type {ComponentType} from 'react';
 
-type HOCProps = {
-    isolate: boolean,
-    children: any,
-    forwardedRef: Function
-};
-
 /**
  * @typedef overscrollMonitorOptionsType
  * @property {boolean} [killPropagated=false] - Kills all propagated scrolling events.
@@ -20,7 +14,7 @@ type HOCProps = {
 /**
  * @typedef overscrollMonitorHOCPropsType
  * @property {boolean} [isolate=false] - Isolate component element scrolling events. Do not allow propagation to other elements.
- * @property {Object<string,*>} [children=null] - React prop.
+ * @property {*} [children=null] - React prop.
  * @property {Function} [forwardedRef=null] - React prop.
  */
 
@@ -55,13 +49,18 @@ class OverscrollMonitor {
         this.hocsNumber = 0;
 
         // BIND METHODS
-        (this: Function).mount = this.mount.bind(this);
-        (this: Function).unmount = this.unmount.bind(this);
-        (this: Function).eventKiller = this.eventKiller.bind(this);
-        (this: Function).overscrollBlocker = this.overscrollBlocker.bind(this);
-        (this: Function).HOC = this.HOC.bind(this);
+        (this: any).mount = this.mount.bind(this);
+        (this: any).unmount = this.unmount.bind(this);
+        (this: any).eventKiller = this.eventKiller.bind(this);
+        (this: any).overscrollBlocker = this.overscrollBlocker.bind(this);
+        (this: any).HOC = this.HOC.bind(this);
     }
 
+    /**
+     * @instance
+     * @description Adds event listeners..
+     * @returns {void} Void.
+     */
     mount() {
         window.addEventListener(
             'touchstart',
@@ -93,6 +92,11 @@ class OverscrollMonitor {
         );
     }
 
+    /**
+     * @instance
+     * @description Removes event listeners..
+     * @returns {void} Void.
+     */
     unmount() {
         window.removeEventListener(
             'touchstart',
@@ -144,7 +148,7 @@ class OverscrollMonitor {
      * @param {overscrollMonitorHOCPropsType} props - HOC Props.
      * @returns {void} Void.
      */
-    overscrollBlocker(e: {[string]: any}, props: HOCProps) {
+    overscrollBlocker(e: {[string]: any}, props: {[string]: any}) {
         // TODO: OPTION TO RESPECT BROWSER BEHAVIOUR AT LIMITS
         // TODO: OPTION TO ALLOW BODY SCROLLING (APPLY HANDLERS TO BODY (OR documentElement?)) (safePageScroll?)
         // TODO: FORCE SCROLL STOP WHEN #document TARGET? FIXING HEIGHT OR SETTING overflow: hidden. WITH OPTION IN HOC
@@ -234,6 +238,12 @@ class OverscrollMonitor {
      * @returns {Object<string,*>} Created higher order component.
      */
     HOC(Component: ComponentType<any> | string) {
+        type HOCProps = {
+            isolate: boolean,
+            children: any,
+            forwardedRef: Function
+        };
+
         const that = this; // ALLOW THIS METHOD RETURNED HOCs TO BE TIED TO THE CLASS INSTANCE :)
 
         /**
@@ -269,11 +279,14 @@ class OverscrollMonitor {
                 };
 
                 // BIND METHODS
-                (this: Function).setComponentRef = this.setComponentRef.bind(
-                    this
-                );
+                (this: any).setComponentRef = this.setComponentRef.bind(this);
             }
 
+            /**
+             * @instance
+             * @description React lifecycle.
+             * @returns {void} Void.
+             */
             componentDidMount() {
                 // TODO: ATTACH TO REACT EVENTS IN RENDER INSTEAD? CAN BREAK IF PROPS CHAIN IS INTERRUPTED
                 if (that.hocsNumber === 0) {
@@ -310,6 +323,11 @@ class OverscrollMonitor {
                 );
             }
 
+            /**
+             * @instance
+             * @description React lifecycle.
+             * @returns {void} Void.
+             */
             componentWillUnmount() {
                 // TODO: ATTACH TO REACT EVENTS IN RENDER INSTEAD? CAN BREAK IF PROPS CHAIN IS INTERRUPTED
                 that.hocsNumber--;
@@ -374,9 +392,9 @@ class OverscrollMonitor {
              * @returns {Object<string,*>} React component.
              */
             render() {
-                const {children, forwardedRef, isolate, ...others} = this.props;
+                const {children, forwardedRef, isolate, ...other} = this.props;
                 return (
-                    <Component {...others} ref={this.setComponentRef}>
+                    <Component {...other} ref={this.setComponentRef}>
                         {children}
                     </Component>
                 );

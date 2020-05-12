@@ -3,13 +3,18 @@
 /** @module react/components/input-text */
 
 import {eventUtils} from '@codistica/core';
-import {default as classNames} from 'classnames';
 import React from 'react';
+import resetClassName from '../../css/reset.module.scss';
+import {mergeClassNames} from '../../modules/merge-class-names.js';
 import {InputRenderer} from '../input-renderer.js';
 import type {Plugin, Preset} from '../input-renderer.js';
-import styles from './index.module.scss';
+import classNames from './index.module.scss';
 import {sophistication} from './index.sophistication.js';
-import type {CustomStyles, CustomColors} from './index.sophistication.js';
+import type {
+    CustomStyles,
+    CustomClassNames,
+    CustomColors
+} from './index.sophistication.js';
 
 type BlockerInstance = (e: {[string]: any}) => boolean;
 type FilterInstance = (value: string) => string;
@@ -32,6 +37,7 @@ type ExternalProps = {
     onChange: Function,
     onBlur: Function,
     customStyles: CustomStyles,
+    customClassNames: CustomClassNames,
     customColors: CustomColors
 };
 
@@ -47,20 +53,12 @@ type State = {
     value: string
 };
 
-// TODO: FIX.
 /**
  * @typedef inputTextInternalPropsType
- * @property {string} [name=''] - Input name.
- * @property {string} [label=''] - Input label.
- * @property {string} [type='text'] - Input type.
- * @property {string} [value=''] - Input value.
- * @property {string} [placeholder=''] - Input placeholder.
- * @property {boolean} [mandatory=false] - Input mandatory flag.
- * @property {(string|null)} [match=null] - Name of input that has to be matched.
- * @property {Function} [onKeyDown=null] - Callback for key down event.
- * @property {Function} [onInput=null] - Callback for input event.
- * @property {Function} [onChangeFixed=null] - Callback for fixed change event.
- * @property {Function} [onBlur=null] - Callback for blur event.
+ * @property {string} id - Input ID.
+ * @property {Array<*>} blockers - Blocker instances.
+ * @property {Array<*>} filters - Filter instances.
+ * @property {('valid'|'invalid'|'highlight'|'warning'|null)} status - Input status.
  */
 
 /**
@@ -71,7 +69,7 @@ class InputTextInternal extends React.Component<InternalProps, State> {
 
     /**
      * @description Constructor.
-     * @param {inputTextInternalPropsType} [props] - Component props.
+     * @param {(inputTextPropsType|inputTextInternalPropsType)} [props] - Component props.
      */
     constructor(props: InternalProps) {
         super(props);
@@ -92,11 +90,11 @@ class InputTextInternal extends React.Component<InternalProps, State> {
         props.onNewValue && props.onNewValue(props.value);
 
         // BIND METHODS
-        (this: Function).onKeyDown = this.onKeyDown.bind(this);
-        (this: Function).onInput = this.onInput.bind(this);
-        (this: Function).onChangeFixed = this.onChangeFixed.bind(this);
-        (this: Function).onChange = this.onChange.bind(this);
-        (this: Function).onBlur = this.onBlur.bind(this);
+        (this: any).onKeyDownHandler = this.onKeyDownHandler.bind(this);
+        (this: any).onInputHandler = this.onInputHandler.bind(this);
+        (this: any).onChangeFixedHandler = this.onChangeFixedHandler.bind(this);
+        (this: any).onChangeHandler = this.onChangeHandler.bind(this);
+        (this: any).onBlurHandler = this.onBlurHandler.bind(this);
     }
 
     /**
@@ -110,11 +108,11 @@ class InputTextInternal extends React.Component<InternalProps, State> {
 
     /**
      * @instance
-     * @description Handler for keyDown event.
+     * @description Callback for keyDown event.
      * @param {Object<string,*>} e - Triggering event.
      * @returns {void} Void.
      */
-    onKeyDown(e: {[string]: any}) {
+    onKeyDownHandler(e: {[string]: any}) {
         const isPrintable = e.key && e.key.length === 1;
 
         // CHAIN PASSED EVENT HANDLER IF NECESSARY
@@ -148,11 +146,11 @@ class InputTextInternal extends React.Component<InternalProps, State> {
 
     /**
      * @instance
-     * @description Handler for input event.
+     * @description Callback for input event.
      * @param {Object<string,*>} e - Triggering event.
      * @returns {void} Void.
      */
-    onInput(e: {[string]: any}) {
+    onInputHandler(e: {[string]: any}) {
         // CHAIN PASSED EVENT HANDLER IF NECESSARY
         if (typeof this.props.onInput === 'function') {
             this.props.onInput(e);
@@ -164,11 +162,11 @@ class InputTextInternal extends React.Component<InternalProps, State> {
 
     /**
      * @instance
-     * @description Handler for change fixed event.
+     * @description Callback for change fixed event.
      * @param {Object<string,*>} e - Triggering event.
      * @returns {void} Void.
      */
-    onChangeFixed(e: {[string]: any}) {
+    onChangeFixedHandler(e: {[string]: any}) {
         // CHAIN PASSED EVENT HANDLER IF NECESSARY
         if (typeof this.props.onChangeFixed === 'function') {
             this.props.onChangeFixed(e);
@@ -180,17 +178,20 @@ class InputTextInternal extends React.Component<InternalProps, State> {
             e.target.value
         );
 
+        // RESET inputChangeTracker
+        this.inputChangeTracker = newValue;
+
         // UPDATE INPUT
         this.updateInputValue(newValue, newValue !== e.target.value);
     }
 
     /**
      * @instance
-     * @description Handler for change event.
+     * @description Callback for change event.
      * @param {Object<string,*>} e - Triggering event.
      * @returns {void} Void.
      */
-    onChange(e: {[string]: any}) {
+    onChangeHandler(e: {[string]: any}) {
         // CHAIN PASSED EVENT HANDLER IF NECESSARY
         if (typeof this.props.onChange === 'function') {
             this.props.onChange(e);
@@ -199,11 +200,11 @@ class InputTextInternal extends React.Component<InternalProps, State> {
 
     /**
      * @instance
-     * @description Handler for blur event.
+     * @description Callback for blur event.
      * @param {Object<string,*>} e - Triggering event.
      * @returns {void} Void.
      */
-    onBlur(e: {[string]: any}) {
+    onBlurHandler(e: {[string]: any}) {
         // CHAIN PASSED EVENT HANDLER IF NECESSARY
         if (typeof this.props.onBlur === 'function') {
             this.props.onBlur(e);
@@ -211,15 +212,12 @@ class InputTextInternal extends React.Component<InternalProps, State> {
 
         // EMULATE REAL onChange EVENT BEHAVIOUR
         if (e.target.value !== this.inputChangeTracker) {
-            this.onChangeFixed(
+            this.onChangeFixedHandler(
                 eventUtils.getMockEvent({
                     ...e,
                     type: 'change'
                 })
             );
-
-            // RESET inputChangeTracker
-            this.inputChangeTracker = e.target.value;
         }
     }
 
@@ -248,47 +246,108 @@ class InputTextInternal extends React.Component<InternalProps, State> {
             type,
             placeholder,
             status,
+            customStyles,
+            customClassNames,
             customColors,
-            customStyles
+            mandatory,
+            match,
+            onValidationResult,
+            onNewValue,
+            onKeyDown,
+            onInput,
+            onChangeFixed,
+            onChange,
+            onBlur,
+            plugins,
+            presets,
+            blockers,
+            filters,
+            ...other
         } = this.props;
-        const {value} = this.state;
-        const {onKeyDown, onInput, onChange, onBlur} = this;
 
-        const classes = sophistication.getClasses(this, {
+        const {value} = this.state;
+
+        const {
+            onKeyDownHandler,
+            onInputHandler,
+            onChangeHandler,
+            onBlurHandler
+        } = this;
+
+        const jssClassNames = sophistication.getClassNames(this, {
             status,
             customColors,
             customStyles
         });
 
-        const inputClassName = classNames({
-            [styles.blink]: status === 'highlight' || status === 'warning',
-            [styles.input]: true,
-            [classes.input]: true
-        });
+        const rootClassNames = mergeClassNames(
+            resetClassName.root,
+            customClassNames.root
+        );
+
+        const inputClassNames = mergeClassNames(
+            {
+                [classNames.blink]:
+                    status === 'highlight' || status === 'warning'
+            },
+            classNames.input,
+            jssClassNames.input,
+            customClassNames.input
+        );
 
         return (
-            <span>
+            <span style={customStyles.root} className={rootClassNames}>
                 <input
+                    {...other}
                     id={id}
                     type={type}
                     name={name}
                     value={value}
                     placeholder={placeholder}
-                    className={inputClassName}
-                    onKeyDown={onKeyDown}
-                    onInput={onInput}
-                    onChange={onChange}
-                    onBlur={onBlur}
+                    onKeyDown={onKeyDownHandler}
+                    onInput={onInputHandler}
+                    onChange={onChangeHandler}
+                    onBlur={onBlurHandler}
+                    style={customStyles.input}
+                    className={inputClassNames}
                 />
-                <label htmlFor={id}>{label}</label>
+                <label
+                    htmlFor={id}
+                    style={customStyles.label}
+                    className={customClassNames.label}>
+                    {label}
+                </label>
             </span>
         );
     }
 }
 
 /**
+ * @typedef inputTextPropsType
+ * @property {string} [name=''] - Input name.
+ * @property {string} [label=''] - Input label.
+ * @property {string} [value=''] - Input value.
+ * @property {string} [type='text'] - Input type.
+ * @property {string} [placeholder=''] - Input placeholder.
+ * @property {boolean} [mandatory=false] - Input mandatory flag.
+ * @property {(string|null)} [match=null] - Name of input that has to be matched to correctly validate.
+ * @property {(*|Array<*>)} [plugins=[]] - Input plugins.
+ * @property {(*|Array<*>)} [presets=[]] - Input presets.
+ * @property {Function} [onValidationResult=null] - Callback for validationResult event.
+ * @property {Function} [onNewValue=null] - Callback for newValue event.
+ * @property {Function} [onKeyDown=null] - Callback for keyDown event.
+ * @property {Function} [onInput=null] - Callback for input event.
+ * @property {Function} [onChangeFixed=null] - Callback for changeFixed event.
+ * @property {Function} [onChange=null] - Callback for change event.
+ * @property {Function} [onBlur=null] - Callback for blur event.
+ * @property {Object<string,*>} [customStyles={}] - Custom styles prop.
+ * @property {Object<string,*>} [customClassNames={}] - Custom classNames prop.
+ * @property {Object<string,*>} [customColors=null] - Custom colors prop.
+ */
+
+/**
  * @description A beautiful text input component.
- * @param {inputTextInternalPropsType} props - Component props. // TODO: FIX (EXTERNAL PROPS TYPES MUST BE USED).
+ * @param {inputTextPropsType} props - Component props.
  * @returns {Object<string,*>} React component.
  */
 function InputText(props: ExternalProps) {
@@ -299,7 +358,7 @@ function InputText(props: ExternalProps) {
                     <InputTextInternal
                         {...props}
                         id={rendererParams.id}
-                        onNewValue={rendererParams.newValueHandler}
+                        onNewValue={rendererParams.onNewValueHandler}
                         status={rendererParams.status}
                         blockers={rendererParams.blockers}
                         filters={rendererParams.filters}
@@ -334,6 +393,7 @@ InputText.defaultProps = {
     onChange: null,
     onBlur: null,
     customStyles: {},
+    customClassNames: {},
     customColors: {}
 };
 

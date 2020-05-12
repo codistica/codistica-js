@@ -1,6 +1,8 @@
 .root {
   display: inline-block;
   position: relative;
+  height: 20px;
+  width: 20px;
 }
 
 // POSITION/CENTER ALL ELEMENTS AND RESET DEFAULT STYLES
@@ -37,7 +39,7 @@
 .label::before {
   border: 1px solid;
   transition: border 0.2s linear;
-  content: ""; // MAKE OUTER BOX ALWAYS VISIBLE
+  content: ''; // MAKE OUTER BOX ALWAYS VISIBLE
   z-index: 10;
 }
 
@@ -51,7 +53,7 @@
 
 // SHOW INNER SQUARE IN CHECKED INPUTS
 .input:checked + .label::after {
-  content: "";
+  content: '';
 }
 
 .blink {

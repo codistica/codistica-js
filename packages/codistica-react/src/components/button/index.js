@@ -2,27 +2,40 @@
 
 /** @module react/components/button */
 
-import {default as classNames} from 'classnames';
 import React from 'react';
-import styles from './index.module.scss';
+import resetClassName from '../../css/reset.module.scss';
+import {mergeClassNames} from '../../modules/merge-class-names.js';
+import {mergeStyles} from '../../modules/merge-styles.js';
+import classNames from './index.module.scss';
 
 type Props = {
-    className: string,
-    text: string,
-    dark: boolean,
+    title: string,
     disabled: boolean,
+    href: string,
     onClick: Function,
-    onClickDisabled: Function
+    onClickDisabled: Function,
+    onTouchStart: Function,
+    customStyles: {
+        button?: {[string]: string},
+        buttonEnabled?: {[string]: string},
+        buttonDisabled?: {[string]: string}
+    },
+    customClassNames: {
+        button?: string,
+        buttonEnabled?: string,
+        buttonDisabled?: string
+    }
 };
 
 /**
  * @typedef buttonPropsType
- * @property {string} [className=''] - React prop.
- * @property {string} [text=''] - Button text.
- * @property {boolean} [dark=false] - Use dark theme.
+ * @property {string} [title=''] - Button title.
  * @property {boolean} [disabled=false] - Button is disabled.
  * @property {Function} [onClick=null] - Callback for click event.
- * @property {Function} [onClickDisabled=null] - Callback for click event when button is disabled.
+ * @property {Function} [onClickDisabled=null] - Callback for clickDisabled event.
+ * @property {Function} [onTouchStart=null] - Callback for touchStart event.
+ * @property {Object<string,*>} [customStyles={}] - Custom styles prop.
+ * @property {Object<string,*>} [customClassNames={}] - Custom classNames prop.
  */
 
 /**
@@ -30,12 +43,14 @@ type Props = {
  */
 class Button extends React.Component<Props> {
     static defaultProps = {
-        className: '',
-        text: '',
-        dark: false,
+        title: '',
         disabled: false,
+        href: null,
         onClick: null,
-        onClickDisabled: null
+        onClickDisabled: null,
+        onTouchStart: null,
+        customStyles: {},
+        customClassNames: {}
     };
 
     /**
@@ -46,16 +61,16 @@ class Button extends React.Component<Props> {
         super(props);
 
         // BIND METHODS
-        (this: Function).onClick = this.onClick.bind(this);
+        (this: any).onClickHandler = this.onClickHandler.bind(this);
     }
 
     /**
      * @instance
-     * @description Handler for click event.
+     * @description Callback for click event.
      * @param {Object<string,*>} e - Triggering event.
      * @returns {void} Void.
      */
-    onClick(e: {[string]: any}) {
+    onClickHandler(e: {[string]: any}) {
         if (this.props.disabled) {
             if (typeof this.props.onClickDisabled === 'function') {
                 this.props.onClickDisabled(e);
@@ -74,28 +89,62 @@ class Button extends React.Component<Props> {
      */
     render() {
         const {
-            dark,
-            text,
-            className,
+            title,
             disabled,
-            onClickDisabled,
-            ...others
+            href,
+            onTouchStart,
+            customStyles,
+            customClassNames
         } = this.props;
-        const rootClassName = classNames({
-            [className]: !!className,
-            [styles.button]: true,
-            [styles.dark]: dark,
-            [styles.light]: !dark,
-            [styles.disabled]: disabled
+
+        const buttonStyles = mergeStyles(
+            customStyles.button,
+            disabled ? customStyles.buttonDisabled : customStyles.buttonEnabled
+        );
+
+        const anchorClassNames = mergeClassNames({
+            [resetClassName.root]: href
         });
-        return (
+
+        const buttonClassNames = mergeClassNames(
+            {
+                [resetClassName.root]: !href,
+                [classNames.buttonEnabled]: !disabled,
+                [classNames.buttonDisabled]: disabled
+            },
+            customClassNames.button,
+            {
+                [customClassNames.buttonEnabled || '']: !disabled
+            },
+            {
+                [customClassNames.buttonDisabled || '']: disabled
+            }
+        );
+
+        const ButtonComponent = (
             <button
-                {...others}
-                className={rootClassName}
                 type={'button'}
-                onClick={this.onClick}>
-                {text}
+                onClick={this.onClickHandler}
+                onTouchStart={(e) => {
+                    onTouchStart && onTouchStart(e);
+                }}
+                style={buttonStyles}
+                className={buttonClassNames}>
+                {title}
             </button>
+        );
+
+        return href ? (
+            <a
+                tabIndex={-1}
+                href={href}
+                target={'_blank'}
+                rel={'noopener noreferrer'}
+                className={anchorClassNames}>
+                {ButtonComponent}
+            </a>
+        ) : (
+            ButtonComponent
         );
     }
 }

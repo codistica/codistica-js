@@ -1,15 +1,21 @@
 .input {
   display: inline-block;
-  margin: 0;
-  padding: 10px;
-  border: none;
-  outline: none;
-  transition: border-bottom 0.2s linear, border 0.2s linear;
   background-color: transparent;
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #232323;
+  border-radius: 5px;
+  color: #232323;
+  transition: border-bottom 0.2s linear, border 0.2s linear;
 }
 
 .input::placeholder {
+  color: #232323;
   opacity: 0.4;
+}
+
+.input:focus {
+  border-color: #e88b0e;
 }
 
 .input + label {

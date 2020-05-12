@@ -6,17 +6,11 @@ import {objectUtils} from '@codistica/core';
 import {EventEmitter} from 'eventemitter3';
 import React from 'react';
 import type {ComponentType} from 'react';
-import styles from './index.module.scss';
+import classNames from './index.module.scss';
 
-type HOCProps = {
-    style: {[string]: any},
-    children: any,
-    forwardedRef: Function
-};
-
-type HOCState = {
-    viewportStyle: {[string]: any}
-};
+// TODO: FIX STYLE REPLACEMENT. ERROR WRITING TO read-only? CREATE DEEP CLONE FUNCTION? FIX ALL objectUtils? AND ADJUST USAGE (IN codistica AND PROJECTS, CHECK)
+// TODO: FIX UNITS CORRECTION MODEL. CORRECTION MUST BE BY A COEFFICIENT (CHECK 0 BEHAVIOUR)
+// TODO: TEST PERFORMANCE! AND OPTIMIZE EVENT LISTENERS ACCORDINGLY. ADD EVENT LISTENERS FOR MOBILE. ALSO FOR ROTATION. APPLY THROTTLING/DE-BOUNCING. USE TIMER TOO (5s?). WITH OPTION
 
 /**
  * @typedef viewportMonitorOptionsType
@@ -26,7 +20,7 @@ type HOCState = {
 
 /**
  * @typedef viewportMonitorHOCPropsType
- * @property {Object<string,*>} [style={}] - React prop.
+ * @property {Object<string,string>} [style={}] - React prop.
  * @property {*} [children=null] - React prop.
  * @property {Function} [forwardedRef=null] - React prop.
  */
@@ -69,21 +63,15 @@ class ViewportMonitor extends EventEmitter {
         this.minimalUI = null;
 
         // BIND METHODS
-        (this: Function).init = this.init.bind(this);
-        (this: Function).viewportFix = this.viewportFix.bind(this);
-        (this: Function).getViewportHeight = this.getViewportHeight.bind(this);
-        (this: Function).getViewportWidth = this.getViewportWidth.bind(this);
-        (this: Function).HOC = this.HOC.bind(this);
-    }
-
-    init() {
-        // TODO: MOVE TO CONSTRUCTOR AND REMOVE CALL FROM module?
-        // TODO: TEST PERFORMANCE! AND OPTIMIZE EVENT LISTENERS ACCORDINGLY. ADD EVENT LISTENERS FOR MOBILE. ALSO FOR ROTATION. APPLY THROTTLING/DE-BOUNCING. USE TIMER TOO (5s?). WITH OPTION
+        (this: any).viewportFix = this.viewportFix.bind(this);
+        (this: any).getViewportHeight = this.getViewportHeight.bind(this);
+        (this: any).getViewportWidth = this.getViewportWidth.bind(this);
+        (this: any).HOC = this.HOC.bind(this);
 
         // APPEND MEASURE BOXES TO DOM
         const measureAreas = [
-            styles.measureBoxViewport,
-            styles.measureBoxPercent
+            classNames.measureBoxViewport,
+            classNames.measureBoxPercent
         ].map((className) => {
             let elem = document.createElement('div');
             elem.className = className;
@@ -246,6 +234,16 @@ class ViewportMonitor extends EventEmitter {
      * @returns {Object<string,*>} Created higher order component.
      */
     HOC(Component: ComponentType<any> | string) {
+        type HOCProps = {
+            children: any,
+            forwardedRef: Function,
+            style: {[string]: any}
+        };
+
+        type HOCState = {
+            viewportStyle: {[string]: any}
+        };
+
         const that = this; // ALLOW THIS METHOD RETURNED HOCs TO BE TIED TO THE CLASS INSTANCE :)
 
         /**
@@ -253,9 +251,9 @@ class ViewportMonitor extends EventEmitter {
          */
         class _HOC extends React.Component<HOCProps, HOCState> {
             static defaultProps = {
-                style: {},
                 children: null,
-                forwardedRef: null
+                forwardedRef: null,
+                style: {}
             };
 
             /**
@@ -266,22 +264,28 @@ class ViewportMonitor extends EventEmitter {
                 super(props);
 
                 // BIND METHODS
-                (this: Function).onViewportChange = this.onViewportChange.bind(
-                    this
-                );
-                (this: Function).setComponentRef = this.setComponentRef.bind(
-                    this
-                );
+                (this: any).onViewportChange = this.onViewportChange.bind(this);
+                (this: any).setComponentRef = this.setComponentRef.bind(this);
 
                 this.state = {
                     viewportStyle: _HOC.replaceUnits(props.style)
                 };
             }
 
+            /**
+             * @instance
+             * @description React lifecycle.
+             * @returns {void} Void.
+             */
             componentDidMount() {
                 that.on('shift', this.onViewportChange); // TODO: DETACH ON UNMOUNT?
             }
 
+            /**
+             * @instance
+             * @description Callback for viewportChange event.
+             * @returns {void} Void.
+             */
             onViewportChange() {
                 this.setState({
                     viewportStyle: _HOC.replaceUnits(this.props.style)
@@ -314,13 +318,13 @@ class ViewportMonitor extends EventEmitter {
              * @returns {Object<string,*>} React component.
              */
             render() {
-                const {children, forwardedRef, style, ...others} = this.props;
+                const {children, forwardedRef, style, ...other} = this.props;
                 const {viewportStyle} = this.state;
                 return (
                     <Component
-                        {...others}
-                        style={viewportStyle}
-                        ref={this.setComponentRef}>
+                        {...other}
+                        ref={this.setComponentRef}
+                        style={viewportStyle}>
                         {children}
                     </Component>
                 );

@@ -3,22 +3,13 @@
 /** @module react/components/input-renderer */
 
 // TODO: RADIOS: ADD SUPPORT FOR DOUBLE CLICK (TOUCH) TO UNCHECK. ADD SUPPORT FOR INITIALLY CHECKED (IN radios PROP?)
-// TODO: IMPROVE FOCUS WHEN INPUT HAS VALUE
-// TODO: IMPROVE radio TITLES SYSTEM. MAKE A LITTLE MORE CUSTOMIZABLE?
 // TODO: MAKE label = name WHEN NOT SPECIFIED?
 // TODO: RESET BROWSERS AUTOFILL STYLES!
 // TODO: ADD CLEAR INPUT BUTTON AND SHOW PASSWORD BUTTON OPTIONS (WITH FOCUS SUPPORT).
-// TODO: CHECK TAB NAVIGATION FOR RADIO BUTTONS AND CHECKBOXES IN Safari.
-
 // TODO: ALLOW COMMANDS (LIKE cmd + v) IN ALL INPUTS DESPITE OF BLOCKERS.
 // TODO: ALLOW CLICKING CHECKBOXES AND RADIOS BY CLICKING ON 'LABEL' (TITLE) TO MATCH NATIVE BEHAVIOUR.
-
 // TODO: ADD SUPPORT FOR INPUT TOOLTIPS (WITH PLUGINS)
 // TODO: ADD SUPPORT FOR INPUT REPORTS RENDERING (WITH EXTRA ELEMENT. VIA FORM PROVIDER? OR INDEPENDENT (BETTER) ?)
-
-// TODO: CHECK JSDOC (ALL FORM/INPUT COMPONENTS)
-// TODO: CHECK FLOW TYPES (ALL FORM/INPUT COMPONENTS)
-// TODO: REUSE TYPES AND DEFAULT VALUES WHEN POSSIBLE
 
 import {objectUtils, arrayUtils} from '@codistica/core';
 import React from 'react';
@@ -48,7 +39,7 @@ type Status = 'valid' | 'invalid' | 'highlight' | 'warning' | null;
 type RendererParams = {
     id: string,
     status: Status,
-    newValueHandler: (value: string, highlight?: boolean) => void,
+    onNewValueHandler: (value: string, highlight?: boolean) => void,
     blockers: Array<BlockerInstance>,
     filters: Array<FilterInstance>
 };
@@ -127,6 +118,9 @@ const InputContext: {[string]: any} = React.createContext({
 /**
  * @typedef inputRendererPropsType
  * @property {Object<string,*>} [inputRenderFn=null] - Input component render prop.
+ * @property {string} [name=''] - Input name.
+ * @property {boolean} [mandatory=false] - Input mandatory flag.
+ * @property {(string|null)} [match=null] - Name of input that has to be matched to correctly validate.
  * @property {(inputPluginType|Array<inputPluginType>)} [plugins=[]] - Input plugins.
  * @property {(inputPresetType|Array<inputPresetType>)} [presets=[]] - Input presets.
  * @property {Function} [onValidationResult=null] - Callback for validationResult event.
@@ -190,14 +184,14 @@ class InputRenderer extends React.Component<Props, State> {
         };
 
         // BIND METHODS
-        (this: Function).newValueHandler = this.newValueHandler.bind(this);
-        (this: Function).setValidation = this.setValidation.bind(this);
-        (this: Function).setOverrideValidation = this.setOverrideValidation.bind(
+        (this: any).onNewValueHandler = this.onNewValueHandler.bind(this);
+        (this: any).setValidation = this.setValidation.bind(this);
+        (this: any).setOverrideValidation = this.setOverrideValidation.bind(
             this
         );
-        (this: Function).validateInput = this.validateInput.bind(this);
-        (this: Function).highlight = this.highlight.bind(this);
-        (this: Function).warn = this.warn.bind(this);
+        (this: any).validateInput = this.validateInput.bind(this);
+        (this: any).highlight = this.highlight.bind(this);
+        (this: any).warn = this.warn.bind(this);
     }
 
     /**
@@ -266,12 +260,12 @@ class InputRenderer extends React.Component<Props, State> {
 
     /**
      * @instance
-     * @description Handler for newValue event.
+     * @description Callback for newValue event.
      * @param {string} value - New value.
      * @param {boolean} [highlight] - Highlight input after setting value.
      * @returns {void} Void.
      */
-    newValueHandler(value: string, highlight?: boolean) {
+    onNewValueHandler(value: string, highlight?: boolean) {
         if (value !== this.value) {
             // SET NEW VALUE
             this.value = value;
@@ -429,13 +423,13 @@ class InputRenderer extends React.Component<Props, State> {
      */
     render() {
         const {status} = this.state;
-        const {id, newValueHandler, filters, blockers} = this;
+        const {id, onNewValueHandler, filters, blockers} = this;
 
         return this.props.inputRenderFn
             ? this.props.inputRenderFn({
                   id,
                   status,
-                  newValueHandler,
+                  onNewValueHandler,
                   blockers,
                   filters
               })

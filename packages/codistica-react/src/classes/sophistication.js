@@ -1,5 +1,7 @@
 /** @flow */
 
+/** @module react/classes/sophistication */
+
 import {create} from 'jss';
 import type {StyleSheet} from 'jss';
 import {default as jssPresetDefault} from 'jss-preset-default';
@@ -62,7 +64,7 @@ class Sophistication<Styles: {[string]: any}, Params: {[string]: any}> {
      * @param {Object<string,*>} params - Styles parameters.
      * @returns {Object<string,string>} Classes object.
      */
-    getClasses(
+    getClassNames(
         component: React.Component<any, any>,
         params: Params
     ): {[$Keys<Styles>]: string} {

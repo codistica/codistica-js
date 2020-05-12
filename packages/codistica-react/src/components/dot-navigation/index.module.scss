@@ -1,25 +1,18 @@
-.container {
+.root {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-
-  * {
-    box-sizing: border-box;
-  }
-
-  span {
-    transition: border 0.3s linear;
-  }
 }
 
-.active,
-.inactive {
+.dotActive,
+.dotInactive {
   border-radius: 50%;
   background-color: rgba(51, 51, 51, 0.2);
   margin: 3px;
   cursor: pointer;
+  transition: border 0.3s linear;
 }
 
-.active {
+.dotActive {
   border: 2px solid rgba(51, 51, 51, 0.5);
 }

@@ -1,27 +1,28 @@
 /** @flow */
 
 import {Sophistication} from '../../classes/sophistication.js';
-import styles from './index.module.scss';
+import classNames from './index.module.scss';
 
 type CustomStyles = {
-    backgroundColor?: string,
-    borderColor?: string,
-    opacity?: string | number,
-    height?: string | number,
-    width?: string | number
+    root?: {[string]: string}
+};
+
+type CustomClassNames = {
+    root?: string
 };
 
 type CustomColors = {
-    focusColor?: string,
     validColor?: string,
     invalidColor?: string,
     warningColor?: string,
     highlightColor?: string,
-    fillColor?: string
+    borderColor?: string,
+    backgroundColor?: string,
+    fillColor?: string,
+    focusColor?: string
 };
 
 type Styles = {
-    root: Function,
     input: Function,
     label: Function
 };
@@ -34,28 +35,15 @@ type Params = {
 
 const sophistication = new Sophistication<Styles, Params>({
     /**
-     * @description Root JSS styles.
-     * @param {*} params - Component props.
-     * @returns {Object<string,*>} Style.
-     */
-    root(params: Params = {}) {
-        const {height = 20, width = 20} = params.customStyles || {};
-        return {
-            height,
-            width
-        };
-    },
-    /**
      * @description Input JSS styles.
      * @param {*} params - Component props.
      * @returns {Object<string,*>} Style.
      */
     input(params: Params = {}) {
-        let {focusColor = '#e88b0e'} = params.customColors || {};
-
+        const {focusColor = '#e88b0e'} = params.customColors || {};
         return {
-            [`&:focus + .${styles.label}::before`]: {
-                borderColor: focusColor
+            [`&:focus + .${classNames.label}::before`]: {
+                borderColor: getStatusColor(params) || focusColor
             }
         };
     },
@@ -65,50 +53,52 @@ const sophistication = new Sophistication<Styles, Params>({
      * @returns {Object<string,*>} Style.
      */
     label(params: Params = {}) {
-        let {
-            validColor = '#94ff36',
-            invalidColor = '#e83b35',
-            warningColor = '#e8e639',
-            highlightColor = '#232323',
+        const {
+            borderColor = 'rgba(0,0,0,0.7)',
+            backgroundColor = 'rgba(0,0,0,0.1)',
             fillColor = '#232323'
         } = params.customColors || {};
 
-        let {
-            backgroundColor = 'rgba(0,0,0,0.1)',
-            borderColor = 'rgba(0,0,0,0.7)',
-            opacity = 1
-        } = params.customStyles || {};
-
-        switch (params.status) {
-            case 'valid':
-                borderColor = validColor;
-                break;
-            case 'invalid':
-                borderColor = invalidColor;
-                break;
-            case 'warning':
-                borderColor = warningColor;
-                break;
-            case 'highlight':
-                borderColor = highlightColor;
-                break;
-            default:
-                break;
-        }
+        const statusColor = getStatusColor(params);
 
         return {
-            opacity,
             '&::before': {
                 backgroundColor,
-                borderColor
+                borderColor: statusColor || borderColor
             },
             '&::after': {
                 backgroundColor:
-                    params.status === 'warning' ? warningColor : fillColor
+                    params.status === 'warning' ? statusColor : fillColor
             }
         };
     }
 });
 
+/**
+ * @description Returns status corresponding color.
+ * @param {*} params - Component props.
+ * @returns {(string|null)} Color or null.
+ */
+function getStatusColor(params: Params) {
+    const {
+        validColor = '#94ff36',
+        invalidColor = '#e83b35',
+        warningColor = '#e8e639',
+        highlightColor = '#232323'
+    } = params.customColors || {};
+    switch (params.status) {
+        case 'valid':
+            return validColor;
+        case 'invalid':
+            return invalidColor;
+        case 'warning':
+            return warningColor;
+        case 'highlight':
+            return highlightColor;
+        default:
+            return null;
+    }
+}
+
 export {sophistication};
-export type {CustomColors, CustomStyles};
+export type {CustomStyles, CustomColors, CustomClassNames};

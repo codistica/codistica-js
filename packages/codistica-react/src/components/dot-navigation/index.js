@@ -2,20 +2,32 @@
 
 /** @module react/components/dot-navigation */
 
-import {default as classNames} from 'classnames';
 import React from 'react';
-import styles from './index.module.scss';
+import resetClassName from '../../css/reset.module.scss';
+import {mergeClassNames} from '../../modules/merge-class-names.js';
+import {mergeStyles} from '../../modules/merge-styles.js';
+import classNames from './index.module.scss';
 
 type Props = {
-    style: {[string]: any},
-    className: string,
     quantity: number,
     dotIndex: number,
     size: string,
     direction: 'row' | 'column',
     auto: boolean,
     onSwitch: Function,
-    waitForCallback: boolean
+    waitForCallback: boolean,
+    customStyles: {
+        root?: {[string]: string},
+        dot?: {[string]: string},
+        dotActive?: {[string]: string},
+        dotInactive?: {[string]: string}
+    },
+    customClassNames: {
+        root?: string,
+        dot?: string,
+        dotActive?: string,
+        dotInactive?: string
+    }
 };
 
 type State = {
@@ -24,8 +36,6 @@ type State = {
 
 /**
  * @typedef dotNavigationPropsType
- * @property {Object<string,*>} [style={}] - React prop.
- * @property {string} [className=''] - React prop.
  * @property {number} [quantity=0] - Number of dots.
  * @property {number} [dotIndex=0] - Active dot index.
  * @property {string} [size='15px'] - Dot diameter in pixels.
@@ -33,6 +43,8 @@ type State = {
  * @property {boolean} [auto=true] - Automatically change active dot index on switch.
  * @property {Function} [onSwitch=null] - Callback for switch event.
  * @property {boolean} [waitForCallback=false] - Disable dot navigation until onSwitch callback is executed.
+ * @property {Object<string,*>} [customStyles={}] - Custom styles prop.
+ * @property {Object<string,*>} [customClassNames={}] - Custom classNames prop.
  */
 
 /**
@@ -40,15 +52,15 @@ type State = {
  */
 class DotNavigation extends React.Component<Props, State> {
     static defaultProps = {
-        style: {},
-        className: '',
         quantity: 0,
         dotIndex: 0,
         size: '15px',
         direction: 'row',
         auto: true,
         onSwitch: null,
-        waitForCallback: false
+        waitForCallback: false,
+        customStyles: {},
+        customClassNames: {}
     };
 
     stop: boolean;
@@ -67,16 +79,16 @@ class DotNavigation extends React.Component<Props, State> {
         };
 
         // BIND METHODS
-        (this: Function).onSwitch = this.onSwitch.bind(this);
+        (this: any).onSwitchHandler = this.onSwitchHandler.bind(this);
     }
 
     /**
      * @instance
-     * @description Handler for switch event.
+     * @description Callback for switch event.
      * @param {number} index - Triggering dot index.
      * @returns {void} Void.
      */
-    onSwitch(index: number) {
+    onSwitchHandler(index: number) {
         if (!this.stop) {
             if (typeof this.props.onSwitch === 'function') {
                 if (this.props.waitForCallback) {
@@ -100,40 +112,76 @@ class DotNavigation extends React.Component<Props, State> {
     render() {
         const {
             auto,
-            onSwitch,
             dotIndex,
             quantity,
-            className,
             direction,
             size,
-            style,
-            waitForCallback,
-            ...others
+            customStyles,
+            customClassNames
         } = this.props;
         const {autoPosition} = this.state;
-        const rootClassName = classNames({
-            [className]: !!className,
-            [styles.container]: true
+
+        const rootStyles = mergeStyles(customStyles.root, {
+            flexDirection: direction
         });
+
+        const dotActiveStyles = mergeStyles(
+            customStyles.dot,
+            customStyles.dotActive,
+            {
+                height: size,
+                width: size
+            }
+        );
+
+        const dotInactiveStyles = mergeStyles(
+            customStyles.dot,
+            customStyles.dotInactive,
+            {
+                height: size,
+                width: size
+            }
+        );
+
+        const rootClassNames = mergeClassNames(
+            resetClassName.root,
+            classNames.root
+        );
+
+        const dotActiveClassNames = mergeClassNames(
+            classNames.dotActive,
+            customClassNames.dot,
+            customClassNames.dotActive
+        );
+
+        const dotInactiveClassNames = mergeClassNames(
+            classNames.dotInactive,
+            customClassNames.dot,
+            customClassNames.dotInactive
+        );
+
         return (
-            <span
-                {...others}
-                className={rootClassName}
-                style={{...style, flexDirection: direction}}>
+            <span style={rootStyles} className={rootClassNames}>
                 {(() => {
                     let i = 0;
                     let output = [];
+                    const currentPosition = auto ? autoPosition : dotIndex;
                     for (i = 0; i < quantity; i++) {
+                        const isActiveDot = i === currentPosition;
                         output.push(
                             <span
                                 key={i}
-                                className={
-                                    i === (auto ? autoPosition : dotIndex)
-                                        ? styles.active
-                                        : styles.inactive
+                                onClick={this.onSwitchHandler.bind(this, i)}
+                                style={
+                                    isActiveDot
+                                        ? dotActiveStyles
+                                        : dotInactiveStyles
                                 }
-                                style={{height: size, width: size}}
-                                onClick={this.onSwitch.bind(this, i)}
+                                className={
+                                    isActiveDot
+                                        ? dotActiveClassNames
+                                        : dotInactiveClassNames
+                                }
                             />
                         );
                     }

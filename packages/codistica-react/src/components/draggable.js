@@ -2,16 +2,22 @@
 
 /** @module react/components/draggable */
 
-import {default as classNames} from 'classnames';
 import React from 'react';
-import {onDragHOC} from '../hocs/on-drag-hoc.js';
+import {withOnDrag} from '../hocs/with-on-drag.js';
+import {mergeStyles} from '../modules/merge-styles.js';
+
+const Div = withOnDrag('div');
 
 type Props = {
-    children: any,
-    style: {[string]: any},
-    className: string,
     noLimit: boolean,
-    isolate: boolean
+    isolate: boolean,
+    children: any,
+    customStyles: {
+        root?: {[string]: any}
+    },
+    customClassNames: {
+        root?: string
+    }
 };
 
 type State = {
@@ -20,12 +26,10 @@ type State = {
     left: number | null
 };
 
-const Div = onDragHOC('div');
-
 /**
  * @typedef draggablePropsType
- * @property {string} [children=null] - React prop.
- * @property {Object<string,*>} [style={}] - React prop.
+ * @property {*} [children=null] - React prop.
+ * @property {Object<string,string>} [style={}] - React prop.
  * @property {string} [className=''] - React prop.
  * @property {boolean} [noLimit=false] - Allow element to be dragged outside of parent element.
  * @property {boolean} [isolate=true] - Prevent gestures propagation.
@@ -36,11 +40,11 @@ const Div = onDragHOC('div');
  */
 class Draggable extends React.Component<Props, State> {
     static defaultProps = {
-        children: null,
-        style: {},
-        className: '',
         noLimit: false,
-        isolate: true
+        isolate: true,
+        children: null,
+        customStyles: {},
+        customClassNames: {}
     };
 
     elementRef: any;
@@ -65,10 +69,15 @@ class Draggable extends React.Component<Props, State> {
         };
 
         // BIND METHODS
-        (this: Function).onDrag = this.onDrag.bind(this);
-        (this: Function).setElementRef = this.setElementRef.bind(this);
+        (this: any).onDrag = this.onDrag.bind(this);
+        (this: any).setElementRef = this.setElementRef.bind(this);
     }
 
+    /**
+     * @instance
+     * @description React lifecycle.
+     * @returns {void} Void.
+     */
     componentDidMount() {
         this.containerHeight = this.elementRef.offsetParent.clientHeight;
         this.containerWidth = this.elementRef.offsetParent.clientWidth;
@@ -93,7 +102,7 @@ class Draggable extends React.Component<Props, State> {
 
     /**
      * @instance
-     * @description Handler for drag event.
+     * @description Callback for drag event.
      * @param {Object<string,*>} e - Triggering event.
      * @returns {void} Void.
      */
@@ -135,22 +144,22 @@ class Draggable extends React.Component<Props, State> {
      */
     render() {
         const {
-            className,
             children,
-            style,
             isolate,
             noLimit,
-            ...others
+            customStyles,
+            customClassNames,
+            ...other
         } = this.props;
         const {position, top, left} = this.state;
         return (
             <Div
-                {...others}
+                {...other}
                 isolate={isolate}
-                className={className}
-                style={{...style, position, top, left}}
                 onDrag={this.onDrag}
-                ref={this.setElementRef}>
+                ref={this.setElementRef}
+                style={mergeStyles(customStyles.root, {position, top, left})}
+                className={customClassNames.root}>
                 {children}
             </Div>
         );

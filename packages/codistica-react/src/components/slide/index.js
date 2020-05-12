@@ -2,19 +2,46 @@
 
 /** @module react/components/slide */
 
-import {default as classNames} from 'classnames';
 import React, {useState, useEffect, useRef} from 'react';
 import {useSpring, animated} from 'react-spring';
-import {onDragHOC} from '../../hocs/on-drag-hoc.js';
+import resetClassName from '../../css/reset.module.scss';
+import {withOnDrag} from '../../hocs/with-on-drag.js';
+import {mergeClassNames} from '../../modules/merge-class-names.js';
+import {mergeStyles} from '../../modules/merge-styles.js';
 import {viewportMonitor} from '../../modules/viewport-monitor.js';
-import styles from './index.module.scss';
+import classNames from './index.module.scss';
+
+// TODO: RECALCULATE AND UPDATE translateValue (WITHOUT CALLING setTranslateValue?) WHEN RESIZING TO AVOID BUG WHEN DRAGGING AFTER RESIZING.
+// TODO: OR! STORE RELATIVE UNITS VALUES IN translateValue! (CREATE NEEDED AUX FUNCTIONS) (ALWAYS USE RELATIVE UNITS? EVEN WHEN NOT RESPONSIVE? TO SIMPLIFY THINGS)
+
+// TODO: SUPPORT FOR DRAG (SET POINTER TOO)
+// TODO: SUPPORT FOR SCROLL AND SWIPE (smartScroll, WITH SETTINGS)
+// TODO: USE SCROLL TO DRAG? WHEN NOT TO PULL? WITH TIMER TO DETECT END? (IMPLEMENT TIMER IN onScroll FOR onScrollEnd)
+// TODO: CREATE smartScroll UTILITY APART?
+// TODO: CREATE tabBlocker UTILITY APART?
+// TODO: SUPPORT DRAG AND smartScroll? (INCLUDE DRAG IN POSSIBLE INPUTS FOR smartScroll)
+// TODO: SUPPORT FOR KEYBOARD (NAVIGATE WITH ARROWS, GOTO WITH NUMBERS (NICE))
+
+// TODO: ADD start AND end TO ALL THIS SPECIAL EVENTS?
+// TODO: IN onPull, REUSE overscroll LOGIC, CREATE AN UTILITY FUNCTION? TO DETECT SCROLL CASES
+// TODO: onDrag -> onScroll -> onPull
+// TODO: ADD DAMPING AND MOMENTUM OPTION TO ALL THIS EVENTS
+// TODO: ADD FLOW ANNOTATIONS
+
+// TODO: SUPPORT FOR OPACITY TRANSITION? AND OTHER TYPES OF TRANSITION? WITHOUT COMPLICATING COMPONENT. USE react-spring POTENTIAL!
+// TODO: SUPPORT ADJUST SLIDE SIZE TO CURRENT ITEM SIZE (IMPLEMENT APART? USE controls TO PASS USEFUL DATA?)
+// TODO: SUPPORT FOR SLIDE AUTO SET WITH itemsPerView. CLONE children TO MODIFY ITS STYLE?
+// TODO: TRY SUPPORTING ALL POSSIBLE CASES FOR SLIDE/ITEMS SIZES (EQUAL, DIFFERENT, ETC)
+// TODO: TRY TO EXTRACT FRAMEWORK INDEPENDENT CODE TO A SlideEngine CLASS (AND EXTEND IT?) (IMPORT FROM elements). IMPORT NEEDED TYPES? IF NOT POSSIBLE, DELETE ALL engines IDEA
+// TODO: DELETE ALL engines IDEA???
+// TODO: TEST (USE ITAVEN HEADER EXAMPLE) (FOR 'anomalousSize')
+// TODO: TEST FAST RESIZE WITH JS MEDIA QUERIES?
+// TODO: IMPLEMENT limitBehaviour LOGIC INSIDE children.map?
+
+const Div = animated(viewportMonitor.HOC('div'));
+const DivDraggable = withOnDrag(Div);
 
 type Props = {
-    className: string,
-    style: {[string]: any},
-    rootStyle: {[string]: any},
-    trackStyle: {[string]: any},
-    itemStyle: {[string]: any},
     direction: 'row' | 'column',
     itemsPerView: number,
     startingPosition: number,
@@ -31,16 +58,21 @@ type Props = {
     onSwitchStart: Function | null,
     onSwitchEnd: Function | null,
     onPositionChange: Function | null,
-    onAPI: Function | null,
-    children: any
+    onMount: Function | null,
+    children: any,
+    customStyles: {
+        root?: {[string]: any},
+        track?: {[string]: any},
+        item?: {[string]: any}
+    },
+    customClassNames: {
+        root?: string,
+        track?: string,
+        item?: string
+    }
 };
 
 Slide.defaultProps = {
-    className: '',
-    style: {},
-    rootStyle: {},
-    trackStyle: {},
-    itemStyle: {},
     direction: 'row',
     itemsPerView: 1,
     startingPosition: 0,
@@ -57,15 +89,11 @@ Slide.defaultProps = {
     onSwitchStart: null,
     onSwitchEnd: null,
     onPositionChange: null,
-    onAPI: null,
-    children: null
+    onMount: null,
+    children: null,
+    customStyles: {},
+    customClassNames: {}
 };
-
-const Div = animated(viewportMonitor.HOC('div'));
-const DivDraggable = onDragHOC(Div);
-
-// TODO: FIX STYLE REPLACEMENT IN viewportMonitor. ERROR WRITING TO read-only? CREATE DEEP CLONE FUNCTION? FIX ALL objectUtils? AND ADJUST USAGE (IN codistica AND PROJECTS, CHECK)
-// TODO: FIX UNITS CORRECTION MODEL. CORRECTION MUST BE BY A COEFFICIENT (CHECK 0 BEHAVIOUR)
 
 /**
  * @typedef trackBehaviourType
@@ -78,7 +106,7 @@ const DivDraggable = onDragHOC(Div);
 /**
  * @typedef slidePropsType
  * @property {string} [className=''] - React prop.
- * @property {Object<string,*>} [style={}] - React prop.
+ * @property {Object<string,string>} [style={}] - React prop.
  * @property {Object<string,*>} [rootStyle={}] - Style to be applied to slide root element.
  * @property {Object<string,*>} [trackStyle={}] - Style to be applied to slide track.
  * @property {Object<string,*>} [itemStyle={}] - Style to be applied to slide items.
@@ -93,8 +121,8 @@ const DivDraggable = onDragHOC(Div);
  * @property {Function} [onSwitchStart=null] - Callback for switchStart event.
  * @property {Function} [onSwitchEnd=null] - Callback for switchEnd event.
  * @property {Function} [onPositionChange=null] - Callback for positionChange event.
- * @property {Function} [onAPI=null] - Callback for API event.
- * @property {string} [children=null] - React prop.
+ * @property {Function} [onMount=null] - Callback for mount event.
+ * @property {*} [children=null] - React prop.
  */
 
 /**
@@ -104,25 +132,21 @@ const DivDraggable = onDragHOC(Div);
  */
 function Slide(props: Props) {
     const {
-        gap,
+        // gap,
         children,
-        className,
         direction,
         itemsPerView,
         justifyType,
-        onAPI,
+        onMount,
         responsive,
-        style,
-        rootStyle,
-        trackStyle,
-        itemStyle,
         trackBehaviour,
         onSwitchStart,
         onSwitchEnd,
         onPositionChange,
-        limitBehaviour,
+        // limitBehaviour,
         startingPosition,
-        ...other
+        customStyles,
+        customClassNames
     } = props;
 
     const rootRef = useRef(null);
@@ -144,34 +168,36 @@ function Slide(props: Props) {
         typeof trackBehaviour.maxSize !== 'number';
     const _sizeKey = isRow ? 'width' : 'height';
 
-    const rootClassName = classNames({
-        [className]: className,
-        [styles.root]: true
-    });
+    const rootClassNames = mergeClassNames(
+        resetClassName.root,
+        classNames.root,
+        customClassNames.root
+    );
 
-    const trackClassName = classNames({
-        [styles.trackRow]: isRow,
-        [styles.trackColumn]: !isRow
-    });
-
-    const itemClassName = classNames({
-        [styles.item]: justifyType !== 'dynamic',
-        [styles.itemDynamicRow]: justifyType === 'dynamic' && isRow,
-        [styles.itemDynamicColumn]: justifyType === 'dynamic' && !isRow
-    });
-
-    const innerStyles = {
-        rootStyle: {
-            ...rootStyle,
-            visibility: rootRef.current ? 'visible' : 'hidden'
+    const trackClassNames = mergeClassNames(
+        {
+            [classNames.trackRow]: isRow,
+            [classNames.trackColumn]: !isRow
         },
-        trackStyle: {
-            ...trackStyle
+        customClassNames.track
+    );
+
+    const itemClassNames = mergeClassNames(
+        {
+            [classNames.item]: justifyType !== 'dynamic',
+            [classNames.itemDynamicRow]: justifyType === 'dynamic' && isRow,
+            [classNames.itemDynamicColumn]: justifyType === 'dynamic' && !isRow
         },
-        itemStyle: {
-            ...itemStyle
-        }
-    };
+        customClassNames.item
+    );
+
+    const rootStyles = mergeStyles(customStyles.root, {
+        visibility: rootRef.current ? 'visible' : 'hidden'
+    });
+
+    const trackStyles = customStyles.track || {};
+
+    const itemStyles = customStyles.item || {};
 
     let slideSize = 0;
     let viewportSize = 0;
@@ -195,44 +221,42 @@ function Slide(props: Props) {
         relativeSize = (slideSize * 100) / referenceSize;
 
         if (responsive) {
-            innerStyles.rootStyle[
-                _sizeKey
-            ] = `${relativeSize}${referenceUnits}`;
+            rootStyles[_sizeKey] = `${relativeSize}${referenceUnits}`;
         }
 
         if (trackBehaviour.inheritSize) {
-            innerStyles.trackStyle[_sizeKey] = '100%';
+            trackStyles[_sizeKey] = '100%';
         }
 
         if (typeof trackBehaviour.viewportSpeedRatio === 'number') {
-            innerStyles.trackStyle[_sizeKey] = `${
+            trackStyles[_sizeKey] = `${
                 trackBehaviour.viewportSpeedRatio *
                 ((slideSize * 100) / viewportSize)
             }vh`; // FIXES ISSUE OF VERTICAL RELATIVE VALUES FOLLOWING HORIZONTAL SIZES (WHEN SLIDE IS COLUMN)
         }
 
         if (typeof trackBehaviour.minSize === 'number') {
-            innerStyles.trackStyle[
+            trackStyles[
                 isRow ? 'minWidth' : 'minHeight'
             ] = `${trackBehaviour.minSize}px`;
         }
 
         if (typeof trackBehaviour.maxSize === 'number') {
-            innerStyles.trackStyle[
+            trackStyles[
                 isRow ? 'maxWidth' : 'maxHeight'
             ] = `${trackBehaviour.maxSize}px`;
         }
     }
 
     // TRANSLATE TRACK
-    innerStyles.trackStyle.transform = useSpring({
+    trackStyles.transform = useSpring({
         translateValue: (targetTranslateValueRef.current =
             (responsive && referenceSize
                 ? ((translateValue || 0) * 100) / referenceSize
                 : translateValue || 0) * -1),
         immediate: noAnimationRef.current,
-        onStart: onStart,
-        onRest: onEnd
+        onStart: onStartHandler,
+        onRest: onEndHandler
     }).translateValue.interpolate(
         (val) =>
             `translate${
@@ -251,10 +275,10 @@ function Slide(props: Props) {
         }
     }, [positionRef.current]);
 
-    // EXPOSE API
+    // EXPOSE CONTROLS
     useEffect(() => {
-        if (typeof onAPI === 'function') {
-            onAPI({
+        if (typeof onMount === 'function') {
+            onMount({
                 switchTo,
                 switchBy
             });
@@ -267,23 +291,19 @@ function Slide(props: Props) {
     }, []);
 
     return (
-        <Div
-            {...other}
-            className={rootClassName}
-            style={innerStyles.rootStyle}
-            ref={setRefs}>
+        <Div ref={setRefs} style={rootStyles} className={rootClassNames}>
             <DivDraggable
-                className={trackClassName}
-                style={innerStyles.trackStyle}
-                onDrag={onDrag}
-                onDragStart={onDragStart}
-                onDragEnd={onDragEnd}>
+                onDrag={onDragHandler}
+                onDragStart={onDragStartHandler}
+                onDragEnd={onDragEndHandler}
+                style={trackStyles}
+                className={trackClassNames}>
                 {children.map((item, index) => {
                     return (
                         <Div
                             key={index}
-                            className={itemClassName}
-                            style={innerStyles.itemStyle}>
+                            style={itemStyles}
+                            className={itemClassNames}>
                             {item}
                         </Div>
                     );
@@ -328,22 +348,30 @@ function Slide(props: Props) {
     }
 
     /**
-     * @description Handler for drag event.
+     * @description Callback for drag event.
      * @param {Object<string,*>} e - Triggering event.
      * @returns {void} Void.
      */
-    function onDrag(e: {[string]: any}) {
+    function onDragHandler(e: {[string]: any}) {
         setTranslateValue(
             (translateValue || 0) - (isRow ? e.deltaX : e.deltaY)
         );
     }
 
-    function onDragStart() {
+    /**
+     * @description Callback for dragStart event.
+     * @returns {void} Void.
+     */
+    function onDragStartHandler() {
         noAnimationRef.current = true;
         isDraggingRef.current = true;
     }
 
-    function onDragEnd() {
+    /**
+     * @description Callback for dragEnd event.
+     * @returns {void} Void.
+     */
+    function onDragEndHandler() {
         let i = 1;
         let flag = 1;
         let currentValue = Math.abs(
@@ -367,7 +395,11 @@ function Slide(props: Props) {
         switchTo(i);
     }
 
-    function onStart() {
+    /**
+     * @description Callback for start event.
+     * @returns {void} Void.
+     */
+    function onStartHandler() {
         if (!isDraggingRef.current && !isSwitchingRef.current) {
             // ANIMATION STARTED
             isSwitchingRef.current = true;
@@ -377,7 +409,11 @@ function Slide(props: Props) {
         }
     }
 
-    function onEnd() {
+    /**
+     * @description Callback for end event.
+     * @returns {void} Void.
+     */
+    function onEndHandler() {
         if (
             !isDraggingRef.current &&
             isSwitchingRef.current &&
@@ -440,32 +476,5 @@ function Slide(props: Props) {
             : [];
     }
 }
-
-// TODO: RECALCULATE AND UPDATE translateValue (WITHOUT CALLING setTranslateValue?) WHEN RESIZING TO AVOID BUG WHEN DRAGGING AFTER RESIZING.
-// TODO: OR! STORE RELATIVE UNITS VALUES IN translateValue! (CREATE NEEDED AUX FUNCTIONS) (ALWAYS USE RELATIVE UNITS? EVEN WHEN NOT RESPONSIVE? TO SIMPLIFY THINGS)
-
-// TODO: SUPPORT FOR DRAG (SET POINTER TOO)
-// TODO: SUPPORT FOR SCROLL AND SWIPE (smartScroll, WITH SETTINGS)
-// TODO: USE SCROLL TO DRAG? WHEN NOT TO PULL? WITH TIMER TO DETECT END? (IMPLEMENT TIMER IN onScrollAll FOR onScrollAllEnd)
-// TODO: CREATE smartScroll UTILITY APART?
-// TODO: CREATE tabBlocker UTILITY APART?
-// TODO: SUPPORT DRAG AND smartScroll? (INCLUDE DRAG IN POSSIBLE INPUTS FOR smartScroll)
-// TODO: SUPPORT FOR KEYBOARD (NAVIGATE WITH ARROWS, GOTO WITH NUMBERS (NICE))
-
-// TODO: ADD start AND end TO ALL THIS SPECIAL EVENTS?
-// TODO: IN onPull, REUSE overscroll LOGIC, CREATE AN UTILITY FUNCTION? TO DETECT SCROLL CASES
-// TODO: onDrag -> onScrollAll -> onPull
-// TODO: ADD DAMPING AND MOMENTUM OPTION TO ALL THIS EVENTS
-// TODO: ADD FLOW ANNOTATIONS
-
-// TODO: SUPPORT FOR OPACITY TRANSITION? AND OTHER TYPES OF TRANSITION? WITHOUT COMPLICATING COMPONENT. USE react-spring POTENTIAL!
-// TODO: SUPPORT ADJUST SLIDE SIZE TO CURRENT ITEM SIZE (IMPLEMENT APART? USE API TO PASS USEFUL DATA?)
-// TODO: SUPPORT FOR SLIDE AUTO SET WITH itemsPerView. CLONE children TO MODIFY ITS STYLE?
-// TODO: TRY SUPPORTING ALL POSSIBLE CASES FOR SLIDE/ITEMS SIZES (EQUAL, DIFFERENT, ETC)
-// TODO: TRY TO EXTRACT FRAMEWORK INDEPENDENT CODE TO A SlideEngine CLASS (AND EXTEND IT?) (IMPORT FROM elements). IMPORT NEEDED TYPES? IF NOT POSSIBLE, DELETE ALL engines IDEA
-// TODO: DELETE ALL engines IDEA???
-// TODO: TEST (USE ITAVEN HEADER EXAMPLE) (FOR 'anomalousSize')
-// TODO: TEST FAST RESIZE WITH JS MEDIA QUERIES?
-// TODO: IMPLEMENT limitBehaviour LOGIC INSIDE children.map?
 
 export {Slide};

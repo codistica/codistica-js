@@ -3,23 +3,22 @@
 import {Sophistication} from '../../classes/sophistication.js';
 
 type CustomStyles = {
-    borderColor?: string,
-    borderWidth?: string | number,
-    color?: string,
-    backgroundColor?: string,
-    opacity?: string | number,
-    borderRadius?: string | number
+    root?: {[string]: string},
+    input?: {[string]: string},
+    label?: {[string]: string}
 };
 
-// TODO: MOVE/ADJUST NON COLOR PROPERTIES PROPERTIES TO CustomStyles
+type CustomClassNames = {
+    root?: string,
+    input?: string,
+    label?: string
+};
+
 type CustomColors = {
-    focusColor?: string,
     validColor?: string,
     invalidColor?: string,
     warningColor?: string,
-    highlightColor?: string,
-    placeholderColor?: string,
-    borders?: 'bottom' | 'all' | 'none'
+    highlightColor?: string
 };
 
 type Styles = {
@@ -39,24 +38,15 @@ const sophistication = new Sophistication<Styles, Params>({
      * @returns {Object<string,*>} Style.
      */
     input(params: Params = {}) {
-        let {
-            borders = 'all',
+        const {
             validColor = '#94ff36',
             invalidColor = '#e83b35',
             warningColor = '#e8e639',
-            highlightColor = '#232323',
-            focusColor = '#e88b0e',
-            placeholderColor = '#232323'
+            highlightColor = null
         } = params.customColors || {};
 
-        let {
-            borderWidth = 1,
-            color = '#232323',
-            borderColor = '#232323',
-            borderRadius = 5,
-            backgroundColor = 'transparent',
-            opacity = 1
-        } = params.customStyles || {};
+        let borderColor = null;
+        let color = null;
 
         switch (params.status) {
             case 'valid':
@@ -78,23 +68,11 @@ const sophistication = new Sophistication<Styles, Params>({
         }
 
         return {
-            opacity,
             color,
-            backgroundColor,
-            borderColor,
-            borderRadius: borders === 'all' ? borderRadius : undefined,
-            border: borders === 'all' ? [borderWidth, 'solid'] : undefined,
-            borderBottom:
-                borders === 'bottom' ? [borderWidth, 'solid'] : undefined,
-            '&:focus': {
-                borderColor: focusColor
-            },
-            '&::placeholder': {
-                color: placeholderColor
-            }
+            borderColor
         };
     }
 });
 
 export {sophistication};
-export type {CustomColors, CustomStyles};
+export type {CustomStyles, CustomClassNames, CustomColors};

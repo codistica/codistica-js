@@ -2,32 +2,38 @@
 
 /** @module react/components/hover-icon */
 
-import {default as classNames} from 'classnames';
 import React from 'react';
-import {tooltipHOC} from '../../hocs/tooltip-hoc/index.js';
-import styles from './index.module.scss';
+import resetClassName from '../../css/reset.module.scss';
+import {mergeClassNames} from '../../modules/merge-class-names.js';
+import classNames from './index.module.scss';
 
 type Props = {
     defaultImg: string,
     onHoverImg: string,
-    className: string,
-    style: {[string]: any},
-    href: ?string
+    href: string,
+    customStyles: {
+        root?: {[string]: any},
+        img?: {[string]: any}
+    },
+    customClassNames: {
+        root?: string,
+        img?: string
+    }
 };
 
 HoverIcon.defaultProps = {
-    className: '',
-    style: {},
-    href: null
+    href: null,
+    customStyles: {},
+    customClassNames: {}
 };
-
-const WithTooltip = tooltipHOC('span');
 
 /**
  * @typedef hoverIconPropsType
  * @property {string} defaultImg - Icon path for default state.
  * @property {string} onHoverImg - Icon path for hover state.
  * @property {(string|null)} [href=null] - Component href.
+ * @property {Object<string,*>} [customStyles={}] - Custom styles prop.
+ * @property {Object<string,*>} [customClassNames={}] - Custom classNames prop.
  */
 
 /**
@@ -36,45 +42,57 @@ const WithTooltip = tooltipHOC('span');
  * @returns {Object<string,*>} Component.
  */
 function HoverIcon(props: Props) {
-    const {defaultImg, onHoverImg, className, style, href, ...other} = props;
-    const elementClassName = classNames({
-        [styles.container]: !href,
-        [styles.element]: true,
-        [styles.notAvailable]: !href
-    });
-    const anchorClassName = classNames({
-        [styles.container]: href,
-        [styles.anchor]: true,
-        [styles.switchChilds]: true
-    });
-    const Element = href ? 'span' : WithTooltip;
+    const {
+        defaultImg,
+        onHoverImg,
+        href,
+        customStyles,
+        customClassNames
+    } = props;
+
+    const hoverIconClassNames = mergeClassNames(
+        {
+            [resetClassName.root]: !href,
+            [classNames.root]: !href,
+            [classNames.notAvailable]: !href
+        },
+        customClassNames.root
+    );
+
+    const anchorClassNames = mergeClassNames(
+        {
+            [resetClassName.root]: href,
+            [classNames.root]: href
+        },
+        classNames.switchChilds
+    );
+
     const HoverIconComponent = (
-        <Element
-            {...other}
-            className={elementClassName}
+        <span
             onTouchStart={() => {}}
             tabIndex={-1}
-            tooltipText={href ? undefined : '🚫'}>
+            className={hoverIconClassNames}>
             <img
                 src={defaultImg}
                 alt={'icon'}
-                style={style}
-                className={className ? className : undefined}
+                style={customStyles.img}
+                className={customClassNames.img}
             />
             <img
                 src={onHoverImg}
                 alt={'icon'}
-                style={style}
-                className={className ? className : undefined}
+                style={customStyles.img}
+                className={customClassNames.img}
             />
-        </Element>
+        </span>
     );
+
     return href ? (
         <a
             href={href}
             target={'_blank'}
             rel={'noopener noreferrer'}
-            className={anchorClassName}>
+            className={anchorClassNames}>
             {HoverIconComponent}
         </a>
     ) : (

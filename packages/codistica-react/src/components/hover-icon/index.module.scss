@@ -1,21 +1,11 @@
-.container {
+.root {
+  display: inline-block;
   cursor: pointer;
   user-select: none;
   font-size: 0;
 }
 
-.element,
-.anchor {
-  display: inline-block;
-}
-
-.anchor::selection {
-  outline: none;
-  box-shadow: none;
-  border: none;
-}
-
-.container img:last-of-type,
+.root img:last-of-type,
 .switchChilds img:last-of-type {
   display: none;
 }
@@ -32,11 +22,4 @@
 
 .notAvailable {
   cursor: not-allowed;
-}
-
-.container:hover,
-.container:focus,
-.container:active {
-  outline: none;
-  box-shadow: none;
 }
