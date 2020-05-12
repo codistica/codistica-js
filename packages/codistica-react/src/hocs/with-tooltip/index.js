@@ -1,31 +1,31 @@
 /** @flow */
 
-/** @module react/hocs/tooltip-hoc */
+/** @module react/hocs/with-tooltip */
 
-import {default as classNames} from 'classnames';
 import React from 'react';
 import type {ComponentType} from 'react';
-import styles from './index.module.scss';
+import {mergeClassNames} from '../../modules/merge-class-names.js';
+import classNames from './index.module.scss';
 
 /**
  * @description Creates a higher order component with customizable tooltip capabilities.
  * @param {(Object<string,*>|string)} Component - React component.
  * @returns {Object<string,*>} Created higher order component.
  */
-function tooltipHOC(Component: ComponentType<any> | string) {
+function withTooltip(Component: ComponentType<any> | string) {
     type HOCProps = {
+        tooltipRenderFn: Function,
         children: any,
-        className: string,
-        tooltipText: string,
-        forwardedRef: Function
+        forwardedRef: Function,
+        className: string
     };
 
     /**
-     * @typedef tooltipHOCPropsType
+     * @typedef withTooltipPropsType
+     * @property {Function} [tooltipRenderFn=null] - Tooltip render prop.
      * @property {*} [children=null] - React prop.
-     * @property {string} [className=''] - React prop.
-     * @property {string} [tooltipText=''] - Tooltip text.
      * @property {Function} [forwardedRef=null] - React prop.
+     * @property {string} [className=''] - React prop.
      */
 
     /**
@@ -33,17 +33,17 @@ function tooltipHOC(Component: ComponentType<any> | string) {
      */
     class HOC extends React.Component<HOCProps> {
         static defaultProps = {
+            tooltipRenderFn: null,
             children: null,
-            className: '',
-            tooltipText: '',
-            forwardedRef: null
+            forwardedRef: null,
+            className: ''
         };
 
         componentRef: any;
 
         /**
          * @description Constructor.
-         * @param {tooltipHOCPropsType} [props] - Component props.
+         * @param {withTooltipPropsType} [props] - Component props.
          */
         constructor(props: HOCProps) {
             super(props);
@@ -51,7 +51,7 @@ function tooltipHOC(Component: ComponentType<any> | string) {
             this.componentRef = null;
 
             // BIND METHODS
-            (this: Function).setComponentRef = this.setComponentRef.bind(this);
+            (this: any).setComponentRef = this.setComponentRef.bind(this);
         }
 
         /**
@@ -83,23 +83,24 @@ function tooltipHOC(Component: ComponentType<any> | string) {
          */
         render() {
             const {
+                tooltipRenderFn,
                 children,
-                className,
-                tooltipText,
                 forwardedRef,
-                ...others
+                className,
+                ...other
             } = this.props;
-            const rootClassName = classNames({
-                [className]: !!className,
-                [styles.container]: true
-            });
+
+            const rootClassNames = mergeClassNames(className, classNames.root);
+
             return (
                 <Component
-                    {...others}
-                    className={rootClassName}
+                    {...other}
                     ref={this.setComponentRef}
-                    tabIndex={0}>
-                    <span className={styles.tooltip}>{tooltipText}</span>
+                    tabIndex={0}
+                    className={rootClassNames}>
+                    <span className={classNames.tooltip}>
+                        {tooltipRenderFn ? tooltipRenderFn() : null}
+                    </span>
                     {children}
                 </Component>
             );
@@ -113,4 +114,4 @@ function tooltipHOC(Component: ComponentType<any> | string) {
     );
 }
 
-export {tooltipHOC};
+export {withTooltip};

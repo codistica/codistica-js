@@ -1,0 +1,19 @@
+.root {
+  position: relative;
+}
+
+.tooltip {
+  display: none;
+  margin: 15px;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(calc(-50% - 15px));
+  z-index: 1;
+}
+
+.root:hover .tooltip,
+.root:focus .tooltip,
+.root:active .tooltip {
+  display: inline-block;
+}

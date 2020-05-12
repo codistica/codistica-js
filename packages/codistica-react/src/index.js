@@ -39,7 +39,7 @@ export {TriangleDropdown} from './components/triangle-dropdown';
 // HOCs
 export {onClickOutsideHOC} from './hocs/on-click-outside-hoc';
 export {onDragHOC} from './hocs/on-drag-hoc';
-export {tooltipHOC} from './hocs/tooltip-hoc';
+export {withTooltip} from './hocs/with-tooltip';
 
 // MODULES
 export {mergeClassNames} from './modules/merge-class-names';
