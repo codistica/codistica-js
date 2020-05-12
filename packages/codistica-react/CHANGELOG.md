@@ -8,6 +8,19 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+### Added
+- New customization pattern implemented for all components via `customStyles`, `customClassNames` and `customColors` when available.
+- New reset css common module.
+- New merge-class-names module.
+- New merge-styles module.
+
+## Changed
+- Other performance improvements and cleanups.
+- ClassNames and styles management normalization and cleanup.
+- Rename `triangle-dropdown` to `bullet-dropdown`.
+- Rename `social-icons` to `icons`.
+- HOCs naming convention (EX: `onClickOutsideHOC` -> `withOnClickOutside`).
+
 ## [1.0.0-beta.3] - 2020-05-07
 
 ### Added
