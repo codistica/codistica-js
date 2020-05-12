@@ -33,8 +33,8 @@ export {InputText} from './components/input-text';
 export {Slide} from './components/slide';
 
 // HOCs
-export {onClickOutsideHOC} from './hocs/on-click-outside-hoc';
-export {onDragHOC} from './hocs/on-drag-hoc';
+export {withOnClickOutside} from './hocs/with-on-click-outside';
+export {withOnDrag} from './hocs/with-on-drag';
 export {withTooltip} from './hocs/with-tooltip';
 
 // MODULES

@@ -1,11 +1,12 @@
 /** @flow */
 
-/** @module react/hocs/on-drag-hoc */
+/** @module react/hocs/with-on-drag */
 
 import {eventListenerObjectSupport} from '@codistica/browser';
 import {log} from '@codistica/core';
 import React from 'react';
 import type {ComponentType} from 'react';
+import {mergeStyles} from '../modules/merge-styles.js';
 
 // TODO: ADD DAMPING OPTION (FUNCTION)
 // TODO: ADD MOMENTUM OPTION (COEFFICIENT)
@@ -16,26 +17,26 @@ import type {ComponentType} from 'react';
  * @param {(Object<string,*>|string)} Component - React component.
  * @returns {Object<string,*>} Created higher order component.
  */
-function onDragHOC(Component: ComponentType<any> | string) {
+function withOnDrag(Component: ComponentType<any> | string) {
     type HOCProps = {
-        children: any,
-        style: {[string]: any},
         isolate: boolean,
         onDragStart: Function,
         onDrag: Function,
         onDragEnd: Function,
-        forwardedRef: Function
+        children: any,
+        forwardedRef: Function,
+        style: {[string]: any}
     };
 
-    type State = {
+    type HOCState = {
         isDragging: boolean,
         isGrabbed: boolean
     };
 
     /**
-     * @typedef onDragHOCPropsType
+     * @typedef withOnDragPropsType
      * @property {*} [children=null] - React prop.
-     * @property {Object<string,*>} [style={}] - React prop.
+     * @property {Object<string,string>} [style={}] - React prop.
      * @property {boolean} [isolate=false] - Isolate component dragging events. Do not allow propagation to other elements.
      * @property {Function} [onDragStart=null] - Callback for dragStart event.
      * @property {Function} [onDrag=null] - Callback for drag event.
@@ -46,15 +47,15 @@ function onDragHOC(Component: ComponentType<any> | string) {
     /**
      * @classdesc Higher order component.
      */
-    class HOC extends React.Component<HOCProps, State> {
+    class HOC extends React.Component<HOCProps, HOCState> {
         static defaultProps = {
-            children: null,
-            style: {},
             isolate: false,
             onDragStart: null,
             onDrag: null,
             onDragEnd: null,
-            forwardedRef: null
+            children: null,
+            forwardedRef: null,
+            style: {}
         };
 
         componentRef: any;
@@ -64,7 +65,7 @@ function onDragHOC(Component: ComponentType<any> | string) {
 
         /**
          * @description Constructor.
-         * @param {onDragHOCPropsType} [props] - Component props.
+         * @param {withOnDragPropsType} [props] - Component props.
          */
         constructor(props: HOCProps) {
             super(props);
@@ -80,12 +81,17 @@ function onDragHOC(Component: ComponentType<any> | string) {
             };
 
             // BIND METHODS
-            (this: Function).onStart = this.onStart.bind(this);
-            (this: Function).onEnd = this.onEnd.bind(this);
-            (this: Function).onMove = this.onMove.bind(this);
-            (this: Function).setComponentRef = this.setComponentRef.bind(this);
+            (this: any).onStart = this.onStart.bind(this);
+            (this: any).onEnd = this.onEnd.bind(this);
+            (this: any).onMove = this.onMove.bind(this);
+            (this: any).setComponentRef = this.setComponentRef.bind(this);
         }
 
+        /**
+         * @instance
+         * @description React lifecycle.
+         * @returns {void} Void.
+         */
         componentDidMount() {
             // TODO: ATTACH TO REACT EVENTS IN RENDER INSTEAD? CAN BREAK IF PROPS CHAIN IS INTERRUPTED
             this.componentRef.addEventListener(
@@ -118,6 +124,11 @@ function onDragHOC(Component: ComponentType<any> | string) {
             );
         }
 
+        /**
+         * @instance
+         * @description React lifecycle.
+         * @returns {void} Void.
+         */
         componentWillUnmount() {
             // TODO: ATTACH TO REACT EVENTS IN RENDER INSTEAD? CAN BREAK IF PROPS CHAIN IS INTERRUPTED
             this.componentRef.removeEventListener(
@@ -152,7 +163,7 @@ function onDragHOC(Component: ComponentType<any> | string) {
 
         /**
          * @instance
-         * @description Handler for start event.
+         * @description Callback for start event.
          * @param {Object<string,*>} e - Triggering event.
          * @returns {void} Void.
          */
@@ -206,7 +217,7 @@ function onDragHOC(Component: ComponentType<any> | string) {
 
         /**
          * @instance
-         * @description Handler for end event.
+         * @description Callback for end event.
          * @param {Object<string,*>} e - Triggering event.
          * @returns {void} Void.
          */
@@ -255,7 +266,7 @@ function onDragHOC(Component: ComponentType<any> | string) {
 
         /**
          * @instance
-         * @description Handler for move event.
+         * @description Callback for move event.
          * @param {Object<string,*>} e - Triggering event.
          * @returns {void} Void.
          */
@@ -325,14 +336,16 @@ function onDragHOC(Component: ComponentType<any> | string) {
                 forwardedRef,
                 isolate,
                 style,
-                ...others
+                ...other
             } = this.props;
             const {isGrabbed} = this.state;
             return (
                 <Component
-                    {...others}
-                    style={{...style, cursor: isGrabbed ? 'grabbing' : 'grab'}}
-                    ref={this.setComponentRef}>
+                    {...other}
+                    ref={this.setComponentRef}
+                    style={mergeStyles(style, {
+                        cursor: isGrabbed ? 'grabbing' : 'grab'
+                    })}>
                     {children}
                 </Component>
             );
@@ -346,4 +359,4 @@ function onDragHOC(Component: ComponentType<any> | string) {
     );
 }
 
-export {onDragHOC};
+export {withOnDrag};

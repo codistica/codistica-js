@@ -1,6 +1,6 @@
 /** @flow */
 
-/** @module react/hocs/on-scroll-all-hoc */
+/** @module react/hocs/with-on-pull */
 
 // TODO: WORK IN PROGRESS.
 
@@ -13,15 +13,15 @@ import type {ComponentType} from 'react';
  * @param {(Object<string,*>|string)} Component - React component.
  * @returns {Object<string,*>} Created higher order component.
  */
-function onScrollAllHOC(Component: ComponentType<any> | string) {
+function withOnPull(Component: ComponentType<any> | string) {
     type HOCProps = {
+        onPull: Function,
         children: any,
-        onScrollAll: Function,
         forwardedRef: Function
     };
 
     /**
-     * @typedef onScrollAllHOCPropsType
+     * @typedef withOnPullPropsType
      * @property {*} [children=null] - React prop.
      * @property {Function} [onPull=null] - Callback for pull event.
      * @property {Function} [forwardedRef=null] - React prop.
@@ -32,8 +32,8 @@ function onScrollAllHOC(Component: ComponentType<any> | string) {
      */
     class HOC extends React.Component<HOCProps> {
         static defaultProps = {
+            onPull: null,
             children: null,
-            onScrollAll: null,
             forwardedRef: null
         };
 
@@ -41,7 +41,7 @@ function onScrollAllHOC(Component: ComponentType<any> | string) {
 
         /**
          * @description Constructor.
-         * @param {onScrollAllHOCPropsType} [props] - Component props.
+         * @param {withOnPullPropsType} [props] - Component props.
          */
         constructor(props: HOCProps) {
             super(props);
@@ -49,11 +49,21 @@ function onScrollAllHOC(Component: ComponentType<any> | string) {
             this.componentRef = null;
 
             // BIND METHODS
-            (this: Function).setComponentRef = this.setComponentRef.bind(this);
+            (this: any).setComponentRef = this.setComponentRef.bind(this);
         }
 
+        /**
+         * @instance
+         * @description React lifecycle.
+         * @returns {void} Void.
+         */
         componentDidMount() {}
 
+        /**
+         * @instance
+         * @description React lifecycle.
+         * @returns {void} Void.
+         */
         componentWillUnmount() {}
 
         /**
@@ -84,9 +94,9 @@ function onScrollAllHOC(Component: ComponentType<any> | string) {
          * @returns {Object<string,*>} React component.
          */
         render() {
-            const {onScrollAll, children, forwardedRef, ...others} = this.props;
+            const {onPull, children, forwardedRef, ...other} = this.props;
             return (
-                <Component {...others} ref={this.setComponentRef}>
+                <Component {...other} ref={this.setComponentRef}>
                     {children}
                 </Component>
             );
@@ -100,4 +110,4 @@ function onScrollAllHOC(Component: ComponentType<any> | string) {
     );
 }
 
-export {onScrollAllHOC};
+export {withOnPull};

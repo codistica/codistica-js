@@ -1,6 +1,6 @@
 /** @flow */
 
-/** @module react/hocs/on-pull-hoc */
+/** @module react/hocs/with-on-scroll */
 
 // TODO: WORK IN PROGRESS.
 
@@ -13,15 +13,15 @@ import type {ComponentType} from 'react';
  * @param {(Object<string,*>|string)} Component - React component.
  * @returns {Object<string,*>} Created higher order component.
  */
-function onPullHOC(Component: ComponentType<any> | string) {
+function withOnScroll(Component: ComponentType<any> | string) {
     type HOCProps = {
+        onScroll: Function,
         children: any,
-        onPull: Function,
         forwardedRef: Function
     };
 
     /**
-     * @typedef onPullHOCPropsType
+     * @typedef withOnScrollPropsType
      * @property {*} [children=null] - React prop.
      * @property {Function} [onPull=null] - Callback for pull event.
      * @property {Function} [forwardedRef=null] - React prop.
@@ -32,8 +32,8 @@ function onPullHOC(Component: ComponentType<any> | string) {
      */
     class HOC extends React.Component<HOCProps> {
         static defaultProps = {
+            onScroll: null,
             children: null,
-            onPull: null,
             forwardedRef: null
         };
 
@@ -41,7 +41,7 @@ function onPullHOC(Component: ComponentType<any> | string) {
 
         /**
          * @description Constructor.
-         * @param {onPullHOCPropsType} [props] - Component props.
+         * @param {withOnScrollPropsType} [props] - Component props.
          */
         constructor(props: HOCProps) {
             super(props);
@@ -49,11 +49,21 @@ function onPullHOC(Component: ComponentType<any> | string) {
             this.componentRef = null;
 
             // BIND METHODS
-            (this: Function).setComponentRef = this.setComponentRef.bind(this);
+            (this: any).setComponentRef = this.setComponentRef.bind(this);
         }
 
+        /**
+         * @instance
+         * @description React lifecycle.
+         * @returns {void} Void.
+         */
         componentDidMount() {}
 
+        /**
+         * @instance
+         * @description React lifecycle.
+         * @returns {void} Void.
+         */
         componentWillUnmount() {}
 
         /**
@@ -84,9 +94,9 @@ function onPullHOC(Component: ComponentType<any> | string) {
          * @returns {Object<string,*>} React component.
          */
         render() {
-            const {onPull, children, forwardedRef, ...others} = this.props;
+            const {onScroll, children, forwardedRef, ...other} = this.props;
             return (
-                <Component {...others} ref={this.setComponentRef}>
+                <Component {...other} ref={this.setComponentRef}>
                     {children}
                 </Component>
             );
@@ -100,4 +110,4 @@ function onPullHOC(Component: ComponentType<any> | string) {
     );
 }
 
-export {onPullHOC};
+export {withOnScroll};

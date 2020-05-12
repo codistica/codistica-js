@@ -1,6 +1,6 @@
 /** @flow */
 
-/** @module react/hocs/on-click-outside-hoc */
+/** @module react/hocs/with-on-click-outside */
 
 import {eventListenerObjectSupport} from '@codistica/browser';
 import React from 'react';
@@ -11,15 +11,15 @@ import type {ComponentType} from 'react';
  * @param {(Object<string,*>|string)} Component - React component.
  * @returns {Object<string,*>} Created higher order component.
  */
-function onClickOutsideHOC(Component: ComponentType<any> | string) {
+function withOnClickOutside(Component: ComponentType<any> | string) {
     type HOCProps = {
-        children: any,
         onClickOutside: Function,
+        children: any,
         forwardedRef: Function
     };
 
     /**
-     * @typedef onClickOutsideHOCPropsType
+     * @typedef withOnClickOutsidePropsType
      * @property {*} [children=null] - React prop.
      * @property {Function} [onClickOutside=null] - Callback for clickOutside event.
      * @property {Function} [forwardedRef=null] - React prop.
@@ -30,8 +30,8 @@ function onClickOutsideHOC(Component: ComponentType<any> | string) {
      */
     class HOC extends React.Component<HOCProps> {
         static defaultProps = {
-            children: null,
             onClickOutside: null,
+            children: null,
             forwardedRef: null
         };
 
@@ -40,7 +40,7 @@ function onClickOutsideHOC(Component: ComponentType<any> | string) {
 
         /**
          * @description Constructor.
-         * @param {onClickOutsideHOCPropsType} [props] - Component props.
+         * @param {withOnClickOutsidePropsType} [props] - Component props.
          */
         constructor(props: HOCProps) {
             super(props);
@@ -49,11 +49,16 @@ function onClickOutsideHOC(Component: ComponentType<any> | string) {
             this.isOutside = false;
 
             // BIND METHODS
-            (this: Function).onStart = this.onStart.bind(this);
-            (this: Function).onEnd = this.onEnd.bind(this);
-            (this: Function).setComponentRef = this.setComponentRef.bind(this);
+            (this: any).onStart = this.onStart.bind(this);
+            (this: any).onEnd = this.onEnd.bind(this);
+            (this: any).setComponentRef = this.setComponentRef.bind(this);
         }
 
+        /**
+         * @instance
+         * @description React lifecycle.
+         * @returns {void} Void.
+         */
         componentDidMount() {
             window.addEventListener(
                 'touchstart',
@@ -85,6 +90,11 @@ function onClickOutsideHOC(Component: ComponentType<any> | string) {
             );
         }
 
+        /**
+         * @instance
+         * @description React lifecycle.
+         * @returns {void} Void.
+         */
         componentWillUnmount() {
             window.removeEventListener(
                 'touchstart',
@@ -118,7 +128,7 @@ function onClickOutsideHOC(Component: ComponentType<any> | string) {
 
         /**
          * @instance
-         * @description Handler for start event.
+         * @description Callback for start event.
          * @param {Object<string,*>} e - Triggering event.
          * @returns {void} Void.
          */
@@ -134,7 +144,7 @@ function onClickOutsideHOC(Component: ComponentType<any> | string) {
 
         /**
          * @instance
-         * @description Handler for end event.
+         * @description Callback for end event.
          * @param {Object<string,*>} e - Triggering event.
          * @returns {void} Void.
          */
@@ -194,10 +204,10 @@ function onClickOutsideHOC(Component: ComponentType<any> | string) {
                 onClickOutside,
                 children,
                 forwardedRef,
-                ...others
+                ...other
             } = this.props;
             return (
-                <Component {...others} ref={this.setComponentRef}>
+                <Component {...other} ref={this.setComponentRef}>
                     {children}
                 </Component>
             );
@@ -211,4 +221,4 @@ function onClickOutsideHOC(Component: ComponentType<any> | string) {
     );
 }
 
-export {onClickOutsideHOC};
+export {withOnClickOutside};
