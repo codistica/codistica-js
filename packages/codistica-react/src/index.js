@@ -2,19 +2,15 @@
 
 // *** MODULE GROUPS EXPORT ***
 
-import * as socialIcons from './components/social-icons';
+/** @todo FOLLOW https://youtrack.jetbrains.com/issue/WEB-45223 issue. */
+
+import * as icons from './components/icons';
 import * as inputBlockers from './plugins/input-blockers';
 import * as inputFilters from './plugins/input-filters';
 import * as inputPresets from './plugins/input-presets';
 import * as inputValidators from './plugins/input-validators';
 
-export {
-    inputBlockers,
-    inputFilters,
-    inputPresets,
-    inputValidators,
-    socialIcons
-};
+export {icons, inputBlockers, inputFilters, inputPresets, inputValidators};
 
 // *** NORMAL EXPORT ***
 
