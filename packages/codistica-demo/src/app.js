@@ -1,7 +1,7 @@
 /** @flow */
 
 import React from 'react';
-import styles from './app.module.scss';
+import classNames from './app.module.scss';
 import logo from './logo.svg';
 
 /**
@@ -10,17 +10,17 @@ import logo from './logo.svg';
  */
 function App() {
     return (
-        <div className={styles.app}>
-            <header className={styles.appHeader}>
-                <img src={logo} className={styles.appLogo} alt='logo' />
+        <div className={classNames.app}>
+            <header className={classNames.appHeader}>
+                <img src={logo} alt='logo' className={classNames.appLogo} />
                 <p>
                     Edit <code>src/App.js</code> and save to reload.
                 </p>
                 <a
-                    className={styles.appLink}
                     href='https://reactjs.org'
                     target='_blank'
-                    rel='noopener noreferrer'>
+                    rel='noopener noreferrer'
+                    className={classNames.appLink}>
                     Learn React
                 </a>
             </header>

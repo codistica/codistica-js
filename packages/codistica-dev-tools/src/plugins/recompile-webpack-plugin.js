@@ -269,7 +269,7 @@ class RecompileWebpackPlugin {
 
     /**
      * @instance
-     * @description Handler for Webpack's done hook.
+     * @description Callback for Webpack's done hook.
      * @param {Error} err - Error.
      * @param {Object<string,*>} [compilation] - Webpack's Compilation instance.
      */

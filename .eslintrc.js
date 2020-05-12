@@ -52,7 +52,7 @@ module.exports = {
             ],
             extends: ['@codistica/eslint-config-default/node-module']
         },
-        // create-react-app
+        // CRA
         {
             files: ['./packages/codistica-demo/src/**/*.js'],
             extends: ['react-app']
@@ -62,7 +62,7 @@ module.exports = {
         {
             files: [
                 './packages/codistica-react/src/index.js',
-                './packages/codistica-react/src/components/social-icons/index.js'
+                './packages/codistica-react/src/components/icons/index.js'
             ],
             rules: {
                 'import/extensions': ['warn', 'never']

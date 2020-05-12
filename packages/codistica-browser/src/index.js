@@ -12,3 +12,5 @@ export {isSafeHeader} from './modules/is-safe-header.js';
 
 // PLUGINS
 export {LogBrowserConsoleBinder} from './plugins/log-browser-console-binder.js';
+
+// TODO: ENFORCE HANDLERS NAMING CONVENTION (EX: onClickHandler, onNewValueHandler...)
