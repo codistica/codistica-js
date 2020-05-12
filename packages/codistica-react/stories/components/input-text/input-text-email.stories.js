@@ -5,22 +5,22 @@ import {BGS_LIGHT} from '../../../.storybook/custom-backgrounds.js';
 import {InputText, inputPresets} from '../../../src/index.js';
 
 /**
- * @description A dark input prettify demo.
+ * @description An input text email demo.
  * @returns {Object<string,*>} React component.
  */
-function InputPrettify() {
+function InputTextEmail() {
     return (
         <InputText
-            placeholder={'Prettify Input'}
-            presets={inputPresets.prettifyPreset}
+            placeholder={'Email Validation'}
+            presets={inputPresets.emailPreset}
         />
     );
 }
 
-export {InputPrettify};
+export {InputTextEmail};
 
 export default {
-    title: 'Input',
+    title: 'Input Text',
     parameters: {
         backgrounds: BGS_LIGHT
     }

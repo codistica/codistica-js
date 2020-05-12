@@ -3,20 +3,20 @@
 import {default as centered} from '@storybook/addon-centered/react';
 import React from 'react';
 import {BGS_DARK} from '../../../.storybook/custom-backgrounds.js';
-import {socialIcons} from '../../../src/index.js';
+import {icons} from '../../../src/index.js';
 
 /**
- * @description A Youtube icon demo.
+ * @description A Linkedin icon demo.
  * @returns {Object<string,*>} React component.
  */
-function Youtube() {
-    return <socialIcons.Youtube href={'https://www.youtube.com'} />;
+function Linkedin() {
+    return <icons.Linkedin href={'https://www.linkedin.com'} />;
 }
 
-export {Youtube};
+export {Linkedin};
 
 export default {
-    title: 'Social Icons',
+    title: 'Icons',
     parameters: {
         backgrounds: BGS_DARK
     },

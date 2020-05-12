@@ -18,10 +18,12 @@ function SimpleDraggable() {
                 border: '1px solid #000000'
             }}>
             <Draggable
-                style={{
-                    height: '50px',
-                    width: '50px',
-                    backgroundColor: '#000000'
+                customStyles={{
+                    root: {
+                        height: '50px',
+                        width: '50px',
+                        backgroundColor: '#000000'
+                    }
                 }}
             />
         </div>

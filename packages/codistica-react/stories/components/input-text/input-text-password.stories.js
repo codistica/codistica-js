@@ -10,10 +10,10 @@ import {
 } from '../../../src/index.js';
 
 /**
- * @description A dark input password demo.
+ * @description An input text password demo.
  * @returns {Object<string,*>} React component.
  */
-function InputPassword() {
+function InputTextPassword() {
     return (
         <InputText
             type={'password'}
@@ -31,10 +31,10 @@ function InputPassword() {
     );
 }
 
-export {InputPassword};
+export {InputTextPassword};
 
 export default {
-    title: 'Input',
+    title: 'Input Text',
     parameters: {
         backgrounds: BGS_LIGHT
     }

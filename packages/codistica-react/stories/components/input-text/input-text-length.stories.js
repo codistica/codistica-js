@@ -5,10 +5,10 @@ import {BGS_LIGHT} from '../../../.storybook/custom-backgrounds.js';
 import {InputText, inputValidators} from '../../../src/index.js';
 
 /**
- * @description A dark input length demo.
+ * @description An input text length demo.
  * @returns {Object<string,*>} React component.
  */
-function InputLength() {
+function InputTextLength() {
     return (
         <InputText
             placeholder={'Min: 8 - Max: 10'}
@@ -20,10 +20,10 @@ function InputLength() {
     );
 }
 
-export {InputLength};
+export {InputTextLength};
 
 export default {
-    title: 'Input',
+    title: 'Input Text',
     parameters: {
         backgrounds: BGS_LIGHT
     }

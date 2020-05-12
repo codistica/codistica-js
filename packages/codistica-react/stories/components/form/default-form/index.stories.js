@@ -1,7 +1,6 @@
 /** @flow */
 
 import {objectUtils} from '@codistica/core';
-import {default as classNames} from 'classnames';
 import React from 'react';
 import {BGS_LIGHT} from '../../../../.storybook/custom-backgrounds.js';
 import {
@@ -11,9 +10,10 @@ import {
     InputCheckbox,
     InputRadio,
     inputPresets,
-    inputValidators
+    inputValidators,
+    mergeClassNames
 } from '../../../../src/index.js';
-import styles from './index.module.scss';
+import classNames from './index.module.scss';
 
 type Props = {};
 
@@ -47,15 +47,15 @@ class DefaultForm extends React.Component<Props, State> {
         this.formInstance = null;
 
         // BIND METHODS
-        (this: Function).onValidationResultHandler = this.onValidationResultHandler.bind(
+        (this: any).onValidationResultHandler = this.onValidationResultHandler.bind(
             this
         );
-        (this: Function).blinkForm = this.blinkForm.bind(this);
+        (this: any).blinkForm = this.blinkForm.bind(this);
     }
 
     /**
      * @instance
-     * @description Handler for validationResult event.
+     * @description Callback for validationResult event.
      * @param {boolean} result - Form validation result.
      * @param {Object<string,*>} dataPackage - Form data.
      * @param {Object<string,*>} reports - Form validation reports.
@@ -92,20 +92,21 @@ class DefaultForm extends React.Component<Props, State> {
      * @returns {Object<string,*>} React component.
      */
     render() {
-        const rootClassName = classNames({
-            [styles.form]: true,
-            [styles.isValid]: this.state.isValid,
-            [styles.isInvalid]: !this.state.isValid,
-            [styles.blinkingForm]: this.state.isBlinkForm
+        const rootClassNames = mergeClassNames(classNames.form, {
+            [classNames.isValid]: this.state.isValid,
+            [classNames.isInvalid]: !this.state.isValid,
+            [classNames.blinkingForm]: this.state.isBlinkForm
         });
 
         return (
             <div>
                 <Form
-                    className={rootClassName}
                     onValidationResult={this.onValidationResultHandler}
                     onMount={(formInstance) => {
                         this.formInstance = formInstance;
+                    }}
+                    customClassNames={{
+                        root: rootClassNames
                     }}>
                     <InputText
                         placeholder={'Name'}
@@ -147,7 +148,7 @@ class DefaultForm extends React.Component<Props, State> {
                         match={'password'}
                     />
                     <div>
-                        <span className={styles.checkboxesContainer}>
+                        <span className={classNames.checkboxesContainer}>
                             <span>
                                 <InputCheckbox
                                     name={'check1'}
@@ -155,7 +156,7 @@ class DefaultForm extends React.Component<Props, State> {
                                     plugins={inputValidators.presenceValidator}
                                     mandatory={false}
                                 />
-                                <span className={styles.inputTitle}>
+                                <span className={classNames.inputTitle}>
                                     Check 1 (Optional)
                                 </span>
                             </span>
@@ -165,7 +166,7 @@ class DefaultForm extends React.Component<Props, State> {
                                     value={'check2'}
                                     plugins={inputValidators.presenceValidator}
                                 />
-                                <span className={styles.inputTitle}>
+                                <span className={classNames.inputTitle}>
                                     Check 2
                                 </span>
                             </span>
@@ -175,7 +176,7 @@ class DefaultForm extends React.Component<Props, State> {
                                     value={'check3'}
                                     plugins={inputValidators.presenceValidator}
                                 />
-                                <span className={styles.inputTitle}>
+                                <span className={classNames.inputTitle}>
                                     Check 3
                                 </span>
                             </span>
@@ -193,26 +194,22 @@ class DefaultForm extends React.Component<Props, State> {
                                 type: 'validator',
                                 plugin: 'radio2'
                             }}
-                            containerStyle={{
-                                display: 'flex',
-                                flexDirection: 'column'
-                            }}
                         />
                     </div>
                     <Button
-                        style={{marginTop: '30px'}}
-                        text={'SUBMIT'}
+                        title={'SUBMIT'}
                         disabled={!this.state.isValid}
                         onClick={this.blinkForm}
                         onClickDisabled={() => {
                             this.formInstance &&
                                 this.formInstance.warnInvalids();
                         }}
+                        style={{marginTop: '30px'}}
                     />
                 </Form>
 
-                <div className={styles.infoContainer}>
-                    <div className={styles.infoBox}>
+                <div className={classNames.infoContainer}>
+                    <div className={classNames.infoBox}>
                         <h5>[DATA]</h5>
                         {(() => {
                             let output = [];
@@ -238,7 +235,7 @@ class DefaultForm extends React.Component<Props, State> {
                         })()}
                     </div>
 
-                    <div className={styles.infoBox}>
+                    <div className={classNames.infoBox}>
                         <h5>[REPORTS]</h5>
                         {(() => {
                             let title = '';

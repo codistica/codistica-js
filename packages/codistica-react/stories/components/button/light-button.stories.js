@@ -9,7 +9,7 @@ import {Button} from '../../../src/index.js';
  * @returns {Object<string,*>} React component.
  */
 function LightButton() {
-    return <Button text={'Light Button'} />;
+    return <Button title={'Light Button'} />;
 }
 
 export {LightButton};

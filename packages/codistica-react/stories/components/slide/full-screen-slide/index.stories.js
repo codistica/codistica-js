@@ -3,14 +3,14 @@
 import React, {useState} from 'react';
 import {BGS_LIGHT} from '../../../../.storybook/custom-backgrounds.js';
 import {DotNavigation, Slide} from '../../../../src/index.js';
-import styles from './index.module.scss';
+import classNames from './index.module.scss';
 
 /**
  * @description A full screen slide demo.
  * @returns {Object<string,*>} React component.
  */
 function FullScreenSlide() {
-    const [slideAPI, setSlideAPI] = useState({
+    const [slideControls, setSlideControls] = useState({
         switchBy: null,
         switchTo: null
     });
@@ -18,21 +18,23 @@ function FullScreenSlide() {
     const [dotIndex, setDotIndex] = useState(0);
 
     return (
-        <div className={styles.container}>
+        <div className={classNames.root}>
             <Slide
-                rootStyle={{height: '100vh', width: '100vw'}}
                 responsive={true}
                 direction={'column'}
-                onAPI={(API) => {
-                    setSlideAPI(API);
+                onMount={(controls) => {
+                    setSlideControls(controls);
                 }}
-                onPositionChange={setDotIndex}>
+                onPositionChange={setDotIndex}
+                customStyles={{
+                    root: {height: '100vh', width: '100vw'}
+                }}>
                 {['#f2a6aa', '#a2c1cc', '#32a6aa', '#12aa21'].map(
                     (color, index) => (
                         <span
                             key={index}
-                            className={styles.slideItem}
-                            style={{backgroundColor: color}}>
+                            style={{backgroundColor: color}}
+                            className={classNames.slideItem}>
                             {index}
                         </span>
                     )
@@ -41,15 +43,17 @@ function FullScreenSlide() {
             <DotNavigation
                 quantity={4}
                 direction={'column'}
-                style={{
-                    position: 'absolute',
-                    right: '10px',
-                    top: '50%',
-                    transform: 'translateY(-50%)'
-                }}
-                onSwitch={slideAPI.switchTo}
+                onSwitch={slideControls.switchTo}
                 dotIndex={dotIndex}
                 auto={false}
+                customStyles={{
+                    root: {
+                        position: 'absolute',
+                        right: '10px',
+                        top: '50%',
+                        transform: 'translateY(-50%)'
+                    }
+                }}
             />
         </div>
     );

@@ -5,22 +5,25 @@ import {BGS_LIGHT} from '../../../.storybook/custom-backgrounds.js';
 import {InputText, inputBlockers, inputFilters} from '../../../src/index.js';
 
 /**
- * @description A dark input no specials demo.
+ * @description An input text numbers demo.
  * @returns {Object<string,*>} React component.
  */
-function InputNoSpecials() {
+function InputTextNumbers() {
     return (
         <InputText
-            placeholder={'No Specials'}
-            plugins={[inputBlockers.specialBlocker, inputFilters.specialFilter]}
+            placeholder={'Only Numbers'}
+            plugins={[
+                inputBlockers.nonNumberBlocker,
+                inputFilters.nonNumberFilter
+            ]}
         />
     );
 }
 
-export {InputNoSpecials};
+export {InputTextNumbers};
 
 export default {
-    title: 'Input',
+    title: 'Input Text',
     parameters: {
         backgrounds: BGS_LIGHT
     }

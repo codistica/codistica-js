@@ -2,13 +2,13 @@
 
 import React from 'react';
 import {BGS_DARK} from '../../../.storybook/custom-backgrounds.js';
-import {TriangleDropdown} from '../../../src/index.js';
+import {BulletDropdown} from '../../../src/index.js';
 
 /**
- * @description A bottom spacing triangle dropdown demo.
+ * @description A simple autoclose bullet dropdown demo.
  * @returns {Object<string,*>} React component.
  */
-function BottomSpacingTriangleDropdown() {
+function AutocloseBulletDropdown() {
     return (
         <div>
             <div
@@ -19,8 +19,8 @@ function BottomSpacingTriangleDropdown() {
                 }}>
                 OTHER ELEMENTS
             </div>
-            <TriangleDropdown
-                title={'Auto Spacing Bottom'}
+            <BulletDropdown
+                title={'Autoclose Menu'}
                 items={{
                     Codistica: 'https://www.codistica.com',
                     Yahoo: 'https://www.yahoo.com',
@@ -28,7 +28,7 @@ function BottomSpacingTriangleDropdown() {
                     Youtube: 'https://www.youtube.com',
                     Google: 'https://www.google.com'
                 }}
-                autoSpacing={'bottom'}
+                autoClose={true}
             />
             <div
                 style={{
@@ -42,10 +42,10 @@ function BottomSpacingTriangleDropdown() {
     );
 }
 
-export {BottomSpacingTriangleDropdown};
+export {AutocloseBulletDropdown};
 
 export default {
-    title: 'Triangle Dropdown',
+    title: 'Bullet Dropdown',
     parameters: {
         backgrounds: BGS_DARK
     }

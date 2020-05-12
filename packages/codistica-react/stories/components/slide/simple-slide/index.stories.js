@@ -3,53 +3,55 @@
 import React, {useState} from 'react';
 import {BGS_LIGHT} from '../../../../.storybook/custom-backgrounds.js';
 import {Button, Slide} from '../../../../src/index.js';
-import styles from './index.module.scss';
+import classNames from './index.module.scss';
 
 /**
  * @description A simple slide demo.
  * @returns {Object<string,*>} React component.
  */
 function SimpleSlide() {
-    const [slideAPI, setSlideAPI] = useState({
+    const [slideControls, setSlideControls] = useState({
         switchBy: null,
         switchTo: null
     });
 
     return (
-        <div className={styles.container}>
+        <div className={classNames.root}>
             <Slide
-                rootStyle={{
-                    height: '200px',
-                    width: '200px',
-                    marginBottom: '50px'
+                onMount={(controls) => {
+                    setSlideControls(controls);
                 }}
-                onAPI={(API) => {
-                    setSlideAPI(API);
+                customStyles={{
+                    root: {
+                        height: '200px',
+                        width: '200px',
+                        marginBottom: '50px'
+                    }
                 }}>
                 {['#f2a6aa', '#a2c1cc', '#32a6aa', '#12aa21'].map(
                     (color, index) => (
                         <span
                             key={index}
-                            className={styles.slideItem}
-                            style={{backgroundColor: color}}>
+                            style={{backgroundColor: color}}
+                            className={classNames.slideItem}>
                             {index}
                         </span>
                     )
                 )}
             </Slide>
             <Button
-                className={styles.button}
+                title={'PREVIOUS'}
                 onClick={() => {
-                    slideAPI.switchBy && slideAPI.switchBy(-1);
+                    slideControls.switchBy && slideControls.switchBy(-1);
                 }}
-                text={'PREVIOUS'}
+                className={classNames.button}
             />
             <Button
-                className={styles.button}
+                title={'NEXT'}
                 onClick={() => {
-                    slideAPI.switchBy && slideAPI.switchBy(1);
+                    slideControls.switchBy && slideControls.switchBy(1);
                 }}
-                text={'NEXT'}
+                className={classNames.button}
             />
         </div>
     );

@@ -3,20 +3,20 @@
 import {default as centered} from '@storybook/addon-centered/react';
 import React from 'react';
 import {BGS_DARK} from '../../../.storybook/custom-backgrounds.js';
-import {socialIcons} from '../../../src/index.js';
+import {icons} from '../../../src/index.js';
 
 /**
- * @description A Twitter icon demo.
+ * @description A Instagram icon demo.
  * @returns {Object<string,*>} React component.
  */
-function Twitter() {
-    return <socialIcons.Twitter href={'https://twitter.com'} />;
+function Instagram() {
+    return <icons.Instagram href={'https://www.instagram.com'} />;
 }
 
-export {Twitter};
+export {Instagram};
 
 export default {
-    title: 'Social Icons',
+    title: 'Icons',
     parameters: {
         backgrounds: BGS_DARK
     },

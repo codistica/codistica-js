@@ -9,7 +9,7 @@ import {Button} from '../../../src/index.js';
  * @returns {Object<string,*>} React component.
  */
 function LightButtonDisabled() {
-    return <Button text={'Disabled Button'} disabled={true} />;
+    return <Button title={'Disabled Button'} disabled={true} />;
 }
 
 export {LightButtonDisabled};
