@@ -1,29 +1,21 @@
-.container {
+.root {
   display: inline-flex;
   flex-direction: column;
   justify-content: center;
   text-align: center;
   vertical-align: center;
-
-  * {
-    box-sizing: border-box;
-  }
-
-  a,
-  a:visited {
-    color: #ffffff;
-    text-decoration: none;
-  }
+  margin: 5px;
 }
 
 .header {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
+  display: table-cell;
+  vertical-align: middle;
   height: 25px;
+  white-space: nowrap;
 }
 
 .triangleRight {
+  display: inline-block;
   width: 0;
   height: 0;
   border-top: 7px solid transparent;
@@ -58,6 +50,7 @@
   font-size: 20px;
   height: 25px;
   padding-bottom: 5px;
+  color: #ffffff;
 }
 
 .item:first-child {

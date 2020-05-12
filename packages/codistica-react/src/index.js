@@ -20,6 +20,7 @@ export {Sophistication} from './classes/sophistication';
 export {ViewportMonitor} from './classes/viewport-monitor';
 
 // COMPONENTS
+export {BulletDropdown} from './components/bullet-dropdown';
 export {Button} from './components/button';
 export {DotNavigation} from './components/dot-navigation';
 export {Draggable} from './components/draggable';
@@ -30,7 +31,6 @@ export {InputRadio} from './components/input-radio';
 export {InputRenderer} from './components/input-renderer';
 export {InputText} from './components/input-text';
 export {Slide} from './components/slide';
-export {TriangleDropdown} from './components/triangle-dropdown';
 
 // HOCs
 export {onClickOutsideHOC} from './hocs/on-click-outside-hoc';
