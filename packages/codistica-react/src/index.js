@@ -42,6 +42,8 @@ export {onDragHOC} from './hocs/on-drag-hoc';
 export {tooltipHOC} from './hocs/tooltip-hoc';
 
 // MODULES
+export {mergeClassNames} from './modules/merge-class-names';
+export {mergeStyles} from './modules/merge-styles';
 export {overscrollMonitor} from './modules/overscroll-monitor';
 export {viewportMonitor} from './modules/viewport-monitor';
 
