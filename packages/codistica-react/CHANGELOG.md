@@ -8,6 +8,8 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+## [1.0.0-beta.4] - 2020-05-13
+
 ### Added
 - New customization pattern implemented for all components via `customStyles`, `customClassNames` and `customColors` when available.
 - New reset css common module.
@@ -58,7 +60,8 @@ of full path being used for importing in `index.js` file. See [Flow #8354 Issue]
 See [GitHub release notes](https://github.com/codistica/codistica-js/releases?after=@codistica/react@1.0.0-beta.1)
 for info on changes for earlier releases.
 
-[Unreleased]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.3...HEAD
+[Unreleased]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.4...HEAD
+[1.0.0-beta.4]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.3...@codistica/react@1.0.0-beta.4
 [1.0.0-beta.3]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.2...@codistica/react@1.0.0-beta.3
 [1.0.0-beta.2]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.1...@codistica/react@1.0.0-beta.2
 [1.0.0-beta.1]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.0...@codistica/react@1.0.0-beta.1

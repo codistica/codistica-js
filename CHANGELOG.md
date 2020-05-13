@@ -18,6 +18,14 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+## [2020-05-13]
+
+### Fixed
+- Minor corrections in this change log.
+
+### Packages Bumps
+- `@codistica/react`: 1.0.0-beta.4
+
 ## [2020-05-07]
 
 ### Added
@@ -31,6 +39,16 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 - Module groups naming convention to start with a lowercase (EX: `ObjectUtils` -> `objectUtils`).
 - All dependencies have been upgraded.
 
+### Packages Bumps
+- `@codistica/browser`: 1.0.0-beta.2
+- `@codistica/core`: 1.0.0-beta.2
+- `@codistica/demo`: 1.0.0-beta.2
+- `@codistica/dev-tools`: 1.0.0-beta.2
+- `@codistica/node`: 1.0.0-beta.2
+- `@codistica/react`: 1.0.0-beta.3
+- `@codistica/scriptfiber`: 1.0.0-beta.2
+- `@codistica/types`: 1.0.0-beta.2
+
 ## [2020-04-23]
 
 ### Added
@@ -39,6 +57,7 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 - `types` property in root `tsconfig.json` file to avoid types conflicts.
 
 ### Packages Bumps
+- `@codistica/demo`: 1.0.0-beta.1
 - `@codistica/react`: 1.0.0-beta.2
 
 ## [2020-04-22]
@@ -57,6 +76,7 @@ See [GitHub release notes](https://github.com/codistica/codistica-js/releases?af
 for info on changes for earlier releases.
 
 [Unreleased]: https://github.com/codistica/codistica-js/compare/master...HEAD
+[2020-05-13]: https://github.com/codistica/codistica-js/compare/2020/05/07...2020/05/13
 [2020-05-07]: https://github.com/codistica/codistica-js/compare/2020/04/23...2020/05/07
 [2020-04-23]: https://github.com/codistica/codistica-js/compare/2020/04/22...2020/04/23
 [2020-04-22]: https://github.com/codistica/codistica-js/compare/2020/04/21...2020/04/22
