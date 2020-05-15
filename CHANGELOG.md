@@ -18,6 +18,12 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+### Added
+- Lerna config `ignoreChanges` property has been added.
+
+### Fixed
+- Typo in `bump` script at root's `package.json`.
+
 ## [2020-05-13]
 
 ### Fixed

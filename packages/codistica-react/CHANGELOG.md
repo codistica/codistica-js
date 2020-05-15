@@ -8,6 +8,19 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+### Added
+- New global customization pattern implemented for all components via `globalStyles`, `globalClassNames` and `gloablColors` when available.
+
+## Changed
+- Some cleanups.
+- `merge-class-names` module has been modified to match `merge-styles` syntax. Both modules have been polished.
+- HOCs type annotations have been improved.
+- HOCs have been separated from classes (for `overscroll-monitor` and `viewport-monitor`).
+- Style import naming convention (EX: `classNames` -> `componentClassNames`).
+
+### Fixed
+- Some missing annotations in this change log.
+
 ## [1.0.0-beta.4] - 2020-05-13
 
 ### Added
@@ -19,6 +32,7 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 ## Changed
 - Other performance improvements and cleanups.
 - ClassNames and styles management normalization and cleanup.
+- Style import naming convention (EX: `styles` -> `classNames`).
 - Rename `triangle-dropdown` to `bullet-dropdown`.
 - Rename `social-icons` to `icons`.
 - HOCs naming convention (EX: `onClickOutsideHOC` -> `withOnClickOutside`).

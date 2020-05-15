@@ -8,6 +8,9 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+## Changed
+- Rename `captureEvt` and `passiveEvt` to `capture` and `passive` in event-listener-object-support module.
+
 ## [1.0.0-beta.2] - 2020-05-07
 
 ### Added
