@@ -2,5 +2,10 @@
     "packages": ["./packages/*"],
     "version": "independent",
     "useWorkspaces": true,
-    "npmClient": "yarn"
+    "npmClient": "yarn",
+    "command": {
+        "publish": {
+            "ignoreChanges": ["*.md", "*.txt", "*.test.js", "*.stories.js"]
+        }
+    }
 }
