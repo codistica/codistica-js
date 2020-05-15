@@ -2,36 +2,31 @@
 
 /** @module react/modules/merge-class-names */
 
-type Args = Array<
-    string | typeof undefined | {[string | typeof undefined]: any}
->;
+type ClassName = typeof undefined | string;
+type Flag = any;
+type Args = Array<ClassName | [ClassName, Flag]>;
 
 /**
  * @description Dynamically merges class names into a string.
- * @param {...(string|undefined|Object<(string|undefined),*>)} args - Arguments.
+ * @param {...(undefined|string|Array<(undefined|string),*>)} args - Arguments.
  * @returns {string} Merged class names string.
  */
 function mergeClassNames(...args: Args): string {
-    const classNames = [];
+    const output = [];
     for (let i = 0; i < args.length; i++) {
-        const arg = args[i];
-        if (!arg) {
+        let className = args[i];
+        if (!className) {
             continue;
         }
-        if (typeof arg === 'string') {
-            classNames.push(arg);
-        } else {
-            for (const key in arg) {
-                if (
-                    Object.prototype.hasOwnProperty.call(arg, key) &&
-                    arg[key]
-                ) {
-                    classNames.push(key);
-                }
+        if (Array.isArray(className)) {
+            if (className[0] && className[1]) {
+                output.push(className[0]);
             }
+        } else {
+            output.push(className);
         }
     }
-    return classNames.join(' ');
+    return output.join(' ');
 }
 
 export {mergeClassNames};

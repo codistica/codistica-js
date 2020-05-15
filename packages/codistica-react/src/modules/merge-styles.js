@@ -2,27 +2,36 @@
 
 /** @module react/modules/merge-styles */
 
-type Args = Array<typeof undefined | {[string]: any}>;
+type Style = typeof undefined | {[string]: any};
+type Flag = any;
+type Args = Array<Style | [Style, Flag]>;
 
 /**
  * @description Dynamically merges styles into a single object.
- * @param {...(undefined|Object<string,*>)} args - Arguments.
+ * @param {...(undefined|Object<string,*>|Array<(undefined|Object<string,*>),*>)} args - Arguments.
  * @returns {Object<string,*>} Merged styles object.
  */
-function mergeStyles(...args: Args): {[string]: string | number} {
-    const styles = {};
+function mergeStyles(...args: Args): {[string]: any} {
+    const output = {};
     for (let i = 0; i < args.length; i++) {
-        const arg = args[i];
-        if (!arg) {
+        let style = args[i];
+        if (!style) {
             continue;
         }
-        for (const key in arg) {
-            if (Object.prototype.hasOwnProperty.call(arg, key)) {
-                styles[key] = arg[key];
+        if (Array.isArray(style)) {
+            if (style[0] && style[1]) {
+                style = style[0];
+            } else {
+                continue;
+            }
+        }
+        for (const key in style) {
+            if (Object.prototype.hasOwnProperty.call(style, key)) {
+                output[key] = style[key];
             }
         }
     }
-    return styles;
+    return output;
 }
 
 export {mergeStyles};
