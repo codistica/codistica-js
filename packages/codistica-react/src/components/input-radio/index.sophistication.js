@@ -1,13 +1,13 @@
 /** @flow */
 
 import {Sophistication} from '../../classes/sophistication.js';
-import classNames from './index.module.scss';
+import componentClassNames from './index.module.scss';
 
 type CustomStyles = {
-    root?: {[string]: string},
-    inputRow?: {[string]: string},
-    title?: {[string]: string},
-    inputWrapper?: {[string]: string}
+    root?: {[string]: any},
+    inputRow?: {[string]: any},
+    title?: {[string]: any},
+    inputWrapper?: {[string]: any}
 };
 
 type CustomClassNames = {
@@ -29,8 +29,8 @@ type CustomColors = {
 };
 
 type Styles = {
-    input: Function,
-    label: Function
+    input: (...args: Array<any>) => any,
+    label: (...args: Array<any>) => any
 };
 
 type Params = {
@@ -48,7 +48,7 @@ const sophistication = new Sophistication<Styles, Params>({
     input(params: Params = {}) {
         const {focusColor = '#e88b0e'} = params.customColors || {};
         return {
-            [`&:focus + .${classNames.label}::before`]: {
+            [`&:focus + .${componentClassNames.label}::before`]: {
                 borderColor: getStatusColor(params) || focusColor
             }
         };

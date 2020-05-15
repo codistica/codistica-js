@@ -4,9 +4,9 @@ import {default as centered} from '@storybook/addon-centered/react';
 import React from 'react';
 import {BGS_LIGHT} from '../../../../.storybook/custom-backgrounds.js';
 import {withTooltip} from '../../../../src/index.js';
-import classNames from './index.module.scss';
+import componentClassNames from './index.module.scss';
 
-const Span = withTooltip('span');
+const Span = withTooltip<{}>('span');
 
 /**
  * @description A simple with tooltip demo.
@@ -17,10 +17,12 @@ function SimpleWithTooltip() {
         <Span
             tooltipRenderFn={() => {
                 return (
-                    <span className={classNames.tooltip}>Hello, World!</span>
+                    <span className={componentClassNames.tooltip}>
+                        Hello, World!
+                    </span>
                 );
             }}
-            className={classNames.root}>
+            className={componentClassNames.root}>
             Hover Me
         </Span>
     );

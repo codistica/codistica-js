@@ -4,11 +4,13 @@
 
 import {eventUtils} from '@codistica/core';
 import React from 'react';
-import resetClassName from '../../css/reset.module.scss';
+import type {Node} from 'react';
+import resetClassNames from '../../css/reset.module.scss';
 import {mergeClassNames} from '../../modules/merge-class-names.js';
+import {mergeStyles} from '../../modules/merge-styles.js';
 import {InputRenderer} from '../input-renderer.js';
 import type {Plugin, Preset} from '../input-renderer.js';
-import classNames from './index.module.scss';
+import componentClassNames from './index.module.scss';
 import {sophistication} from './index.sophistication.js';
 import type {
     CustomStyles,
@@ -29,16 +31,19 @@ type ExternalProps = {
     match: string | null,
     plugins: Plugin | Array<Plugin>,
     presets: Preset | Array<Preset>,
-    onValidationResult: Function,
-    onNewValue: Function,
-    onKeyDown: Function,
-    onInput: Function,
-    onChangeFixed: Function,
-    onChange: Function,
-    onBlur: Function,
+    onValidationResult: (...args: Array<any>) => any,
+    onNewValue: (...args: Array<any>) => any,
+    onKeyDown: (...args: Array<any>) => any,
+    onInput: (...args: Array<any>) => any,
+    onChangeFixed: (...args: Array<any>) => any,
+    onChange: (...args: Array<any>) => any,
+    onBlur: (...args: Array<any>) => any,
+    style: {[string]: any},
+    className: string,
     customStyles: CustomStyles,
     customClassNames: CustomClassNames,
-    customColors: CustomColors
+    customColors: CustomColors,
+    globalTheme: 'default' | string | null
 };
 
 type InternalProps = {
@@ -51,6 +56,34 @@ type InternalProps = {
 
 type State = {
     value: string
+};
+
+type GlobalStyles = {
+    [string]: {
+        root: {[string]: any},
+        input: {[string]: any},
+        label: {[string]: any}
+    }
+};
+
+type GlobalClassNames = {
+    [string]: {
+        root: string,
+        input: string,
+        label: string
+    }
+};
+
+type GlobalColors = {
+    [string]: CustomColors
+};
+
+type CallableObj = {
+    (props: ExternalProps): Node,
+    globalStyles: GlobalStyles,
+    globalClassNames: GlobalClassNames,
+    globalColors: GlobalColors,
+    defaultProps: {[string]: any}
 };
 
 /**
@@ -246,9 +279,12 @@ class InputTextInternal extends React.Component<InternalProps, State> {
             type,
             placeholder,
             status,
+            style,
+            className,
             customStyles,
             customClassNames,
             customColors,
+            globalTheme,
             mandatory,
             match,
             onValidationResult,
@@ -274,29 +310,58 @@ class InputTextInternal extends React.Component<InternalProps, State> {
             onBlurHandler
         } = this;
 
+        const globalStyles = globalTheme
+            ? InputText.globalStyles[globalTheme] || {}
+            : {};
+
+        const globalClassNames = globalTheme
+            ? InputText.globalClassNames[globalTheme] || {}
+            : {};
+
+        const globalColors = globalTheme
+            ? InputText.globalColors[globalTheme] || {}
+            : {};
+
         const jssClassNames = sophistication.getClassNames(this, {
             status,
-            customColors,
+            customColors: {
+                ...globalColors,
+                ...customColors
+            },
             customStyles
         });
 
-        const rootClassNames = mergeClassNames(
-            resetClassName.root,
-            customClassNames.root
-        );
+        const mergedStyles = {
+            root: mergeStyles(globalStyles.root, customStyles.root, style),
+            input: mergeStyles(globalStyles.input, customStyles.input),
+            label: mergeStyles(globalStyles.label, customStyles.label)
+        };
 
-        const inputClassNames = mergeClassNames(
-            {
-                [classNames.blink]:
+        const mergedClassNames = {
+            root: mergeClassNames(
+                resetClassNames.root,
+                globalClassNames.root,
+                customClassNames.root,
+                className
+            ),
+            input: mergeClassNames(
+                [
+                    componentClassNames.blink,
                     status === 'highlight' || status === 'warning'
-            },
-            classNames.input,
-            jssClassNames.input,
-            customClassNames.input
-        );
+                ],
+                componentClassNames.input,
+                globalClassNames.input,
+                customClassNames.input,
+                jssClassNames.input
+            ),
+            label: mergeClassNames(
+                globalClassNames.label,
+                customClassNames.label
+            )
+        };
 
         return (
-            <span style={customStyles.root} className={rootClassNames}>
+            <span style={mergedStyles.root} className={mergedClassNames.root}>
                 <input
                     {...other}
                     id={id}
@@ -308,13 +373,13 @@ class InputTextInternal extends React.Component<InternalProps, State> {
                     onInput={onInputHandler}
                     onChange={onChangeHandler}
                     onBlur={onBlurHandler}
-                    style={customStyles.input}
-                    className={inputClassNames}
+                    style={mergedStyles.input}
+                    className={mergedClassNames.input}
                 />
                 <label
                     htmlFor={id}
-                    style={customStyles.label}
-                    className={customClassNames.label}>
+                    style={mergedStyles.label}
+                    className={mergedClassNames.label}>
                     {label}
                 </label>
             </span>
@@ -350,7 +415,7 @@ class InputTextInternal extends React.Component<InternalProps, State> {
  * @param {inputTextPropsType} props - Component props.
  * @returns {Object<string,*>} React component.
  */
-function InputText(props: ExternalProps) {
+const InputText: CallableObj = function InputText(props: ExternalProps) {
     return (
         <InputRenderer
             inputRenderFn={(rendererParams) => {
@@ -373,7 +438,27 @@ function InputText(props: ExternalProps) {
             onValidationResult={props.onValidationResult}
         />
     );
-}
+};
+
+InputText.globalStyles = {
+    default: {
+        root: {},
+        input: {},
+        label: {}
+    }
+};
+
+InputText.globalClassNames = {
+    default: {
+        root: '',
+        input: '',
+        label: ''
+    }
+};
+
+InputText.globalColors = {
+    default: {}
+};
 
 InputText.defaultProps = {
     name: '',
@@ -392,9 +477,12 @@ InputText.defaultProps = {
     onChangeFixed: null,
     onChange: null,
     onBlur: null,
+    style: {},
+    className: '',
     customStyles: {},
     customClassNames: {},
-    customColors: {}
+    customColors: {},
+    globalTheme: 'default'
 };
 
 export {InputText};

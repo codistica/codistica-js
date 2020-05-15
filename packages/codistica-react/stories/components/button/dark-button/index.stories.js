@@ -3,7 +3,7 @@
 import React from 'react';
 import {BGS_DARK} from '../../../../.storybook/custom-backgrounds.js';
 import {Button} from '../../../../src/index.js';
-import classNames from './index.module.scss';
+import componentClassNames from './index.module.scss';
 
 /**
  * @description A button demo.
@@ -14,8 +14,8 @@ function DarkButton() {
         <Button
             title={'Dark Button'}
             customClassNames={{
-                button: classNames.button,
-                buttonEnabled: classNames.buttonEnabled
+                button: componentClassNames.button,
+                buttonEnabled: componentClassNames.buttonEnabled
             }}
         />
     );

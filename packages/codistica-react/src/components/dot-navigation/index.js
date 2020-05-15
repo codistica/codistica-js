@@ -3,10 +3,10 @@
 /** @module react/components/dot-navigation */
 
 import React from 'react';
-import resetClassName from '../../css/reset.module.scss';
+import resetClassNames from '../../css/reset.module.scss';
 import {mergeClassNames} from '../../modules/merge-class-names.js';
 import {mergeStyles} from '../../modules/merge-styles.js';
-import classNames from './index.module.scss';
+import componentClassNames from './index.module.scss';
 
 type Props = {
     quantity: number,
@@ -14,24 +14,45 @@ type Props = {
     size: string,
     direction: 'row' | 'column',
     auto: boolean,
-    onSwitch: Function,
+    onSwitch: (...args: Array<any>) => any,
     waitForCallback: boolean,
+    style: {[string]: any},
+    className: string,
     customStyles: {
-        root?: {[string]: string},
-        dot?: {[string]: string},
-        dotActive?: {[string]: string},
-        dotInactive?: {[string]: string}
+        root?: {[string]: any},
+        dot?: {[string]: any},
+        dotActive?: {[string]: any},
+        dotInactive?: {[string]: any}
     },
     customClassNames: {
         root?: string,
         dot?: string,
         dotActive?: string,
         dotInactive?: string
-    }
+    },
+    globalTheme: 'default' | string | null
 };
 
 type State = {
     autoPosition: number
+};
+
+type GlobalStyles = {
+    [string]: {
+        root: {[string]: any},
+        dot: {[string]: any},
+        dotActive: {[string]: any},
+        dotInactive: {[string]: any}
+    }
+};
+
+type GlobalClassNames = {
+    [string]: {
+        root: string,
+        dot: string,
+        dotActive: string,
+        dotInactive: string
+    }
 };
 
 /**
@@ -43,14 +64,35 @@ type State = {
  * @property {boolean} [auto=true] - Automatically change active dot index on switch.
  * @property {Function} [onSwitch=null] - Callback for switch event.
  * @property {boolean} [waitForCallback=false] - Disable dot navigation until onSwitch callback is executed.
+ * @property {Object<string,*>} [style={}] - React prop.
+ * @property {string} [className=''] - React prop.
  * @property {Object<string,*>} [customStyles={}] - Custom styles prop.
  * @property {Object<string,*>} [customClassNames={}] - Custom classNames prop.
+ * @property {('default'|string|null)} [globalTheme='default'] - Global theme to be used.
  */
 
 /**
  * @classdesc A generic dot navigation component.
  */
 class DotNavigation extends React.Component<Props, State> {
+    static globalStyles: GlobalStyles = {
+        default: {
+            root: {},
+            dot: {},
+            dotActive: {},
+            dotInactive: {}
+        }
+    };
+
+    static globalClassNames: GlobalClassNames = {
+        default: {
+            root: '',
+            dot: '',
+            dotActive: '',
+            dotInactive: ''
+        }
+    };
+
     static defaultProps = {
         quantity: 0,
         dotIndex: 0,
@@ -59,8 +101,11 @@ class DotNavigation extends React.Component<Props, State> {
         auto: true,
         onSwitch: null,
         waitForCallback: false,
+        style: {},
+        className: '',
         customStyles: {},
-        customClassNames: {}
+        customClassNames: {},
+        globalTheme: 'default'
     };
 
     stop: boolean;
@@ -116,52 +161,74 @@ class DotNavigation extends React.Component<Props, State> {
             quantity,
             direction,
             size,
+            style,
+            className,
             customStyles,
-            customClassNames
+            customClassNames,
+            globalTheme
         } = this.props;
         const {autoPosition} = this.state;
 
-        const rootStyles = mergeStyles(customStyles.root, {
-            flexDirection: direction
-        });
+        const globalStyles = globalTheme
+            ? DotNavigation.globalStyles[globalTheme] || {}
+            : {};
 
-        const dotActiveStyles = mergeStyles(
-            customStyles.dot,
-            customStyles.dotActive,
-            {
-                height: size,
-                width: size
-            }
-        );
+        const globalClassNames = globalTheme
+            ? DotNavigation.globalClassNames[globalTheme] || {}
+            : {};
 
-        const dotInactiveStyles = mergeStyles(
-            customStyles.dot,
-            customStyles.dotInactive,
-            {
-                height: size,
-                width: size
-            }
-        );
+        const mergedStyles = {
+            root: mergeStyles(globalStyles.root, customStyles.root, style, {
+                flexDirection: direction
+            }),
+            dotActive: mergeStyles(
+                globalStyles.dot,
+                globalStyles.dotActive,
+                customStyles.dot,
+                customStyles.dotActive,
+                {
+                    height: size,
+                    width: size
+                }
+            ),
+            dotInactive: mergeStyles(
+                globalStyles.dot,
+                globalStyles.dotInactive,
+                customStyles.dot,
+                customStyles.dotInactive,
+                {
+                    height: size,
+                    width: size
+                }
+            )
+        };
 
-        const rootClassNames = mergeClassNames(
-            resetClassName.root,
-            classNames.root
-        );
-
-        const dotActiveClassNames = mergeClassNames(
-            classNames.dotActive,
-            customClassNames.dot,
-            customClassNames.dotActive
-        );
-
-        const dotInactiveClassNames = mergeClassNames(
-            classNames.dotInactive,
-            customClassNames.dot,
-            customClassNames.dotInactive
-        );
+        const mergedClassNames = {
+            root: mergeClassNames(
+                resetClassNames.root,
+                componentClassNames.root,
+                globalClassNames.root,
+                customClassNames.root,
+                className
+            ),
+            dotActive: mergeClassNames(
+                componentClassNames.dotActive,
+                globalClassNames.dot,
+                globalClassNames.dotActive,
+                customClassNames.dot,
+                customClassNames.dotActive
+            ),
+            dotInactive: mergeClassNames(
+                componentClassNames.dotInactive,
+                globalClassNames.dot,
+                globalClassNames.dotInactive,
+                customClassNames.dot,
+                customClassNames.dotInactive
+            )
+        };
 
         return (
-            <span style={rootStyles} className={rootClassNames}>
+            <span style={mergedStyles.root} className={mergedClassNames.root}>
                 {(() => {
                     let i = 0;
                     let output = [];
@@ -174,13 +241,13 @@ class DotNavigation extends React.Component<Props, State> {
                                 onClick={this.onSwitchHandler.bind(this, i)}
                                 style={
                                     isActiveDot
-                                        ? dotActiveStyles
-                                        : dotInactiveStyles
+                                        ? mergedStyles.dotActive
+                                        : mergedStyles.dotInactive
                                 }
                                 className={
                                     isActiveDot
-                                        ? dotActiveClassNames
-                                        : dotInactiveClassNames
+                                        ? mergedClassNames.dotActive
+                                        : mergedClassNames.dotInactive
                                 }
                             />
                         );

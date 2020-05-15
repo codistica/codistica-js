@@ -8,17 +8,35 @@
 
 import {log} from '@codistica/core';
 import React from 'react';
+import resetClassNames from '../css/reset.module.scss';
+import {mergeClassNames} from '../modules/merge-class-names.js';
+import {mergeStyles} from '../modules/merge-styles.js';
 import {InputContext} from './input-renderer.js';
 import type {InputRenderer} from './input-renderer.js';
 
 type Props = {
-    onValidationResult: Function,
-    onMount: Function,
+    onValidationResult: (...args: Array<any>) => any,
+    onMount: (...args: Array<any>) => any,
     children: any,
+    style: {[string]: any},
+    className: string,
     customStyles: {
         root: {[string]: any}
     },
     customClassNames: {
+        root: string
+    },
+    globalTheme: 'default' | string | null
+};
+
+type GlobalStyles = {
+    [string]: {
+        root: {[string]: any}
+    }
+};
+
+type GlobalClassNames = {
+    [string]: {
         root: string
     }
 };
@@ -28,28 +46,46 @@ type Props = {
  * @property {Function} [onValidationResult=null] - Callback for validationResult event.
  * @property {Function} [onMount=null] - Callback for componentDidMount event.
  * @property {*} [children=null] - React prop.
+ * @property {Object<string,*>} [style={}] - React prop.
+ * @property {string} [className=''] - React prop.
  * @property {Object<string,*>} [customStyles={}] - Custom styles prop.
  * @property {Object<string,*>} [customClassNames={}] - Custom classNames prop.
+ * @property {('default'|string|null)} [globalTheme='default'] - Global theme to be used.
  */
 
 /**
  * @classdesc A beautiful form component.
  */
 class Form extends React.Component<Props> {
+    static globalStyles: GlobalStyles = {
+        default: {
+            root: {}
+        }
+    };
+
+    static globalClassNames: GlobalClassNames = {
+        default: {
+            root: ''
+        }
+    };
+
     static defaultProps = {
         onValidationResult: null,
         onMount: null,
         children: null,
+        style: {},
+        className: '',
         customStyles: {},
-        customClassNames: {}
+        customClassNames: {},
+        globalTheme: 'default'
     };
 
     registeredInputs: {[string]: InputRenderer};
     validationResult: boolean;
 
     contextValue: {
-        onMount: Function,
-        onValidationResult: Function
+        onMount: (...args: Array<any>) => any,
+        onValidationResult: (...args: Array<any>) => any
     };
 
     /**
@@ -232,15 +268,40 @@ class Form extends React.Component<Props> {
             onValidationResult,
             onMount,
             children,
+            style,
+            className,
             customStyles,
             customClassNames,
+            globalTheme,
             ...other
         } = this.props;
+
+        const globalStyles = globalTheme
+            ? Form.globalStyles[globalTheme] || {}
+            : {};
+
+        const globalClassNames = globalTheme
+            ? Form.globalClassNames[globalTheme] || {}
+            : {};
+
+        const mergedStyles = {
+            root: mergeStyles(globalStyles.root, customStyles.root, style)
+        };
+
+        const mergedClassNames = {
+            root: mergeClassNames(
+                resetClassNames.root,
+                globalClassNames.root,
+                customClassNames.root,
+                className
+            )
+        };
+
         return (
             <form
                 {...other}
-                style={customStyles.root}
-                className={customClassNames.root}>
+                style={mergedStyles.root}
+                className={mergedClassNames.root}>
                 <InputContext.Provider value={this.contextValue}>
                     {children}
                 </InputContext.Provider>

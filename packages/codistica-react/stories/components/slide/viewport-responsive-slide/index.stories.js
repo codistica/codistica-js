@@ -3,7 +3,7 @@
 import React, {useState} from 'react';
 import {BGS_LIGHT} from '../../../../.storybook/custom-backgrounds.js';
 import {Button, Slide} from '../../../../src/index.js';
-import classNames from './index.module.scss';
+import componentClassNames from './index.module.scss';
 
 /**
  * @description A viewport responsive slide demo.
@@ -16,7 +16,7 @@ function ViewportResponsiveSlide() {
     });
 
     return (
-        <div className={classNames.root}>
+        <div className={componentClassNames.root}>
             <Slide
                 responsive={true}
                 direction={'column'}
@@ -35,7 +35,7 @@ function ViewportResponsiveSlide() {
                         <span
                             key={index}
                             style={{backgroundColor: color}}
-                            className={classNames.slideItem}>
+                            className={componentClassNames.slideItem}>
                             {index}
                         </span>
                     )
@@ -46,14 +46,14 @@ function ViewportResponsiveSlide() {
                 onClick={() => {
                     slideControls.switchBy && slideControls.switchBy(-1);
                 }}
-                className={classNames.button}
+                className={componentClassNames.button}
             />
             <Button
                 title={'NEXT'}
                 onClick={() => {
                     slideControls.switchBy && slideControls.switchBy(1);
                 }}
-                className={classNames.button}
+                className={componentClassNames.button}
             />
         </div>
     );

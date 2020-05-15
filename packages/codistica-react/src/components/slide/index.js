@@ -3,13 +3,15 @@
 /** @module react/components/slide */
 
 import React, {useState, useEffect, useRef} from 'react';
+import type {Node} from 'react';
 import {useSpring, animated} from 'react-spring';
-import resetClassName from '../../css/reset.module.scss';
+import resetClassNames from '../../css/reset.module.scss';
 import {withOnDrag} from '../../hocs/with-on-drag.js';
+import {withViewportMonitor} from '../../hocs/with-viewport-monitor.js';
 import {mergeClassNames} from '../../modules/merge-class-names.js';
 import {mergeStyles} from '../../modules/merge-styles.js';
 import {viewportMonitor} from '../../modules/viewport-monitor.js';
-import classNames from './index.module.scss';
+import componentClassNames from './index.module.scss';
 
 // TODO: RECALCULATE AND UPDATE translateValue (WITHOUT CALLING setTranslateValue?) WHEN RESIZING TO AVOID BUG WHEN DRAGGING AFTER RESIZING.
 // TODO: OR! STORE RELATIVE UNITS VALUES IN translateValue! (CREATE NEEDED AUX FUNCTIONS) (ALWAYS USE RELATIVE UNITS? EVEN WHEN NOT RESPONSIVE? TO SIMPLIFY THINGS)
@@ -38,7 +40,7 @@ import classNames from './index.module.scss';
 // TODO: TEST FAST RESIZE WITH JS MEDIA QUERIES?
 // TODO: IMPLEMENT limitBehaviour LOGIC INSIDE children.map?
 
-const Div = animated(viewportMonitor.HOC('div'));
+const Div = animated(withViewportMonitor<{}>('div'));
 const DivDraggable = withOnDrag(Div);
 
 type Props = {
@@ -55,11 +57,13 @@ type Props = {
         minSize: number | null,
         maxSize: number | null
     },
-    onSwitchStart: Function | null,
-    onSwitchEnd: Function | null,
-    onPositionChange: Function | null,
-    onMount: Function | null,
+    onSwitchStart: (...args: Array<any>) => any | null,
+    onSwitchEnd: (...args: Array<any>) => any | null,
+    onPositionChange: (...args: Array<any>) => any | null,
+    onMount: (...args: Array<any>) => any | null,
     children: any,
+    style: {[string]: any},
+    className: string,
     customStyles: {
         root?: {[string]: any},
         track?: {[string]: any},
@@ -69,30 +73,31 @@ type Props = {
         root?: string,
         track?: string,
         item?: string
+    },
+    globalTheme: 'default' | string | null
+};
+
+type GlobalStyles = {
+    [string]: {
+        root: {[string]: any},
+        track: {[string]: any},
+        item: {[string]: any}
     }
 };
 
-Slide.defaultProps = {
-    direction: 'row',
-    itemsPerView: 1,
-    startingPosition: 0,
-    gap: 0,
-    justifyType: 'normal',
-    limitBehaviour: 'stop',
-    responsive: false,
-    trackBehaviour: {
-        inheritSize: false,
-        viewportSpeedRatio: null,
-        minSize: null,
-        maxSize: null
-    },
-    onSwitchStart: null,
-    onSwitchEnd: null,
-    onPositionChange: null,
-    onMount: null,
-    children: null,
-    customStyles: {},
-    customClassNames: {}
+type GlobalClassNames = {
+    [string]: {
+        root: string,
+        track: string,
+        item: string
+    }
+};
+
+type CallableObj = {
+    (props: Props): Node,
+    globalStyles: GlobalStyles,
+    globalClassNames: GlobalClassNames,
+    defaultProps: {[string]: any}
 };
 
 /**
@@ -105,11 +110,6 @@ Slide.defaultProps = {
 
 /**
  * @typedef slidePropsType
- * @property {string} [className=''] - React prop.
- * @property {Object<string,string>} [style={}] - React prop.
- * @property {Object<string,*>} [rootStyle={}] - Style to be applied to slide root element.
- * @property {Object<string,*>} [trackStyle={}] - Style to be applied to slide track.
- * @property {Object<string,*>} [itemStyle={}] - Style to be applied to slide items.
  * @property {string} [direction='row'] - Slide direction.
  * @property {number} [itemsPerView=1] - Slide items per view.
  * @property {number} [startingPosition=0] - Slide starting position index.
@@ -123,6 +123,11 @@ Slide.defaultProps = {
  * @property {Function} [onPositionChange=null] - Callback for positionChange event.
  * @property {Function} [onMount=null] - Callback for mount event.
  * @property {*} [children=null] - React prop.
+ * @property {Object<string,*>} [style={}] - React prop.
+ * @property {string} [className=''] - React prop.
+ * @property {Object<string,*>} [customStyles={}] - Custom styles prop.
+ * @property {Object<string,*>} [customClassNames={}] - Custom classNames prop.
+ * @property {('default'|string|null)} [globalTheme='default'] - Global theme to be used.
  */
 
 /**
@@ -130,23 +135,26 @@ Slide.defaultProps = {
  * @param {slidePropsType} props - Component props.
  * @returns {Object<string,*>} React component.
  */
-function Slide(props: Props) {
+const Slide: CallableObj = function Slide(props: Props) {
     const {
-        // gap,
-        children,
         direction,
         itemsPerView,
+        startingPosition,
+        // gap,
         justifyType,
-        onMount,
+        // limitBehaviour,
         responsive,
         trackBehaviour,
         onSwitchStart,
         onSwitchEnd,
         onPositionChange,
-        // limitBehaviour,
-        startingPosition,
+        onMount,
+        children,
+        style,
+        className,
         customStyles,
-        customClassNames
+        customClassNames,
+        globalTheme
     } = props;
 
     const rootRef = useRef(null);
@@ -167,29 +175,6 @@ function Slide(props: Props) {
         typeof trackBehaviour.minSize !== 'number' &&
         typeof trackBehaviour.maxSize !== 'number';
     const _sizeKey = isRow ? 'width' : 'height';
-
-    const rootClassNames = mergeClassNames(
-        resetClassName.root,
-        classNames.root,
-        customClassNames.root
-    );
-
-    const trackClassNames = mergeClassNames(
-        {
-            [classNames.trackRow]: isRow,
-            [classNames.trackColumn]: !isRow
-        },
-        customClassNames.track
-    );
-
-    const itemClassNames = mergeClassNames(
-        {
-            [classNames.item]: justifyType !== 'dynamic',
-            [classNames.itemDynamicRow]: justifyType === 'dynamic' && isRow,
-            [classNames.itemDynamicColumn]: justifyType === 'dynamic' && !isRow
-        },
-        customClassNames.item
-    );
 
     const rootStyles = mergeStyles(customStyles.root, {
         visibility: rootRef.current ? 'visible' : 'hidden'
@@ -290,20 +275,70 @@ function Slide(props: Props) {
         switchTo(startingPosition);
     }, []);
 
+    const globalStyles = globalTheme
+        ? Slide.globalStyles[globalTheme] || {}
+        : {};
+
+    const globalClassNames = globalTheme
+        ? Slide.globalClassNames[globalTheme] || {}
+        : {};
+
+    const mergedStyles = {
+        root: mergeStyles(
+            globalStyles.root,
+            customStyles.root,
+            style,
+            rootStyles
+        ),
+        track: mergeStyles(globalStyles.track, customStyles.track, trackStyles),
+        item: mergeStyles(globalStyles.item, customStyles.item, itemStyles)
+    };
+
+    const mergedClassNames = {
+        root: mergeClassNames(
+            resetClassNames.root,
+            componentClassNames.root,
+            globalClassNames.root,
+            customClassNames.root,
+            className
+        ),
+        track: mergeClassNames(
+            [componentClassNames.trackRow, isRow],
+            [componentClassNames.trackColumn, !isRow],
+            globalClassNames.track,
+            customClassNames.track
+        ),
+        item: mergeClassNames(
+            [componentClassNames.item, justifyType !== 'dynamic'],
+            [
+                componentClassNames.itemDynamicRow,
+                justifyType === 'dynamic' && isRow
+            ],
+            [
+                componentClassNames.itemDynamicColumn,
+                justifyType === 'dynamic' && !isRow
+            ],
+            customClassNames.item
+        )
+    };
+
     return (
-        <Div ref={setRefs} style={rootStyles} className={rootClassNames}>
+        <Div
+            ref={setRefs}
+            style={mergedStyles.root}
+            className={mergedClassNames.root}>
             <DivDraggable
                 onDrag={onDragHandler}
                 onDragStart={onDragStartHandler}
                 onDragEnd={onDragEndHandler}
-                style={trackStyles}
-                className={trackClassNames}>
+                style={mergedStyles.track}
+                className={mergedClassNames.track}>
                 {children.map((item, index) => {
                     return (
                         <Div
                             key={index}
-                            style={itemStyles}
-                            className={itemClassNames}>
+                            style={mergedStyles.item}
+                            className={mergedClassNames.item}>
                             {item}
                         </Div>
                     );
@@ -475,6 +510,45 @@ function Slide(props: Props) {
             ? rootRef.current.firstElementChild.children
             : [];
     }
-}
+};
+
+Slide.globalStyles = {
+    default: {
+        root: {},
+        track: {},
+        item: {}
+    }
+};
+
+Slide.globalClassNames = {
+    default: {
+        root: '',
+        track: '',
+        item: ''
+    }
+};
+
+Slide.defaultProps = {
+    direction: 'row',
+    itemsPerView: 1,
+    startingPosition: 0,
+    gap: 0,
+    justifyType: 'normal',
+    limitBehaviour: 'stop',
+    responsive: false,
+    trackBehaviour: {
+        inheritSize: false,
+        viewportSpeedRatio: null,
+        minSize: null,
+        maxSize: null
+    },
+    onSwitchStart: null,
+    onSwitchEnd: null,
+    onPositionChange: null,
+    onMount: null,
+    children: null,
+    customStyles: {},
+    customClassNames: {}
+};
 
 export {Slide};

@@ -3,11 +3,13 @@
 /** @module react/components/input-checkbox */
 
 import React from 'react';
-import resetClassName from '../../css/reset.module.scss';
+import type {Node} from 'react';
+import resetClassNames from '../../css/reset.module.scss';
 import {mergeClassNames} from '../../modules/merge-class-names.js';
-import type {Plugin, Preset} from '../input-renderer.js';
+import {mergeStyles} from '../../modules/merge-styles.js';
 import {InputRenderer} from '../input-renderer.js';
-import classNames from './index.module.scss';
+import type {Plugin, Preset} from '../input-renderer.js';
+import componentClassNames from './index.module.scss';
 import {sophistication} from './index.sophistication.js';
 import type {
     CustomStyles,
@@ -24,12 +26,15 @@ type ExternalProps = {
     match: string | null,
     plugins: Plugin | Array<Plugin>,
     presets: Preset | Array<Preset>,
-    onValidationResult: Function,
-    onNewValue: Function,
-    onChange: Function,
+    onValidationResult: (...args: Array<any>) => any,
+    onNewValue: (...args: Array<any>) => any,
+    onChange: (...args: Array<any>) => any,
+    style: {[string]: any},
+    className: string,
     customStyles: CustomStyles,
     customClassNames: CustomClassNames,
-    customColors: CustomColors
+    customColors: CustomColors,
+    globalTheme: 'default' | string | null
 };
 
 type InternalProps = {
@@ -40,6 +45,30 @@ type InternalProps = {
 
 type State = {
     value: string
+};
+
+type GlobalStyles = {
+    [string]: {
+        root: {[string]: any}
+    }
+};
+
+type GlobalClassNames = {
+    [string]: {
+        root: string
+    }
+};
+
+type GlobalColors = {
+    [string]: CustomColors
+};
+
+type CallableObj = {
+    (props: ExternalProps): Node,
+    globalStyles: GlobalStyles,
+    globalClassNames: GlobalClassNames,
+    globalColors: GlobalColors,
+    defaultProps: {[string]: any}
 };
 
 /**
@@ -112,41 +141,65 @@ class InputCheckboxInternal extends React.Component<InternalProps, State> {
             name,
             label,
             status,
+            style,
+            className,
             customStyles,
             customClassNames,
-            customColors
+            customColors,
+            globalTheme
         } = this.props;
         const {value} = this.state;
         const {onChangeHandler} = this;
 
+        const globalStyles = globalTheme
+            ? InputCheckbox.globalStyles[globalTheme] || {}
+            : {};
+
+        const globalClassNames = globalTheme
+            ? InputCheckbox.globalClassNames[globalTheme] || {}
+            : {};
+
+        const globalColors = globalTheme
+            ? InputCheckbox.globalColors[globalTheme] || {}
+            : {};
+
         const jssClassNames = sophistication.getClassNames(this, {
             status,
-            customColors,
+            customColors: {
+                ...globalColors,
+                ...customColors
+            },
             customStyles
         });
 
-        const rootClassNames = mergeClassNames(
-            resetClassName.root,
-            classNames.root,
-            customClassNames.root
-        );
+        const mergedStyles = {
+            root: mergeStyles(globalStyles.root, customStyles.root, style)
+        };
 
-        const inputClassNames = mergeClassNames(
-            classNames.input,
-            jssClassNames.input
-        );
-
-        const labelClassNames = mergeClassNames(
-            {
-                [classNames.blink]:
+        const mergedClassNames = {
+            root: mergeClassNames(
+                resetClassNames.root,
+                componentClassNames.root,
+                globalClassNames.root,
+                customClassNames.root,
+                className
+            ),
+            input: mergeClassNames(
+                componentClassNames.input,
+                jssClassNames.input
+            ),
+            label: mergeClassNames(
+                [
+                    componentClassNames.blink,
                     status === 'highlight' || status === 'warning'
-            },
-            classNames.label,
-            jssClassNames.label
-        );
+                ],
+                componentClassNames.label,
+                jssClassNames.label
+            )
+        };
 
         return (
-            <span style={customStyles.root} className={rootClassNames}>
+            <span style={mergedStyles.root} className={mergedClassNames.root}>
                 <input
                     type={'checkbox'}
                     id={id}
@@ -154,9 +207,9 @@ class InputCheckboxInternal extends React.Component<InternalProps, State> {
                     value={value}
                     checked={value !== ''}
                     onChange={onChangeHandler}
-                    className={inputClassNames}
+                    className={mergedClassNames.input}
                 />
-                <label htmlFor={id} className={labelClassNames}>
+                <label htmlFor={id} className={mergedClassNames.label}>
                     {label}
                 </label>
             </span>
@@ -177,9 +230,12 @@ class InputCheckboxInternal extends React.Component<InternalProps, State> {
  * @property {Function} [onValidationResult=null] - Callback for validationResult event.
  * @property {Function} [onNewValue=null] - Callback for newValue event.
  * @property {Function} [onChange=null] - Callback for change event.
+ * @property {Object<string,*>} [style={}] - React prop.
+ * @property {string} [className=''] - React prop.
  * @property {Object<string,*>} [customStyles={}] - Custom styles prop.
  * @property {Object<string,*>} [customClassNames={}] - Custom classNames prop.
  * @property {Object<string,*>} [customColors=null] - Custom colors prop.
+ * @property {('default'|string|null)} [globalTheme='default'] - Global theme to be used.
  */
 
 /**
@@ -187,7 +243,9 @@ class InputCheckboxInternal extends React.Component<InternalProps, State> {
  * @param {inputCheckboxPropsType} props - Component props.
  * @returns {Object<string,*>} React component.
  */
-function InputCheckbox(props: ExternalProps) {
+const InputCheckbox: CallableObj = function InputCheckbox(
+    props: ExternalProps
+) {
     return (
         <InputRenderer
             inputRenderFn={(rendererParams) => {
@@ -208,7 +266,25 @@ function InputCheckbox(props: ExternalProps) {
             onValidationResult={props.onValidationResult}
         />
     );
-}
+};
+
+InputCheckbox.globalStyles = {
+    default: {
+        root: {},
+        img: {}
+    }
+};
+
+InputCheckbox.globalClassNames = {
+    default: {
+        root: '',
+        img: ''
+    }
+};
+
+InputCheckbox.globalColors = {
+    default: {}
+};
 
 InputCheckbox.defaultProps = {
     name: '',
@@ -222,9 +298,12 @@ InputCheckbox.defaultProps = {
     onValidationResult: null,
     onNewValue: null,
     onChange: null,
+    style: {},
+    className: '',
     customStyles: {},
     customClassNames: {},
-    customColors: {}
+    customColors: {},
+    globalTheme: 'default'
 };
 
 export {InputCheckbox};

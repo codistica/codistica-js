@@ -45,13 +45,13 @@ type RendererParams = {
 };
 
 type Props = {
-    inputRenderFn: (rendererParams: RendererParams) => Node,
+    inputRenderFn: null | ((rendererParams: RendererParams) => Node),
     name: string,
     mandatory: boolean,
     match: string | null,
     plugins: Plugin | Array<Plugin>,
     presets: Preset | Array<Preset>,
-    onValidationResult: Function
+    onValidationResult: null | ((...args: Array<any>) => any)
 };
 
 type State = {
@@ -142,7 +142,7 @@ class InputRenderer extends React.Component<Props, State> {
         onValidationResult: null
     };
 
-    nextUniqueId: Function;
+    nextUniqueId: (...args: Array<any>) => any;
 
     id: string;
     value: string;

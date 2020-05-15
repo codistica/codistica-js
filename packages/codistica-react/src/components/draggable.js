@@ -3,21 +3,26 @@
 /** @module react/components/draggable */
 
 import React from 'react';
+import resetClassNames from '../css/reset.module.scss';
 import {withOnDrag} from '../hocs/with-on-drag.js';
+import {mergeClassNames} from '../modules/merge-class-names.js';
 import {mergeStyles} from '../modules/merge-styles.js';
 
-const Div = withOnDrag('div');
+const Div = withOnDrag<{}>('div');
 
 type Props = {
     noLimit: boolean,
     isolate: boolean,
     children: any,
+    style: {[string]: any},
+    className: string,
     customStyles: {
         root?: {[string]: any}
     },
     customClassNames: {
         root?: string
-    }
+    },
+    globalTheme: 'default' | string | null
 };
 
 type State = {
@@ -26,25 +31,55 @@ type State = {
     left: number | null
 };
 
+type GlobalStyles = {
+    [string]: {
+        root: {[string]: any}
+    }
+};
+
+type GlobalClassNames = {
+    [string]: {
+        root: string
+    }
+};
+
 /**
  * @typedef draggablePropsType
- * @property {*} [children=null] - React prop.
- * @property {Object<string,string>} [style={}] - React prop.
- * @property {string} [className=''] - React prop.
  * @property {boolean} [noLimit=false] - Allow element to be dragged outside of parent element.
  * @property {boolean} [isolate=true] - Prevent gestures propagation.
+ * @property {*} [children=null] - React prop.
+ * @property {Object<string,*>} [style={}] - React prop.
+ * @property {string} [className=''] - React prop.
+ * @property {Object<string,*>} [customStyles={}] - Custom styles prop.
+ * @property {Object<string,*>} [customClassNames={}] - Custom classNames prop.
+ * @property {('default'|string|null)} [globalTheme='default'] - Global theme to be used.
  */
 
 /**
  * @classdesc A draggable component.
  */
 class Draggable extends React.Component<Props, State> {
+    static globalStyles: GlobalStyles = {
+        default: {
+            root: {}
+        }
+    };
+
+    static globalClassNames: GlobalClassNames = {
+        default: {
+            root: ''
+        }
+    };
+
     static defaultProps = {
         noLimit: false,
         isolate: true,
         children: null,
+        style: {},
+        className: '',
         customStyles: {},
-        customClassNames: {}
+        customClassNames: {},
+        globalTheme: 'default'
     };
 
     elementRef: any;
@@ -147,19 +182,48 @@ class Draggable extends React.Component<Props, State> {
             children,
             isolate,
             noLimit,
+            style,
+            className,
             customStyles,
             customClassNames,
+            globalTheme,
             ...other
         } = this.props;
         const {position, top, left} = this.state;
+
+        const globalStyles = globalTheme
+            ? Draggable.globalStyles[globalTheme] || {}
+            : {};
+
+        const globalClassNames = globalTheme
+            ? Draggable.globalClassNames[globalTheme] || {}
+            : {};
+
+        const mergedStyles = {
+            root: mergeStyles(globalStyles.root, customStyles.root, style, {
+                position,
+                top,
+                left
+            })
+        };
+
+        const mergedClassNames = {
+            root: mergeClassNames(
+                resetClassNames.root,
+                globalClassNames.root,
+                customClassNames.root,
+                className
+            )
+        };
+
         return (
             <Div
                 {...other}
                 isolate={isolate}
                 onDrag={this.onDrag}
                 ref={this.setElementRef}
-                style={mergeStyles(customStyles.root, {position, top, left})}
-                className={customClassNames.root}>
+                style={mergedStyles.root}
+                className={mergedClassNames.root}>
                 {children}
             </Div>
         );

@@ -3,7 +3,7 @@
 import React, {useState} from 'react';
 import {BGS_LIGHT} from '../../../../.storybook/custom-backgrounds.js';
 import {DotNavigation, Slide} from '../../../../src/index.js';
-import classNames from './index.module.scss';
+import componentClassNames from './index.module.scss';
 
 /**
  * @description A full screen slide demo.
@@ -18,7 +18,7 @@ function FullScreenSlide() {
     const [dotIndex, setDotIndex] = useState(0);
 
     return (
-        <div className={classNames.root}>
+        <div className={componentClassNames.root}>
             <Slide
                 responsive={true}
                 direction={'column'}
@@ -34,7 +34,7 @@ function FullScreenSlide() {
                         <span
                             key={index}
                             style={{backgroundColor: color}}
-                            className={classNames.slideItem}>
+                            className={componentClassNames.slideItem}>
                             {index}
                         </span>
                     )

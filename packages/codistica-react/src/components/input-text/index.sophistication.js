@@ -3,9 +3,9 @@
 import {Sophistication} from '../../classes/sophistication.js';
 
 type CustomStyles = {
-    root?: {[string]: string},
-    input?: {[string]: string},
-    label?: {[string]: string}
+    root?: {[string]: any},
+    input?: {[string]: any},
+    label?: {[string]: any}
 };
 
 type CustomClassNames = {
@@ -22,7 +22,7 @@ type CustomColors = {
 };
 
 type Styles = {
-    input: Function
+    input: (...args: Array<any>) => any
 };
 
 type Params = {

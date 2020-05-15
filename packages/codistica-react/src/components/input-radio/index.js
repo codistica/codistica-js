@@ -3,12 +3,14 @@
 /** @module react/components/input-radio */
 
 import React from 'react';
+import type {Node} from 'react';
 import {default as uniqueId} from 'react-html-id';
-import resetClassName from '../../css/reset.module.scss';
+import resetClassNames from '../../css/reset.module.scss';
 import {mergeClassNames} from '../../modules/merge-class-names.js';
-import type {Plugin, Preset} from '../input-renderer.js';
+import {mergeStyles} from '../../modules/merge-styles.js';
 import {InputRenderer} from '../input-renderer.js';
-import classNames from './index.module.scss';
+import type {Plugin, Preset} from '../input-renderer.js';
+import componentClassNames from './index.module.scss';
 import {sophistication} from './index.sophistication.js';
 import type {
     CustomStyles,
@@ -24,12 +26,15 @@ type ExternalProps = {
     match: string | null,
     plugins: Plugin | Array<Plugin>,
     presets: Preset | Array<Preset>,
-    onValidationResult: Function,
-    onNewValue: Function,
-    onChange: Function,
+    onValidationResult: (...args: Array<any>) => any,
+    onNewValue: (...args: Array<any>) => any,
+    onChange: (...args: Array<any>) => any,
+    style: {[string]: any},
+    className: string,
     customStyles: CustomStyles,
     customClassNames: CustomClassNames,
-    customColors: CustomColors
+    customColors: CustomColors,
+    globalTheme: 'default' | string | null
 };
 
 type InternalProps = {
@@ -42,6 +47,36 @@ type State = {
     value: string
 };
 
+type GlobalStyles = {
+    [string]: {
+        root: {[string]: any},
+        inputRow: {[string]: any},
+        title: {[string]: any},
+        inputWrapper: {[string]: any}
+    }
+};
+
+type GlobalClassNames = {
+    [string]: {
+        root: string,
+        inputRow: string,
+        title: string,
+        inputWrapper: string
+    }
+};
+
+type GlobalColors = {
+    [string]: CustomColors
+};
+
+type CallableObj = {
+    (props: ExternalProps): Node,
+    globalStyles: GlobalStyles,
+    globalClassNames: GlobalClassNames,
+    globalColors: GlobalColors,
+    defaultProps: {[string]: any}
+};
+
 /**
  * @typedef inputRadioInternalPropsType
  * @property {string} id - Input ID.
@@ -52,7 +87,7 @@ type State = {
  * @classdesc A beautiful radio input component (Internal).
  */
 class InputRadioInternal extends React.Component<InternalProps, State> {
-    nextUniqueId: Function;
+    nextUniqueId: (...args: Array<any>) => any;
 
     /**
      * @description Constructor.
@@ -111,56 +146,86 @@ class InputRadioInternal extends React.Component<InternalProps, State> {
             label,
             radios,
             status,
+            style,
+            className,
             customStyles,
             customClassNames,
-            customColors
+            customColors,
+            globalTheme
         } = this.props;
         const {value} = this.state;
         const {onChangeHandler} = this;
 
+        const globalStyles = globalTheme
+            ? InputRadio.globalStyles[globalTheme] || {}
+            : {};
+
+        const globalClassNames = globalTheme
+            ? InputRadio.globalClassNames[globalTheme] || {}
+            : {};
+
+        const globalColors = globalTheme
+            ? InputRadio.globalColors[globalTheme] || {}
+            : {};
+
         const jssClassNames = sophistication.getClassNames(this, {
             status,
-            customColors,
+            customColors: {
+                ...globalColors,
+                ...customColors
+            },
             customStyles
         });
 
-        const rootClassNames = mergeClassNames(
-            resetClassName.root,
-            classNames.root,
-            customClassNames.root
-        );
+        const mergedStyles = {
+            root: mergeStyles(globalStyles.root, customStyles.root, style),
+            inputRow: mergeStyles(globalStyles.inputRow, customStyles.inputRow),
+            title: mergeStyles(globalStyles.title, customStyles.title),
+            inputWrapper: mergeStyles(
+                globalStyles.inputWrapper,
+                customStyles.inputWrapper
+            )
+        };
 
-        const inputRowClassNames = mergeClassNames(
-            classNames.inputRow,
-            customClassNames.inputRow
-        );
-
-        const inputWrapperClassNames = mergeClassNames(
-            classNames.inputWrapper,
-            customClassNames.inputWrapper
-        );
-
-        const inputClassNames = mergeClassNames(
-            classNames.input,
-            jssClassNames.input
-        );
-
-        const labelClassNames = mergeClassNames(
-            {
-                [classNames.blink]:
+        const mergedClassNames = {
+            root: mergeClassNames(
+                resetClassNames.root,
+                componentClassNames.root,
+                globalClassNames.root,
+                customClassNames.root,
+                className
+            ),
+            inputRow: mergeClassNames(
+                componentClassNames.inputRow,
+                globalClassNames.inputRow,
+                customClassNames.inputRow
+            ),
+            input: mergeClassNames(
+                componentClassNames.input,
+                jssClassNames.input
+            ),
+            label: mergeClassNames(
+                [
+                    componentClassNames.blink,
                     status === 'highlight' || status === 'warning'
-            },
-            classNames.label,
-            jssClassNames.label
-        );
-
-        const titleClassNames = mergeClassNames(
-            classNames.title,
-            customClassNames.title
-        );
+                ],
+                componentClassNames.label,
+                jssClassNames.label
+            ),
+            title: mergeClassNames(
+                componentClassNames.title,
+                globalClassNames.title,
+                customClassNames.title
+            ),
+            inputWrapper: mergeClassNames(
+                componentClassNames.inputWrapper,
+                globalClassNames.inputWrapper,
+                customClassNames.inputWrapper
+            )
+        };
 
         return (
-            <span style={customStyles.root} className={rootClassNames}>
+            <span style={mergedStyles.root} className={mergedClassNames.root}>
                 {(() => {
                     let index = 0;
                     let subId = '';
@@ -173,11 +238,11 @@ class InputRadioInternal extends React.Component<InternalProps, State> {
                         output.push(
                             <span
                                 key={index}
-                                style={customStyles.inputRow}
-                                className={inputRowClassNames}>
+                                style={mergedStyles.inputRow}
+                                className={mergedClassNames.inputRow}>
                                 <span
-                                    style={customStyles.inputWrapper}
-                                    className={inputWrapperClassNames}>
+                                    style={mergedStyles.inputWrapper}
+                                    className={mergedClassNames.inputWrapper}>
                                     <input
                                         id={subId}
                                         type={'radio'}
@@ -185,17 +250,17 @@ class InputRadioInternal extends React.Component<InternalProps, State> {
                                         value={i}
                                         checked={value === i}
                                         onChange={onChangeHandler}
-                                        className={inputClassNames}
+                                        className={mergedClassNames.input}
                                     />
                                     <label
                                         htmlFor={subId}
-                                        className={labelClassNames}>
+                                        className={mergedClassNames.label}>
                                         {label}
                                     </label>
                                 </span>
                                 <span
-                                    style={customStyles.title}
-                                    className={titleClassNames}>
+                                    style={mergedStyles.title}
+                                    className={mergedClassNames.title}>
                                     {radios[i]}
                                 </span>
                             </span>
@@ -221,9 +286,12 @@ class InputRadioInternal extends React.Component<InternalProps, State> {
  * @property {Function} [onValidationResult=null] - Callback for validationResult event.
  * @property {Function} [onNewValue=null] - Callback for newValue event.
  * @property {Function} [onChange=null] - Callback for change event.
+ * @property {Object<string,*>} [style={}] - React prop.
+ * @property {string} [className=''] - React prop.
  * @property {Object<string,*>} [customStyles={}] - Custom styles prop.
  * @property {Object<string,*>} [customClassNames={}] - Custom classNames prop.
  * @property {Object<string,*>} [customColors=null] - Custom colors prop.
+ * @property {('default'|string|null)} [globalTheme='default'] - Global theme to be used.
  */
 
 /**
@@ -231,7 +299,7 @@ class InputRadioInternal extends React.Component<InternalProps, State> {
  * @param {inputRadioPropsType} props - Component props.
  * @returns {Object<string,*>} React component.
  */
-function InputRadio(props: ExternalProps) {
+const InputRadio: CallableObj = function InputRadio(props: ExternalProps) {
     return (
         <InputRenderer
             inputRenderFn={(rendererParams) => {
@@ -252,7 +320,29 @@ function InputRadio(props: ExternalProps) {
             onValidationResult={props.onValidationResult}
         />
     );
-}
+};
+
+InputRadio.globalStyles = {
+    default: {
+        root: {},
+        inputRow: {},
+        title: {},
+        inputWrapper: {}
+    }
+};
+
+InputRadio.globalClassNames = {
+    default: {
+        root: '',
+        inputRow: '',
+        title: '',
+        inputWrapper: ''
+    }
+};
+
+InputRadio.globalColors = {
+    default: {}
+};
 
 InputRadio.defaultProps = {
     name: '',
@@ -265,9 +355,12 @@ InputRadio.defaultProps = {
     onValidationResult: null,
     onNewValue: null,
     onChange: null,
+    style: {},
+    className: '',
     customStyles: {},
     customClassNames: {},
-    customColors: {}
+    customColors: {},
+    globalTheme: 'default'
 };
 
 export {InputRadio};

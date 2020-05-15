@@ -6,4 +6,6 @@ import {Linkedin} from './internals/linkedin';
 import {Twitter} from './internals/twitter';
 import {Youtube} from './internals/youtube';
 
+// TODO: MAKE DRY. WITHOUT INCLUDING ALL IMAGES AND WITHOUT INCLUDING IMAGES DYNAMICALLY. MAKE THREE SHAKEABLE.
+
 export {Facebook, Instagram, Linkedin, Twitter, Youtube};

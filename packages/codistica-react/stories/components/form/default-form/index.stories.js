@@ -13,7 +13,7 @@ import {
     inputValidators,
     mergeClassNames
 } from '../../../../src/index.js';
-import classNames from './index.module.scss';
+import componentClassNames from './index.module.scss';
 
 type Props = {};
 
@@ -92,11 +92,12 @@ class DefaultForm extends React.Component<Props, State> {
      * @returns {Object<string,*>} React component.
      */
     render() {
-        const rootClassNames = mergeClassNames(classNames.form, {
-            [classNames.isValid]: this.state.isValid,
-            [classNames.isInvalid]: !this.state.isValid,
-            [classNames.blinkingForm]: this.state.isBlinkForm
-        });
+        const rootClassNames = mergeClassNames(
+            componentClassNames.form,
+            [componentClassNames.isValid, this.state.isValid],
+            [componentClassNames.isInvalid, !this.state.isValid],
+            [componentClassNames.blinkingForm, this.state.isBlinkForm]
+        );
 
         return (
             <div>
@@ -148,7 +149,8 @@ class DefaultForm extends React.Component<Props, State> {
                         match={'password'}
                     />
                     <div>
-                        <span className={classNames.checkboxesContainer}>
+                        <span
+                            className={componentClassNames.checkboxesContainer}>
                             <span>
                                 <InputCheckbox
                                     name={'check1'}
@@ -156,7 +158,8 @@ class DefaultForm extends React.Component<Props, State> {
                                     plugins={inputValidators.presenceValidator}
                                     mandatory={false}
                                 />
-                                <span className={classNames.inputTitle}>
+                                <span
+                                    className={componentClassNames.inputTitle}>
                                     Check 1 (Optional)
                                 </span>
                             </span>
@@ -166,7 +169,8 @@ class DefaultForm extends React.Component<Props, State> {
                                     value={'check2'}
                                     plugins={inputValidators.presenceValidator}
                                 />
-                                <span className={classNames.inputTitle}>
+                                <span
+                                    className={componentClassNames.inputTitle}>
                                     Check 2
                                 </span>
                             </span>
@@ -176,7 +180,8 @@ class DefaultForm extends React.Component<Props, State> {
                                     value={'check3'}
                                     plugins={inputValidators.presenceValidator}
                                 />
-                                <span className={classNames.inputTitle}>
+                                <span
+                                    className={componentClassNames.inputTitle}>
                                     Check 3
                                 </span>
                             </span>
@@ -208,8 +213,8 @@ class DefaultForm extends React.Component<Props, State> {
                     />
                 </Form>
 
-                <div className={classNames.infoContainer}>
-                    <div className={classNames.infoBox}>
+                <div className={componentClassNames.infoContainer}>
+                    <div className={componentClassNames.infoBox}>
                         <h5>[DATA]</h5>
                         {(() => {
                             let output = [];
@@ -235,7 +240,7 @@ class DefaultForm extends React.Component<Props, State> {
                         })()}
                     </div>
 
-                    <div className={classNames.infoBox}>
+                    <div className={componentClassNames.infoBox}>
                         <h5>[REPORTS]</h5>
                         {(() => {
                             let title = '';
