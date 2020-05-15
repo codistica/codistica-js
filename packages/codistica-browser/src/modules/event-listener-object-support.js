@@ -3,8 +3,8 @@
 import {log} from '@codistica/core';
 
 const eventListenerObjectSupport = {
-    captureEvt: null,
-    passiveEvt: null
+    capture: null,
+    passive: null
 };
 
 // DETECT EVENT LISTENER OBJECT ARGUMENT SUPPORT
@@ -18,7 +18,7 @@ try {
                  * @returns {undefined} Undefined.
                  */
                 get() {
-                    eventListenerObjectSupport.captureEvt = true;
+                    eventListenerObjectSupport.capture = true;
                     return undefined;
                 }
             },
@@ -28,7 +28,7 @@ try {
                  * @returns {undefined} Undefined.
                  */
                 get() {
-                    eventListenerObjectSupport.passiveEvt = true;
+                    eventListenerObjectSupport.passive = true;
                     return undefined;
                 }
             }
@@ -38,8 +38,8 @@ try {
     window.removeEventListener('test', null, eventOptions);
 } catch (err) {
     log.error('eventListenerObjectSupport', err);
-    eventListenerObjectSupport.captureEvt = false;
-    eventListenerObjectSupport.passiveEvt = false;
+    eventListenerObjectSupport.capture = false;
+    eventListenerObjectSupport.passive = false;
 }
 
 export {eventListenerObjectSupport};

@@ -2,12 +2,11 @@
 
 /** @module react/classes/viewport-monitor */
 
-import {objectUtils} from '@codistica/core';
 import {EventEmitter} from 'eventemitter3';
-import React from 'react';
-import type {ComponentType} from 'react';
-import classNames from './index.module.scss';
+import componentClassNames from './index.module.scss';
 
+// TODO: MAKE STYLES IN JS. DROP SCSS FILE AND REMOVE WRAPPING DIRECTORY.
+// TODO: USE mount/unmount PATTERN LIKE WITH OverscrollMonitor.
 // TODO: FIX STYLE REPLACEMENT. ERROR WRITING TO read-only? CREATE DEEP CLONE FUNCTION? FIX ALL objectUtils? AND ADJUST USAGE (IN codistica AND PROJECTS, CHECK)
 // TODO: FIX UNITS CORRECTION MODEL. CORRECTION MUST BE BY A COEFFICIENT (CHECK 0 BEHAVIOUR)
 // TODO: TEST PERFORMANCE! AND OPTIMIZE EVENT LISTENERS ACCORDINGLY. ADD EVENT LISTENERS FOR MOBILE. ALSO FOR ROTATION. APPLY THROTTLING/DE-BOUNCING. USE TIMER TOO (5s?). WITH OPTION
@@ -16,13 +15,6 @@ import classNames from './index.module.scss';
  * @typedef viewportMonitorOptionsType
  * @property {number} [deltaThreshold=2] - Minimum delta value to interpretate as inconsistency.
  * @property {boolean} forcePageTop - Keep the current document at the top.
- */
-
-/**
- * @typedef viewportMonitorHOCPropsType
- * @property {Object<string,string>} [style={}] - React prop.
- * @property {*} [children=null] - React prop.
- * @property {Function} [forwardedRef=null] - React prop.
  */
 
 /**
@@ -66,12 +58,11 @@ class ViewportMonitor extends EventEmitter {
         (this: any).viewportFix = this.viewportFix.bind(this);
         (this: any).getViewportHeight = this.getViewportHeight.bind(this);
         (this: any).getViewportWidth = this.getViewportWidth.bind(this);
-        (this: any).HOC = this.HOC.bind(this);
 
         // APPEND MEASURE BOXES TO DOM
         const measureAreas = [
-            classNames.measureBoxViewport,
-            classNames.measureBoxPercent
+            componentClassNames.measureBoxViewport,
+            componentClassNames.measureBoxPercent
         ].map((className) => {
             let elem = document.createElement('div');
             elem.className = className;
@@ -225,157 +216,6 @@ class ViewportMonitor extends EventEmitter {
      */
     getViewportWidth() {
         return this.measureBoxViewport.offsetWidth - this.deltaVw;
-    }
-
-    /**
-     * @instance
-     * @description Creates a higher order component with viewport units auto-correction capabilities.
-     * @param {(Object<string,*>|string)} Component - React component.
-     * @returns {Object<string,*>} Created higher order component.
-     */
-    HOC(Component: ComponentType<any> | string) {
-        type HOCProps = {
-            children: any,
-            forwardedRef: Function,
-            style: {[string]: any}
-        };
-
-        type HOCState = {
-            viewportStyle: {[string]: any}
-        };
-
-        const that = this; // ALLOW THIS METHOD RETURNED HOCs TO BE TIED TO THE CLASS INSTANCE :)
-
-        /**
-         * @classdesc Higher order component.
-         */
-        class _HOC extends React.Component<HOCProps, HOCState> {
-            static defaultProps = {
-                children: null,
-                forwardedRef: null,
-                style: {}
-            };
-
-            /**
-             * @description Constructor.
-             * @param {viewportMonitorHOCPropsType} [props] - Component props.
-             */
-            constructor(props) {
-                super(props);
-
-                // BIND METHODS
-                (this: any).onViewportChange = this.onViewportChange.bind(this);
-                (this: any).setComponentRef = this.setComponentRef.bind(this);
-
-                this.state = {
-                    viewportStyle: _HOC.replaceUnits(props.style)
-                };
-            }
-
-            /**
-             * @instance
-             * @description React lifecycle.
-             * @returns {void} Void.
-             */
-            componentDidMount() {
-                that.on('shift', this.onViewportChange); // TODO: DETACH ON UNMOUNT?
-            }
-
-            /**
-             * @instance
-             * @description Callback for viewportChange event.
-             * @returns {void} Void.
-             */
-            onViewportChange() {
-                this.setState({
-                    viewportStyle: _HOC.replaceUnits(this.props.style)
-                });
-            }
-
-            /**
-             * @instance
-             * @description Save and pass component reference.
-             * @param {Object<string,*>} ref - Component reference.
-             * @returns {void} Void.
-             */
-            setComponentRef(ref) {
-                // FORWARD REF
-                const {forwardedRef} = this.props;
-                if (typeof forwardedRef === 'function') {
-                    forwardedRef(ref);
-                } else if (
-                    typeof forwardedRef === 'object' &&
-                    forwardedRef !== null &&
-                    typeof forwardedRef.current !== 'undefined'
-                ) {
-                    forwardedRef.current = ref;
-                }
-            }
-
-            /**
-             * @instance
-             * @description React render method.
-             * @returns {Object<string,*>} React component.
-             */
-            render() {
-                const {children, forwardedRef, style, ...other} = this.props;
-                const {viewportStyle} = this.state;
-                return (
-                    <Component
-                        {...other}
-                        ref={this.setComponentRef}
-                        style={viewportStyle}>
-                        {children}
-                    </Component>
-                );
-            }
-
-            /**
-             * @description Replace units in incoming styles.
-             * @param {Object<string,*>} props - Incoming react props.
-             * @returns {Object<string,*>} State update object.
-             */
-            static getDerivedStateFromProps(props) {
-                return {
-                    viewportStyle: _HOC.replaceUnits(props.style)
-                };
-            }
-
-            /**
-             * @description Replace viewport units in incoming styles.
-             * @param {Object<string,*>} styleObj - React style object.
-             * @returns {Object<string,*>} Resulting style object.
-             */
-            static replaceUnits(styleObj) {
-                return objectUtils.forEachSync(
-                    objectUtils.deepClone(styleObj),
-                    (elem, API) => {
-                        let newValue = elem;
-                        if (typeof elem === 'string') {
-                            if (that.deltaVh !== 0) {
-                                newValue = newValue.replace(
-                                    /(?<val>[\d.]+)vh/g,
-                                    `calc($<val>vh * ${that.ratioVh})`
-                                );
-                            }
-                            if (that.deltaVw !== 0) {
-                                newValue = newValue.replace(
-                                    /(?<val>[\d.]+)vw/g,
-                                    `calc($<val>vw * ${that.ratioVw})`
-                                );
-                            }
-                            if (newValue !== elem) {
-                                API.replaceValue(newValue);
-                            }
-                        }
-                    }
-                );
-            }
-        }
-
-        return (React: Function).forwardRef((props, ref) => {
-            return <_HOC {...props} forwardedRef={ref} />;
-        });
     }
 }
 

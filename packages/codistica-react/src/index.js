@@ -36,6 +36,8 @@ export {Slide} from './components/slide';
 export {withOnClickOutside} from './hocs/with-on-click-outside';
 export {withOnDrag} from './hocs/with-on-drag';
 export {withTooltip} from './hocs/with-tooltip';
+export {withOverscrollMonitor} from './hocs/with-overscroll-monitor';
+export {withViewportMonitor} from './hocs/with-viewport-monitor';
 
 // MODULES
 export {mergeClassNames} from './modules/merge-class-names';

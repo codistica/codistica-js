@@ -4,32 +4,40 @@
 
 import {eventListenerObjectSupport} from '@codistica/browser';
 import React from 'react';
-import type {ComponentType} from 'react';
+import type {AbstractComponent, Config} from 'react';
+
+type Props = {
+    onClickOutside: null | ((...args: Array<any>) => any),
+    children: any,
+    forwardedRef: any
+};
+
+type DefaultProps = {
+    onClickOutside: null,
+    children: null,
+    forwardedRef: null
+};
+
+/**
+ * @typedef withOnClickOutsidePropsType
+ * @property {Function} [onClickOutside=null] - Callback for clickOutside event.
+ * @property {*} [children=null] - React prop.
+ * @property {*} [forwardedRef=null] - React prop.
+ */
 
 /**
  * @description Creates a higher order component with clickOutside event support.
  * @param {(Object<string,*>|string)} Component - React component.
  * @returns {Object<string,*>} Created higher order component.
  */
-function withOnClickOutside(Component: ComponentType<any> | string) {
-    type HOCProps = {
-        onClickOutside: Function,
-        children: any,
-        forwardedRef: Function
-    };
-
-    /**
-     * @typedef withOnClickOutsidePropsType
-     * @property {*} [children=null] - React prop.
-     * @property {Function} [onClickOutside=null] - Callback for clickOutside event.
-     * @property {Function} [forwardedRef=null] - React prop.
-     */
-
+function withOnClickOutside<ComponentConfig: {}>(
+    Component: AbstractComponent<any> | string
+): AbstractComponent<ComponentConfig & Config<Props, DefaultProps>> {
     /**
      * @classdesc Higher order component.
      */
-    class HOC extends React.Component<HOCProps> {
-        static defaultProps = {
+    class HOC extends React.Component<Props> {
+        static defaultProps: DefaultProps = {
             onClickOutside: null,
             children: null,
             forwardedRef: null
@@ -42,7 +50,7 @@ function withOnClickOutside(Component: ComponentType<any> | string) {
          * @description Constructor.
          * @param {withOnClickOutsidePropsType} [props] - Component props.
          */
-        constructor(props: HOCProps) {
+        constructor(props: Props) {
             super(props);
 
             this.componentRef = null;
@@ -63,28 +71,28 @@ function withOnClickOutside(Component: ComponentType<any> | string) {
             window.addEventListener(
                 'touchstart',
                 this.onStart,
-                eventListenerObjectSupport.captureEvt === true
+                eventListenerObjectSupport.capture === true
                     ? {capture: true}
                     : true
             );
             window.addEventListener(
                 'mousedown',
                 this.onStart,
-                eventListenerObjectSupport.captureEvt === true
+                eventListenerObjectSupport.capture === true
                     ? {capture: true}
                     : true
             );
             window.addEventListener(
                 'touchend',
                 this.onEnd,
-                eventListenerObjectSupport.captureEvt === true
+                eventListenerObjectSupport.capture === true
                     ? {capture: true}
                     : true
             );
             window.addEventListener(
                 'mouseup',
                 this.onEnd,
-                eventListenerObjectSupport.captureEvt === true
+                eventListenerObjectSupport.capture === true
                     ? {capture: true}
                     : true
             );
@@ -99,28 +107,28 @@ function withOnClickOutside(Component: ComponentType<any> | string) {
             window.removeEventListener(
                 'touchstart',
                 this.onStart,
-                eventListenerObjectSupport.captureEvt === true
+                eventListenerObjectSupport.capture === true
                     ? {capture: true}
                     : true
             );
             window.removeEventListener(
                 'mousedown',
                 this.onStart,
-                eventListenerObjectSupport.captureEvt === true
+                eventListenerObjectSupport.capture === true
                     ? {capture: true}
                     : true
             );
             window.removeEventListener(
                 'touchend',
                 this.onEnd,
-                eventListenerObjectSupport.captureEvt === true
+                eventListenerObjectSupport.capture === true
                     ? {capture: true}
                     : true
             );
             window.removeEventListener(
                 'mouseup',
                 this.onEnd,
-                eventListenerObjectSupport.captureEvt === true
+                eventListenerObjectSupport.capture === true
                     ? {capture: true}
                     : true
             );
@@ -167,7 +175,7 @@ function withOnClickOutside(Component: ComponentType<any> | string) {
                 this.componentRef &&
                 !this.componentRef.contains(target)
             ) {
-                this.props.onClickOutside(e);
+                this.props.onClickOutside && this.props.onClickOutside(e);
             }
             this.isOutside = false;
         }
@@ -214,8 +222,8 @@ function withOnClickOutside(Component: ComponentType<any> | string) {
         }
     }
 
-    return (React: Function).forwardRef(
-        (props: {[string]: any}, ref: Function) => {
+    return React.forwardRef<ComponentConfig & Config<Props, DefaultProps>, HOC>(
+        (props, ref) => {
             return <HOC {...props} forwardedRef={ref} />;
         }
     );

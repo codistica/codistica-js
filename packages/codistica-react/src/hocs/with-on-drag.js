@@ -5,50 +5,62 @@
 import {eventListenerObjectSupport} from '@codistica/browser';
 import {log} from '@codistica/core';
 import React from 'react';
-import type {ComponentType} from 'react';
+import type {AbstractComponent, Config} from 'react';
 import {mergeStyles} from '../modules/merge-styles.js';
 
 // TODO: ADD DAMPING OPTION (FUNCTION)
 // TODO: ADD MOMENTUM OPTION (COEFFICIENT)
 // TODO: ADD THRESHOLD TO GRAB OPTION (TIME)
 
+type Props = {
+    isolate: boolean,
+    onDragStart: null | ((...args: Array<any>) => any),
+    onDrag: null | ((...args: Array<any>) => any),
+    onDragEnd: null | ((...args: Array<any>) => any),
+    children: any,
+    forwardedRef: any,
+    style: {[string]: any}
+};
+
+type DefaultProps = {
+    isolate: false,
+    onDragStart: null,
+    onDrag: null,
+    onDragEnd: null,
+    children: null,
+    forwardedRef: null,
+    style: {}
+};
+
+type State = {
+    isDragging: boolean,
+    isGrabbed: boolean
+};
+
+/**
+ * @typedef withOnDragPropsType
+ * @property {boolean} [isolate=false] - Isolate component dragging events. Do not allow propagation to other elements.
+ * @property {Function} [onDragStart=null] - Callback for dragStart event.
+ * @property {Function} [onDrag=null] - Callback for drag event.
+ * @property {Function} [onDragEnd=null] - Callback for dragEnd event.
+ * @property {*} [children=null] - React prop.
+ * @property {*} [forwardedRef=null] - React prop.
+ * @property {Object<string,string>} [style={}] - React prop.
+ */
+
 /**
  * @description Creates a higher order component with dragging capabilities.
  * @param {(Object<string,*>|string)} Component - React component.
  * @returns {Object<string,*>} Created higher order component.
  */
-function withOnDrag(Component: ComponentType<any> | string) {
-    type HOCProps = {
-        isolate: boolean,
-        onDragStart: Function,
-        onDrag: Function,
-        onDragEnd: Function,
-        children: any,
-        forwardedRef: Function,
-        style: {[string]: any}
-    };
-
-    type HOCState = {
-        isDragging: boolean,
-        isGrabbed: boolean
-    };
-
-    /**
-     * @typedef withOnDragPropsType
-     * @property {*} [children=null] - React prop.
-     * @property {Object<string,string>} [style={}] - React prop.
-     * @property {boolean} [isolate=false] - Isolate component dragging events. Do not allow propagation to other elements.
-     * @property {Function} [onDragStart=null] - Callback for dragStart event.
-     * @property {Function} [onDrag=null] - Callback for drag event.
-     * @property {Function} [onDragEnd=null] - Callback for dragEnd event.
-     * @property {Function} [forwardedRef=null] - React prop.
-     */
-
+function withOnDrag<ComponentConfig: {}>(
+    Component: AbstractComponent<any> | string
+): AbstractComponent<ComponentConfig & Config<Props, DefaultProps>> {
     /**
      * @classdesc Higher order component.
      */
-    class HOC extends React.Component<HOCProps, HOCState> {
-        static defaultProps = {
+    class HOC extends React.Component<Props, State> {
+        static defaultProps: DefaultProps = {
             isolate: false,
             onDragStart: null,
             onDrag: null,
@@ -67,7 +79,7 @@ function withOnDrag(Component: ComponentType<any> | string) {
          * @description Constructor.
          * @param {withOnDragPropsType} [props] - Component props.
          */
-        constructor(props: HOCProps) {
+        constructor(props: Props) {
             super(props);
 
             this.componentRef = null;
@@ -93,32 +105,32 @@ function withOnDrag(Component: ComponentType<any> | string) {
          * @returns {void} Void.
          */
         componentDidMount() {
-            // TODO: ATTACH TO REACT EVENTS IN RENDER INSTEAD? CAN BREAK IF PROPS CHAIN IS INTERRUPTED
+            // TODO: ATTACH TO REACT EVENTS IN RENDER INSTEAD?
             this.componentRef.addEventListener(
                 'touchstart',
                 this.onStart,
-                eventListenerObjectSupport.captureEvt === true
+                eventListenerObjectSupport.capture === true
                     ? {capture: true}
                     : true
             );
             this.componentRef.addEventListener(
                 'mousedown',
                 this.onStart,
-                eventListenerObjectSupport.captureEvt === true
+                eventListenerObjectSupport.capture === true
                     ? {capture: true}
                     : true
             );
             this.componentRef.addEventListener(
                 'touchend',
                 this.onEnd,
-                eventListenerObjectSupport.captureEvt === true
+                eventListenerObjectSupport.capture === true
                     ? {capture: true}
                     : true
             );
             window.addEventListener(
                 'mouseup',
                 this.onEnd,
-                eventListenerObjectSupport.captureEvt === true
+                eventListenerObjectSupport.capture === true
                     ? {capture: true}
                     : true
             );
@@ -130,32 +142,32 @@ function withOnDrag(Component: ComponentType<any> | string) {
          * @returns {void} Void.
          */
         componentWillUnmount() {
-            // TODO: ATTACH TO REACT EVENTS IN RENDER INSTEAD? CAN BREAK IF PROPS CHAIN IS INTERRUPTED
+            // TODO: ATTACH TO REACT EVENTS IN RENDER INSTEAD?
             this.componentRef.removeEventListener(
                 'touchstart',
                 this.onStart,
-                eventListenerObjectSupport.captureEvt === true
+                eventListenerObjectSupport.capture === true
                     ? {capture: true}
                     : true
             );
             this.componentRef.removeEventListener(
                 'mousedown',
                 this.onStart,
-                eventListenerObjectSupport.captureEvt === true
+                eventListenerObjectSupport.capture === true
                     ? {capture: true}
                     : true
             );
             this.componentRef.removeEventListener(
                 'touchend',
                 this.onEnd,
-                eventListenerObjectSupport.captureEvt === true
+                eventListenerObjectSupport.capture === true
                     ? {capture: true}
                     : true
             );
             window.removeEventListener(
                 'mouseup',
                 this.onEnd,
-                eventListenerObjectSupport.captureEvt === true
+                eventListenerObjectSupport.capture === true
                     ? {capture: true}
                     : true
             );
@@ -168,7 +180,7 @@ function withOnDrag(Component: ComponentType<any> | string) {
          * @returns {void} Void.
          */
         onStart(e: {[string]: any}) {
-            // TODO: ATTACH TO REACT EVENTS IN RENDER INSTEAD? CAN BREAK IF PROPS CHAIN IS INTERRUPTED
+            // TODO: ATTACH TO REACT EVENTS IN RENDER INSTEAD?
 
             if (
                 (e.type === 'mousedown' && e.button === 0) ||
@@ -179,14 +191,14 @@ function withOnDrag(Component: ComponentType<any> | string) {
                 this.componentRef.addEventListener(
                     'touchmove',
                     this.onMove,
-                    eventListenerObjectSupport.captureEvt === true
+                    eventListenerObjectSupport.capture === true
                         ? {capture: true}
                         : true
                 );
                 window.addEventListener(
                     'mousemove',
                     this.onMove,
-                    eventListenerObjectSupport.captureEvt === true
+                    eventListenerObjectSupport.capture === true
                         ? {capture: true}
                         : true
                 );
@@ -222,7 +234,7 @@ function withOnDrag(Component: ComponentType<any> | string) {
          * @returns {void} Void.
          */
         onEnd(e: {[string]: any}) {
-            // TODO: ATTACH TO REACT EVENTS IN RENDER INSTEAD? CAN BREAK IF PROPS CHAIN IS INTERRUPTED
+            // TODO: ATTACH TO REACT EVENTS IN RENDER INSTEAD?
 
             if (
                 this.state.isGrabbed &&
@@ -237,14 +249,14 @@ function withOnDrag(Component: ComponentType<any> | string) {
                 this.componentRef.removeEventListener(
                     'touchmove',
                     this.onMove,
-                    eventListenerObjectSupport.captureEvt === true
+                    eventListenerObjectSupport.capture === true
                         ? {capture: true}
                         : true
                 );
                 window.removeEventListener(
                     'mousemove',
                     this.onMove,
-                    eventListenerObjectSupport.captureEvt === true
+                    eventListenerObjectSupport.capture === true
                         ? {capture: true}
                         : true
                 );
@@ -352,8 +364,8 @@ function withOnDrag(Component: ComponentType<any> | string) {
         }
     }
 
-    return (React: Function).forwardRef(
-        (props: {[string]: any}, ref: Function) => {
+    return React.forwardRef<ComponentConfig & Config<Props, DefaultProps>, HOC>(
+        (props, ref) => {
             return <HOC {...props} forwardedRef={ref} />;
         }
     );

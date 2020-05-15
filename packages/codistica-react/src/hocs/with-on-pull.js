@@ -5,33 +5,40 @@
 // TODO: WORK IN PROGRESS.
 
 import React from 'react';
-import type {ComponentType} from 'react';
-// import {eventListenerObjectSupport} from '@codistica/browser';
+import type {AbstractComponent, Config} from 'react';
+
+type Props = {
+    onPull: null | ((...args: Array<any>) => any),
+    children: any,
+    forwardedRef: any
+};
+
+type DefaultProps = {
+    onPull: null,
+    children: null,
+    forwardedRef: null
+};
+
+/**
+ * @typedef withOnPullPropsType
+ * @property {Function} [onPull=null] - Callback for pull event.
+ * @property {*} [children=null] - React prop.
+ * @property {*} [forwardedRef=null] - React prop.
+ */
 
 /**
  * @description Creates a higher order component with dragging capabilities.
  * @param {(Object<string,*>|string)} Component - React component.
  * @returns {Object<string,*>} Created higher order component.
  */
-function withOnPull(Component: ComponentType<any> | string) {
-    type HOCProps = {
-        onPull: Function,
-        children: any,
-        forwardedRef: Function
-    };
-
-    /**
-     * @typedef withOnPullPropsType
-     * @property {*} [children=null] - React prop.
-     * @property {Function} [onPull=null] - Callback for pull event.
-     * @property {Function} [forwardedRef=null] - React prop.
-     */
-
+function withOnPull<ComponentConfig: {}>(
+    Component: AbstractComponent<any> | string
+): AbstractComponent<ComponentConfig & Config<Props, DefaultProps>> {
     /**
      * @classdesc Higher order component.
      */
-    class HOC extends React.Component<HOCProps> {
-        static defaultProps = {
+    class HOC extends React.Component<Props> {
+        static defaultProps: DefaultProps = {
             onPull: null,
             children: null,
             forwardedRef: null
@@ -43,7 +50,7 @@ function withOnPull(Component: ComponentType<any> | string) {
          * @description Constructor.
          * @param {withOnPullPropsType} [props] - Component props.
          */
-        constructor(props: HOCProps) {
+        constructor(props: Props) {
             super(props);
 
             this.componentRef = null;
@@ -103,8 +110,8 @@ function withOnPull(Component: ComponentType<any> | string) {
         }
     }
 
-    return (React: Function).forwardRef(
-        (props: {[string]: any}, ref: Function) => {
+    return React.forwardRef<ComponentConfig & Config<Props, DefaultProps>, HOC>(
+        (props, ref) => {
             return <HOC {...props} forwardedRef={ref} />;
         }
     );
