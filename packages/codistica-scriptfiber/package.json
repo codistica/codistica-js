@@ -1,6 +1,6 @@
 {
     "name": "@codistica/scriptfiber",
-    "version": "1.0.0-beta.2",
+    "version": "1.0.0-beta.3",
     "publishConfig": {
         "access": "public"
     },
@@ -56,7 +56,7 @@
     },
     "dependencies": {
         "@babel/runtime-corejs3": "^7.9.2",
-        "@codistica/browser": "^1.0.0-beta.2",
+        "@codistica/browser": "^1.0.0-beta.3",
         "@codistica/core": "^1.0.0-beta.2",
         "@codistica/dev-tools": "^1.0.0-beta.2",
         "@codistica/node": "^1.0.0-beta.2",

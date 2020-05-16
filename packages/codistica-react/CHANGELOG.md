@@ -8,6 +8,8 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+## [1.0.0-beta.5] - 2020-05-16
+
 ### Added
 - New global customization pattern implemented for all components via `globalStyles`, `globalClassNames` and `gloablColors` when available.
 
@@ -74,7 +76,8 @@ of full path being used for importing in `index.js` file. See [Flow #8354 Issue]
 See [GitHub release notes](https://github.com/codistica/codistica-js/releases?after=@codistica/react@1.0.0-beta.1)
 for info on changes for earlier releases.
 
-[Unreleased]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.4...HEAD
+[Unreleased]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.5...HEAD
+[1.0.0-beta.5]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.4...@codistica/react@1.0.0-beta.5
 [1.0.0-beta.4]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.3...@codistica/react@1.0.0-beta.4
 [1.0.0-beta.3]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.2...@codistica/react@1.0.0-beta.3
 [1.0.0-beta.2]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.1...@codistica/react@1.0.0-beta.2

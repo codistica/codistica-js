@@ -24,6 +24,11 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 ### Fixed
 - Typo in `bump` script at root's `package.json`.
 
+### Packages Bumps
+- `@codistica/browser`: 1.0.0-beta.3
+- `@codistica/react`: 1.0.0-beta.5
+- `@codistica/scriptfiber`: 1.0.0-beta.3
+
 ## [2020-05-13]
 
 ### Fixed
