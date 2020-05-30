@@ -6,3 +6,5 @@ export {webpackConfigurator} from './modules/webpack-configurator.js';
 
 // PLUGINS
 export {ScriptfiberRuntimeWebpackPlugin} from './plugins/scriptfiber-runtime-webpack-plugin/index.js';
+
+// TODO: ADD WEBPACK AS PEER DEPENDENCY? ALSO IN OTHER PACKAGES AS NEEDED? WITHOUT IMPACTING CONSUMER EXPERIENCE.

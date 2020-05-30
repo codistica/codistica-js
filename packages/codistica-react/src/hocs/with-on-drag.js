@@ -12,8 +12,12 @@ import {mergeStyles} from '../modules/merge-styles.js';
 // TODO: ADD MOMENTUM OPTION (COEFFICIENT)
 // TODO: ADD THRESHOLD TO GRAB OPTION (TIME)
 
+const eventOptions = eventListenerObjectSupport.capture
+    ? {capture: true}
+    : true;
+
 type Props = {
-    isolate: boolean,
+    isolate: boolean, // TODO: USE SPECIFIC HOC/UTILITY?
     onDragStart: null | ((...args: Array<any>) => any),
     onDrag: null | ((...args: Array<any>) => any),
     onDragEnd: null | ((...args: Array<any>) => any),
@@ -45,7 +49,7 @@ type State = {
  * @property {Function} [onDragEnd=null] - Callback for dragEnd event.
  * @property {*} [children=null] - React prop.
  * @property {*} [forwardedRef=null] - React prop.
- * @property {Object<string,string>} [style={}] - React prop.
+ * @property {Object<string,*>} [style={}] - React prop.
  */
 
 /**
@@ -105,35 +109,22 @@ function withOnDrag<ComponentConfig: {}>(
          * @returns {void} Void.
          */
         componentDidMount() {
-            // TODO: ATTACH TO REACT EVENTS IN RENDER INSTEAD?
             this.componentRef.addEventListener(
                 'touchstart',
                 this.onStart,
-                eventListenerObjectSupport.capture === true
-                    ? {capture: true}
-                    : true
+                eventOptions
             );
             this.componentRef.addEventListener(
                 'mousedown',
                 this.onStart,
-                eventListenerObjectSupport.capture === true
-                    ? {capture: true}
-                    : true
+                eventOptions
             );
             this.componentRef.addEventListener(
                 'touchend',
                 this.onEnd,
-                eventListenerObjectSupport.capture === true
-                    ? {capture: true}
-                    : true
+                eventOptions
             );
-            window.addEventListener(
-                'mouseup',
-                this.onEnd,
-                eventListenerObjectSupport.capture === true
-                    ? {capture: true}
-                    : true
-            );
+            window.addEventListener('mouseup', this.onEnd, eventOptions);
         }
 
         /**
@@ -142,35 +133,22 @@ function withOnDrag<ComponentConfig: {}>(
          * @returns {void} Void.
          */
         componentWillUnmount() {
-            // TODO: ATTACH TO REACT EVENTS IN RENDER INSTEAD?
             this.componentRef.removeEventListener(
                 'touchstart',
                 this.onStart,
-                eventListenerObjectSupport.capture === true
-                    ? {capture: true}
-                    : true
+                eventOptions
             );
             this.componentRef.removeEventListener(
                 'mousedown',
                 this.onStart,
-                eventListenerObjectSupport.capture === true
-                    ? {capture: true}
-                    : true
+                eventOptions
             );
             this.componentRef.removeEventListener(
                 'touchend',
                 this.onEnd,
-                eventListenerObjectSupport.capture === true
-                    ? {capture: true}
-                    : true
+                eventOptions
             );
-            window.removeEventListener(
-                'mouseup',
-                this.onEnd,
-                eventListenerObjectSupport.capture === true
-                    ? {capture: true}
-                    : true
-            );
+            window.removeEventListener('mouseup', this.onEnd, eventOptions);
         }
 
         /**
@@ -180,8 +158,6 @@ function withOnDrag<ComponentConfig: {}>(
          * @returns {void} Void.
          */
         onStart(e: {[string]: any}) {
-            // TODO: ATTACH TO REACT EVENTS IN RENDER INSTEAD?
-
             if (
                 (e.type === 'mousedown' && e.button === 0) ||
                 (e.type === 'touchstart' && e.touches.length === 1)
@@ -191,17 +167,9 @@ function withOnDrag<ComponentConfig: {}>(
                 this.componentRef.addEventListener(
                     'touchmove',
                     this.onMove,
-                    eventListenerObjectSupport.capture === true
-                        ? {capture: true}
-                        : true
+                    eventOptions
                 );
-                window.addEventListener(
-                    'mousemove',
-                    this.onMove,
-                    eventListenerObjectSupport.capture === true
-                        ? {capture: true}
-                        : true
-                );
+                window.addEventListener('mousemove', this.onMove, eventOptions);
 
                 this.setState({
                     isGrabbed: true
@@ -220,6 +188,7 @@ function withOnDrag<ComponentConfig: {}>(
                     this.props.onDragStart();
                 }
 
+                // TODO: REMOVE. USE PERTINENT HOCS.
                 if (this.props.isolate && e.type === 'touchstart') {
                     e.stopPropagation();
                     e.cancelable && e.preventDefault();
@@ -234,8 +203,6 @@ function withOnDrag<ComponentConfig: {}>(
          * @returns {void} Void.
          */
         onEnd(e: {[string]: any}) {
-            // TODO: ATTACH TO REACT EVENTS IN RENDER INSTEAD?
-
             if (
                 this.state.isGrabbed &&
                 ((e.type === 'mouseup' && e.button === 0) ||
@@ -249,16 +216,12 @@ function withOnDrag<ComponentConfig: {}>(
                 this.componentRef.removeEventListener(
                     'touchmove',
                     this.onMove,
-                    eventListenerObjectSupport.capture === true
-                        ? {capture: true}
-                        : true
+                    eventOptions
                 );
                 window.removeEventListener(
                     'mousemove',
                     this.onMove,
-                    eventListenerObjectSupport.capture === true
-                        ? {capture: true}
-                        : true
+                    eventOptions
                 );
 
                 this.setState({

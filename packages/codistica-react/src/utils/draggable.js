@@ -8,6 +8,8 @@ import {withOnDrag} from '../hocs/with-on-drag.js';
 import {mergeClassNames} from '../modules/merge-class-names.js';
 import {mergeStyles} from '../modules/merge-styles.js';
 
+// TODO: CREATE withPositionBoundaries HOC (TO PREVENT EXITING PARENT ELEMENT VIA POSITION PROPERTIES).
+
 const Div = withOnDrag<{}>('div');
 
 type Props = {

@@ -6,6 +6,10 @@ import {eventListenerObjectSupport} from '@codistica/browser';
 import React from 'react';
 import type {AbstractComponent, Config} from 'react';
 
+const eventOptions = eventListenerObjectSupport.capture
+    ? {capture: true}
+    : true;
+
 type Props = {
     onClickOutside: null | ((...args: Array<any>) => any),
     children: any,
@@ -68,34 +72,10 @@ function withOnClickOutside<ComponentConfig: {}>(
          * @returns {void} Void.
          */
         componentDidMount() {
-            window.addEventListener(
-                'touchstart',
-                this.onStart,
-                eventListenerObjectSupport.capture === true
-                    ? {capture: true}
-                    : true
-            );
-            window.addEventListener(
-                'mousedown',
-                this.onStart,
-                eventListenerObjectSupport.capture === true
-                    ? {capture: true}
-                    : true
-            );
-            window.addEventListener(
-                'touchend',
-                this.onEnd,
-                eventListenerObjectSupport.capture === true
-                    ? {capture: true}
-                    : true
-            );
-            window.addEventListener(
-                'mouseup',
-                this.onEnd,
-                eventListenerObjectSupport.capture === true
-                    ? {capture: true}
-                    : true
-            );
+            window.addEventListener('touchstart', this.onStart, eventOptions);
+            window.addEventListener('mousedown', this.onStart, eventOptions);
+            window.addEventListener('touchend', this.onEnd, eventOptions);
+            window.addEventListener('mouseup', this.onEnd, eventOptions);
         }
 
         /**
@@ -107,31 +87,11 @@ function withOnClickOutside<ComponentConfig: {}>(
             window.removeEventListener(
                 'touchstart',
                 this.onStart,
-                eventListenerObjectSupport.capture === true
-                    ? {capture: true}
-                    : true
+                eventOptions
             );
-            window.removeEventListener(
-                'mousedown',
-                this.onStart,
-                eventListenerObjectSupport.capture === true
-                    ? {capture: true}
-                    : true
-            );
-            window.removeEventListener(
-                'touchend',
-                this.onEnd,
-                eventListenerObjectSupport.capture === true
-                    ? {capture: true}
-                    : true
-            );
-            window.removeEventListener(
-                'mouseup',
-                this.onEnd,
-                eventListenerObjectSupport.capture === true
-                    ? {capture: true}
-                    : true
-            );
+            window.removeEventListener('mousedown', this.onStart, eventOptions);
+            window.removeEventListener('touchend', this.onEnd, eventOptions);
+            window.removeEventListener('mouseup', this.onEnd, eventOptions);
         }
 
         /**

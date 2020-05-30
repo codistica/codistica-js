@@ -21,12 +21,9 @@ export {Sophistication} from './classes/sophistication';
 export {BulletDropdown} from './components/bullet-dropdown';
 export {Button} from './components/button';
 export {DotNavigation} from './components/dot-navigation';
-export {Draggable} from './components/draggable';
-export {Form} from './components/form';
 export {HoverIcon} from './components/hover-icon';
 export {InputCheckbox} from './components/input-checkbox';
 export {InputRadio} from './components/input-radio';
-export {InputRenderer} from './components/input-renderer';
 export {InputText} from './components/input-text';
 export {TrackSlide} from './components/track-slide';
 export {TracklessSlide} from './components/trackless-slide';
@@ -44,14 +41,23 @@ export {getRefHandler} from './modules/get-ref-handler';
 export {mergeClassNames} from './modules/merge-class-names';
 export {mergeStyles} from './modules/merge-styles';
 
-// TODO: USE localStyles WHERE NEEDED. (EX: IN Slide)
+// UTILS
+export {Draggable} from './utils/draggable';
+export {Form} from './utils/form';
+export {InputRenderer} from './utils/input-renderer';
+
+// TODO: APPLY MARGINS TO ROOTS ONLY (SEE INPUTS).
+
+// TODO: FIX CallableObj PATTERN! NO HINTS FOR PROPS WHEN CONSUMING LIBRARY. HOW TO INDICATE THAT THEY ARE COMPONENTS? (FUNCTIONAL COMPONENTS).
 
 // TODO: FIX (this: any)?
 // TODO: FIX (...args: Array<any>) => any
 // TODO: FIX REFS FORWARDING TYPES
-
 // TODO: CORRECTLY ANNOTATE HOCs RETURNED COMPONENTS. ADD POLYMORPHIC TYPES SUPPORT.
 // TODO: ADD NATIVE DOM PROPS TO COMPONENTS THAT ACCEPT THEM? EXTEND PROPS?
+// TODO: CHECK ALL HOCs.
+// TODO: CHECK ALL HOCs TYPE ANNOTATIONS.
+// TODO: SOLVE HOCs AND FUNCTIONAL COMPONENTS COMPATIBILITY ISSUE. (USE CUSTOM REF PROP CONVENTION?, USE forwardRef REF IN EACH FUNCTIONAL COMPONENT? (MAYBE BEST CHOICE))
 
 // TODO: USE REF INSTEAD OF onMount? HOW TO DO IT WITH FUNCTIONAL COMPONENTS? MAYBE NOT POSSIBLE.
 
@@ -74,7 +80,42 @@ export {mergeStyles} from './modules/merge-styles';
 // TODO: FIX INSTAGRAM ICON IN ILLUSTRATOR! (CHECK ALL)
 
 // TODO: CREATE BulletMenu COMPONENT USING BulletDropdown UNDER THE HOOD. ALLOWING MULTI-LEVEL OBJECT IN items PROP. (ADD autoSpacing TOO (MODIFY BulletDropdown ACCORDINGLY TO HAVE ALL MEASURES))
+// TODO: SEE REACT SPRINGS FOR A GOOD BulletMenu EXAMPLE. IMPROVE BulletDropdown ACCORDINGLY.
 
 // TODO: IMPLEMENT REACT ESLINT RULES (SEE CODISTICA ESLINT CONFIG PACKAGE). IMPORTANT FOR CHECKS LIKE useEffect DEPENDENCIES.
 
 // TODO: CHECK THAT PROPS ARE NEVER CHANGED.
+
+// TODO: MOVE ALL POSSIBLE STYLES TO SCSS FILES TO LOWER SPECIFICITY.
+// TODO: USE DIRECT SIMPLE CLASSNAMES WHEN POSSIBLE.
+
+// TODO: RENAME ViewportMonitor -> DynamicViewport?
+// TODO: IT IS IMPORTANT TO MAKE DynamicViewport, OverscrollBlocker AND THEIR IMPLEMENTATIONS BREAK-PROOF.
+// TODO: CHECK ALL VIEWPORT UNITS USAGES IN MONOREPO.
+
+// TODO: FOR <TabBoundary>, CATCH ALL focus/blur EVENTS AND PREVENT/FORWARD AS NEEDED (A GLOBAL window LISTENER COULD BE NEEDED TO DETECT FOCUS FROM AND TO ELEMENTS OUTSIDE BOUNDARY).
+
+// TODO: <TracklessSlide>
+// TODO: <TrackSlide>
+// TODO: <FullScreenSlide> (USE <TrackSlide> UNDER THE HOOD) (FULL CSS, POSITION fixed, z-index AND PERCENT UNITS (NO VIEWPORT UNITS))
+// TODO: <CarouselSlide>
+// TODO: IMPLEMENT react-use-gesture.
+// TODO: ADD onStart, onEnd, onNewPosition CALLBACKS.
+// TODO: SUPPORT FOR KEYBOARD (NAVIGATE WITH ARROWS, GOTO WITH NUMBERS, ETC)
+
+// TODO: GROUP ALL ICONS INTO ONE Icon COMPONENT WITH name PROP. LAZY LOAD BY DEFAULT?
+// TODO: SEPARATE BY CATEGORIES IF NO LAZY LOADING? SocialIcons, ETC...?
+
+// TODO: MOVE ALL CUSTOMIZATION LOGIC FOR EACH COMPONENT TO A style.js FILE IN EACH COMPONENT DIRECTORY.
+// TODO: USE MEMOIZATION WHEN POSSIBLE.
+// TODO: DEFINE A CONVENTION FOR LOCAL STYLES (ANALOG TO componentClassNames).
+
+// TODO: USE getRefHandler (ADJUST CURRENT HOCs ACCORDINGLY (USE this.componentRef.current FOR CONSISTENCY REASONS))
+
+// TODO: MOVE mergeStyles AND mergeClassNames TO @codistica/browser.
+
+// TODO: SIMPLIFY REF ACQUISITION IN FUNCTIONAL COMPONENTS LIKE "ref={myRef}"
+
+// TODO: USE will-change PROP WHERE NEEDED.
+
+// TODO: UPDATE STORIES.

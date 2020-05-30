@@ -60,7 +60,7 @@ type CallableObj = {
 /**
  * @description Youtube icon component.
  * @param {youtubePropsType} props - Props.
- * @returns {Object<string,*>} Component.
+ * @returns {Object<string,*>} React component.
  */
 const Youtube: CallableObj = function Youtube(props: Props) {
     const {

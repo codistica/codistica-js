@@ -44,7 +44,7 @@
         "prepack": "yarn run build",
         "prettify": "prettier --loglevel warn --write \"**/*.{js,json}\"",
         "run:demo": "yarn workspace @codistica/demo run start",
-        "run:react": "yarn workspace @codistica/react run storybook",
+        "start:react": "yarn workspace @codistica/react run start",
         "test": "mocha \"./packages/*/lib/__tests__/*.test.js\"",
         "test:quick": "yarn run build:lib && yarn run test",
         "tsc": "lerna exec --ignore @codistica/demo --ignore @codistica/react --parallel --no-bail \"tsc -p ./tsconfig.build.types.json\"",

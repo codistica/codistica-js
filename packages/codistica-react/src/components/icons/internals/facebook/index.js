@@ -60,7 +60,7 @@ type CallableObj = {
 /**
  * @description Facebook icon component.
  * @param {facebookPropsType} props - Props.
- * @returns {Object<string,*>} Component.
+ * @returns {Object<string,*>} React component.
  */
 const Facebook: CallableObj = function Facebook(props: Props) {
     const {

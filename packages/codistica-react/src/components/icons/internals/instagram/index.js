@@ -60,7 +60,7 @@ type CallableObj = {
 /**
  * @description Instagram icon component.
  * @param {instagramPropsType} props - Props.
- * @returns {Object<string,*>} Component.
+ * @returns {Object<string,*>} React component.
  */
 const Instagram: CallableObj = function Instagram(props: Props) {
     const {

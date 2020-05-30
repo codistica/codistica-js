@@ -62,7 +62,7 @@ type CallableObj = {
 /**
  * @description A component for switching icons on hover.
  * @param {hoverIconPropsType} props - Props.
- * @returns {Object<string,*>} Component.
+ * @returns {Object<string,*>} React component.
  */
 const HoverIcon: CallableObj = function HoverIcon(props: Props) {
     const {

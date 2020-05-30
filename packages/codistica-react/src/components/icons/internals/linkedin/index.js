@@ -60,7 +60,7 @@ type CallableObj = {
 /**
  * @description Linkedin icon component.
  * @param {linkedinPropsType} props - Props.
- * @returns {Object<string,*>} Component.
+ * @returns {Object<string,*>} React component.
  */
 const Linkedin: CallableObj = function Linkedin(props: Props) {
     const {

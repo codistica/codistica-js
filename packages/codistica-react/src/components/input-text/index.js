@@ -8,8 +8,8 @@ import type {Node} from 'react';
 import resetClassNames from '../../css/reset.module.scss';
 import {mergeClassNames} from '../../modules/merge-class-names.js';
 import {mergeStyles} from '../../modules/merge-styles.js';
-import {InputRenderer} from '../input-renderer.js';
-import type {Plugin, Preset} from '../input-renderer.js';
+import {InputRenderer} from '../../utils/input-renderer.js';
+import type {Plugin, Preset} from '../../utils/input-renderer.js';
 import componentClassNames from './index.module.scss';
 import {sophistication} from './index.sophistication.js';
 import type {
@@ -340,6 +340,7 @@ class InputTextInternal extends React.Component<InternalProps, State> {
         const mergedClassNames = {
             root: mergeClassNames(
                 resetClassNames.root,
+                componentClassNames.root,
                 globalClassNames.root,
                 customClassNames.root,
                 className

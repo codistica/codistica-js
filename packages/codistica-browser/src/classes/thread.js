@@ -2,6 +2,8 @@
 
 import {log} from '@codistica/core';
 
+// TODO: ADD @instance WHERE NEEDED!
+
 /**
  * @typedef threadOptionsType
  * @property {number} [activeTimeThreshold=100] - Minimum measured time in milliseconds that must be accumulated before using for calculations.

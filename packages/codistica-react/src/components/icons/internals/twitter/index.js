@@ -60,7 +60,7 @@ type CallableObj = {
 /**
  * @description Twitter icon component.
  * @param {twitterPropsType} props - Props.
- * @returns {Object<string,*>} Component.
+ * @returns {Object<string,*>} React component.
  */
 const Twitter: CallableObj = function Twitter(props: Props) {
     const {

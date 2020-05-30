@@ -96,7 +96,7 @@ class DotNavigation extends React.Component<Props, State> {
     static defaultProps = {
         quantity: 0,
         dotIndex: 0,
-        size: '15px',
+        size: '17px',
         direction: 'row',
         auto: true,
         onSwitch: null,
