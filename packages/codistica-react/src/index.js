@@ -35,10 +35,12 @@ export {TracklessSlide} from './components/trackless-slide';
 export {withOnClickOutside} from './hocs/with-on-click-outside';
 export {withOnDrag} from './hocs/with-on-drag';
 export {withTooltip} from './hocs/with-tooltip';
+export {withOnScrollAction} from './hocs/with-on-scroll-action';
 export {withOverscrollBlocker} from './hocs/with-overscroll-blocker';
 export {withViewportMonitor} from './hocs/with-viewport-monitor';
 
 // MODULES
+export {getRefHandler} from './modules/get-ref-handler';
 export {mergeClassNames} from './modules/merge-class-names';
 export {mergeStyles} from './modules/merge-styles';
 
