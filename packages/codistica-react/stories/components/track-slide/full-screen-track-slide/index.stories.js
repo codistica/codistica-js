@@ -1,33 +1,28 @@
 /** @flow */
 
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {BGS_LIGHT} from '../../../../.storybook/custom-backgrounds.js';
-import {DotNavigation, Slide} from '../../../../src/index.js';
+import {DotNavigation, TrackSlide} from '../../../../src/index.js';
 import componentClassNames from './index.module.scss';
 
+// TODO: REMAKE! USE FullScreenSlide WHEN READY.
+
 /**
- * @description A full screen slide demo.
+ * @description A full screen track slide demo.
  * @returns {Object<string,*>} React component.
  */
-function FullScreenSlide() {
-    const [slideControls, setSlideControls] = useState({
-        switchBy: null,
-        switchTo: null
-    });
-
+function FullScreenTrackSlide() {
     const [dotIndex, setDotIndex] = useState(0);
+    const controlsRef = useRef(null);
 
     return (
         <div className={componentClassNames.root}>
-            <Slide
-                responsive={true}
+            <TrackSlide
                 direction={'column'}
+                dimensions={{height: '100vh', width: '100vw'}}
+                onNewPosition={setDotIndex}
                 onMount={(controls) => {
-                    setSlideControls(controls);
-                }}
-                onPositionChange={setDotIndex}
-                customStyles={{
-                    root: {height: '100vh', width: '100vw'}
+                    controlsRef.current = controls;
                 }}>
                 {['#f2a6aa', '#a2c1cc', '#32a6aa', '#12aa21'].map(
                     (color, index) => (
@@ -39,13 +34,15 @@ function FullScreenSlide() {
                         </span>
                     )
                 )}
-            </Slide>
+            </TrackSlide>
             <DotNavigation
                 quantity={4}
                 direction={'column'}
-                onSwitch={slideControls.switchTo}
                 dotIndex={dotIndex}
                 auto={false}
+                onSwitch={(val) =>
+                    controlsRef.current && controlsRef.current.goTo(val)
+                }
                 customStyles={{
                     root: {
                         position: 'absolute',
@@ -59,10 +56,10 @@ function FullScreenSlide() {
     );
 }
 
-export {FullScreenSlide};
+export {FullScreenTrackSlide};
 
 export default {
-    title: 'Slide',
+    title: 'Track Slide',
     parameters: {
         backgrounds: BGS_LIGHT
     }

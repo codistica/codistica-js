@@ -1,32 +1,31 @@
 /** @flow */
 
-import React, {useState} from 'react';
+import React, {useRef} from 'react';
 import {BGS_LIGHT} from '../../../../.storybook/custom-backgrounds.js';
-import {Button, Slide} from '../../../../src/index.js';
+import {Button, TrackSlide} from '../../../../src/index.js';
 import componentClassNames from './index.module.scss';
 
 /**
- * @description A simple slide demo.
+ * @description A simple track slide demo.
  * @returns {Object<string,*>} React component.
  */
-function SimpleSlide() {
-    const [slideControls, setSlideControls] = useState({
-        switchBy: null,
-        switchTo: null
-    });
+function SimpleTrackSlide() {
+    const controlsRef = useRef(null);
 
     return (
         <div className={componentClassNames.root}>
-            <Slide
-                onMount={(controls) => {
-                    setSlideControls(controls);
+            <TrackSlide
+                dimensions={{
+                    height: '200px',
+                    width: '200px'
                 }}
                 customStyles={{
                     root: {
-                        height: '200px',
-                        width: '200px',
                         marginBottom: '50px'
                     }
+                }}
+                onMount={(controls) => {
+                    controlsRef.current = controls;
                 }}>
                 {['#f2a6aa', '#a2c1cc', '#32a6aa', '#12aa21'].map(
                     (color, index) => (
@@ -38,18 +37,18 @@ function SimpleSlide() {
                         </span>
                     )
                 )}
-            </Slide>
+            </TrackSlide>
             <Button
                 title={'PREVIOUS'}
                 onClick={() => {
-                    slideControls.switchBy && slideControls.switchBy(-1);
+                    controlsRef.current && controlsRef.current.previous();
                 }}
                 className={componentClassNames.button}
             />
             <Button
                 title={'NEXT'}
                 onClick={() => {
-                    slideControls.switchBy && slideControls.switchBy(1);
+                    controlsRef.current && controlsRef.current.next();
                 }}
                 className={componentClassNames.button}
             />
@@ -57,10 +56,10 @@ function SimpleSlide() {
     );
 }
 
-export {SimpleSlide};
+export {SimpleTrackSlide};
 
 export default {
-    title: 'Slide',
+    title: 'Track Slide',
     parameters: {
         backgrounds: BGS_LIGHT
     }

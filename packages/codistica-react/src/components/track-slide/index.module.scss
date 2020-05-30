@@ -1,0 +1,12 @@
+.root {
+  overflow: hidden;
+}
+
+.track {
+  overflow: visible;
+}
+
+.item {
+  flex-grow: 0;
+  flex-shrink: 0;
+}

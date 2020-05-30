@@ -30,7 +30,8 @@ export {InputCheckbox} from './components/input-checkbox';
 export {InputRadio} from './components/input-radio';
 export {InputRenderer} from './components/input-renderer';
 export {InputText} from './components/input-text';
-export {Slide} from './components/slide';
+export {TrackSlide} from './components/track-slide';
+export {TracklessSlide} from './components/trackless-slide';
 
 // HOCs
 export {withOnClickOutside} from './hocs/with-on-click-outside';
