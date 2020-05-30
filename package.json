@@ -43,7 +43,7 @@
         "lint": "eslint \"./packages/*/src/**/*.js\" --cache",
         "prepack": "yarn run build",
         "prettify": "prettier --loglevel warn --write \"**/*.{js,json}\"",
-        "run:demo": "yarn workspace @codistica/demo run start",
+        "start:demo": "yarn workspace @codistica/demo run start",
         "start:react": "yarn workspace @codistica/react run start",
         "test": "mocha \"./packages/*/lib/__tests__/*.test.js\"",
         "test:quick": "yarn run build:lib && yarn run test",

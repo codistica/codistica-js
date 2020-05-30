@@ -1,0 +1,17 @@
+@import './colors.module.scss';
+
+:global *,
+:global *::before,
+:global *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+:global a,
+:global a:visited,
+:global a:active {
+  color: $color-white;
+  text-decoration: none;
+}

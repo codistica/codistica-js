@@ -1,0 +1,10 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.appLayout {
+  justify-content: space-around;
+  align-items: center;
+}

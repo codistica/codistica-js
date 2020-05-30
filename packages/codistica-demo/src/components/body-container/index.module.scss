@@ -1,0 +1,23 @@
+.rootClose,
+.rootOpen {
+  transition: left 0.3s linear;
+  position: relative;
+}
+
+.rootClose {
+  left: 0;
+}
+
+.rootOpen {
+  left: 100vw;
+}
+
+@media only screen and (min-width: 650px) {
+  .rootClose {
+    left: 0;
+  }
+
+  .rootOpen {
+    left: 650px
+  }
+}

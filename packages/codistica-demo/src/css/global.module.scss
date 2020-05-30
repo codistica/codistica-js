@@ -1,0 +1,14 @@
+@import './colors.module.scss';
+
+:global html {
+  overflow-x: hidden;
+}
+
+:global body {
+  font-family: jura-codistica, 'Jura', 'Futura', 'Helvetica', sans-serif;
+  color: $color-white;
+  background-color: $color-dark-background;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

@@ -1,0 +1,33 @@
+@import '../../css/colors.module.scss';
+
+.button {
+  border-color: $color-white;
+  color: $color-white;
+  padding: 10px 50px;
+  font-size: 16px;
+}
+
+.buttonEnabled:hover,
+.buttonEnabled:focus {
+  background-color: rgba(222, 222, 222, 0.1);
+}
+
+.inputTextRoot {
+  display: inline-block;
+  margin: 10px;
+}
+
+.inputTextInput {
+  border: none;
+  border-bottom: 1px solid $color-white;
+  color: $color-white;
+  border-radius: 0;
+  width: 100%;
+  margin: 0;
+  font-size: 16px;
+}
+
+.inputTextInput::placeholder {
+  color: $color-white;
+  opacity: 0.7;
+}

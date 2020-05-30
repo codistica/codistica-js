@@ -1,0 +1,29 @@
+@import '../../../../css/colors.module.scss';
+
+.info {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 20px 0;
+  font-family: monospace;
+}
+
+.info > p {
+  margin: 10px;
+  white-space: pre-wrap;
+}
+
+.rectangle {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  height: 30vh;
+  width: 100%
+}
+
+.track {
+  height: 5000px;
+  width: 5000px;
+  background: linear-gradient(-45deg, $color-black 0%, $color-purple 100%, $color-blue 100%);
+  padding: 20px 0;
+}

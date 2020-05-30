@@ -1,0 +1,47 @@
+@import '../../../../css/colors.module';
+
+.slide {
+  align-self: center;
+  margin-bottom: 40px;
+}
+
+.slideChildOdd,
+.slideChildEven {
+  height: 100%;
+  width: 100%;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+}
+
+.slideChildOdd {
+  background-color: rgba(0,0,0,0.1);
+}
+
+.slideChildEven {
+  background-color: rgba(0,0,0,0.3);
+}
+
+.controlsContainer {
+  display: flex;
+}
+
+.controlPanel {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-self: center;
+  width: 50%;
+}
+
+.button {
+  margin: 10px;
+  align-self: center;
+  min-width: 200px;
+}
+
+.goToButton {
+  margin: 10px;
+  align-self: center;
+}

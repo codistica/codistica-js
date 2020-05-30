@@ -2,13 +2,17 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.module.scss';
+import {BrowserRouter} from 'react-router-dom';
 import {App} from './app.js';
 import * as serviceWorker from './service-worker.js';
+import './fonts/iceland-codistica/iceland-codistica.css';
+import './fonts/jura-codistica/jura-codistica.css';
 
 ReactDOM.render(
     <React.StrictMode>
-        <App />
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
     </React.StrictMode>,
     document.getElementById('root')
 );

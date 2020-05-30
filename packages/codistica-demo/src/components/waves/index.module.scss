@@ -1,0 +1,13 @@
+@import '../../css/colors.module.scss';
+
+.root {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: -100;
+}
+
+.canvas {
+  height: 100%;
+  width: 100%;
+}
