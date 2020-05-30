@@ -9,6 +9,7 @@ export {elementUtils};
 // CLASSES
 export {AJAXRequest} from './classes/ajax-request.js';
 export {Loader} from './classes/loader.js';
+export {OverscrollBlocker} from './classes/overscroll-blocker.js';
 export {Payload} from './classes/payload.js';
 export {Thread} from './classes/thread.js';
 

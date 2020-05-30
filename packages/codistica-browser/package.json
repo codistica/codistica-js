@@ -57,6 +57,7 @@
     "dependencies": {
         "@babel/runtime-corejs3": "^7.9.2",
         "@codistica/core": "^1.0.0-beta.2",
+        "@codistica/types": "^1.0.0-beta.2",
         "core-js": "^3.6.5",
         "eventemitter3": "^4.0.0"
     },

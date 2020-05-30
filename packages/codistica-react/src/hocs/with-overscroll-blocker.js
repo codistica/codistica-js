@@ -1,37 +1,49 @@
 /** @flow */
 
-/** @module react/hocs/with-overscroll-monitor */
+/** @module react/hocs/with-overscroll-blocker */
 
-import {eventListenerObjectSupport} from '@codistica/browser';
+import {
+    eventListenerObjectSupport,
+    OverscrollBlocker
+} from '@codistica/browser';
 import React from 'react';
 import type {AbstractComponent, Config} from 'react';
-import {overscrollMonitor} from '../modules/overscroll-monitor.js';
+
+const eventOptions = eventListenerObjectSupport.passive
+    ? {passive: false}
+    : undefined;
 
 type Props = {
-    isolate?: boolean,
+    blockX: boolean,
+    blockY: boolean,
+    contentAware: boolean,
     children: any,
     forwardedRef: any
 };
 
 type DefaultProps = {
-    isolate: false,
+    blockX: boolean,
+    blockY: boolean,
+    contentAware: boolean,
     children: null,
     forwardedRef: null
 };
 
 /**
- * @typedef withOverscrollMonitorPropsType
- * @property {boolean} [isolate=false] - Isolate component element scrolling events. Do not allow propagation to other elements.
+ * @typedef withOverscrollBlockerPropsType
+ * @property {boolean} [blockX=true] - Block overscroll on X axis.
+ * @property {boolean} [blockY=true] - Block overscroll on Y axis.
+ * @property {boolean} [contentAware=false] - Traverse DOM searching for other scrollable elements to take into consideration.
  * @property {*} [children=null] - React prop.
  * @property {*} [forwardedRef=null] - React prop.
  */
 
 /**
- * @description Creates a higher order component with overscroll handling capabilities.
+ * @description Creates a higher order component with overscroll blocking capabilities.
  * @param {(Object<string,*>|string)} Component - React component.
  * @returns {Object<string,*>} Created higher order component.
  */
-function withOverscrollMonitor<ComponentConfig: {}>(
+function withOverscrollBlocker<ComponentConfig: {}>(
     Component: AbstractComponent<any> | string
 ): AbstractComponent<ComponentConfig & Config<Props, DefaultProps>> {
     /**
@@ -39,32 +51,41 @@ function withOverscrollMonitor<ComponentConfig: {}>(
      */
     class HOC extends React.Component<Props> {
         static defaultProps: DefaultProps = {
-            isolate: false,
+            blockX: true,
+            blockY: true,
+            contentAware: false,
             children: null,
             forwardedRef: null
         };
 
         componentRef: any;
-        boundHandler: (...args: Array<any>) => any;
+        overscrollBlocker: OverscrollBlocker;
+        touchPos: {
+            x: number,
+            y: number
+        };
+        isMultiTouch: boolean;
 
         /**
          * @description Constructor.
-         * @param {withOverscrollMonitorPropsType} [props] - Component props.
+         * @param {withOverscrollBlockerPropsType} [props] - Component props.
          */
         constructor(props: Props) {
             super(props);
 
             this.componentRef = null;
 
-            /**
-             * @function boundHandler
-             * @description Overscroll blocker event handler for HOC.
-             * @param {Event} e - Event object.
-             * @returns {void} Void.
-             */
-            this.boundHandler = function boundHandler(e: {[string]: any}) {
-                return overscrollMonitor.overscrollBlocker(e, props.isolate);
+            this.overscrollBlocker = new OverscrollBlocker({
+                blockX: props.blockX,
+                blockY: props.blockY
+            });
+
+            this.touchPos = {
+                x: 0,
+                y: 0
             };
+
+            this.isMultiTouch = false;
 
             // BIND METHODS
             (this: any).setComponentRef = this.setComponentRef.bind(this);
@@ -76,35 +97,25 @@ function withOverscrollMonitor<ComponentConfig: {}>(
          * @returns {void} Void.
          */
         componentDidMount() {
-            // TODO: ATTACH TO REACT EVENTS IN RENDER INSTEAD?
-            overscrollMonitor.mount(this);
             this.componentRef.addEventListener(
                 'touchstart',
-                this.boundHandler,
-                eventListenerObjectSupport.passive === true
-                    ? {passive: false}
-                    : false
+                this.overscrollBlocker.handler,
+                eventOptions
             );
             this.componentRef.addEventListener(
                 'touchmove',
-                this.boundHandler,
-                eventListenerObjectSupport.passive === true
-                    ? {passive: false}
-                    : false
+                this.overscrollBlocker.handler,
+                eventOptions
             );
             this.componentRef.addEventListener(
                 'touchend',
-                this.boundHandler,
-                eventListenerObjectSupport.passive === true
-                    ? {passive: false}
-                    : false
+                this.overscrollBlocker.handler,
+                eventOptions
             );
             this.componentRef.addEventListener(
                 'wheel',
-                this.boundHandler,
-                eventListenerObjectSupport.passive === true
-                    ? {passive: false}
-                    : false
+                this.overscrollBlocker.handler,
+                eventOptions
             );
         }
 
@@ -114,35 +125,25 @@ function withOverscrollMonitor<ComponentConfig: {}>(
          * @returns {void} Void.
          */
         componentWillUnmount() {
-            // TODO: ATTACH TO REACT EVENTS IN RENDER INSTEAD?
-            overscrollMonitor.unmount(this);
             this.componentRef.removeEventListener(
                 'touchstart',
-                this.boundHandler,
-                eventListenerObjectSupport.passive === true
-                    ? {passive: false}
-                    : false
+                this.overscrollBlocker.handler,
+                eventOptions
             );
             this.componentRef.removeEventListener(
                 'touchmove',
-                this.boundHandler,
-                eventListenerObjectSupport.passive === true
-                    ? {passive: false}
-                    : false
+                this.overscrollBlocker.handler,
+                eventOptions
             );
             this.componentRef.removeEventListener(
                 'touchend',
-                this.boundHandler,
-                eventListenerObjectSupport.passive === true
-                    ? {passive: false}
-                    : false
+                this.overscrollBlocker.handler,
+                eventOptions
             );
             this.componentRef.removeEventListener(
                 'wheel',
-                this.boundHandler,
-                eventListenerObjectSupport.passive === true
-                    ? {passive: false}
-                    : false
+                this.overscrollBlocker.handler,
+                eventOptions
             );
         }
 
@@ -174,7 +175,17 @@ function withOverscrollMonitor<ComponentConfig: {}>(
          * @returns {Object<string,*>} React component.
          */
         render() {
-            const {isolate, children, ...other} = this.props;
+            const {
+                children,
+                blockX,
+                blockY,
+                contentAware,
+                forwardedRef,
+                ...other
+            } = this.props;
+            this.overscrollBlocker.options.blockX = blockX;
+            this.overscrollBlocker.options.blockY = blockY;
+            this.overscrollBlocker.options.contentAware = contentAware;
             return (
                 <Component {...other} ref={this.setComponentRef}>
                     {children}
@@ -190,4 +201,4 @@ function withOverscrollMonitor<ComponentConfig: {}>(
     );
 }
 
-export {withOverscrollMonitor};
+export {withOverscrollBlocker};

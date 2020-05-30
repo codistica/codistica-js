@@ -15,7 +15,6 @@ export {icons, inputBlockers, inputFilters, inputPresets, inputValidators};
 // *** NORMAL EXPORT ***
 
 // CLASSES
-export {OverscrollMonitor} from './classes/overscroll-monitor';
 export {Sophistication} from './classes/sophistication';
 export {ViewportMonitor} from './classes/viewport-monitor';
 
@@ -37,13 +36,12 @@ export {TracklessSlide} from './components/trackless-slide';
 export {withOnClickOutside} from './hocs/with-on-click-outside';
 export {withOnDrag} from './hocs/with-on-drag';
 export {withTooltip} from './hocs/with-tooltip';
-export {withOverscrollMonitor} from './hocs/with-overscroll-monitor';
+export {withOverscrollBlocker} from './hocs/with-overscroll-blocker';
 export {withViewportMonitor} from './hocs/with-viewport-monitor';
 
 // MODULES
 export {mergeClassNames} from './modules/merge-class-names';
 export {mergeStyles} from './modules/merge-styles';
-export {overscrollMonitor} from './modules/overscroll-monitor';
 export {viewportMonitor} from './modules/viewport-monitor';
 
 // TODO: USE localStyles WHERE NEEDED. (EX: IN Slide)
