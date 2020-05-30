@@ -1,15 +1,16 @@
-/** @flow */
-
-/** @module react/classes/viewport-monitor */
+/** @module browser/classes/viewport-monitor */
 
 import {EventEmitter} from 'eventemitter3';
-import componentClassNames from './index.module.scss';
+import {addStyles} from '../modules/element-utils/internals/add-styles.js';
 
-// TODO: MAKE STYLES IN JS. DROP SCSS FILE AND REMOVE WRAPPING DIRECTORY.
-// TODO: USE mount/unmount PATTERN LIKE WITH OverscrollMonitor.
-// TODO: FIX STYLE REPLACEMENT. ERROR WRITING TO read-only? CREATE DEEP CLONE FUNCTION? FIX ALL objectUtils? AND ADJUST USAGE (IN codistica AND PROJECTS, CHECK)
-// TODO: FIX UNITS CORRECTION MODEL. CORRECTION MUST BE BY A COEFFICIENT (CHECK 0 BEHAVIOUR)
+// TODO: CHECK/IMPROVE/REWRITE!
+// TODO: CHECK MULTI-TOUCH AWARENESS AND ZOOM BEHAVIOUR.
+// TODO: FIX UNITS CORRECTION MODEL. CORRECTION MUST BE BY A COEFFICIENT (CHECK 0 BEHAVIOUR) (?)
+// TODO: CHECK ALL IMPLEMENTATIONS... (WAYS IN WHICH CORRECTED UNITS ARE OFFERED TO USERS)
 // TODO: TEST PERFORMANCE! AND OPTIMIZE EVENT LISTENERS ACCORDINGLY. ADD EVENT LISTENERS FOR MOBILE. ALSO FOR ROTATION. APPLY THROTTLING/DE-BOUNCING. USE TIMER TOO (5s?). WITH OPTION
+// TODO: RUN ON EVENTS END (DEPENDING ON EVENTS)?
+
+// TODO: MAKE SIMPLE! REMOVE UNNECESSARY FEATURES.
 
 /**
  * @typedef viewportMonitorOptionsType
@@ -23,9 +24,9 @@ import componentClassNames from './index.module.scss';
 class ViewportMonitor extends EventEmitter {
     /**
      * @description Constructor.
-     * @param {viewportMonitorOptionsType} [options] - Overscroll handling options.
+     * @param {viewportMonitorOptionsType} [options] - Viewport handling options.
      */
-    constructor(options: {deltaThreshold: number, forcePageTop: boolean}) {
+    constructor(options) {
         super();
 
         if (typeof options !== 'object') {
@@ -52,20 +53,42 @@ class ViewportMonitor extends EventEmitter {
         this.deltaVw = 0;
         this.ratioVh = 1;
         this.ratioVw = 1;
+        // TODO: MAKE BOOLEAN.
         this.minimalUI = null;
 
         // BIND METHODS
-        (this: any).viewportFix = this.viewportFix.bind(this);
-        (this: any).getViewportHeight = this.getViewportHeight.bind(this);
-        (this: any).getViewportWidth = this.getViewportWidth.bind(this);
+        this.attach = this.attach.bind(this);
+        this.detach = this.detach.bind(this);
+        this.viewportFix = this.viewportFix.bind(this);
+        this.getViewportHeight = this.getViewportHeight.bind(this);
+        this.getViewportWidth = this.getViewportWidth.bind(this);
 
         // APPEND MEASURE BOXES TO DOM
+        // TODO: IMPROVE.
         const measureAreas = [
-            componentClassNames.measureBoxViewport,
-            componentClassNames.measureBoxPercent
-        ].map((className) => {
+            {
+                position: 'fixed',
+                height: '100vh',
+                width: '100vw',
+                visibility: 'hidden',
+                pointerEvents: 'none',
+                zIndex: '-100',
+                top: '0',
+                left: '0'
+            },
+            {
+                position: 'fixed',
+                height: '100%',
+                width: '100%',
+                visibility: 'hidden',
+                pointerEvents: 'none',
+                zIndex: '-100',
+                top: '0',
+                left: '0'
+            }
+        ].map((style) => {
             let elem = document.createElement('div');
-            elem.className = className;
+            addStyles(elem, style);
             return document.getElementsByTagName('body')[0].appendChild(elem);
         });
 
@@ -75,7 +98,16 @@ class ViewportMonitor extends EventEmitter {
         // FIRST RUN
         this.viewportFix();
 
-        // ADD EVENT LISTENERS // TODO: TEMP EVENT LISTENERS!
+        this.attach();
+    }
+
+    /**
+     * @instance
+     * @description Adds event listeners.
+     * @returns {void} Void.
+     */
+    attach() {
+        // TODO: TEMP EVENT LISTENERS!
         document.addEventListener('readystatechange', this.viewportFix);
         window.addEventListener('resize', this.viewportFix);
         window.addEventListener('focus', this.viewportFix);
@@ -86,11 +118,26 @@ class ViewportMonitor extends EventEmitter {
 
     /**
      * @instance
-     * @description Measures viewport and checks for inconsistencies. Results are emitted through EventEmitter. Global CSS variables are set too.
-     * @param {Object<string,*>} e - Triggering event.
+     * @description Removes event listeners.
      * @returns {void} Void.
      */
-    viewportFix(e?: {[string]: any}) {
+    detach() {
+        // TODO: TEMP EVENT LISTENERS!
+        document.removeEventListener('readystatechange', this.viewportFix);
+        window.removeEventListener('resize', this.viewportFix);
+        window.removeEventListener('focus', this.viewportFix);
+        window.removeEventListener('scroll', this.viewportFix);
+        window.removeEventListener('touch', this.viewportFix);
+        window.removeEventListener('click', this.viewportFix);
+    }
+
+    /**
+     * @instance
+     * @description Measures viewport and checks for inconsistencies. Results are emitted through EventEmitter. Global CSS variables are set too.
+     * @returns {void} Void.
+     */
+    // TODO: CHANGE NAME.
+    viewportFix() {
         let outerMeasure = null;
         let innerMeasure = null;
         let deltaVh = null;
@@ -98,10 +145,6 @@ class ViewportMonitor extends EventEmitter {
         let ratioVh = null;
         let ratioVw = null;
         let cssRoot = null;
-
-        if (typeof e === 'object' && e.type === 'touch') {
-            e.preventDefault(); // PREVENT MOUSE EVENTS FROM FIRING // TODO: REMOVE?
-        }
 
         // GET WINDOW RATIO
         this.windowRatio = window.innerHeight / window.innerWidth;
@@ -153,8 +196,10 @@ class ViewportMonitor extends EventEmitter {
             this.ratioVw = ratioVw;
 
             // UPDATE CSS CUSTOM PROPERTIES
-            cssRoot = document.querySelector(':root');
-            if (cssRoot) {
+            cssRoot = /** @type {HTMLElement} */ (document.querySelector(
+                ':root'
+            ));
+            if (cssRoot && cssRoot.style) {
                 cssRoot.style.setProperty(
                     '--vh',
                     `calc(1vh * ${this.ratioVh})`
@@ -183,7 +228,7 @@ class ViewportMonitor extends EventEmitter {
         }
 
         if (this.forcePageTop && this.zoom === 0) {
-            (document.documentElement || {}).scrollTop = 0;
+            document.documentElement.scrollTop = 0;
             document.getElementsByTagName('body')[0].scrollTop = 0;
         }
 

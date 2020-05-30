@@ -16,7 +16,6 @@ export {icons, inputBlockers, inputFilters, inputPresets, inputValidators};
 
 // CLASSES
 export {Sophistication} from './classes/sophistication';
-export {ViewportMonitor} from './classes/viewport-monitor';
 
 // COMPONENTS
 export {BulletDropdown} from './components/bullet-dropdown';
@@ -42,7 +41,6 @@ export {withViewportMonitor} from './hocs/with-viewport-monitor';
 // MODULES
 export {mergeClassNames} from './modules/merge-class-names';
 export {mergeStyles} from './modules/merge-styles';
-export {viewportMonitor} from './modules/viewport-monitor';
 
 // TODO: USE localStyles WHERE NEEDED. (EX: IN Slide)
 

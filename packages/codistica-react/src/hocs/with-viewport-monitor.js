@@ -2,10 +2,10 @@
 
 /** @module react/hocs/with-viewport-monitor */
 
+import {viewportMonitor} from '@codistica/browser';
 import {objectUtils} from '@codistica/core';
 import React from 'react';
 import type {AbstractComponent, Config} from 'react';
-import {viewportMonitor} from '../modules/viewport-monitor.js';
 
 type Props = {
     children: any,
@@ -19,15 +19,11 @@ type DefaultProps = {
     style: {}
 };
 
-type State = {
-    viewportStyle: {[string]: any}
-};
-
 /**
  * @typedef withViewportMonitorPropsType
  * @property {*} [children=null] - React prop.
  * @property {*} [forwardedRef=null] - React prop.
- * @property {Object<string,string>} [style={}] - React prop.
+ * @property {Object<string,*>} [style={}] - React prop.
  */
 
 /**
@@ -41,7 +37,7 @@ function withViewportMonitor<ComponentConfig: {}>(
     /**
      * @classdesc Higher order component.
      */
-    class HOC extends React.Component<Props, State> {
+    class HOC extends React.Component<Props> {
         static defaultProps: DefaultProps = {
             children: null,
             forwardedRef: null,
@@ -56,12 +52,10 @@ function withViewportMonitor<ComponentConfig: {}>(
             super(props);
 
             // BIND METHODS
-            (this: any).onViewportChange = this.onViewportChange.bind(this);
+            (this: any).onViewportChangeHandler = this.onViewportChangeHandler.bind(
+                this
+            );
             (this: any).setComponentRef = this.setComponentRef.bind(this);
-
-            this.state = {
-                viewportStyle: HOC.replaceUnits(props.style)
-            };
         }
 
         /**
@@ -70,7 +64,7 @@ function withViewportMonitor<ComponentConfig: {}>(
          * @returns {void} Void.
          */
         componentDidMount() {
-            viewportMonitor.on('shift', this.onViewportChange); // TODO: DETACH ON UNMOUNT?
+            viewportMonitor.on('shift', this.onViewportChangeHandler); // TODO: DETACH ON UNMOUNT?
         }
 
         /**
@@ -78,10 +72,43 @@ function withViewportMonitor<ComponentConfig: {}>(
          * @description Callback for viewportChange event.
          * @returns {void} Void.
          */
-        onViewportChange() {
-            this.setState({
-                viewportStyle: HOC.replaceUnits(this.props.style)
-            });
+        onViewportChangeHandler() {
+            this.forceUpdate();
+        }
+
+        /**
+         * @description Replace viewport units in incoming styles.
+         * @param {Object<string,*>} styleObj - React style object.
+         * @returns {Object<string,*>} Resulting style object.
+         */
+        static replaceStyles(styleObj: {[string]: any}) {
+            // TODO: MOVE METHOD TO ViewportMonitor CLASS?
+            // TODO: IMPROVE. AVOID REGEXP REPLACEMENT. WHAT HAPPENS IF STYLE ALREADY HAS calc()?
+            // TODO: IT IS PREFERABLE TO REPLACE ALREADY CALCULATED VALUE (NO MATTER WHERE IT IS). (CHECK calc() USAGES EVERYWHERE)
+            // TODO: REMOVE OBJECT UTILS. DO A SIMPLE SHALLOW SCAN/CLONE OPERATION.
+            return objectUtils.forEachSync(
+                objectUtils.deepClone(styleObj),
+                (elem, API) => {
+                    let newValue = elem;
+                    if (typeof elem === 'string') {
+                        if (viewportMonitor.deltaVh !== 0) {
+                            newValue = newValue.replace(
+                                /(?<val>[\d.]+)vh/g,
+                                `calc($<val>vh * ${viewportMonitor.ratioVh})`
+                            );
+                        }
+                        if (viewportMonitor.deltaVw !== 0) {
+                            newValue = newValue.replace(
+                                /(?<val>[\d.]+)vw/g,
+                                `calc($<val>vw * ${viewportMonitor.ratioVw})`
+                            );
+                        }
+                        if (newValue !== elem) {
+                            API.replaceValue(newValue);
+                        }
+                    }
+                }
+            );
         }
 
         /**
@@ -111,56 +138,13 @@ function withViewportMonitor<ComponentConfig: {}>(
          */
         render() {
             const {children, forwardedRef, style, ...other} = this.props;
-            const {viewportStyle} = this.state;
             return (
                 <Component
                     {...other}
                     ref={this.setComponentRef}
-                    style={viewportStyle}>
+                    style={HOC.replaceStyles(style)}>
                     {children}
                 </Component>
-            );
-        }
-
-        /**
-         * @description Replace units in incoming styles.
-         * @param {Object<string,*>} props - Incoming react props.
-         * @returns {Object<string,*>} State update object.
-         */
-        static getDerivedStateFromProps(props: Props) {
-            return {
-                viewportStyle: HOC.replaceUnits(props.style)
-            };
-        }
-
-        /**
-         * @description Replace viewport units in incoming styles.
-         * @param {Object<string,*>} styleObj - React style object.
-         * @returns {Object<string,*>} Resulting style object.
-         */
-        static replaceUnits(styleObj: {[string]: any}) {
-            return objectUtils.forEachSync(
-                objectUtils.deepClone(styleObj),
-                (elem, API) => {
-                    let newValue = elem;
-                    if (typeof elem === 'string') {
-                        if (viewportMonitor.deltaVh !== 0) {
-                            newValue = newValue.replace(
-                                /(?<val>[\d.]+)vh/g,
-                                `calc($<val>vh * ${viewportMonitor.ratioVh})`
-                            );
-                        }
-                        if (viewportMonitor.deltaVw !== 0) {
-                            newValue = newValue.replace(
-                                /(?<val>[\d.]+)vw/g,
-                                `calc($<val>vw * ${viewportMonitor.ratioVw})`
-                            );
-                        }
-                        if (newValue !== elem) {
-                            API.replaceValue(newValue);
-                        }
-                    }
-                }
             );
         }
     }
