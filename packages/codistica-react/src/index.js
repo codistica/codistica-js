@@ -21,6 +21,7 @@ export {Sophistication} from './classes/sophistication';
 export {BulletDropdown} from './components/bullet-dropdown';
 export {Button} from './components/button';
 export {DotNavigation} from './components/dot-navigation';
+export {FullScreenSlide} from './components/full-screen-slide';
 export {HoverIcon} from './components/hover-icon';
 export {InputCheckbox} from './components/input-checkbox';
 export {InputRadio} from './components/input-radio';
@@ -118,4 +119,5 @@ export {InputRenderer} from './utils/input-renderer';
 
 // TODO: USE will-change PROP WHERE NEEDED.
 
-// TODO: UPDATE STORIES.
+// TODO: MAKE SURE THAT ALL STATES CHANGES DEPENDING ON PREVIOUS STATE USE CALLBACK METHOD.
+// TODO: MAKE SURE THAT ALL POSITION fixed OR absolute HAVE EXPLICITLY SET COORDINATES (left, top, etc...).

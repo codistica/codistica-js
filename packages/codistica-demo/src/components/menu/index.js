@@ -54,11 +54,6 @@ function Menu() {
                         SLIDES
                     </Link>
                 </span>
-                {/*<span>*/}
-                {/*    <Link to={'/full-screen-slide'} data-link={'true'}>*/}
-                {/*        FULL SCREEN SLIDE*/}
-                {/*    </Link>*/}
-                {/*</span>*/}
                 <span>
                     <Link to={'/viewport'} data-link={'true'}>
                         VIEWPORT

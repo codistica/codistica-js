@@ -10,7 +10,6 @@ import {Menu} from './components/menu/index.js';
 import {BackgroundStore} from './contexts/background-context.js';
 import {HeaderStore} from './contexts/header-context.js';
 import {MenuStore} from './contexts/menu-context.js';
-// import {FullScreenSlideRoute} from './routes/full-screen-slide/index.js';
 import {HomeRoute} from './routes/home/index.js';
 import {ScrollingRoute} from './routes/scrolling/index.js';
 import {SlidesRoute} from './routes/slides/index.js';
@@ -26,7 +25,7 @@ import './modules/components-setup/index.js';
 // TODO: ADD 404 PAGE.
 // TODO: GLOBALLY CUSTOMIZE SOME COMPONENTS AS DEMO.
 // TODO: CREATE SLIDES ROUTE. ALL SLIDES IN ONE ROUTE.
-
+// TODO: SEARCH FOR UN USED SCSS COLORS IMPORTS.
 // TODO: CHECK DOUBLE RENDERINGS.
 
 const scrollingElement =
@@ -63,11 +62,6 @@ function App() {
                                 exact={true}
                                 component={SlidesRoute}
                             />
-                            {/*<Route*/}
-                            {/*    path={'/full-screen-slide'}*/}
-                            {/*    exact={true}*/}
-                            {/*    component={FullScreenSlideRoute}*/}
-                            {/*/>*/}
                             <Route
                                 path={'/viewport'}
                                 exact={true}

@@ -23,10 +23,10 @@ type Props = {
     dimensions: {
         height: string | number,
         width: string | number,
-        minHeight: string | number,
-        minWidth: string | number,
-        maxHeight: string | number,
-        maxWidth: string | number
+        minHeight?: string | number,
+        minWidth?: string | number,
+        maxHeight?: string | number,
+        maxWidth?: string | number
     },
     onMount: null | ((...args: Array<any>) => any),
     onNewPosition: null | ((...args: Array<any>) => any),
@@ -71,8 +71,8 @@ type CallableObj = {
 
 /**
  * @typedef trackSlideDimensionsType
- * @property {(string|number)} [height=100] - Slide height.
- * @property {(string|number)} [width=100] - Slide width.
+ * @property {(string|number)} height - Slide height.
+ * @property {(string|number)} width - Slide width.
  * @property {(string|number)} [minHeight=null] - Slide minimum height.
  * @property {(string|number)} [minWidth=null] - Slide minimum width.
  * @property {(string|number)} [maxHeight=null] - Slide maximum height.
