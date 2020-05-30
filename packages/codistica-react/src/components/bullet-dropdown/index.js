@@ -2,7 +2,7 @@
 
 /** @module react/components/bullet-dropdown */
 
-import {getElementHeight} from '@codistica/browser';
+import {elementUtils} from '@codistica/browser';
 import React, {useRef, useState} from 'react';
 import type {Node} from 'react';
 import resetClassNames from '../../css/reset.module.scss';
@@ -76,7 +76,7 @@ type CallableObj = {
 /**
  * @description A modern bullet dropdown list.
  * @param {bulletDropdownPropsType} props - Props.
- * @returns {Object<string,*>} Component.
+ * @returns {Object<string,*>} React component.
  */
 const BulletDropdown: CallableObj = function BulletDropdown(props: Props) {
     const {
@@ -114,14 +114,12 @@ const BulletDropdown: CallableObj = function BulletDropdown(props: Props) {
                 ? autoSpacing === 'top'
                     ? 'flex-end'
                     : 'flex-start'
-                : undefined,
+                : null,
             height:
-                autoSpacing && open !== null
-                    ? headerHeight + listHeight
-                    : undefined
+                autoSpacing && open !== null ? headerHeight + listHeight : null
         }),
         bullet: mergeStyles(globalStyles.bullet, customStyles.bullet, {
-            transform: open ? 'rotate(90deg)' : undefined
+            transform: open ? 'rotate(90deg)' : null
         }),
         title: mergeStyles(globalStyles.title, customStyles.title),
         item: mergeStyles(globalStyles.item, customStyles.item)
@@ -176,8 +174,8 @@ const BulletDropdown: CallableObj = function BulletDropdown(props: Props) {
 
             <div
                 style={{
-                    height: open ? listHeight : undefined,
-                    opacity: open ? 1 : undefined
+                    height: open ? listHeight : null,
+                    opacity: open ? 1 : null
                 }}
                 className={componentClassNames.list}>
                 {names.map((name, key) => (
@@ -217,7 +215,7 @@ const BulletDropdown: CallableObj = function BulletDropdown(props: Props) {
         if (!rootRef.current) {
             return 0;
         }
-        return getElementHeight(rootRef.current.firstChild);
+        return elementUtils.getHeight(rootRef.current.firstChild);
     }
 
     /**
@@ -229,7 +227,7 @@ const BulletDropdown: CallableObj = function BulletDropdown(props: Props) {
             return 0;
         }
         return Array.from(rootRef.current.lastChild.children).reduce(
-            (acc, elem) => acc + getElementHeight(elem),
+            (acc, elem) => acc + elementUtils.getHeight(elem),
             0
         );
     }

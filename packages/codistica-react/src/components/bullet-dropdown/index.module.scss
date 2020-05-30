@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  vertical-align: center;
+  vertical-align: middle;
   margin: 5px;
 }
 
@@ -43,6 +43,7 @@
   padding-left: 20px;
   opacity: 0;
   overflow: hidden;
+  -webkit-overflow-scrolling: auto;
 }
 
 .item {

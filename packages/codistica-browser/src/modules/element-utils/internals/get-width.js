@@ -1,15 +1,15 @@
-/** @module browser/modules/get-element-width */
+/** @module browser/modules/element-utils/get-width */
 
 /**
  * @description Returns passed element's width considering margins.
  * @param {HTMLElement} elem - Element.
  * @returns {number} Element width.
  */
-function getElementWidth(elem) {
+function getWidth(elem) {
     const computedStyle = window.getComputedStyle(elem);
     const marginLeft = parseFloat(computedStyle.marginLeft);
     const marginRight = parseFloat(computedStyle.marginRight);
-    return elem.getBoundingClientRect().height + marginLeft + marginRight;
+    return elem.getBoundingClientRect().width + marginLeft + marginRight;
 }
 
-export {getElementWidth};
+export {getWidth};
