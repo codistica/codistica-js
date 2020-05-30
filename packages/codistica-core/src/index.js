@@ -37,9 +37,14 @@ export {STRINGS} from './constants/strings.js';
 
 // MODULES
 export {catcher} from './modules/catcher.js';
-export {createTimeout} from './modules/create-timeout.js';
+export {conditionalTimeout} from './modules/conditional-timeout.js';
+export {controlledTimeout} from './modules/controlled-timeout.js';
+export {createHeartbeatTimeout} from './modules/create-heartbeat-timeout.js';
 export {log} from './modules/log.js';
 export {memoizeHOF} from './modules/memoize-hof.js';
 export {noop} from './modules/noop.js';
 export {parsePrimitive} from './modules/parse-primitive.js';
 export {stringifyPrimitive} from './modules/stringify-primitive.js';
+
+// TODO: CLEAN TESTS.
+// TODO: CREATE timeUtils.

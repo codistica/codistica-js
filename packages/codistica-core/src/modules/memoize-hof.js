@@ -2,6 +2,8 @@
 
 import {FunctionCache} from '../classes/function-cache.js';
 
+// TODO: MOVE TO hocs DIRECTORY (CREATE) AND RENAME TO withMemoization.
+
 /**
  * @description Creates a higher-order-function with fully integrated cache capabilities.
  * @param {Function} fn - Input function.

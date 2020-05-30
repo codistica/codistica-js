@@ -1,8 +1,11 @@
 /** @module core/modules/event-utils/get-mock-event */
 
+// TODO: USE new Event() ?
+// TODO: REMOVE IF UNNECESSARY (USE new Event() DIRECTLY WHERE NEEDED).
+
 /**
  * @description Creates a mock event object.
- * @param {Object<string,*>} [inject] - Object<string,*> with properties to be merged inside created object.
+ * @param {Object<string,*>} [inject] - Object with properties to be merged inside created object.
  * @returns {Object<string,*>} Event object.
  */
 function getMockEvent(inject) {
