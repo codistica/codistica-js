@@ -9,7 +9,7 @@ import componentClassNames from './index.module.scss';
 
 const category = 'COMPONENT';
 const title = '<FullScreenSlide>';
-const description = 'TODO.';
+const description = 'A smart full screen slide.';
 
 /**
  * @description Full screen slide section A.

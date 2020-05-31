@@ -20,6 +20,7 @@ export {Sophistication} from './classes/sophistication';
 // COMPONENTS
 export {BulletDropdown} from './components/bullet-dropdown';
 export {Button} from './components/button';
+export {CarouselSlide} from './components/carousel-slide';
 export {DotNavigation} from './components/dot-navigation';
 export {FullScreenSlide} from './components/full-screen-slide';
 export {HoverIcon} from './components/hover-icon';
@@ -101,7 +102,7 @@ export {InputRenderer} from './utils/input-renderer';
 // TODO: <FullScreenSlide> (USE <TrackSlide> UNDER THE HOOD) (FULL CSS, POSITION fixed, z-index AND PERCENT UNITS (NO VIEWPORT UNITS))
 // TODO: <CarouselSlide>
 // TODO: IMPLEMENT react-use-gesture.
-// TODO: ADD onStart, onEnd, onNewPosition CALLBACKS.
+// TODO: ADD onStart AND onEnd CALLBACKS.
 // TODO: SUPPORT FOR KEYBOARD (NAVIGATE WITH ARROWS, GOTO WITH NUMBERS, ETC)
 
 // TODO: GROUP ALL ICONS INTO ONE Icon COMPONENT WITH name PROP. LAZY LOAD BY DEFAULT?

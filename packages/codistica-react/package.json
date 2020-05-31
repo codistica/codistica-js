@@ -67,7 +67,8 @@
         "jss": "^10.1.1",
         "jss-preset-default": "^10.1.1",
         "react-html-id": "^0.1.5",
-        "react-spring": "^8.0.27"
+        "react-spring": "^8.0.27",
+        "react-use-gesture": "^7.0.15"
     },
     "devDependencies": {
         "@babel/core": "^7.9.0",

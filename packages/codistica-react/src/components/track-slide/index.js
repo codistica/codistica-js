@@ -125,12 +125,6 @@ const TrackSlide: CallableObj = function TrackSlide(props: Props) {
         maxWidth = null
     } = dimensions || {};
 
-    const [state, setState] = useState({
-        position: startingPosition
-    });
-
-    const isRow: boolean = direction === 'row';
-
     const clampPosition = useCallback(
         (value) => {
             if (value + itemsPerView >= children.length) {
@@ -142,6 +136,12 @@ const TrackSlide: CallableObj = function TrackSlide(props: Props) {
         },
         [children.length]
     );
+
+    const [state, setState] = useState({
+        position: clampPosition(startingPosition)
+    });
+
+    const isRow: boolean = direction === 'row';
 
     const goTo = useCallback(
         (newPosition) => {
@@ -260,9 +260,7 @@ const TrackSlide: CallableObj = function TrackSlide(props: Props) {
     }, []);
 
     return (
-        <animated.div
-            style={mergedStyles.root}
-            className={mergedClassNames.root}>
+        <div style={mergedStyles.root} className={mergedClassNames.root}>
             <animated.div
                 style={mergeStyles(mergedStyles.track, {
                     transform: springProps.translateValue.interpolate((val) =>
@@ -281,7 +279,7 @@ const TrackSlide: CallableObj = function TrackSlide(props: Props) {
                     );
                 })}
             </animated.div>
-        </animated.div>
+        </div>
     );
 };
 

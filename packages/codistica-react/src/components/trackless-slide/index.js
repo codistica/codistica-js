@@ -347,7 +347,7 @@ const TracklessSlide: CallableObj = function TracklessSlide(props: Props) {
         {
             unique: false,
             /**
-             * @description From callback.
+             * @description Callback for from event.
              * @param {Object} arg - Arg.
              * @param {number} arg.slot - Item slot.
              * @returns {Object<string,*>} Props.
@@ -364,7 +364,7 @@ const TracklessSlide: CallableObj = function TracklessSlide(props: Props) {
                 };
             },
             /**
-             * @description Enter callback.
+             * @description Callback for enter event.
              * @param {Object} arg - Arg.
              * @param {number} arg.slot - Item slot.
              * @returns {Object<string,*>} Props.
@@ -375,7 +375,7 @@ const TracklessSlide: CallableObj = function TracklessSlide(props: Props) {
                 };
             },
             /**
-             * @description Leave callback.
+             * @description Callback for leave event.
              * @param {Object} arg - Arg.
              * @param {number} arg.slot - Item slot.
              * @returns {Object<string,*>} Props.
@@ -392,7 +392,7 @@ const TracklessSlide: CallableObj = function TracklessSlide(props: Props) {
                 };
             },
             /**
-             * @description Update callback.
+             * @description Callback for update event.
              * @param {Object} arg - Arg.
              * @param {number} arg.slot - Item slot.
              * @returns {Object<string,*>} Props.
