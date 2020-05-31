@@ -8,6 +8,20 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+### Added
+- New `which-scroll-limit-reached` module in `element-utils`.
+- New `can-scroll-y` module in `element-utils`.
+- New `can-scroll-x` module in `element-utils`.
+- New `add-styles` module in `element-utils`.
+- New `add-overscroll-blocker` module in `element-utils`.
+- New `element-utils` modules group created.
+- New `viewport-monitor` class and module.
+- New `overscroll-blocker` class.
+
+## Changed
+- Some cleanups.
+- Moved `get-element-height` and `get-element-width` modules to new `element-utils` group.
+
 ## [1.0.0-beta.3] - 2020-05-16
 
 ## Changed

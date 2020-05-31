@@ -8,6 +8,15 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+## Added
+- New `get-shortest-path` module in `array-utils`.
+- New `conditional-timeout` module.
+- New `create-heartbeat-timeout` module.
+
+## Changed
+- Some cleanups.
+- Renamed: `create-timeout` -> `controlled-timeout` module.
+
 ## [1.0.0-beta.2] - 2020-05-07
 
 ## Changed

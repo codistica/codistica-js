@@ -8,6 +8,21 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+### Added
+- New `carousel-slide` component.
+- New `full-screen-slide` component.
+- New `track-slide` component.
+- New `trackless-slide` component.
+- New `get-ref-handler` module.
+- New `with-on-scroll-action` hoc.
+
+## Changed
+- Several cleanups.
+- `viewport-monitor` has been moved to `@codistica/browser` package.
+- Renamed: `with-overscroll-monitor` -> `with-overscroll-blocker` hoc.
+- `overscroll-monitor` has been heavily improved, renamed to `overscroll-blocker` and moved to `@codistica/browser` package.
+- Removed: `slide` component in favor of `track-slide`.
+
 ## [1.0.0-beta.5] - 2020-05-16
 
 ### Added

@@ -18,6 +18,16 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+### Changed
+- Renamed: `run:demo` -> `start:demo` and `run:react` -> `start:react` scripts.
+
+### Fixed
+- Missing date tag in this Change Log.
+
+### Packages Bumps
+
+## [2020-05-16]
+
 ### Added
 - Lerna config `ignoreChanges` property has been added.
 
@@ -87,6 +97,7 @@ See [GitHub release notes](https://github.com/codistica/codistica-js/releases?af
 for info on changes for earlier releases.
 
 [Unreleased]: https://github.com/codistica/codistica-js/compare/master...HEAD
+[2020-05-16]: https://github.com/codistica/codistica-js/compare/2020/05/13...2020/05/16
 [2020-05-13]: https://github.com/codistica/codistica-js/compare/2020/05/07...2020/05/13
 [2020-05-07]: https://github.com/codistica/codistica-js/compare/2020/04/23...2020/05/07
 [2020-04-23]: https://github.com/codistica/codistica-js/compare/2020/04/22...2020/04/23
