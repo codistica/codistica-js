@@ -8,6 +8,11 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+## [1.0.0-beta.3] - 2020-06-01
+
+## Changed
+- Monorepo dependencies version change.
+
 ## [1.0.0-beta.2] - 2020-05-07
 
 ## Changed
@@ -23,6 +28,7 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 See [GitHub release notes](https://github.com/codistica/codistica-js/releases?after=@codistica/node@1.0.0-beta.1)
 for info on changes for earlier releases.
 
-[Unreleased]: https://github.com/codistica/codistica-js/compare/@codistica/node@1.0.0-beta.2...HEAD
+[Unreleased]: https://github.com/codistica/codistica-js/compare/@codistica/node@1.0.0-beta.3...HEAD
+[1.0.0-beta.3]: https://github.com/codistica/codistica-js/compare/@codistica/node@1.0.0-beta.2...@codistica/node@1.0.0-beta.3
 [1.0.0-beta.2]: https://github.com/codistica/codistica-js/compare/@codistica/node@1.0.0-beta.1...@codistica/node@1.0.0-beta.2
 [1.0.0-beta.1]: https://github.com/codistica/codistica-js/compare/@codistica/node@1.0.0-beta.0...@codistica/node@1.0.0-beta.1

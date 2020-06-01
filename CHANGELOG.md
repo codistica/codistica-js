@@ -18,6 +18,8 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+## [2020-06-01]
+
 ### Changed
 - Renamed: `run:demo` -> `start:demo` and `run:react` -> `start:react` scripts.
 
@@ -25,6 +27,13 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 - Missing date tag in this Change Log.
 
 ### Packages Bumps
+- `@codistica/browser`: 1.0.0-beta.4
+- `@codistica/core`: 1.0.0-beta.3
+- `@codistica/demo`: 1.0.0-beta.4
+- `@codistica/dev-tools`: 1.0.0-beta.3
+- `@codistica/node`: 1.0.0-beta.3
+- `@codistica/react`: 1.0.0-beta.6
+- `@codistica/scriptfiber`: 1.0.0-beta.4
 
 ## [2020-05-16]
 
@@ -97,6 +106,7 @@ See [GitHub release notes](https://github.com/codistica/codistica-js/releases?af
 for info on changes for earlier releases.
 
 [Unreleased]: https://github.com/codistica/codistica-js/compare/master...HEAD
+[2020-06-01]: https://github.com/codistica/codistica-js/compare/2020/05/16...2020/06/01
 [2020-05-16]: https://github.com/codistica/codistica-js/compare/2020/05/13...2020/05/16
 [2020-05-13]: https://github.com/codistica/codistica-js/compare/2020/05/07...2020/05/13
 [2020-05-07]: https://github.com/codistica/codistica-js/compare/2020/04/23...2020/05/07

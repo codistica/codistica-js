@@ -1,6 +1,6 @@
 {
     "name": "@codistica/demo",
-    "version": "1.0.0-beta.3",
+    "version": "1.0.0-beta.4",
     "private": true,
     "description": "Codistica demo package.",
     "keywords": [
@@ -54,9 +54,9 @@
         "eject": "react-scripts eject"
     },
     "dependencies": {
-        "@codistica/browser": "^1.0.0-beta.3",
-        "@codistica/core": "^1.0.0-beta.2",
-        "@codistica/react": "^1.0.0-beta.5",
+        "@codistica/browser": "^1.0.0-beta.4",
+        "@codistica/core": "^1.0.0-beta.3",
+        "@codistica/react": "^1.0.0-beta.6",
         "@testing-library/jest-dom": "^5.5.0",
         "@testing-library/react": "^10.0.3",
         "@testing-library/user-event": "^10.1.0",

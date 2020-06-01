@@ -1,6 +1,6 @@
 {
     "name": "@codistica/scriptfiber",
-    "version": "1.0.0-beta.3",
+    "version": "1.0.0-beta.4",
     "publishConfig": {
         "access": "public"
     },
@@ -56,10 +56,10 @@
     },
     "dependencies": {
         "@babel/runtime-corejs3": "^7.9.2",
-        "@codistica/browser": "^1.0.0-beta.3",
-        "@codistica/core": "^1.0.0-beta.2",
-        "@codistica/dev-tools": "^1.0.0-beta.2",
-        "@codistica/node": "^1.0.0-beta.2",
+        "@codistica/browser": "^1.0.0-beta.4",
+        "@codistica/core": "^1.0.0-beta.3",
+        "@codistica/dev-tools": "^1.0.0-beta.3",
+        "@codistica/node": "^1.0.0-beta.3",
         "@codistica/types": "^1.0.0-beta.2",
         "clean-webpack-plugin": "^3.0.0",
         "compression-webpack-plugin": "^3.1.0",
