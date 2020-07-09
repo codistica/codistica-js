@@ -4,13 +4,12 @@
 
 /** @todo FOLLOW https://youtrack.jetbrains.com/issue/WEB-45223 issue. */
 
-import * as icons from './components/icons';
 import * as inputBlockers from './plugins/input-blockers';
 import * as inputFilters from './plugins/input-filters';
 import * as inputPresets from './plugins/input-presets';
 import * as inputValidators from './plugins/input-validators';
 
-export {icons, inputBlockers, inputFilters, inputPresets, inputValidators};
+export {inputBlockers, inputFilters, inputPresets, inputValidators};
 
 // *** NORMAL EXPORT ***
 
@@ -23,7 +22,6 @@ export {Button} from './components/button';
 export {CarouselSlide} from './components/carousel-slide';
 export {DotNavigation} from './components/dot-navigation';
 export {FullScreenSlide} from './components/full-screen-slide';
-export {HoverIcon} from './components/hover-icon';
 export {InputCheckbox} from './components/input-checkbox';
 export {InputRadio} from './components/input-radio';
 export {InputText} from './components/input-text';
@@ -44,8 +42,10 @@ export {mergeClassNames} from './modules/merge-class-names';
 export {mergeStyles} from './modules/merge-styles';
 
 // UTILS
+export {AnchorWrapper} from './utils/anchor-wrapper';
 export {Draggable} from './utils/draggable';
 export {Form} from './utils/form';
+export {ImgHoverSwitch} from './utils/img-hover-switch';
 export {InputRenderer} from './utils/input-renderer';
 
 // TODO: APPLY MARGINS TO ROOTS ONLY (SEE INPUTS).

@@ -8,7 +8,8 @@ module.exports = {
             {
                 test: (file) => {
                     return [
-                        /.+[\\/]packages[\\/]codistica-react[\\/].+\.js$/
+                        /.+[\\/]packages[\\/]codistica-react[\\/].+\.js$/,
+                        /.+[\\/]packages[\\/]codistica-react-icons[\\/].+\.js$/
                     ].some((regExp) => regExp.test(file));
                 },
                 presets: ['@babel/preset-react', '@babel/preset-flow']

@@ -47,6 +47,7 @@ making it suitable for the most demanding applications.
 - [dev-tools][codistica-dev-tools]
 - [node][codistica-node]
 - [react][codistica-react]
+- [react-icons][codistica-react-icons]
 - [scriptfiber][codistica-scriptfiber]
 - [types][codistica-types]
 
@@ -72,6 +73,7 @@ See [LICENSE.md][license]
 [codistica-dev-tools]: packages/codistica-dev-tools/README.md
 [codistica-node]: packages/codistica-node/README.md
 [codistica-react]: packages/codistica-react/README.md
+[codistica-react-icons]: packages/codistica-react-icons/README.md
 [codistica-scriptfiber]: packages/codistica-scriptfiber/README.md
 [codistica-types]: packages/codistica-types/README.md
 [contributing]: CONTRIBUTING.md

@@ -3,5 +3,6 @@
   <component name="JSDialectsMappings">
     <file url="file://$PROJECT_DIR$/packages/codistica-demo" dialect="FLOW" />
     <file url="file://$PROJECT_DIR$/packages/codistica-react" dialect="FLOW" />
+    <file url="file://$PROJECT_DIR$/packages/codistica-react-icons" dialect="FLOW" />
   </component>
 </project>

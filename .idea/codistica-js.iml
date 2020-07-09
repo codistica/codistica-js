@@ -22,6 +22,9 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/codistica-node/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/codistica-node/lib-es" />
       <excludeFolder url="file://$MODULE_DIR$/packages/codistica-node/types" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-react-icons/jsdoc" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-react-icons/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-react-icons/lib-es" />
       <excludeFolder url="file://$MODULE_DIR$/packages/codistica-react/jsdoc" />
       <excludeFolder url="file://$MODULE_DIR$/packages/codistica-react/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/codistica-react/lib-es" />

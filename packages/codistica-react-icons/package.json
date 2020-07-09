@@ -1,12 +1,12 @@
 {
-    "name": "@codistica/react",
-    "version": "1.0.0-beta.6",
+    "name": "@codistica/react-icons",
+    "version": "1.0.0-beta.0",
     "publishConfig": {
         "access": "public"
     },
-    "description": "Codistica React library package.",
+    "description": "Codistica React icons library package.",
     "keywords": [
-        "codistica, main, library, react"
+        "codistica, main, library, react, icons"
     ],
     "author": {
         "name": "Codistica",
@@ -53,26 +53,14 @@
         "node": ">=10.0.0"
     },
     "scripts": {
-        "start": "start-storybook -p 6007",
+        "start": "start-storybook -p 6008",
         "build": "build-storybook",
         "flow": "flow"
     },
     "dependencies": {
         "@babel/runtime-corejs3": "^7.9.2",
-        "@codistica/browser": "^1.0.0-beta.4",
-        "@codistica/core": "^1.0.0-beta.3",
-        "@codistica/types": "^1.0.0-beta.2",
-        "@date-io/moment": "1.x",
-        "@material-ui/core": "^4.10.2",
-        "@material-ui/pickers": "^3.2.10",
-        "core-js": "^3.6.5",
-        "eventemitter3": "^4.0.0",
-        "jss": "^10.1.1",
-        "jss-preset-default": "^10.1.1",
-        "moment": "^2.27.0",
-        "react-html-id": "^0.1.5",
-        "react-spring": "^8.0.27",
-        "react-use-gesture": "^7.0.15"
+        "@codistica/react": "^1.0.0-beta.6",
+        "core-js": "^3.6.5"
     },
     "devDependencies": {
         "@babel/core": "^7.9.0",

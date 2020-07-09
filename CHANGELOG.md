@@ -13,6 +13,7 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 * [codistica-dev-tools](packages/codistica-dev-tools/CHANGELOG.md)
 * [codistica-node](packages/codistica-node/CHANGELOG.md)
 * [codistica-react](packages/codistica-react/CHANGELOG.md)
+* [codistica-react-icons](packages/codistica-react-icons/CHANGELOG.md)
 * [codistica-scriptfiber](packages/codistica-scriptfiber/CHANGELOG.md)
 * [codistica-types](packages/codistica-types/CHANGELOG.md)
 
