@@ -43,6 +43,15 @@ export {getRefHandler} from './modules/get-ref-handler';
 export {mergeClassNames} from './modules/merge-class-names';
 export {mergeStyles} from './modules/merge-styles';
 
+// MUI COMPONENTS
+export {MUICheckbox} from './mui-components/mui-checkbox';
+export {MUIDatePicker} from './mui-components/mui-date-picker';
+export {MUIRadioGroup} from './mui-components/mui-radio-group';
+export {MUISwitch} from './mui-components/mui-switch';
+export {MUITextField} from './mui-components/mui-text-field';
+export {MUITextFieldPassword} from './mui-components/mui-text-field-password';
+export {MUITextFieldSelect} from './mui-components/mui-text-field-select';
+
 // UTILS
 export {AnchorWrapper} from './utils/anchor-wrapper';
 export {Draggable} from './utils/draggable';
