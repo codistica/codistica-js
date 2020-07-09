@@ -2,7 +2,6 @@
 
 import * as arrayUtils from './modules/array-utils/index.js';
 import * as dateUtils from './modules/date-utils/index.js';
-import * as eventUtils from './modules/event-utils/index.js';
 import * as jsonUtils from './modules/json-utils/index.js';
 import * as numberUtils from './modules/number-utils/index.js';
 import * as objectUtils from './modules/object-utils/index.js';
@@ -14,7 +13,6 @@ import * as stringUtils from './modules/string-utils/index.js';
 export {
     arrayUtils,
     dateUtils,
-    eventUtils,
     jsonUtils,
     numberUtils,
     objectUtils,
