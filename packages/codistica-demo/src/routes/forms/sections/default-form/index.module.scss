@@ -1,0 +1,31 @@
+@import '../../../../css/colors.module.scss';
+
+.form {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+}
+
+.formLabel {
+  margin: 20px 20px 0 20px;
+}
+
+.text {
+  margin: 20px!important;
+}
+
+.radioGroup,
+.checkbox,
+.switch {
+  align-self: flex-start;
+  margin: 20px!important;
+}
+
+.buttonsWrapper {
+  margin: 40px 20px;
+  align-self: center;
+}
+
+.buttonsWrapper > * {
+  margin: 0 10px!important;
+}

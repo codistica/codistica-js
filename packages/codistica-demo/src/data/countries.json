@@ -1,0 +1,1640 @@
+[
+    {
+        "name": "Afghanistan",
+        "phoneCode": "+93",
+        "alpha2code": "AF",
+        "alpha3code": "AFG",
+        "otherNames": "Islamic Republic of Afghanistan, Da Afġānistān Islāmī Jumhoryat, Jomhūrīyyeh Eslāmīyyeh Afġānestān"
+    },
+    {
+        "name": "Albania",
+        "phoneCode": "+355",
+        "alpha2code": "AL",
+        "alpha3code": "ALB",
+        "otherNames": "Republic of Albania, Republika e Shqipërisë, Arnavutluk, Arbanon"
+    },
+    {
+        "name": "Algeria",
+        "phoneCode": "+213",
+        "alpha2code": "DZ",
+        "alpha3code": "DZA",
+        "otherNames": "People's Democratic Republic of Algeria, al-Jazā’ir, al Jumhuriyya al Jazaa'iriyya ad-Dīmuqrāţiyya ash Sha'biyya"
+    },
+    {
+        "name": "American Samoa",
+        "phoneCode": "+1",
+        "alpha2code": "AS",
+        "alpha3code": "ASM",
+        "otherNames": ""
+    },
+    {
+        "name": "Andorra",
+        "phoneCode": "+376",
+        "alpha2code": "AD",
+        "alpha3code": "AND",
+        "otherNames": "Principality of Andorra, Principat d'Andorra, Principality of the Valleys of Andorra"
+    },
+    {
+        "name": "Angola",
+        "phoneCode": "+244",
+        "alpha2code": "AO",
+        "alpha3code": "AGO",
+        "otherNames": ""
+    },
+    {
+        "name": "Anguilla",
+        "phoneCode": "+1",
+        "alpha2code": "AI",
+        "alpha3code": "AIA",
+        "otherNames": ""
+    },
+    {
+        "name": "Antigua and Barbuda",
+        "phoneCode": "+1",
+        "alpha2code": "AG",
+        "alpha3code": "ATG",
+        "otherNames": ""
+    },
+    {
+        "name": "Argentina",
+        "phoneCode": "+54",
+        "alpha2code": "AR",
+        "alpha3code": "ARG",
+        "otherNames": "Argentine Republic, la Argentina, the Argentine, Argentine Nation, United Provinces of the Río de la Plata, Argentine Confederation"
+    },
+    {
+        "name": "Armenia",
+        "phoneCode": "+374",
+        "alpha2code": "AM",
+        "alpha3code": "ARM",
+        "otherNames": "Hayastan, Republic of Armenia"
+    },
+    {
+        "name": "Aruba",
+        "phoneCode": "+297",
+        "alpha2code": "AW",
+        "alpha3code": "ABW",
+        "otherNames": ""
+    },
+    {
+        "name": "Australia",
+        "phoneCode": "+61",
+        "alpha2code": "AU",
+        "alpha3code": "AUS",
+        "otherNames": "Commonwealth of Australia, New Holland"
+    },
+    {
+        "name": "Austria",
+        "phoneCode": "+43",
+        "alpha2code": "AT",
+        "alpha3code": "AUT",
+        "otherNames": "Republic of Austria, Republik Österreich, Österreich"
+    },
+    {
+        "name": "Azerbaijan",
+        "phoneCode": "+994",
+        "alpha2code": "AZ",
+        "alpha3code": "AZE",
+        "otherNames": "Azərbaycan Respublikası, Republic of Azerbaijan"
+    },
+    {
+        "name": "Bahrain",
+        "phoneCode": "+973",
+        "alpha2code": "BH",
+        "alpha3code": "BHR",
+        "otherNames": "Kingdom of Bahrain, Mamlakat al-Baḥrayn, State of Bahrain"
+    },
+    {
+        "name": "Bangladesh",
+        "phoneCode": "+880",
+        "alpha2code": "BD",
+        "alpha3code": "BGD",
+        "otherNames": "বাংলাদেশ, গণপ্রজাতন্ত্রী বাংলাদেশ, Gônôprôjatôntri Bangladesh, People's Republic of Bangladesh, বাংলা, Bangla, বঙ্গ, Bônggô, গঙ্গাঋদ্ধি, Gônggarriddhi, Bengal Presidency, পূর্ববঙ্গ, Purbô Bônggô, East Bengal, পূর্ব পাকিস্তান, East Pakistan"
+    },
+    {
+        "name": "Barbados",
+        "phoneCode": "+1",
+        "alpha2code": "BB",
+        "alpha3code": "BRB",
+        "otherNames": "Bim, Bimshire, Little England, The Rock"
+    },
+    {
+        "name": "Belarus",
+        "phoneCode": "+375",
+        "alpha2code": "BY",
+        "alpha3code": "BLR",
+        "otherNames": "Republic of Belarus, Gudija, Byelorussia, White Russia"
+    },
+    {
+        "name": "Belgium",
+        "phoneCode": "+32",
+        "alpha2code": "BE",
+        "alpha3code": "BEL",
+        "otherNames": "Kingdom of Belgium, Koninkrijk België, Royaume de Belgique, Königreich Belgien"
+    },
+    {
+        "name": "Belize",
+        "phoneCode": "+501",
+        "alpha2code": "BZ",
+        "alpha3code": "BLZ",
+        "otherNames": "British Honduras, Honduras"
+    },
+    {
+        "name": "Benin",
+        "phoneCode": "+229",
+        "alpha2code": "BJ",
+        "alpha3code": "BEN",
+        "otherNames": "Dahomey, Republic of Benin, République du Bénin"
+    },
+    {
+        "name": "Bermuda",
+        "phoneCode": "+1",
+        "alpha2code": "BM",
+        "alpha3code": "BMU",
+        "otherNames": ""
+    },
+    {
+        "name": "Bhutan",
+        "phoneCode": "+975",
+        "alpha2code": "BT",
+        "alpha3code": "BTN",
+        "otherNames": "Kingdom of Bhutan, Druk Gyal Khap"
+    },
+    {
+        "name": "Bolivia",
+        "phoneCode": "+591",
+        "alpha2code": "BO",
+        "alpha3code": "BOL",
+        "otherNames": "Plurinational State of Bolivia, Estado Plurinacional de Bolivia, Republic of Bolívar, Republic of Bolivia"
+    },
+    {
+        "name": "Bonaire, Sint Eustatius and Saba",
+        "phoneCode": "+599",
+        "alpha2code": "BQ",
+        "alpha3code": "BES",
+        "otherNames": ""
+    },
+    {
+        "name": "Bosnia and Herzegovina",
+        "phoneCode": "+387",
+        "alpha2code": "BA",
+        "alpha3code": "BIH",
+        "otherNames": "Republic of Bosnia and Herzegovina, Socialist Republic of Bosnia and Herzegovina"
+    },
+    {
+        "name": "Botswana",
+        "phoneCode": "+267",
+        "alpha2code": "BW",
+        "alpha3code": "BWA",
+        "otherNames": "Bechuanaland, Republic of Botswana"
+    },
+    {
+        "name": "Brazil",
+        "phoneCode": "+55",
+        "alpha2code": "BR",
+        "alpha3code": "BRA",
+        "otherNames": "Pindorama, Terra de Santa Cruz, Ilha de Vera Cruz, Empire of Brazil, United States of Brazil, Federative Republic of Brazil, República Federativa do Brasil, Terra di Papaga"
+    },
+    {
+        "name": "British Indian Ocean Territory",
+        "phoneCode": "+246",
+        "alpha2code": "IO",
+        "alpha3code": "IOT",
+        "otherNames": ""
+    },
+    {
+        "name": "British Virgin Islands",
+        "phoneCode": "+1",
+        "alpha2code": "VG",
+        "alpha3code": "VGB",
+        "otherNames": ""
+    },
+    {
+        "name": "Brunei Darussalam",
+        "phoneCode": "+673",
+        "alpha2code": "BN",
+        "alpha3code": "BRN",
+        "otherNames": "Brunei, Nation of Brunei, the Abode of Peace, State of Brunei, Negara Brunei Darussalam, Brunei Darussalam"
+    },
+    {
+        "name": "Bulgaria",
+        "phoneCode": "+359",
+        "alpha2code": "BG",
+        "alpha3code": "BGR",
+        "otherNames": "Republic of Bulgaria, Republika Bǎlgariya, People's Republic of Bulgaria"
+    },
+    {
+        "name": "Burkina Faso",
+        "phoneCode": "+226",
+        "alpha2code": "BF",
+        "alpha3code": "BFA",
+        "otherNames": "Upper Volta, Haute-Volta, Bourkina-Fasso"
+    },
+    {
+        "name": "Myanmar",
+        "phoneCode": "+95",
+        "alpha2code": "MM",
+        "alpha3code": "MMR",
+        "otherNames": "Republic of the Union of Myanmar, Burma"
+    },
+    {
+        "name": "Burundi",
+        "phoneCode": "+257",
+        "alpha2code": "BI",
+        "alpha3code": "BDI",
+        "otherNames": "Republic of Burundi, Republika y'Uburundi, République du Burundi, Kingdom of Burundi"
+    },
+    {
+        "name": "Cambodia",
+        "phoneCode": "+855",
+        "alpha2code": "KH",
+        "alpha3code": "KHM",
+        "otherNames": "Kingdom of Cambodia, Royaume du Cambodge, Kampuchea, Khmer Republic, Democratic Kampuchea, People's Republic of Kampuchea, State of Cambodia"
+    },
+    {
+        "name": "Cameroon",
+        "phoneCode": "+237",
+        "alpha2code": "CM",
+        "alpha3code": "CMR",
+        "otherNames": "Republic of Cameroon, United Republic of Cameroon, Kamerun"
+    },
+    {
+        "name": "Canada",
+        "phoneCode": "+1",
+        "alpha2code": "CA",
+        "alpha3code": "CAN",
+        "otherNames": "Dominion of Canada, Dominion du Canada, Acadia, Francisca"
+    },
+    {
+        "name": "Cabo Verde",
+        "phoneCode": "+238",
+        "alpha2code": "CV",
+        "alpha3code": "CPV",
+        "otherNames": "Cabo Verde"
+    },
+    {
+        "name": "Cayman Islands",
+        "phoneCode": "+1",
+        "alpha2code": "KY",
+        "alpha3code": "CYM",
+        "otherNames": ""
+    },
+    {
+        "name": "Central African Republic",
+        "phoneCode": "+236",
+        "alpha2code": "CF",
+        "alpha3code": "CAF",
+        "otherNames": "Oubangui-Chari, Ubangi-Shari, République Centrafricaine, Empire Centrafricain, Central African Empire "
+    },
+    {
+        "name": "Chad",
+        "phoneCode": "+235",
+        "alpha2code": "ID",
+        "alpha3code": "TCD",
+        "otherNames": "Republic of Chad, République du Tchad, Jumhūrīyat Tashād"
+    },
+    {
+        "name": "Chile",
+        "phoneCode": "+56",
+        "alpha2code": "CL",
+        "alpha3code": "CHL",
+        "otherNames": "Republic of Chile, Chilli, Chili, Reyno de Chile, Capitania general de Chile"
+    },
+    {
+        "name": "China",
+        "phoneCode": "+86",
+        "alpha2code": "CN",
+        "alpha3code": "CHN",
+        "otherNames": "People's Republic of China, 中华人民共和国, PRC, China, 中国, Communist China, Red China, 中共, Mainland China, 中国大陆, 中国內地, New China,新中国, Shenzhou,神州, Ch'in Empire, Cathay,Zhongguo"
+    },
+    {
+        "name": "Colombia",
+        "phoneCode": "+57",
+        "alpha2code": "CO",
+        "alpha3code": "COL",
+        "otherNames": "Republic of Colombia, República de Colombia, Estados Unidos de Colombia, Confederación Granadina, República de la Nueva Granada"
+    },
+    {
+        "name": "Comoros",
+        "phoneCode": "+269",
+        "alpha2code": "KM",
+        "alpha3code": "COM",
+        "otherNames": "Union of the Comoros, Union des Comores, Udzima wa Komori, al-Ittiḥād al-Qumurī, United Republic of the Commoros"
+    },
+    {
+        "name": "Cook Islands",
+        "phoneCode": "+682",
+        "alpha2code": "CK",
+        "alpha3code": "COK",
+        "otherNames": ""
+    },
+    {
+        "name": "Costa Rica",
+        "phoneCode": "+506",
+        "alpha2code": "CR",
+        "alpha3code": "CRI",
+        "otherNames": "Republic of Costa Rica, República de Costa Rica"
+    },
+    {
+        "name": "Côte dIvoire",
+        "phoneCode": "+225",
+        "alpha2code": "CI",
+        "alpha3code": "CIV",
+        "otherNames": "Ivory Coast, the Ivory Coast, Republic of Côte d'Ivoire, République de Côte d'Ivoire"
+    },
+    {
+        "name": "Croatia",
+        "phoneCode": "+385",
+        "alpha2code": "HR",
+        "alpha3code": "HRV",
+        "otherNames": "Republic of Croatia, Republika Hrvatska, Hrvatska, Hrvaška"
+    },
+    {
+        "name": "Cuba",
+        "phoneCode": "+53",
+        "alpha2code": "CU",
+        "alpha3code": "CUB",
+        "otherNames": "Republic of Cuba, República de Cuba"
+    },
+    {
+        "name": "Curaçao",
+        "phoneCode": "+599",
+        "alpha2code": "CW",
+        "alpha3code": "CUW",
+        "otherNames": ""
+    },
+    {
+        "name": "Cyprus",
+        "phoneCode": "+357",
+        "alpha2code": "CY",
+        "alpha3code": "CYP",
+        "otherNames": ""
+    },
+    {
+        "name": "Czechia",
+        "phoneCode": "+420",
+        "alpha2code": "CZ",
+        "alpha3code": "CZE",
+        "otherNames": "Czech Republic,Czech, Česká republika, Česko, ČR, Bohemia, Czechland, the Czechlands, České země, ČSR, CSR,Čechy a Morava, Země Koruny české, Koruna česká, Česká konfederace"
+    },
+    {
+        "name": "Denmark",
+        "phoneCode": "+45",
+        "alpha2code": "DK",
+        "alpha3code": "DNK",
+        "otherNames": "Danmark, Kingdom of Denmark, Kongeriget Danmark"
+    },
+    {
+        "name": "Djibouti",
+        "phoneCode": "+253",
+        "alpha2code": "DJ",
+        "alpha3code": "DJI",
+        "otherNames": "French Territory of the Afars and the Issas, French Somaliland, Obock Territory, Territoire français des Afars et des Issas, Côte française des Somalis, Territoire d'Obock, Republic of Djibouti, République de Djibouti"
+    },
+    {
+        "name": "Dominica",
+        "phoneCode": "+1",
+        "alpha2code": "DM",
+        "alpha3code": "DMA",
+        "otherNames": ""
+    },
+    {
+        "name": "Dominican Republic",
+        "phoneCode": "+1",
+        "alpha2code": "DO",
+        "alpha3code": "DOM",
+        "otherNames": ""
+    },
+    {
+        "name": "Ecuador",
+        "phoneCode": "+593",
+        "alpha2code": "EC",
+        "alpha3code": "ECU",
+        "otherNames": ""
+    },
+    {
+        "name": "Egypt",
+        "phoneCode": "+20",
+        "alpha2code": "EG",
+        "alpha3code": "EGY",
+        "otherNames": "Miṣr, Meṣr, Aegyptus, Kīmi, Arab Republic of Egypt, Miser"
+    },
+    {
+        "name": "El Salvador",
+        "phoneCode": "+503",
+        "alpha2code": "SV",
+        "alpha3code": "SLV",
+        "otherNames": ""
+    },
+    {
+        "name": "Equatorial Guinea",
+        "phoneCode": "+240",
+        "alpha2code": "GQ",
+        "alpha3code": "GNQ",
+        "otherNames": ""
+    },
+    {
+        "name": "Eritrea",
+        "phoneCode": "+291",
+        "alpha2code": "ER",
+        "alpha3code": "ERI",
+        "otherNames": ""
+    },
+    {
+        "name": "Estonia",
+        "phoneCode": "+372",
+        "alpha2code": "EE",
+        "alpha3code": "EST",
+        "otherNames": "Eesti, Viru, Viro, Estland, Maarjamaa, Igaunija"
+    },
+    {
+        "name": "Ethiopia",
+        "phoneCode": "+251",
+        "alpha2code": "ET",
+        "alpha3code": "ETH",
+        "otherNames": "Abyssinia, Habeshastan, Federal Democratic Republic of Ethiopia, Ethiopië, Al-Habasha"
+    },
+    {
+        "name": "Falkland Islands",
+        "phoneCode": "+500",
+        "alpha2code": "FK",
+        "alpha3code": "FLK",
+        "otherNames": ""
+    },
+    {
+        "name": "Faroe Islands",
+        "phoneCode": "+298",
+        "alpha2code": "FO",
+        "alpha3code": "FRO",
+        "otherNames": ""
+    },
+    {
+        "name": "Federated States of Micronesia",
+        "phoneCode": "+691",
+        "alpha2code": "FM",
+        "alpha3code": "FSM",
+        "otherNames": ""
+    },
+    {
+        "name": "Fiji",
+        "phoneCode": "+679",
+        "alpha2code": "FJ",
+        "alpha3code": "FJI",
+        "otherNames": ""
+    },
+    {
+        "name": "Finland",
+        "phoneCode": "+358",
+        "alpha2code": "FI",
+        "alpha3code": "FIN",
+        "otherNames": "Republic of Finland, Suomi, Suomen tasavalta, Republiken Finland, Suomenmaa, Suopma and Suoma dásseváldi, Lääˊddjânnam and Lääˊddjânnam tääˊssväˊldd, Suomâ and Suomâ täsiväldi, Финля́ндия, Великое княжество Финляндское, Soome"
+    },
+    {
+        "name": "France",
+        "phoneCode": "+33",
+        "alpha2code": "FR",
+        "alpha3code": "FRA",
+        "otherNames": "French Republic, République Française, L'Hexagone, Gaul, Gaule, Γαλλία,Gallia, La France, Farança, Tsarfat"
+    },
+    {
+        "name": "French Guiana",
+        "phoneCode": "+594",
+        "alpha2code": "GF",
+        "alpha3code": "GUF",
+        "otherNames": ""
+    },
+    {
+        "name": "French Polynesia",
+        "phoneCode": "+689",
+        "alpha2code": "PF",
+        "alpha3code": "PYF",
+        "otherNames": ""
+    },
+    {
+        "name": "Gabon",
+        "phoneCode": "+241",
+        "alpha2code": "GA",
+        "alpha3code": "GAB",
+        "otherNames": "Gabonese Republic"
+    },
+    {
+        "name": "Georgia",
+        "phoneCode": "+995",
+        "alpha2code": "GE",
+        "alpha3code": "GEO",
+        "otherNames": "Iberia, Colchis, Iveria, Republic of Georgia, گرجستان, Gorjestan, Sakartvelo"
+    },
+    {
+        "name": "Germany",
+        "phoneCode": "+49",
+        "alpha2code": "DE",
+        "alpha3code": "DEU",
+        "otherNames": "Federal Republic of Germany,Bundesrepublik Deutschland,Deutschland,BRD,FRG,Duitsland, Allemagne, Alemania, Germania, Německo, Niemcy, Németország "
+    },
+    {
+        "name": "Ghana",
+        "phoneCode": "+233",
+        "alpha2code": "GH",
+        "alpha3code": "GHA",
+        "otherNames": "Gold Coast, United Gold Coast Convention, UGCC,Ghana Tiŋzuɣu (Dagbon),Gaana"
+    },
+    {
+        "name": "Gibraltar",
+        "phoneCode": "+350",
+        "alpha2code": "GI",
+        "alpha3code": "GIB",
+        "otherNames": ""
+    },
+    {
+        "name": "Greece",
+        "phoneCode": "+30",
+        "alpha2code": "GR",
+        "alpha3code": "GRC",
+        "otherNames": "Hellas, Ελλάδα, Hellada, Ελλάς, Hellas, Yunanistan, Hellenic Republic, Yavan"
+    },
+    {
+        "name": "Greenland",
+        "phoneCode": "+299",
+        "alpha2code": "GL",
+        "alpha3code": "GRL",
+        "otherNames": ""
+    },
+    {
+        "name": "Grenada",
+        "phoneCode": "+1",
+        "alpha2code": "GD",
+        "alpha3code": "GRD",
+        "otherNames": ""
+    },
+    {
+        "name": "Guadeloupe",
+        "phoneCode": "+590",
+        "alpha2code": "GP",
+        "alpha3code": "GLP",
+        "otherNames": ""
+    },
+    {
+        "name": "Guam",
+        "phoneCode": "+1",
+        "alpha2code": "GU",
+        "alpha3code": "GUM",
+        "otherNames": ""
+    },
+    {
+        "name": "Guatemala",
+        "phoneCode": "+502",
+        "alpha2code": "GT",
+        "alpha3code": "GTM",
+        "otherNames": ""
+    },
+    {
+        "name": "Guinea",
+        "phoneCode": "+224",
+        "alpha2code": "GN",
+        "alpha3code": "GIN",
+        "otherNames": ""
+    },
+    {
+        "name": "Guinea-Bissau",
+        "phoneCode": "+245",
+        "alpha2code": "GW",
+        "alpha3code": "GNB",
+        "otherNames": "Portuguese Guinea, Republic of Guinea-Bissau, Guiné-Bissao, Guinea Bissau"
+    },
+    {
+        "name": "Guyana",
+        "phoneCode": "+592",
+        "alpha2code": "GY",
+        "alpha3code": "GUY",
+        "otherNames": ""
+    },
+    {
+        "name": "Haiti",
+        "phoneCode": "+509",
+        "alpha2code": "HT",
+        "alpha3code": "HTI",
+        "otherNames": ""
+    },
+    {
+        "name": "Honduras",
+        "phoneCode": "+504",
+        "alpha2code": "HN",
+        "alpha3code": "HND",
+        "otherNames": ""
+    },
+    {
+        "name": "Hong Kong",
+        "phoneCode": "+852",
+        "alpha2code": "HK",
+        "alpha3code": "HKG",
+        "otherNames": ""
+    },
+    {
+        "name": "Hungary",
+        "phoneCode": "+36",
+        "alpha2code": "HU",
+        "alpha3code": "HUN",
+        "otherNames": "Republic of Hungary, Hungarian People's Republic, Kingdom of Hungary, Regnum Hungariæ, Hungaria, Magyarország, Magyar Köztársaság, Magyar Népköztársaság, Magyar Tanácsköztársaság, Magyar Királyság"
+    },
+    {
+        "name": "Iceland",
+        "phoneCode": "+354",
+        "alpha2code": "IS",
+        "alpha3code": "ISL",
+        "otherNames": "Republic of Iceland, Ísland, Lýðveldið Ísland, Fold, Thule, Frón, Ísafold"
+    },
+    {
+        "name": "India",
+        "phoneCode": "+91",
+        "alpha2code": "IN",
+        "alpha3code": "IND",
+        "otherNames": "Bhārat, Bhāratam, भारतम, भारत, Bhārat Gaṇarājya, भारत गणराज्य, Bhārata, ಭಾರತ,Bhāratadēśaṁ, భారతదేశం, India, ഇന്ത്യ, இந்தியா, Republic of India, Union of India, Hindustan, Al-Hind, भारतवर्ष, Bhārat Prajatantra, Bhāratavarṣa, Hodu"
+    },
+    {
+        "name": "Indonesia",
+        "phoneCode": "+62",
+        "alpha2code": "ID",
+        "alpha3code": "IDN",
+        "otherNames": "Republic of Indonesia, Republik Indonesia, Nusantara, Insulinde, Indunesia, Indonesië, Dutch East Indies, Netherlands East-Indies, Nederlands ch-Indië, Hindia Belanda"
+    },
+    {
+        "name": "Iran",
+        "phoneCode": "+98",
+        "alpha2code": "IR",
+        "alpha3code": "IRN",
+        "otherNames": "Persia,Islamic Republic of Iran,IRI, I.R.I., I.R.I"
+    },
+    {
+        "name": "Iraq",
+        "phoneCode": "+964",
+        "alpha2code": "IQ",
+        "alpha3code": "IRQ",
+        "otherNames": "Mesopotamia, Assyria, Babylon"
+    },
+    {
+        "name": "Ireland",
+        "phoneCode": "+353",
+        "alpha2code": "IE",
+        "alpha3code": "IRL",
+        "otherNames": "Éire, Irish Free State, Poblacht na hÉireann, Republic of Ireland, Saorstát Éireann, Erin, Banba, Fodla, Hibernia"
+    },
+    {
+        "name": "Israel",
+        "phoneCode": "+972",
+        "alpha2code": "IL",
+        "alpha3code": "ISR",
+        "otherNames": "State of Israel, מדינת ישראל, Medinat Yisra'el, دَوْلَة إِسْرَائِيل, Dawlat Isra'il, Zion, Yehuda, the Jewish State, the Hebrew State, the Holy Land, ארץ הקודש,Eretz Yisrael, ארץ ישראל, Tel Aviv regime, the Zionist entity, Occupied Palestine, Illegal State of Zion,Zionistan, Herzlstan"
+    },
+    {
+        "name": "Italy",
+        "phoneCode": "+39",
+        "alpha2code": "IT",
+        "alpha3code": "ITA",
+        "otherNames": "Repubblica Italiana, Italia, the Beautiful Country, the Boot, Ausonia, Esperia, Enotria, Tirrenia"
+    },
+    {
+        "name": "Jamaica",
+        "phoneCode": "+1",
+        "alpha2code": "JM",
+        "alpha3code": "JAM",
+        "otherNames": "Xamayca"
+    },
+    {
+        "name": "Japan",
+        "phoneCode": "+81",
+        "alpha2code": "JP",
+        "alpha3code": "JPN",
+        "otherNames": "Nippon, 日本,Nihon, Yamato, 大和, 倭, Ōyashima, 大八洲, Cipangu,Zipangu,Gipangu, Hinomoto"
+    },
+    {
+        "name": "Jordan",
+        "phoneCode": "+962",
+        "alpha2code": "JO",
+        "alpha3code": "JOR",
+        "otherNames": "Hashemite Kingdom of Jordan"
+    },
+    {
+        "name": "Kazakhstan",
+        "phoneCode": "+7",
+        "alpha2code": "KZ",
+        "alpha3code": "KAZ",
+        "otherNames": "Republic of Kazakhstan, Kazakhstan, Republic of Kazakhstan, Қазақстан, Қазақстан Республикасы, Qazaqstan, Alash,Алаш,Alaş, Kazakh Soviet Socialist Republic, Қазақ Кеңестік Социалистік Республикасы, Qazaq Keñestik Socïalïstik Respwblïkası, Kazakh, Казахская Советская Социалистическая Республика, Kazakhskaya Sovetskaya Sotsialisticheskaya Respublika"
+    },
+    {
+        "name": "Kenya",
+        "phoneCode": "+254",
+        "alpha2code": "KE",
+        "alpha3code": "KEN",
+        "otherNames": "Republic of Kenya, Jamhuri ya Kenya, British East Africa Protectorate, Kenya Colony"
+    },
+    {
+        "name": "Kiribati",
+        "phoneCode": "+686",
+        "alpha2code": "KI",
+        "alpha3code": "KIR",
+        "otherNames": ""
+    },
+    {
+        "name": "Kuwait",
+        "phoneCode": "+965",
+        "alpha2code": "KW",
+        "alpha3code": "KWT",
+        "otherNames": ""
+    },
+    {
+        "name": "Kyrgyzstan",
+        "phoneCode": "+996",
+        "alpha2code": "KG",
+        "alpha3code": "KGZ",
+        "otherNames": "Kyrgyz Republic, Кыргызстан, Кыргыз Республикасы, Kyrgyz Respublikasy, Киргизия, Кыргызская Республика, Kyrgyzskaya Respublika, Kirghiz Soviet Socialist Republic, Кыргыз Советтик Социалисттик Республикасы,Kyrgyz Sovettik Sotsialisttik Respublikasy, Киргизская Советская Социалистическая Республика,Kirgizskaya Sovetskaya Sotsialisticheskaya Respublika, Kirghizia, Kirgizstan, Republic of Kyrgyzstan"
+    },
+    {
+        "name": "Laos",
+        "phoneCode": "+856",
+        "alpha2code": "LA",
+        "alpha3code": "LAO",
+        "otherNames": "Lao People's Democratic Republic,ສາທາລະນະລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ,Sathalanalat Paxathipatai Paxaxôn,République démocratique populaire lao"
+    },
+    {
+        "name": "Latvia",
+        "phoneCode": "+371",
+        "alpha2code": "LV",
+        "alpha3code": "LVA",
+        "otherNames": "Latvija, Lettland, Letland, Letonija, Letonnie"
+    },
+    {
+        "name": "Lebanon",
+        "phoneCode": "+961",
+        "alpha2code": "LB",
+        "alpha3code": "LBN",
+        "otherNames": "The Lebanese Republic, Al-Jumhuriyya Al-Lubnaniyya, Lebnan, Lubnan, Liban, Levanon"
+    },
+    {
+        "name": "Lesotho",
+        "phoneCode": "+266",
+        "alpha2code": "LS",
+        "alpha3code": "LSO",
+        "otherNames": "Basutoland, Kingdom of Lesotho"
+    },
+    {
+        "name": "Liberia",
+        "phoneCode": "+231",
+        "alpha2code": "LR",
+        "alpha3code": "LBR",
+        "otherNames": ""
+    },
+    {
+        "name": "Libya",
+        "phoneCode": "+218",
+        "alpha2code": "LY",
+        "alpha3code": "LBY",
+        "otherNames": ""
+    },
+    {
+        "name": "Liechtenstein",
+        "phoneCode": "+423",
+        "alpha2code": "LI",
+        "alpha3code": "LIE",
+        "otherNames": ""
+    },
+    {
+        "name": "Lithuania",
+        "phoneCode": "+370",
+        "alpha2code": "LT",
+        "alpha3code": "LTU",
+        "otherNames": "Lietuva, Литва,Litva, Lietuvos Respublika, Lita"
+    },
+    {
+        "name": "Luxembourg",
+        "phoneCode": "+352",
+        "alpha2code": "LU",
+        "alpha3code": "LUX",
+        "otherNames": "Grand Duchy of Luxembourg, Groussherzogdem Lëtzebuerg, Lëtzebuerg, Grand-Duché de Luxembourg, Luxembourg, Großherzogtum Luxemburg, Luxemburg, Luxemburgo, Lussemburgo"
+    },
+    {
+        "name": "Macao",
+        "phoneCode": "+853",
+        "alpha2code": "MO",
+        "alpha3code": "MAC",
+        "otherNames": ""
+    },
+    {
+        "name": "Macedonia",
+        "phoneCode": "+389",
+        "alpha2code": "MK",
+        "alpha3code": "MKD",
+        "otherNames": "North Macedonia,Republic of North Macedonia, Република, Северна Македонија, Македонија, Yugoslav Republic of Macedonia, Paeonia, Vardar Banovina"
+    },
+    {
+        "name": "Madagascar",
+        "phoneCode": "+261",
+        "alpha2code": "MG",
+        "alpha3code": "MDG",
+        "otherNames": "Madagasikara, Malagasy, Republic of Madagascar, Repoblikan'i Madagasikara, République de Madagascar"
+    },
+    {
+        "name": "Malawi",
+        "phoneCode": "+265",
+        "alpha2code": "MW",
+        "alpha3code": "MWI",
+        "otherNames": "Nyasaland, Republic of Malawi"
+    },
+    {
+        "name": "Malaysia",
+        "phoneCode": "+60",
+        "alpha2code": "MY",
+        "alpha3code": "MYS",
+        "otherNames": "Persekutuan Malaysia, Federation of Malaysi, Malaya, Sabah, Sarawak, Tanah Melayu, Malay Land, 马来西亚, Mǎláixīyà, மலேசியா, Malesiya"
+    },
+    {
+        "name": "Maldives",
+        "phoneCode": "+960",
+        "alpha2code": "MV",
+        "alpha3code": "MDV",
+        "otherNames": "Republic of the Maldives, The Maldive Islands, ދިވެހިރާއްޖެ, Dhivehi Raajje, Mahal Dvipa, मालदीव, Maléldvipa, الدولة المحلديبية, Dhibat-al-Mahal"
+    },
+    {
+        "name": "Mali",
+        "phoneCode": "+223",
+        "alpha2code": "ML",
+        "alpha3code": "MLI",
+        "otherNames": ""
+    },
+    {
+        "name": "Malta",
+        "phoneCode": "+356",
+        "alpha2code": "MT",
+        "alpha3code": "MLT",
+        "otherNames": ""
+    },
+    {
+        "name": "Marshall Islands",
+        "phoneCode": "+692",
+        "alpha2code": "MH",
+        "alpha3code": "MHL",
+        "otherNames": ""
+    },
+    {
+        "name": "Martinique",
+        "phoneCode": "+596",
+        "alpha2code": "MQ",
+        "alpha3code": "MTQ",
+        "otherNames": ""
+    },
+    {
+        "name": "Mauritania",
+        "phoneCode": "+222",
+        "alpha2code": "MR",
+        "alpha3code": "MRT",
+        "otherNames": "Islamic Republic of Mauritania,République Islamique de Mauritanie"
+    },
+    {
+        "name": "Mauritius",
+        "phoneCode": "+230",
+        "alpha2code": "MU",
+        "alpha3code": "MUS",
+        "otherNames": ""
+    },
+    {
+        "name": "Mayotte",
+        "phoneCode": "+262",
+        "alpha2code": "YT",
+        "alpha3code": "MYT",
+        "otherNames": ""
+    },
+    {
+        "name": "Mexico",
+        "phoneCode": "+52",
+        "alpha2code": "MX",
+        "alpha3code": "MEX",
+        "otherNames": "United Mexican States, Estados Unidos Mexicanos, México, República Mexicana, Méjico, MEX, MX, Aztlán, Aztlān"
+    },
+    {
+        "name": "Moldova",
+        "phoneCode": "+373",
+        "alpha2code": "MD",
+        "alpha3code": "MDA",
+        "otherNames": "Republic of Moldova, Republica Moldova, Moldavian Soviet Socialist Republic, Република Советикэ Сочиалистэ Молдовеняскэ, Bessarabia, Bassarabia, Boğdan, Moldavia, Moldau"
+    },
+    {
+        "name": "Monaco",
+        "phoneCode": "+377",
+        "alpha2code": "MC",
+        "alpha3code": "MCO",
+        "otherNames": ""
+    },
+    {
+        "name": "Mongolia",
+        "phoneCode": "+976",
+        "alpha2code": "MN",
+        "alpha3code": "MNG",
+        "otherNames": ""
+    },
+    {
+        "name": "Montenegro",
+        "phoneCode": "+382",
+        "alpha2code": "ME",
+        "alpha3code": "MNE",
+        "otherNames": "Montenegro,Crna Gora, Republic of Montenegro, Republika Crna Gora, Mali i Zi, Karadag, Duklja, Zeta, Black Mountain"
+    },
+    {
+        "name": "Montserrat",
+        "phoneCode": "+1",
+        "alpha2code": "MS",
+        "alpha3code": "MSR",
+        "otherNames": ""
+    },
+    {
+        "name": "Morocco",
+        "phoneCode": "+212",
+        "alpha2code": "MA",
+        "alpha3code": "MAR",
+        "otherNames": "Kingdom of Morocco, Al Mamkaka Al Maghribiya,Maghreb"
+    },
+    {
+        "name": "Mozambique",
+        "phoneCode": "+258",
+        "alpha2code": "MZ",
+        "alpha3code": "MOZ",
+        "otherNames": ""
+    },
+    {
+        "name": "Namibia",
+        "phoneCode": "+264",
+        "alpha2code": "NA",
+        "alpha3code": "NAM",
+        "otherNames": ""
+    },
+    {
+        "name": "Nauru",
+        "phoneCode": "+674",
+        "alpha2code": "NR",
+        "alpha3code": "NRU",
+        "otherNames": ""
+    },
+    {
+        "name": "Nepal",
+        "phoneCode": "+977",
+        "alpha2code": "NP",
+        "alpha3code": "NPL",
+        "otherNames": "संघिय लोकतान्त्रिक गणतन्त्र नेपाल,Federal Democratic Republic Of Nepal"
+    },
+    {
+        "name": "Netherlands",
+        "phoneCode": "+31",
+        "alpha2code": "NL",
+        "alpha3code": "NLD",
+        "otherNames": "Kingdom of the Netherlands, Koninkrijk der Nederlanden, Nederland, Holland, Batavia, Pays-Bas"
+    },
+    {
+        "name": "Netherlands Antilles",
+        "phoneCode": "+599",
+        "alpha2code": "AN",
+        "alpha3code": "ANT",
+        "otherNames": ""
+    },
+    {
+        "name": "New Caledonia",
+        "phoneCode": "+687",
+        "alpha2code": "NC",
+        "alpha3code": "NCL",
+        "otherNames": ""
+    },
+    {
+        "name": "New Zealand",
+        "phoneCode": "+64",
+        "alpha2code": "NZ",
+        "alpha3code": "NZL",
+        "otherNames": "Aotearoa, Realm of New Zealand, Dominion of New Zealand"
+    },
+    {
+        "name": "Nicaragua",
+        "phoneCode": "+505",
+        "alpha2code": "NI",
+        "alpha3code": "NIC",
+        "otherNames": ""
+    },
+    {
+        "name": "Niger",
+        "phoneCode": "+227",
+        "alpha2code": "NE",
+        "alpha3code": "NER",
+        "otherNames": ""
+    },
+    {
+        "name": "Nigeria",
+        "phoneCode": "+234",
+        "alpha2code": "NG",
+        "alpha3code": "NGA",
+        "otherNames": ""
+    },
+    {
+        "name": "Niue",
+        "phoneCode": "+683",
+        "alpha2code": "NU",
+        "alpha3code": "NIU",
+        "otherNames": ""
+    },
+    {
+        "name": "Norfolk Island",
+        "phoneCode": "+672",
+        "alpha2code": "NF",
+        "alpha3code": "NFK",
+        "otherNames": ""
+    },
+    {
+        "name": "North Korea",
+        "phoneCode": "+850",
+        "alpha2code": "KP",
+        "alpha3code": "PRK",
+        "otherNames": "Korea,Democratic People's Republic of Korea,D.P.R.K., DPRK,Choson Minjujuui Inmin Konghwaguk,Cho-son,조선민주주의인민공화국,조선"
+    },
+    {
+        "name": "Northern Mariana Islands",
+        "phoneCode": "+1",
+        "alpha2code": "MP",
+        "alpha3code": "MNP",
+        "otherNames": ""
+    },
+    {
+        "name": "Norway",
+        "phoneCode": "+47",
+        "alpha2code": "NO",
+        "alpha3code": "NOR",
+        "otherNames": "Norge, Noreg, Kingdom of Norway, Kongeriket Norge, Kongeriket Noreg"
+    },
+    {
+        "name": "Oman",
+        "phoneCode": "+968",
+        "alpha2code": "OM",
+        "alpha3code": "OMN",
+        "otherNames": "Sultanate of Oman"
+    },
+    {
+        "name": "Pakistan",
+        "phoneCode": "+92",
+        "alpha2code": "PK",
+        "alpha3code": "PAK",
+        "otherNames": "Islamic Republic of Pakistan, Federation of Pakistan, Dominion of Pakistan, West Pakistan, Sindhustan and Indoscythia, Mumlikat-e Khudadaad Pakistan"
+    },
+    {
+        "name": "Palau",
+        "phoneCode": "+680",
+        "alpha2code": "PW",
+        "alpha3code": "PLW",
+        "otherNames": "Republic of Palau, Belau"
+    },
+    {
+        "name": "Palestine",
+        "phoneCode": "+970",
+        "alpha2code": "PS",
+        "alpha3code": "PSE",
+        "otherNames": "State of Palestine, מדינת פָּלֶשְׂתִּינָה, Medinat Pālēśtīnā, دَوْلَة فلسطين, Dawlat Filasṭīn, the Holy Land,ארץ הקודש , الأرض المقدسة, Eretz Yisrael, ארץ ישראל,فلسطين , פָּלֶשְׂתִּינָה,Pālēśtīnā, Palestinian National Authority, السلطة الفلسطينية,as-Sulṭa al-Filasṭīnīya, West Bank and Gaza Strip, Palestinian territories, الأراضي الفلسطينية, al-Arāḍī al-Filasṭīniyya, Occupied Palestinian Territory, Occupied Palestinian Territories, Israeli-occupied territories, Mandatory Palestine"
+    },
+    {
+        "name": "Panama",
+        "phoneCode": "+507",
+        "alpha2code": "PA",
+        "alpha3code": "PAN",
+        "otherNames": ""
+    },
+    {
+        "name": "Papua New Guinea",
+        "phoneCode": "+675",
+        "alpha2code": "PG",
+        "alpha3code": "PNG",
+        "otherNames": ""
+    },
+    {
+        "name": "Paraguay",
+        "phoneCode": "+595",
+        "alpha2code": "PY",
+        "alpha3code": "PRY",
+        "otherNames": ""
+    },
+    {
+        "name": "Peru",
+        "phoneCode": "+51",
+        "alpha2code": "PE",
+        "alpha3code": "PER",
+        "otherNames": "Republic of Peru, República del Perú, Perú, Peruvian Republic, República Peruana"
+    },
+    {
+        "name": "Philippines",
+        "phoneCode": "+63",
+        "alpha2code": "PH",
+        "alpha3code": "PHL",
+        "otherNames": "Repúblika ng Pilipinas, Republic of the Philippines, Pilipinas, Filipinas, Las Islas Filipinas, Las Islas Felipenas, Pinás, PH, Philippine Islands, Filipina, Haríng Bayang Katagalugan, Islas de San Lázaro"
+    },
+    {
+        "name": "Poland",
+        "phoneCode": "+48",
+        "alpha2code": "PL",
+        "alpha3code": "POL",
+        "otherNames": "Republic of Poland, Rzeczpospolita Polska, Polska, RP, People's Republic of Poland, Polska Rzeczpospolita Ludowa, Rzeczpospolita, Polish-Lithuanian Commonwealth, Rzeczpospolita Obojga Narodów, United Commonwealth of the Two Nations, Polonia, Lechia"
+    },
+    {
+        "name": "Portugal",
+        "phoneCode": "+351",
+        "alpha2code": "PT",
+        "alpha3code": "PRT",
+        "otherNames": "Portugraal,Luxitania,Portuguese Republic, Lusitania, Galaico-Portuguese, Portucale,Galician-Portuguese, Ophiussa, Ophiusa,Portugalensis patrie, Portugalensium patrie,Portugaliae, Regno Portugalensium,Portugalis, Portugalliae et Algarbiae, Portugalliae, Lusitaniae,Purtugall, Burtughāl, Portingall,Portingal,Ocidental Praia Lusitana,Pátria Lusitana"
+    },
+    {
+        "name": "Puerto Rico",
+        "phoneCode": "+1",
+        "alpha2code": "PR",
+        "alpha3code": "PRI",
+        "otherNames": "Estado Libre Asociado de Puerto Rico, Commonwealth of Puerto Rico, Porto Rico, Associated Free State of Puerto Rico, Borikén, Borinquen,Borinken"
+    },
+    {
+        "name": "Qatar",
+        "phoneCode": "+974",
+        "alpha2code": "QA",
+        "alpha3code": "QAT",
+        "otherNames": ""
+    },
+    {
+        "name": "Congo",
+        "phoneCode": "+242",
+        "alpha2code": "CG",
+        "alpha3code": "COG",
+        "otherNames": "Democratic Republic of Congo, Zaire, DRC, Congo Kinshasa, Belgian Congo, Congo belge, Congo Free State, Republic of the Congo"
+    },
+    {
+        "name": "Réunion",
+        "phoneCode": "+262",
+        "alpha2code": "RE",
+        "alpha3code": "REU",
+        "otherNames": ""
+    },
+    {
+        "name": "Romania",
+        "phoneCode": "+40",
+        "alpha2code": "RO",
+        "alpha3code": "ROU",
+        "otherNames": "România, Rumania, Roumania, Kingdom of Romania, Regatul României, Romanian People's Republic, Republica Populară Romînă, Socialist Republic of Romania, Republica Socialistă România"
+    },
+    {
+        "name": "Russia",
+        "phoneCode": "+7",
+        "alpha2code": "RU",
+        "alpha3code": "RUS",
+        "otherNames": "Russian Federation, Российская Федерация, Russia, Russland, Россия, Rossiya, Russian Socialist Federative Soviet Republic, Russian Soviet Federative Socialist Republic, RSFSR, Soviet Union, Union of Soviet Socialist Republics, USSR, Союз Советских Социалистических Республик, Soyuz Sovetskikh Sotsialisticheskikh Respublik, СССР, SSSR, SU, Сове́тский Сою́з, Sovetskiy Soyuz, Rus, Great Russia"
+    },
+    {
+        "name": "Rwanda",
+        "phoneCode": "+250",
+        "alpha2code": "RW",
+        "alpha3code": "RWA",
+        "otherNames": "Rwandese Republic, Republic of Rwanda, République du Rwanda, Repubulika y'u Rwanda, Pays des mille collines, Ruanda"
+    },
+    {
+        "name": "Saint Barthélemy",
+        "phoneCode": "+590",
+        "alpha2code": "BL",
+        "alpha3code": "BLM",
+        "otherNames": ""
+    },
+    {
+        "name": "Saint Helena",
+        "phoneCode": "+290",
+        "alpha2code": "SH",
+        "alpha3code": "SHN",
+        "otherNames": ""
+    },
+    {
+        "name": "Saint Kitts and Nevis",
+        "phoneCode": "+1",
+        "alpha2code": "KN",
+        "alpha3code": "KNA",
+        "otherNames": "Federation of Saint Kitts and Nevis, Federation of Saint Christopher and Nevis, Saint Christopher and Nevis, Saint Christopher-Nevis-Anguilla, Saint Kitts-Nevis-Anguilla, Saint Kitts or Saint Christopher, Liamuiga and Oualie"
+    },
+    {
+        "name": "Saint Martin",
+        "phoneCode": "+590",
+        "alpha2code": "MF",
+        "alpha3code": "MAF",
+        "otherNames": ""
+    },
+    {
+        "name": "Saint Pierre and Miquelon",
+        "phoneCode": "+508",
+        "alpha2code": "PM",
+        "alpha3code": "SPM",
+        "otherNames": ""
+    },
+    {
+        "name": "Saint Vincent and the Grenadines",
+        "phoneCode": "+1",
+        "alpha2code": "VC",
+        "alpha3code": "VCT",
+        "otherNames": "Hairouna"
+    },
+    {
+        "name": "Samoa",
+        "phoneCode": "+685",
+        "alpha2code": "WS",
+        "alpha3code": "WSM",
+        "otherNames": ""
+    },
+    {
+        "name": "San Marino",
+        "phoneCode": "+378",
+        "alpha2code": "SM",
+        "alpha3code": "SMR",
+        "otherNames": ""
+    },
+    {
+        "name": "São Tomé and Príncipe",
+        "phoneCode": "+239",
+        "alpha2code": "ST",
+        "alpha3code": "STP",
+        "otherNames": ""
+    },
+    {
+        "name": "Saudi Arabia",
+        "phoneCode": "+966",
+        "alpha2code": "SA",
+        "alpha3code": "SAU",
+        "otherNames": "Kingdom of Saudi Arabia, KSA, Saudia, Al-Mamlaka al-Arabiyya as-Saudiyya, Hijaz, Saudi regime, Arav haSa'udit"
+    },
+    {
+        "name": "Senegal",
+        "phoneCode": "+221",
+        "alpha2code": "SN",
+        "alpha3code": "SEN",
+        "otherNames": ""
+    },
+    {
+        "name": "Serbia",
+        "phoneCode": "+381",
+        "alpha2code": "RS",
+        "alpha3code": "SRB",
+        "otherNames": "Republic of Serbia, Servia, Srbija, Republika Srbija, Serbia and Montenegro, Yugoslavia, Raška, Serboslavia"
+    },
+    {
+        "name": "Seychelles",
+        "phoneCode": "+248",
+        "alpha2code": "SC",
+        "alpha3code": "SYC",
+        "otherNames": ""
+    },
+    {
+        "name": "Sierra Leone",
+        "phoneCode": "+232",
+        "alpha2code": "SL",
+        "alpha3code": "SLE",
+        "otherNames": ""
+    },
+    {
+        "name": "Singapore",
+        "phoneCode": "+65",
+        "alpha2code": "SG",
+        "alpha3code": "SGP",
+        "otherNames": "Republic of Singapore, Singapura, Sinhapura, Xīnjiāpō,新加坡, Ciŋkappūr,சிங்கப்பூர், Pulau Ujong, Shōnan-tō,昭南島, little red dot"
+    },
+    {
+        "name": "Sint Maarten (Dutch part)",
+        "phoneCode": "+1",
+        "alpha2code": "SX",
+        "alpha3code": "SXM",
+        "otherNames": ""
+    },
+    {
+        "name": "Slovakia",
+        "phoneCode": "+421",
+        "alpha2code": "SK",
+        "alpha3code": "SVK",
+        "otherNames": "Slovak Republic, Slovensko, Slovenská republika, SR, Slovak Socialist Republic, Slovenská socialistická republika, SSR"
+    },
+    {
+        "name": "Slovenia",
+        "phoneCode": "+386",
+        "alpha2code": "SI",
+        "alpha3code": "SVN",
+        "otherNames": "Republic of Slovenia, Slovenija, Republika Slovenija, RS"
+    },
+    {
+        "name": "Solomon Islands",
+        "phoneCode": "+677",
+        "alpha2code": "SB",
+        "alpha3code": "SLB",
+        "otherNames": ""
+    },
+    {
+        "name": "Somalia",
+        "phoneCode": "+252",
+        "alpha2code": "SO",
+        "alpha3code": "SOM",
+        "otherNames": ""
+    },
+    {
+        "name": "South Africa",
+        "phoneCode": "+27",
+        "alpha2code": "ZA",
+        "alpha3code": "ZAF",
+        "otherNames": "Azania, Mzansi, Suid-Afrika, Zuid-Afrika, Union of South Africa"
+    },
+    {
+        "name": "South Korea",
+        "phoneCode": "+82",
+        "alpha2code": "KR",
+        "alpha3code": "KOR",
+        "otherNames": "Republic of Korea, R.O.K., ROK, Dae-han-min-guk, 대한민국, Han-guk, 한국, Korea, Korea Republic"
+    },
+    {
+        "name": "South Sudan",
+        "phoneCode": "+211",
+        "alpha2code": "SS",
+        "alpha3code": "SSD",
+        "otherNames": ""
+    },
+    {
+        "name": "Spain",
+        "phoneCode": "+34",
+        "alpha2code": "ES",
+        "alpha3code": "ESP",
+        "otherNames": "España, Kingdom of Spain, Reino de España, Espanya, Hispania, Espainia, Spanish State, La piel de toro, La pell de brau, Las Batuecas, Iberia, Sepharad"
+    },
+    {
+        "name": "Sri Lanka",
+        "phoneCode": "+94",
+        "alpha2code": "LK",
+        "alpha3code": "LKA",
+        "otherNames": "Ceylon, Democratic Socialist Republic of Sri Lanka,இலங்கை சனநாயக சோசலிசக் குடியரசு, Heladiva, Ratnadeepa, elangai,இலங்கை, Taprobane"
+    },
+    {
+        "name": "Saint Lucia",
+        "phoneCode": "+1",
+        "alpha2code": "LC",
+        "alpha3code": "LCA",
+        "otherNames": ""
+    },
+    {
+        "name": "Sudan",
+        "phoneCode": "+249",
+        "alpha2code": "SD",
+        "alpha3code": "SDN",
+        "otherNames": "Republic of the Sudan, The Sudan, Anglo-Egyptian Sudan, Mahdist State, Nubia"
+    },
+    {
+        "name": "Suriname",
+        "phoneCode": "+597",
+        "alpha2code": "SR",
+        "alpha3code": "SUR",
+        "otherNames": "Dutch Guiana, Netherlands Guiana, Republic of Suriname, Republiek Suriname, Surinam"
+    },
+    {
+        "name": "Swaziland",
+        "phoneCode": "+268",
+        "alpha2code": "SZ",
+        "alpha3code": "SWZ",
+        "otherNames": ""
+    },
+    {
+        "name": "Sweden",
+        "phoneCode": "+46",
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "otherNames": "Sverige, Konungariket Sverige, Kingdom of Sweden, Svea Rike, Thule, Svitjod"
+    },
+    {
+        "name": "Switzerland",
+        "phoneCode": "+41",
+        "alpha2code": "CH",
+        "alpha3code": "CHE",
+        "otherNames": "Swiss Confederation, Schweiz, Schweizerische Eidgenossenschaft, Suisse, Confédération suisse, Svizzera, Confederazione Svizzera, Svizra, Confederaziun Svizra, Confoederatio Helvetica, Helvetia"
+    },
+    {
+        "name": "Syrian Arab Republic",
+        "phoneCode": "+963",
+        "alpha2code": "SY",
+        "alpha3code": "SYR",
+        "otherNames": ""
+    },
+    {
+        "name": "Taiwan",
+        "phoneCode": "+886",
+        "alpha2code": "TW",
+        "alpha3code": "TWN",
+        "otherNames": "Republic of China, Taiwan, China, 中國, 中華民國, 臺灣, 台灣, ROC, Chinese Taipei,中華台北, Zhonggua Taipei, Separate Customs Territory of Taiwan, Penghu, Kinmen and Matsu, 台灣、澎湖、金門及馬祖個別關稅領域, Taipei, China, Taiwan, Province of China, Nationalist China, Free China, Formosa, Cathay, Zhongguo, Qing dynasty"
+    },
+    {
+        "name": "Tajikistan",
+        "phoneCode": "+992",
+        "alpha2code": "TJ",
+        "alpha3code": "TJK",
+        "otherNames": ""
+    },
+    {
+        "name": "Tanzania",
+        "phoneCode": "+255",
+        "alpha2code": "TZ",
+        "alpha3code": "TZA",
+        "otherNames": "United Republic of Tanganyika and Zanzibar,United Republic of Tanzania,Deutsch-Ostafrika"
+    },
+    {
+        "name": "Thailand",
+        "phoneCode": "+66",
+        "alpha2code": "TH",
+        "alpha3code": "THA",
+        "otherNames": "Siam, ประเทศสยาม, Kingdom of Thailand, ราชอาณาจักรไทย, ประเทศไทย"
+    },
+    {
+        "name": "Bahamas",
+        "phoneCode": "+1",
+        "alpha2code": "BS",
+        "alpha3code": "BHS",
+        "otherNames": ""
+    },
+    {
+        "name": "Gambia",
+        "phoneCode": "+220",
+        "alpha2code": "GM",
+        "alpha3code": "GMB",
+        "otherNames": ""
+    },
+    {
+        "name": "Timor-Leste",
+        "phoneCode": "+670",
+        "alpha2code": "TL",
+        "alpha3code": "TLS",
+        "otherNames": "East Timor,Democratic Republic of Timor-Leste"
+    },
+    {
+        "name": "Togo",
+        "phoneCode": "+228",
+        "alpha2code": "TG",
+        "alpha3code": "TGO",
+        "otherNames": ""
+    },
+    {
+        "name": "Tokelau",
+        "phoneCode": "+690",
+        "alpha2code": "TK",
+        "alpha3code": "TKL",
+        "otherNames": ""
+    },
+    {
+        "name": "Tonga",
+        "phoneCode": "+676",
+        "alpha2code": "TO",
+        "alpha3code": "TON",
+        "otherNames": ""
+    },
+    {
+        "name": "Trinidad and Tobago",
+        "phoneCode": "+1",
+        "alpha2code": "TT",
+        "alpha3code": "TTO",
+        "otherNames": "Iere,Republic of Trinidad and Tobago,Trinbago"
+    },
+    {
+        "name": "Tunisia",
+        "phoneCode": "+216",
+        "alpha2code": "TN",
+        "alpha3code": "TUN",
+        "otherNames": "تونس,Republic of Tunisia,الجمهورية التونسية"
+    },
+    {
+        "name": "Turkey",
+        "phoneCode": "+90",
+        "alpha2code": "TR",
+        "alpha3code": "TUR",
+        "otherNames": "Republic of Turkey, Türkiye Cumhuriyeti, Asia Minor, Anatolia, Ottoman Empire, Turkish Empire, Porte or Sublime Porte"
+    },
+    {
+        "name": "Turkmenistan",
+        "phoneCode": "+993",
+        "alpha2code": "TM",
+        "alpha3code": "TKM",
+        "otherNames": ""
+    },
+    {
+        "name": "Turks and Caicos Islands",
+        "phoneCode": "+1",
+        "alpha2code": "TC",
+        "alpha3code": "TCA",
+        "otherNames": ""
+    },
+    {
+        "name": "Tuvalu",
+        "phoneCode": "+688",
+        "alpha2code": "TV",
+        "alpha3code": "TUV",
+        "otherNames": "Tuvaluan,Ellice Islands"
+    },
+    {
+        "name": "Uganda",
+        "phoneCode": "+256",
+        "alpha2code": "UG",
+        "alpha3code": "UGA",
+        "otherNames": ""
+    },
+    {
+        "name": "Ukraine",
+        "phoneCode": "+380",
+        "alpha2code": "UA",
+        "alpha3code": "UKR",
+        "otherNames": "Ukraine, Україна, UA, UKR,Kievan Rus,Kingdom of Galicia–Volhynia,Kingdom of Ruthenia,Zaporizhian Host"
+    },
+    {
+        "name": "United Arab Emirates",
+        "phoneCode": "+971",
+        "alpha2code": "AE",
+        "alpha3code": "ARE",
+        "otherNames": "Trucial States,Al Emirat al Arabbiya al Muttahida,UAE, U.A.E.,The Emirates"
+    },
+    {
+        "name": "United Kingdom",
+        "phoneCode": "+44",
+        "alpha2code": "GB",
+        "alpha3code": "GBR",
+        "otherNames": "United Kingdom of Great Britain and Northern Ireland,Britain,Great Britain,UK, U.K.,United Kingdom,Albion,Britannia,Perfidious Albion,Anglia,Alba,Caledonia,Cymru,Cambria,Ulster"
+    },
+    {
+        "name": "United States",
+        "phoneCode": "+1",
+        "alpha2code": "US",
+        "alpha3code": "USA",
+        "otherNames": "United States of America,America,the States, US, U.S., USA, Usa, U.S.A., U.S.A,Columbia, Freedonia, Appalachia, Alleghany, United States, Usonia, Usono"
+    },
+    {
+        "name": "Uruguay",
+        "phoneCode": "+598",
+        "alpha2code": "UY",
+        "alpha3code": "URY",
+        "otherNames": ""
+    },
+    {
+        "name": "U.S. Virgin Islands",
+        "phoneCode": "+1",
+        "alpha2code": "VI",
+        "alpha3code": "VIR",
+        "otherNames": ""
+    },
+    {
+        "name": "Uzbekistan",
+        "phoneCode": "+998",
+        "alpha2code": "UZ",
+        "alpha3code": "UZB",
+        "otherNames": ""
+    },
+    {
+        "name": "Vanuatu",
+        "phoneCode": "+678",
+        "alpha2code": "VU",
+        "alpha3code": "VUT",
+        "otherNames": "New Hebrides,Niuhebridis,Nouvelles Hebrides,République de Vanuatu,Ripablik blong Vanuatu,Vanuatri"
+    },
+    {
+        "name": "Vatican City",
+        "phoneCode": "+39",
+        "alpha2code": "VA",
+        "alpha3code": "VAT",
+        "otherNames": ""
+    },
+    {
+        "name": "Venezuela",
+        "phoneCode": "+58",
+        "alpha2code": "VE",
+        "alpha3code": "VEN",
+        "otherNames": ""
+    },
+    {
+        "name": "Vietnam",
+        "phoneCode": "+84",
+        "alpha2code": "VN",
+        "alpha3code": "VNM",
+        "otherNames": "An Nam,Champa,Đại Việt,Giao Chỉ,French Indochina,Lĩnh Nam,Socialist Republic of Vietnam,Democratic Republic of Vietnam,North Vietnam,Republic of Vietnam, South Vietnam,Cộng hòa Xã hội Chủ nghĩa Việt Nam,Việt Nam,SRV, S.R.V., VN, V.N."
+    },
+    {
+        "name": "Wallis and Futuna",
+        "phoneCode": "+681",
+        "alpha2code": "WF",
+        "alpha3code": "WLF",
+        "otherNames": ""
+    },
+    {
+        "name": "Yemen",
+        "phoneCode": "+967",
+        "alpha2code": "YE",
+        "alpha3code": "YEM",
+        "otherNames": ""
+    },
+    {
+        "name": "Zambia",
+        "phoneCode": "+260",
+        "alpha2code": "ZM",
+        "alpha3code": "ZMB",
+        "otherNames": "Northern Rhodesia, Republic of Zambia"
+    },
+    {
+        "name": "Zimbabwe",
+        "phoneCode": "+263",
+        "alpha2code": "ZW",
+        "alpha3code": "ZWE",
+        "otherNames": "Rhodesia,Republic of Rhodesia, Republic of Zimbabwe, Southern Rhodesia"
+    }
+]

@@ -10,7 +10,7 @@ import componentClassNames from './index.module.scss';
 const ViewportMonitorDiv = withViewportMonitor<{}>('div');
 
 const scrollingElement =
-    document.scrollingElement || document.getElementsByTagName('BODY')[0];
+    document.scrollingElement || document.getElementsByTagName('body')[0];
 
 type Props = {
     noOverscroll: boolean,

@@ -1,6 +1,6 @@
 /** @flow */
 
-import React from 'react';
+import React, {createContext} from 'react';
 
 type Props = {
     children: any
@@ -17,7 +17,7 @@ type State = {
  * @property {*} [children=null] - React prop.
  */
 
-const BackgroundContext: Object = React.createContext({
+const BackgroundContext: Object = createContext({
     imgSrc: '',
     movSrc: '',
     opacity: 1,

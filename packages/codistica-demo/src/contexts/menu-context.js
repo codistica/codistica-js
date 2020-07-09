@@ -1,6 +1,6 @@
 /** @flow */
 
-import React from 'react';
+import React, {createContext} from 'react';
 
 type Props = {
     children: any
@@ -15,7 +15,7 @@ type State = {
  * @property {*} [children=null] - React prop.
  */
 
-const MenuContext: Object = React.createContext({
+const MenuContext: Object = createContext({
     isOpen: false,
     openMenu: null
 });

@@ -64,6 +64,11 @@ function Menu() {
                         SCROLLING
                     </Link>
                 </span>
+                <span>
+                    <Link to={'/forms'} data-link={'true'}>
+                        FORMS
+                    </Link>
+                </span>
             </div>
         </OnClickOutsideDiv>
     );
