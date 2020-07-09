@@ -6,6 +6,7 @@ import * as eventUtils from './modules/event-utils/index.js';
 import * as jsonUtils from './modules/json-utils/index.js';
 import * as numberUtils from './modules/number-utils/index.js';
 import * as objectUtils from './modules/object-utils/index.js';
+import * as promiseUtils from './modules/promise-utils/index.js';
 import * as randomizer from './modules/randomizer/index.js';
 import * as regExpUtils from './modules/reg-exp-utils/index.js';
 import * as stringUtils from './modules/string-utils/index.js';
@@ -17,6 +18,7 @@ export {
     jsonUtils,
     numberUtils,
     objectUtils,
+    promiseUtils,
     randomizer,
     regExpUtils,
     stringUtils

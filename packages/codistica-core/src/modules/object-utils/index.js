@@ -4,6 +4,7 @@ import {forEachSync} from './internals/for-each-sync.js';
 import {forEach} from './internals/for-each.js';
 import {getKeys} from './internals/get-keys.js';
 import {getLength} from './internals/get-length.js';
+import {getValuesArray} from './internals/get-values-array.js';
 import {hasKeys} from './internals/has-keys.js';
 import {isArrayPath} from './internals/is-array-path.js';
 import {isObject} from './internals/is-object.js';
@@ -31,6 +32,7 @@ export {
     forEach,
     getKeys,
     getLength,
+    getValuesArray,
     hasKeys,
     isArrayPath,
     isObject,
