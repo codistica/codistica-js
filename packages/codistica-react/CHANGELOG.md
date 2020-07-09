@@ -8,6 +8,26 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+### Added
+- Some Material-UI input components wrapped with `input-renderer` utility for validation support.
+- Form validation ecosystem:
+   - Both `form` and `input-renderer` utility components have been modified and improved to be integrable with any input component.
+   - Added async validation support.
+   - Added inputs linking support at form level.
+   - Validation data flow has been improved.
+   - Improved and extended plugin system. `presets` has been converted into a new `plugin` category.
+   - Bug fixes.
+- New `input-plugin-manager` class.
+   - New `input-validator-plugin-utils` class.
+   - New `word-validator` input renderer plugin.
+   - New `async-validator` input renderer plugin.
+- New `anchor-wrapper` utility component.
+- New `img-hover-switch` utility component.
+
+### Changed
+- Removed `presence-validator` input renderer plugin.
+- Removed `hover-icon` component.
+
 ## [1.0.0-beta.6] - 2020-06-01
 
 ### Added

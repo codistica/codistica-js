@@ -8,6 +8,15 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+## Added
+- New `promise-utils` module group.
+- New `create-state-promise` module in `promise-utils`.
+- New `auto-clear-promises` module in `promise-utils`.
+- New `get-values-array` module in `object-utils`.
+
+## Changed
+- Removed `envent-utils` module group.
+
 ## [1.0.0-beta.3] - 2020-06-01
 
 ## Added

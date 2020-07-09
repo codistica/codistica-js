@@ -19,6 +19,15 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+### Added
+- New `react-icons` monorepo package.
+
+### Changed
+- Other minor changes and cleanups.
+- `flow-bin` dependency has been updated.
+
+### Packages Bumps
+
 ## [2020-06-01]
 
 ### Changed
