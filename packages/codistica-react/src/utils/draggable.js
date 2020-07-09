@@ -1,6 +1,6 @@
 /** @flow */
 
-/** @module react/components/draggable */
+/** @module react/utils/draggable */
 
 import React from 'react';
 import resetClassNames from '../css/reset.module.scss';

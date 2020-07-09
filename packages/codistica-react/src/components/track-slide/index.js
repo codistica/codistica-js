@@ -3,7 +3,6 @@
 /** @module react/components/track-slide */
 
 import React, {useState, useCallback, useEffect} from 'react';
-import type {Node} from 'react';
 import {animated, useSpring} from 'react-spring';
 import resetClassNames from '../../css/reset.module.scss';
 import {mergeClassNames} from '../../modules/merge-class-names.js';
@@ -46,29 +45,6 @@ type Props = {
     globalTheme: 'default' | string | null
 };
 
-type GlobalStyles = {
-    [string]: {
-        root: {[string]: any},
-        track: {[string]: any},
-        item: {[string]: any}
-    }
-};
-
-type GlobalClassNames = {
-    [string]: {
-        root: string,
-        track: string,
-        item: string
-    }
-};
-
-type CallableObj = {
-    (props: Props): Node,
-    globalStyles: GlobalStyles,
-    globalClassNames: GlobalClassNames,
-    defaultProps: {[string]: any}
-};
-
 /**
  * @typedef trackSlideDimensionsType
  * @property {(string|number)} height - Slide height.
@@ -100,7 +76,7 @@ type CallableObj = {
  * @param {trackSlidePropsType} props - Component props.
  * @returns {Object<string,*>} React component.
  */
-const TrackSlide: CallableObj = function TrackSlide(props: Props) {
+function TrackSlide(props: Props) {
     const {
         direction,
         startingPosition,
@@ -281,6 +257,20 @@ const TrackSlide: CallableObj = function TrackSlide(props: Props) {
             </animated.div>
         </div>
     );
+}
+
+TrackSlide.defaultProps = {
+    direction: 'row',
+    startingPosition: 0,
+    itemsPerView: 1,
+    onMount: null,
+    onNewPosition: null,
+    children: null,
+    style: {},
+    className: '',
+    customStyles: {},
+    customClassNames: {},
+    globalTheme: 'default'
 };
 
 TrackSlide.globalStyles = {
@@ -297,20 +287,6 @@ TrackSlide.globalClassNames = {
         track: '',
         item: ''
     }
-};
-
-TrackSlide.defaultProps = {
-    direction: 'row',
-    startingPosition: 0,
-    itemsPerView: 1,
-    onMount: null,
-    onNewPosition: null,
-    children: null,
-    style: {},
-    className: '',
-    customStyles: {},
-    customClassNames: {},
-    globalTheme: 'default'
 };
 
 export {TrackSlide};

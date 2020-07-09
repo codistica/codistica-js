@@ -3,12 +3,11 @@
 /** @module react/components/full-screen-slide */
 
 import React from 'react';
-import type {Node} from 'react';
-import resetClassNames from '../css/reset.module.scss';
-import {withOverscrollBlocker} from '../hocs/with-overscroll-blocker.js';
-import {mergeClassNames} from '../modules/merge-class-names.js';
-import {mergeStyles} from '../modules/merge-styles.js';
-import {TrackSlide} from './track-slide/index.js';
+import resetClassNames from '../../css/reset.module.scss';
+import {withOverscrollBlocker} from '../../hocs/with-overscroll-blocker.js';
+import {mergeClassNames} from '../../modules/merge-class-names.js';
+import {mergeStyles} from '../../modules/merge-styles.js';
+import {TrackSlide} from '../track-slide/index.js';
 
 const OverscrollBlockerDiv = withOverscrollBlocker<{}>('div');
 
@@ -31,25 +30,6 @@ type Props = {
     globalTheme: 'default' | string | null
 };
 
-type GlobalStyles = {
-    [string]: {
-        root: {[string]: any}
-    }
-};
-
-type GlobalClassNames = {
-    [string]: {
-        root: string
-    }
-};
-
-type CallableObj = {
-    (props: Props): Node,
-    globalStyles: GlobalStyles,
-    globalClassNames: GlobalClassNames,
-    defaultProps: {[string]: any}
-};
-
 /**
  * @typedef fullScreenSlidePropsType
  * @property {string} [direction='row'] - Slide direction.
@@ -70,7 +50,7 @@ type CallableObj = {
  * @param {fullScreenSlidePropsType} props - Component props.
  * @returns {Object<string,*>} React component.
  */
-const FullScreenSlide: CallableObj = function FullScreenSlide(props: Props) {
+function FullScreenSlide(props: Props) {
     const {
         elements,
         children,
@@ -125,19 +105,7 @@ const FullScreenSlide: CallableObj = function FullScreenSlide(props: Props) {
             {elements}
         </OverscrollBlockerDiv>
     );
-};
-
-FullScreenSlide.globalStyles = {
-    default: {
-        root: {}
-    }
-};
-
-FullScreenSlide.globalClassNames = {
-    default: {
-        root: ''
-    }
-};
+}
 
 FullScreenSlide.defaultProps = {
     direction: 'row',
@@ -152,6 +120,18 @@ FullScreenSlide.defaultProps = {
     customStyles: {},
     customClassNames: {},
     globalTheme: 'default'
+};
+
+FullScreenSlide.globalStyles = {
+    default: {
+        root: {}
+    }
+};
+
+FullScreenSlide.globalClassNames = {
+    default: {
+        root: ''
+    }
 };
 
 export {FullScreenSlide};

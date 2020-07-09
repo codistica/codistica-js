@@ -4,7 +4,6 @@
 
 import {elementUtils} from '@codistica/browser';
 import React, {useRef, useState} from 'react';
-import type {Node} from 'react';
 import resetClassNames from '../../css/reset.module.scss';
 import {withOnClickOutside} from '../../hocs/with-on-click-outside.js';
 import {mergeClassNames} from '../../modules/merge-class-names.js';
@@ -35,31 +34,6 @@ type Props = {
     globalTheme: 'default' | string | null
 };
 
-type GlobalStyles = {
-    [string]: {
-        root: {[string]: any},
-        bullet: {[string]: any},
-        title: {[string]: any},
-        item: {[string]: any}
-    }
-};
-
-type GlobalClassNames = {
-    [string]: {
-        root: string,
-        bullet: string,
-        title: string,
-        item: string
-    }
-};
-
-type CallableObj = {
-    (props: Props): Node,
-    globalStyles: GlobalStyles,
-    globalClassNames: GlobalClassNames,
-    defaultProps: {[string]: any}
-};
-
 /**
  * @typedef bulletDropdownPropsType
  * @property {string} [title='menu'] - Menu title.
@@ -78,7 +52,7 @@ type CallableObj = {
  * @param {bulletDropdownPropsType} props - Props.
  * @returns {Object<string,*>} React component.
  */
-const BulletDropdown: CallableObj = function BulletDropdown(props: Props) {
+function BulletDropdown(props: Props) {
     const {
         title,
         items,
@@ -231,6 +205,18 @@ const BulletDropdown: CallableObj = function BulletDropdown(props: Props) {
             0
         );
     }
+}
+
+BulletDropdown.defaultProps = {
+    title: 'menu',
+    items: {},
+    autoClose: false,
+    autoSpacing: null,
+    style: {},
+    className: '',
+    customStyles: {},
+    customClassNames: {},
+    globalTheme: 'default'
 };
 
 BulletDropdown.globalStyles = {
@@ -249,18 +235,6 @@ BulletDropdown.globalClassNames = {
         title: '',
         item: ''
     }
-};
-
-BulletDropdown.defaultProps = {
-    title: 'menu',
-    items: {},
-    autoClose: false,
-    autoSpacing: null,
-    style: {},
-    className: '',
-    customStyles: {},
-    customClassNames: {},
-    globalTheme: 'default'
 };
 
 export {BulletDropdown};

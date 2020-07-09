@@ -11,10 +11,11 @@ import componentClassNames from './index.module.scss';
 type Props = {
     title: string,
     disabled: boolean,
-    href: string,
-    onClick: (...args: Array<any>) => any,
-    onClickDisabled: (...args: Array<any>) => any,
-    onTouchStart: (...args: Array<any>) => any,
+    href: null | string,
+    onClick: null | ((...args: Array<any>) => any),
+    onClickEnabled: null | ((...args: Array<any>) => any),
+    onClickDisabled: null | ((...args: Array<any>) => any),
+    onTouchStart: null | ((...args: Array<any>) => any),
     style: {[string]: any},
     className: string,
     customStyles: {
@@ -55,6 +56,7 @@ type GlobalClassNames = {
  * @property {string} [title=''] - Button title.
  * @property {boolean} [disabled=false] - Button is disabled.
  * @property {Function} [onClick=null] - Callback for click event.
+ * @property {Function} [onClickEnabled=null] - Callback for clickEnabled event.
  * @property {Function} [onClickDisabled=null] - Callback for clickDisabled event.
  * @property {Function} [onTouchStart=null] - Callback for touchStart event.
  * @property {Object<string,*>} [style={}] - React prop.
@@ -91,6 +93,7 @@ class Button extends React.Component<Props> {
         disabled: false,
         href: null,
         onClick: null,
+        onClickEnabled: null,
         onClickDisabled: null,
         onTouchStart: null,
         style: {},
@@ -118,13 +121,16 @@ class Button extends React.Component<Props> {
      * @returns {void} Void.
      */
     onClickHandler(e: {[string]: any}) {
+        if (typeof this.props.onClick === 'function') {
+            this.props.onClick(e);
+        }
         if (this.props.disabled) {
             if (typeof this.props.onClickDisabled === 'function') {
                 this.props.onClickDisabled(e);
             }
         } else {
-            if (typeof this.props.onClick === 'function') {
-                this.props.onClick(e);
+            if (typeof this.props.onClickEnabled === 'function') {
+                this.props.onClickEnabled(e);
             }
         }
     }

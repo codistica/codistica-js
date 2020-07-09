@@ -3,7 +3,6 @@
 /** @module react/components/carousel-slide */
 
 import React, {useRef, useCallback, useEffect, useState} from 'react';
-import type {Node} from 'react';
 import {animated, useSprings} from 'react-spring';
 import {useGesture} from 'react-use-gesture';
 import resetClassNames from '../../css/reset.module.scss';
@@ -42,27 +41,6 @@ type Props = {
     globalTheme: 'default' | string | null
 };
 
-type GlobalStyles = {
-    [string]: {
-        root: {[string]: any},
-        item: {[string]: any}
-    }
-};
-
-type GlobalClassNames = {
-    [string]: {
-        root: string,
-        item: string
-    }
-};
-
-type CallableObj = {
-    (props: Props): Node,
-    globalStyles: GlobalStyles,
-    globalClassNames: GlobalClassNames,
-    defaultProps: {[string]: any}
-};
-
 /**
  * @typedef carouselSlideDimensionsType
  * @property {(string|number)} height - Slide height.
@@ -95,7 +73,7 @@ type CallableObj = {
  * @param {carouselSlidePropsType} props - Component props.
  * @returns {Object<string,*>} React component.
  */
-const CarouselSlide: CallableObj = function CarouselSlide(props: Props) {
+function CarouselSlide(props: Props) {
     const {
         direction,
         startingPosition,
@@ -170,7 +148,7 @@ const CarouselSlide: CallableObj = function CarouselSlide(props: Props) {
                 };
             });
         },
-        [getPositionValue]
+        [onNewPosition, position.current, getPositionValue]
     );
 
     const goTo = useCallback(
@@ -180,9 +158,15 @@ const CarouselSlide: CallableObj = function CarouselSlide(props: Props) {
         [clampPosition, setPosition]
     );
 
-    const next = useCallback(() => goTo(position.current + 1), [goTo]);
+    const next = useCallback(() => goTo(position.current + 1), [
+        goTo,
+        position.current
+    ]);
 
-    const previous = useCallback(() => goTo(position.current - 1), [goTo]);
+    const previous = useCallback(() => goTo(position.current - 1), [
+        goTo,
+        position.current
+    ]);
 
     const globalStyles = globalTheme
         ? CarouselSlide.globalStyles[globalTheme] || {}
@@ -328,7 +312,7 @@ const CarouselSlide: CallableObj = function CarouselSlide(props: Props) {
                 next,
                 previous
             });
-    }, []);
+    }, [onMount, goTo, next, previous]);
 
     return (
         <div
@@ -350,21 +334,7 @@ const CarouselSlide: CallableObj = function CarouselSlide(props: Props) {
             })}
         </div>
     );
-};
-
-CarouselSlide.globalStyles = {
-    default: {
-        root: {},
-        item: {}
-    }
-};
-
-CarouselSlide.globalClassNames = {
-    default: {
-        root: '',
-        item: ''
-    }
-};
+}
 
 CarouselSlide.defaultProps = {
     direction: 'row',
@@ -382,6 +352,20 @@ CarouselSlide.defaultProps = {
     customStyles: {},
     customClassNames: {},
     globalTheme: 'default'
+};
+
+CarouselSlide.globalStyles = {
+    default: {
+        root: {},
+        item: {}
+    }
+};
+
+CarouselSlide.globalClassNames = {
+    default: {
+        root: '',
+        item: ''
+    }
 };
 
 export {CarouselSlide};

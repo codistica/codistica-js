@@ -1,8 +1,10 @@
 /** @flow */
 
-/** @module react/components/scroll-boundary */
+/** @module react/utils/scroll-boundary */
 
 import React, {useRef, useEffect} from 'react';
+
+// TODO: WORK IN PROGRESS.
 
 type Props = {
     children: any

@@ -22,4 +22,4 @@ export {viewportMonitor} from './modules/viewport-monitor.js';
 // PLUGINS
 export {LogBrowserConsoleBinder} from './plugins/log-browser-console-binder.js';
 
-// TODO: ENFORCE HANDLERS NAMING CONVENTION (EX: onClickHandler, onNewValueHandler...)
+// TODO: ENFORCE HANDLERS NAMING CONVENTION (EX: onClickHandler...)

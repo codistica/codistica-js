@@ -1,8 +1,10 @@
 /** @flow */
 
-/** @module react/components/tab-boundary */
+/** @module react/utils/tab-boundary */
 
 import React from 'react';
+
+// TODO: WORK IN PROGRESS.
 
 type Props = {
     children: any

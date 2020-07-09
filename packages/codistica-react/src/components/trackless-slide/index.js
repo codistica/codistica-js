@@ -11,7 +11,6 @@
 
 import {arrayUtils, SEEDS} from '@codistica/core';
 import React, {useState, useCallback, useEffect, useRef} from 'react';
-import type {Node} from 'react';
 import {animated, useTransition} from 'react-spring';
 import resetClassNames from '../../css/reset.module.scss';
 import {mergeClassNames} from '../../modules/merge-class-names.js';
@@ -47,27 +46,6 @@ type Props = {
     globalTheme: 'default' | string | null
 };
 
-type GlobalStyles = {
-    [string]: {
-        root: {[string]: any},
-        item: {[string]: any}
-    }
-};
-
-type GlobalClassNames = {
-    [string]: {
-        root: string,
-        item: string
-    }
-};
-
-type CallableObj = {
-    (props: Props): Node,
-    globalStyles: GlobalStyles,
-    globalClassNames: GlobalClassNames,
-    defaultProps: {[string]: any}
-};
-
 /**
  * @typedef tracklessSlideDimensionsType
  * @property {(string|number)} height - Slide height.
@@ -100,7 +78,7 @@ type CallableObj = {
  * @param {tracklessSlidePropsType} props - Component props.
  * @returns {Object<string,*>} React component.
  */
-const TracklessSlide: CallableObj = function TracklessSlide(props: Props) {
+function TracklessSlide(props: Props) {
     const {
         direction,
         startingPosition,
@@ -428,21 +406,7 @@ const TracklessSlide: CallableObj = function TracklessSlide(props: Props) {
             })}
         </div>
     );
-};
-
-TracklessSlide.globalStyles = {
-    default: {
-        root: {},
-        item: {}
-    }
-};
-
-TracklessSlide.globalClassNames = {
-    default: {
-        root: '',
-        item: ''
-    }
-};
+}
 
 TracklessSlide.defaultProps = {
     direction: 'row',
@@ -457,6 +421,20 @@ TracklessSlide.defaultProps = {
     customStyles: {},
     customClassNames: {},
     globalTheme: 'default'
+};
+
+TracklessSlide.globalStyles = {
+    default: {
+        root: {},
+        item: {}
+    }
+};
+
+TracklessSlide.globalClassNames = {
+    default: {
+        root: '',
+        item: ''
+    }
 };
 
 export {TracklessSlide};
