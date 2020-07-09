@@ -2,11 +2,12 @@
 
 /**
  * @description Removes non number characters.
- * @returns {{type: 'filter', plugin: function(string): string}} Filter.
+ * @returns {{type: 'filter', name: string, plugin: function(string): string}} Filter.
  */
 function nonNumberFilter() {
     return {
         type: 'filter',
+        name: 'nonNumberFilter',
         /**
          * @description Filter.
          * @param {string} value - Input value.

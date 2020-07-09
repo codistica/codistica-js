@@ -1,6 +1,7 @@
 /** @flow */
 
 import {Sophistication} from '../../classes/sophistication.js';
+import type {StatusType} from '../../utils/input-renderer.js';
 
 type CustomStyles = {
     root?: {[string]: any},
@@ -28,7 +29,7 @@ type Styles = {
 type Params = {
     customStyles?: CustomStyles,
     customColors?: CustomColors,
-    status?: 'valid' | 'invalid' | 'highlight' | 'warning' | null
+    status?: StatusType
 };
 
 const sophistication = new Sophistication<Styles, Params>({

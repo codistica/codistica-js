@@ -14,6 +14,8 @@ export {inputBlockers, inputFilters, inputPresets, inputValidators};
 // *** NORMAL EXPORT ***
 
 // CLASSES
+export {InputPluginManager} from './classes/input-plugin-manager';
+export {InputValidatorPluginUtils} from './classes/input-validator-plugin-utils';
 export {Sophistication} from './classes/sophistication';
 
 // COMPONENTS
@@ -23,7 +25,7 @@ export {CarouselSlide} from './components/carousel-slide';
 export {DotNavigation} from './components/dot-navigation';
 export {FullScreenSlide} from './components/full-screen-slide';
 export {InputCheckbox} from './components/input-checkbox';
-export {InputRadio} from './components/input-radio';
+export {InputRadioGroup} from './components/input-radio-group';
 export {InputText} from './components/input-text';
 export {TrackSlide} from './components/track-slide';
 export {TracklessSlide} from './components/trackless-slide';
@@ -45,6 +47,7 @@ export {mergeStyles} from './modules/merge-styles';
 export {AnchorWrapper} from './utils/anchor-wrapper';
 export {Draggable} from './utils/draggable';
 export {Form} from './utils/form';
+export type {FormValidationObjectType} from './utils/form';
 export {ImgHoverSwitch} from './utils/img-hover-switch';
 export {InputRenderer} from './utils/input-renderer';
 

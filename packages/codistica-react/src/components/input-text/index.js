@@ -2,14 +2,12 @@
 
 /** @module react/components/input-text */
 
-import {eventUtils} from '@codistica/core';
 import React from 'react';
-import type {Node} from 'react';
 import resetClassNames from '../../css/reset.module.scss';
 import {mergeClassNames} from '../../modules/merge-class-names.js';
 import {mergeStyles} from '../../modules/merge-styles.js';
 import {InputRenderer} from '../../utils/input-renderer.js';
-import type {Plugin, Preset} from '../../utils/input-renderer.js';
+import type {PluginType, StatusType} from '../../utils/input-renderer.js';
 import componentClassNames from './index.module.scss';
 import {sophistication} from './index.sophistication.js';
 import type {
@@ -18,26 +16,17 @@ import type {
     CustomColors
 } from './index.sophistication.js';
 
-type BlockerInstance = (e: {[string]: any}) => boolean;
-type FilterInstance = (value: string) => string;
+// TODO: RESET BROWSERS AUTOFILL STYLES!
 
-type ExternalProps = {
+type CommonProps = {
     name: string,
     label: string,
     value: string,
     type: string,
     placeholder: string,
-    mandatory: boolean,
-    match: string | null,
-    plugins: Plugin | Array<Plugin>,
-    presets: Preset | Array<Preset>,
-    onValidationResult: (...args: Array<any>) => any,
-    onNewValue: (...args: Array<any>) => any,
-    onKeyDown: (...args: Array<any>) => any,
-    onInput: (...args: Array<any>) => any,
-    onChangeFixed: (...args: Array<any>) => any,
-    onChange: (...args: Array<any>) => any,
-    onBlur: (...args: Array<any>) => any,
+    onKeyDown: null | ((...args: Array<any>) => any),
+    onChange: null | ((...args: Array<any>) => any),
+    onBlur: null | ((...args: Array<any>) => any),
     style: {[string]: any},
     className: string,
     customStyles: CustomStyles,
@@ -46,88 +35,34 @@ type ExternalProps = {
     globalTheme: 'default' | string | null
 };
 
-type InternalProps = {
-    ...ExternalProps,
+type InputTextInternalProps = {
+    ...CommonProps,
     id: string,
-    blockers: Array<BlockerInstance>,
-    filters: Array<FilterInstance>,
-    status: 'valid' | 'invalid' | 'highlight' | 'warning' | null
-};
-
-type State = {
-    value: string
-};
-
-type GlobalStyles = {
-    [string]: {
-        root: {[string]: any},
-        input: {[string]: any},
-        label: {[string]: any}
-    }
-};
-
-type GlobalClassNames = {
-    [string]: {
-        root: string,
-        input: string,
-        label: string
-    }
-};
-
-type GlobalColors = {
-    [string]: CustomColors
-};
-
-type CallableObj = {
-    (props: ExternalProps): Node,
-    globalStyles: GlobalStyles,
-    globalClassNames: GlobalClassNames,
-    globalColors: GlobalColors,
-    defaultProps: {[string]: any}
+    status: StatusType
 };
 
 /**
  * @typedef inputTextInternalPropsType
  * @property {string} id - Input ID.
- * @property {Array<*>} blockers - Blocker instances.
- * @property {Array<*>} filters - Filter instances.
- * @property {('valid'|'invalid'|'highlight'|'warning'|null)} status - Input status.
+ * @property {('valid'|'invalid'|'highlight'|'warning'|'missing'|'standBy'|null)} status - Input status.
  */
 
 /**
  * @classdesc A beautiful text input component (Internal).
  */
-class InputTextInternal extends React.Component<InternalProps, State> {
-    inputChangeTracker: string;
-
+class InputTextInternal extends React.Component<InputTextInternalProps> {
     /**
      * @description Constructor.
      * @param {(inputTextPropsType|inputTextInternalPropsType)} [props] - Component props.
      */
-    constructor(props: InternalProps) {
+    constructor(props: InputTextInternalProps) {
         super(props);
 
         if (props.type === 'radio' || props.type === 'checkbox') {
             props.type = 'text';
         }
 
-        this.inputChangeTracker = props.value;
-
-        this.state = {
-            value: props.value
-        };
-
         sophistication.setup(this);
-
-        // EMIT INITIAL VALUE
-        props.onNewValue && props.onNewValue(props.value);
-
-        // BIND METHODS
-        (this: any).onKeyDownHandler = this.onKeyDownHandler.bind(this);
-        (this: any).onInputHandler = this.onInputHandler.bind(this);
-        (this: any).onChangeFixedHandler = this.onChangeFixedHandler.bind(this);
-        (this: any).onChangeHandler = this.onChangeHandler.bind(this);
-        (this: any).onBlurHandler = this.onBlurHandler.bind(this);
     }
 
     /**
@@ -141,133 +76,6 @@ class InputTextInternal extends React.Component<InternalProps, State> {
 
     /**
      * @instance
-     * @description Callback for keyDown event.
-     * @param {Object<string,*>} e - Triggering event.
-     * @returns {void} Void.
-     */
-    onKeyDownHandler(e: {[string]: any}) {
-        const isPrintable = e.key && e.key.length === 1;
-
-        // CHAIN PASSED EVENT HANDLER IF NECESSARY
-        if (typeof this.props.onKeyDown === 'function') {
-            this.props.onKeyDown(e);
-        }
-
-        if (e.cancelable) {
-            // CALL BLOCKERS
-            this.props.blockers.forEach((blocker) => {
-                if (
-                    isPrintable &&
-                    blocker({
-                        target: {
-                            selectionStart: e.target.selectionStart,
-                            selectionEnd: e.selectionEnd,
-                            value: e.target.value
-                        },
-                        key: e.key
-                    })
-                ) {
-                    e.preventDefault();
-                }
-            });
-
-            if (e.defaultPrevented) {
-                this.updateInputValue(e.target.value, true);
-            }
-        }
-    }
-
-    /**
-     * @instance
-     * @description Callback for input event.
-     * @param {Object<string,*>} e - Triggering event.
-     * @returns {void} Void.
-     */
-    onInputHandler(e: {[string]: any}) {
-        // CHAIN PASSED EVENT HANDLER IF NECESSARY
-        if (typeof this.props.onInput === 'function') {
-            this.props.onInput(e);
-        }
-
-        // UPDATE INPUT
-        this.updateInputValue(e.target.value);
-    }
-
-    /**
-     * @instance
-     * @description Callback for change fixed event.
-     * @param {Object<string,*>} e - Triggering event.
-     * @returns {void} Void.
-     */
-    onChangeFixedHandler(e: {[string]: any}) {
-        // CHAIN PASSED EVENT HANDLER IF NECESSARY
-        if (typeof this.props.onChangeFixed === 'function') {
-            this.props.onChangeFixed(e);
-        }
-
-        // CALL FILTERS
-        const newValue = this.props.filters.reduce(
-            (acc, filter) => filter(acc),
-            e.target.value
-        );
-
-        // RESET inputChangeTracker
-        this.inputChangeTracker = newValue;
-
-        // UPDATE INPUT
-        this.updateInputValue(newValue, newValue !== e.target.value);
-    }
-
-    /**
-     * @instance
-     * @description Callback for change event.
-     * @param {Object<string,*>} e - Triggering event.
-     * @returns {void} Void.
-     */
-    onChangeHandler(e: {[string]: any}) {
-        // CHAIN PASSED EVENT HANDLER IF NECESSARY
-        if (typeof this.props.onChange === 'function') {
-            this.props.onChange(e);
-        }
-    }
-
-    /**
-     * @instance
-     * @description Callback for blur event.
-     * @param {Object<string,*>} e - Triggering event.
-     * @returns {void} Void.
-     */
-    onBlurHandler(e: {[string]: any}) {
-        // CHAIN PASSED EVENT HANDLER IF NECESSARY
-        if (typeof this.props.onBlur === 'function') {
-            this.props.onBlur(e);
-        }
-
-        // EMULATE REAL onChange EVENT BEHAVIOUR
-        if (e.target.value !== this.inputChangeTracker) {
-            this.onChangeFixedHandler(
-                eventUtils.getMockEvent({
-                    ...e,
-                    type: 'change'
-                })
-            );
-        }
-    }
-
-    /**
-     * @instance
-     * @description Updates the input value.
-     * @param {string} value - New value.
-     * @param {boolean} [highlight] - Request input highlight after setting value.
-     * @returns {void} Void.
-     */
-    updateInputValue(value: string, highlight?: boolean) {
-        this.setState({value});
-        this.props.onNewValue && this.props.onNewValue(value, highlight);
-    }
-
-    /**
-     * @instance
      * @description React render method.
      * @returns {Object<string,*>} React component.
      */
@@ -276,6 +84,7 @@ class InputTextInternal extends React.Component<InternalProps, State> {
             id,
             name,
             label,
+            value,
             type,
             placeholder,
             status,
@@ -285,30 +94,11 @@ class InputTextInternal extends React.Component<InternalProps, State> {
             customClassNames,
             customColors,
             globalTheme,
-            mandatory,
-            match,
-            onValidationResult,
-            onNewValue,
             onKeyDown,
-            onInput,
-            onChangeFixed,
             onChange,
             onBlur,
-            plugins,
-            presets,
-            blockers,
-            filters,
             ...other
         } = this.props;
-
-        const {value} = this.state;
-
-        const {
-            onKeyDownHandler,
-            onInputHandler,
-            onChangeHandler,
-            onBlurHandler
-        } = this;
 
         const globalStyles = globalTheme
             ? InputText.globalStyles[globalTheme] || {}
@@ -370,10 +160,9 @@ class InputTextInternal extends React.Component<InternalProps, State> {
                     name={name}
                     value={value}
                     placeholder={placeholder}
-                    onKeyDown={onKeyDownHandler}
-                    onInput={onInputHandler}
-                    onChange={onChangeHandler}
-                    onBlur={onBlurHandler}
+                    onKeyDown={onKeyDown}
+                    onChange={onChange}
+                    onBlur={onBlur}
                     style={mergedStyles.input}
                     className={mergedClassNames.input}
                 />
@@ -381,29 +170,50 @@ class InputTextInternal extends React.Component<InternalProps, State> {
                     htmlFor={id}
                     style={mergedStyles.label}
                     className={mergedClassNames.label}>
-                    {label}
+                    {label || name}
                 </label>
             </span>
         );
     }
 }
 
+type InputTextProps = {
+    ...CommonProps,
+    voidValue: string,
+    mandatory: boolean,
+    keepMissingStatus: boolean,
+    match: string | null,
+    errorMessages: {
+        mandatory?: string | null,
+        match?: string | null
+    },
+    plugins: PluginType,
+    deferValidation: boolean,
+    onValidationResult: null | ((...args: Array<any>) => any)
+};
+
+/**
+ * @typedef inputTextErrorMessagesType
+ * @property {(string|(function(*): string|null)|Object<string,*>|null)} [mandatory=null] - Mandatory error message.
+ * @property {(string|(function(*): string|null)|Object<string,*>|null)} [match=null] - Match error message.
+ */
+
 /**
  * @typedef inputTextPropsType
- * @property {string} [name=''] - Input name.
+ * @property {string} name - Input name.
  * @property {string} [label=''] - Input label.
  * @property {string} [value=''] - Input value.
+ * @property {(string|null)} [voidValue=''] - Value to consider input to be void.
  * @property {string} [type='text'] - Input type.
  * @property {string} [placeholder=''] - Input placeholder.
  * @property {boolean} [mandatory=false] - Input mandatory flag.
+ * @property {boolean} [keepMissingStatus=false] - Keep missing status after user interaction.
  * @property {(string|null)} [match=null] - Name of input that has to be matched to correctly validate.
- * @property {(*|Array<*>)} [plugins=[]] - Input plugins.
- * @property {(*|Array<*>)} [presets=[]] - Input presets.
+ * @property {inputTextErrorMessagesType} [errorMessages] - Validation error messages.
+ * @property {*} [plugins=[]] - Input plugins.
+ * @property {boolean} [deferValidation=true] - Defer input validation until there is an interaction.
  * @property {Function} [onValidationResult=null] - Callback for validationResult event.
- * @property {Function} [onNewValue=null] - Callback for newValue event.
  * @property {Function} [onKeyDown=null] - Callback for keyDown event.
- * @property {Function} [onInput=null] - Callback for input event.
- * @property {Function} [onChangeFixed=null] - Callback for changeFixed event.
  * @property {Function} [onChange=null] - Callback for change event.
  * @property {Function} [onBlur=null] - Callback for blur event.
  * @property {Object<string,*>} [customStyles={}] - Custom styles prop.
@@ -416,29 +226,83 @@ class InputTextInternal extends React.Component<InternalProps, State> {
  * @param {inputTextPropsType} props - Component props.
  * @returns {Object<string,*>} React component.
  */
-const InputText: CallableObj = function InputText(props: ExternalProps) {
+function InputText(props: InputTextProps) {
+    const {
+        name,
+        value,
+        voidValue,
+        type,
+        mandatory,
+        keepMissingStatus,
+        match,
+        errorMessages,
+        plugins,
+        deferValidation,
+        onValidationResult,
+        onKeyDown,
+        onChange,
+        onBlur,
+        ...other
+    } = props;
     return (
         <InputRenderer
-            inputRenderFn={(rendererParams) => {
+            name={name}
+            value={value}
+            voidValue={voidValue}
+            mandatory={mandatory}
+            keepMissingStatus={keepMissingStatus}
+            match={match}
+            errorMessages={errorMessages}
+            plugins={plugins}
+            deferValidation={deferValidation}
+            onValidationResult={onValidationResult}
+            onKeyDown={onKeyDown}
+            onChange={onChange}
+            onBlur={onBlur}
+            inputRenderFn={(inputProps, inputRendererAPI) => {
                 return (
                     <InputTextInternal
-                        {...props}
-                        id={rendererParams.id}
-                        onNewValue={rendererParams.onNewValueHandler}
-                        status={rendererParams.status}
-                        blockers={rendererParams.blockers}
-                        filters={rendererParams.filters}
+                        {...other}
+                        name={inputProps.name}
+                        type={type}
+                        id={inputProps.id}
+                        value={inputProps.value}
+                        onKeyDown={inputProps.onKeyDown}
+                        onChange={inputProps.onChange}
+                        onBlur={inputProps.onBlur}
+                        status={inputRendererAPI.status}
                     />
                 );
             }}
-            name={props.name}
-            mandatory={props.mandatory}
-            match={props.match}
-            plugins={props.plugins}
-            presets={props.presets}
-            onValidationResult={props.onValidationResult}
         />
     );
+}
+
+InputText.defaultProps = {
+    label: '',
+    value: '',
+    voidValue: '',
+    type: 'text',
+    placeholder: '',
+    mandatory: true,
+    keepMissingStatus: false,
+    match: null,
+    errorMessages: {
+        mandatory: null,
+        match: null
+    },
+    plugins: [],
+    deferValidation: true,
+    onValidationResult: null,
+    onKeyDown: null,
+    onChange: null,
+    onBlur: null,
+    style: {},
+    className: '',
+    customStyles: {},
+    customClassNames: {},
+    customColors: {},
+    globalTheme: 'default'
 };
 
 InputText.globalStyles = {
@@ -459,31 +323,6 @@ InputText.globalClassNames = {
 
 InputText.globalColors = {
     default: {}
-};
-
-InputText.defaultProps = {
-    name: '',
-    label: '',
-    value: '',
-    type: 'text',
-    placeholder: '',
-    mandatory: true,
-    match: null,
-    plugins: [],
-    presets: [],
-    onValidationResult: null,
-    onNewValue: null,
-    onKeyDown: null,
-    onInput: null,
-    onChangeFixed: null,
-    onChange: null,
-    onBlur: null,
-    style: {},
-    className: '',
-    customStyles: {},
-    customClassNames: {},
-    customColors: {},
-    globalTheme: 'default'
 };
 
 export {InputText};

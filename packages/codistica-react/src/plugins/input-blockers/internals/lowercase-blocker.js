@@ -4,11 +4,12 @@ import {REG_EXPS} from '@codistica/core';
 
 /**
  * @description Blocks lowercase letters keystrokes.
- * @returns {{type: 'blocker', plugin: function(Object<string,*>): boolean}} Blocker.
+ * @returns {{type: 'blocker', name: string, plugin: function(Object<string,*>): boolean}} Blocker.
  */
 function lowercaseBlocker() {
     return {
         type: 'blocker',
+        name: 'lowercaseBlocker',
         /**
          * @description Blocker.
          * @param {Object<string,*>} e - Input event.

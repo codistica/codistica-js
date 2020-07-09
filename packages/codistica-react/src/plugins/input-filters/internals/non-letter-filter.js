@@ -4,11 +4,12 @@ import {REG_EXPS} from '@codistica/core';
 
 /**
  * @description Removes non letter characters.
- * @returns {{type: 'filter', plugin: function(string): string}} Filter.
+ * @returns {{type: 'filter', name: string, plugin: function(string): string}} Filter.
  */
 function nonLetterFilter() {
     return {
         type: 'filter',
+        name: 'nonLetterFilter',
         /**
          * @description Filter.
          * @param {string} value - Input value.

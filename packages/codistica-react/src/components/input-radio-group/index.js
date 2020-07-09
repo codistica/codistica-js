@@ -1,15 +1,14 @@
 /** @flow */
 
-/** @module react/components/input-radio */
+/** @module react/components/input-radio-group */
 
 import React from 'react';
-import type {Node} from 'react';
 import {default as uniqueId} from 'react-html-id';
 import resetClassNames from '../../css/reset.module.scss';
 import {mergeClassNames} from '../../modules/merge-class-names.js';
 import {mergeStyles} from '../../modules/merge-styles.js';
 import {InputRenderer} from '../../utils/input-renderer.js';
-import type {Plugin, Preset} from '../../utils/input-renderer.js';
+import type {PluginType, StatusType} from '../../utils/input-renderer.js';
 import componentClassNames from './index.module.scss';
 import {sophistication} from './index.sophistication.js';
 import type {
@@ -18,17 +17,15 @@ import type {
     CustomColors
 } from './index.sophistication.js';
 
-type ExternalProps = {
+// TODO: ADD SUPPORT FOR DOUBLE CLICK (TOUCH) TO UNCHECK. ADD SUPPORT FOR INITIALLY CHECKED
+// TODO: ALLOW SELECTING BY CLICKING ON 'LABEL' (TITLE) TO MATCH NATIVE BEHAVIOUR.
+
+type CommonProps = {
     name: string,
     label: string,
     radios: {[string]: string},
-    mandatory: boolean,
-    match: string | null,
-    plugins: Plugin | Array<Plugin>,
-    presets: Preset | Array<Preset>,
-    onValidationResult: (...args: Array<any>) => any,
-    onNewValue: (...args: Array<any>) => any,
-    onChange: (...args: Array<any>) => any,
+    onChange: null | ((...args: Array<any>) => any),
+    onBlur: null | ((...args: Array<any>) => any),
     style: {[string]: any},
     className: string,
     customStyles: CustomStyles,
@@ -37,78 +34,36 @@ type ExternalProps = {
     globalTheme: 'default' | string | null
 };
 
-type InternalProps = {
-    ...ExternalProps,
+type InputRadioGroupInternalProps = {
+    ...CommonProps,
     id: string,
-    status: 'valid' | 'invalid' | 'highlight' | 'warning' | null
-};
-
-type State = {
-    value: string
-};
-
-type GlobalStyles = {
-    [string]: {
-        root: {[string]: any},
-        inputRow: {[string]: any},
-        title: {[string]: any},
-        inputWrapper: {[string]: any}
-    }
-};
-
-type GlobalClassNames = {
-    [string]: {
-        root: string,
-        inputRow: string,
-        title: string,
-        inputWrapper: string
-    }
-};
-
-type GlobalColors = {
-    [string]: CustomColors
-};
-
-type CallableObj = {
-    (props: ExternalProps): Node,
-    globalStyles: GlobalStyles,
-    globalClassNames: GlobalClassNames,
-    globalColors: GlobalColors,
-    defaultProps: {[string]: any}
+    value: string,
+    status: StatusType
 };
 
 /**
- * @typedef inputRadioInternalPropsType
+ * @typedef inputRadioGroupInternalPropsType
  * @property {string} id - Input ID.
- * @property {('valid'|'invalid'|'highlight'|'warning'|null)} status - Input status.
+ * @property {string} [value=''] - Input value.
+ * @property {('valid'|'invalid'|'highlight'|'warning'|'missing'|'standBy'|null)} status - Input status.
  */
 
 /**
  * @classdesc A beautiful radio input component (Internal).
  */
-class InputRadioInternal extends React.Component<InternalProps, State> {
+class InputRadioGroupInternal extends React.Component<InputRadioGroupInternalProps> {
     nextUniqueId: (...args: Array<any>) => any;
 
     /**
      * @description Constructor.
-     * @param {(inputRadioPropsType|inputRadioInternalPropsType)} [props] - Component props.
+     * @param {(inputRadioGroupPropsType|inputRadioGroupInternalPropsType)} [props] - Component props.
      */
-    constructor(props: InternalProps) {
+    constructor(props: InputRadioGroupInternalProps) {
         super(props);
 
         uniqueId.enableUniqueIds(this);
 
-        this.state = {
-            value: ''
-        };
-
         sophistication.setup(this);
-
-        // EMIT INITIAL VALUE
-        props.onNewValue && props.onNewValue('');
-
-        // BIND METHODS
-        (this: any).onChangeHandler = this.onChangeHandler.bind(this);
     }
 
     /**
@@ -122,21 +77,6 @@ class InputRadioInternal extends React.Component<InternalProps, State> {
 
     /**
      * @instance
-     * @description Callback for change event.
-     * @param {Object<string,*>} e - Triggering event.
-     * @returns {void} Void.
-     */
-    onChangeHandler(e: {[string]: any}) {
-        // CHAIN PASSED EVENT HANDLER IF NECESSARY
-        if (typeof this.props.onChange === 'function') {
-            this.props.onChange(e);
-        }
-        this.setState({value: e.target.value});
-        this.props.onNewValue && this.props.onNewValue(e.target.value);
-    }
-
-    /**
-     * @instance
      * @description React render method.
      * @returns {Object<string,*>} React component.
      */
@@ -145,27 +85,28 @@ class InputRadioInternal extends React.Component<InternalProps, State> {
             name,
             label,
             radios,
+            value,
             status,
             style,
             className,
             customStyles,
             customClassNames,
             customColors,
-            globalTheme
+            globalTheme,
+            onChange,
+            onBlur
         } = this.props;
-        const {value} = this.state;
-        const {onChangeHandler} = this;
 
         const globalStyles = globalTheme
-            ? InputRadio.globalStyles[globalTheme] || {}
+            ? InputRadioGroup.globalStyles[globalTheme] || {}
             : {};
 
         const globalClassNames = globalTheme
-            ? InputRadio.globalClassNames[globalTheme] || {}
+            ? InputRadioGroup.globalClassNames[globalTheme] || {}
             : {};
 
         const globalColors = globalTheme
-            ? InputRadio.globalColors[globalTheme] || {}
+            ? InputRadioGroup.globalColors[globalTheme] || {}
             : {};
 
         const jssClassNames = sophistication.getClassNames(this, {
@@ -249,13 +190,14 @@ class InputRadioInternal extends React.Component<InternalProps, State> {
                                         name={name}
                                         value={i}
                                         checked={value === i}
-                                        onChange={onChangeHandler}
+                                        onChange={onChange}
+                                        onBlur={onBlur}
                                         className={mergedClassNames.input}
                                     />
                                     <label
                                         htmlFor={subId}
                                         className={mergedClassNames.label}>
-                                        {label}
+                                        {label || name}
                                     </label>
                                 </span>
                                 <span
@@ -274,18 +216,40 @@ class InputRadioInternal extends React.Component<InternalProps, State> {
     }
 }
 
+type InputRadioGroupProps = {
+    ...CommonProps,
+    mandatory: boolean,
+    keepMissingStatus: boolean,
+    match: string | null,
+    errorMessages: {
+        mandatory?: string | null,
+        match?: string | null
+    },
+    plugins: PluginType,
+    deferValidation: boolean,
+    onValidationResult: null | ((...args: Array<any>) => any)
+};
+
 /**
- * @typedef inputRadioPropsType
- * @property {string} [name=''] - Input name.
+ * @typedef inputRadioGroupErrorMessagesType
+ * @property {(string|(function(*): string|null)|Object<string,*>|null)} [mandatory=null] - Mandatory error message.
+ * @property {(string|(function(*): string|null)|Object<string,*>|null)} [match=null] - Match error message.
+ */
+
+/**
+ * @typedef inputRadioGroupPropsType
+ * @property {string} name - Input name.
  * @property {string} [label=''] - Input label.
  * @property {Object<string,*>} [radios={}] - Radios descriptor.
  * @property {boolean} [mandatory=false] - Input mandatory flag.
+ * @property {boolean} [keepMissingStatus=false] - Keep missing status after user interaction.
  * @property {(string|null)} [match=null] - Name of input that has to be matched to correctly validate.
- * @property {(*|Array<*>)} [plugins=[]] - Input plugins.
- * @property {(*|Array<*>)} [presets=[]] - Input presets.
+ * @property {inputRadioGroupErrorMessagesType} [errorMessages] - Validation error messages.
+ * @property {*} [plugins=[]] - Input plugins.
+ * @property {boolean} [deferValidation=true] - Defer input validation until there is an interaction.
  * @property {Function} [onValidationResult=null] - Callback for validationResult event.
- * @property {Function} [onNewValue=null] - Callback for newValue event.
  * @property {Function} [onChange=null] - Callback for change event.
+ * @property {Function} [onBlur=null] - Callback for blur event.
  * @property {Object<string,*>} [style={}] - React prop.
  * @property {string} [className=''] - React prop.
  * @property {Object<string,*>} [customStyles={}] - Custom styles prop.
@@ -296,65 +260,68 @@ class InputRadioInternal extends React.Component<InternalProps, State> {
 
 /**
  * @description A beautiful radio input component.
- * @param {inputRadioPropsType} props - Component props.
+ * @param {inputRadioGroupPropsType} props - Component props.
  * @returns {Object<string,*>} React component.
  */
-const InputRadio: CallableObj = function InputRadio(props: ExternalProps) {
+function InputRadioGroup(props: InputRadioGroupProps) {
+    const {
+        name,
+        mandatory,
+        keepMissingStatus,
+        match,
+        errorMessages,
+        plugins,
+        deferValidation,
+        onValidationResult,
+        onChange,
+        onBlur,
+        ...other
+    } = props;
     return (
         <InputRenderer
-            inputRenderFn={(rendererParams) => {
+            name={name}
+            value={''}
+            mandatory={mandatory}
+            keepMissingStatus={keepMissingStatus}
+            match={match}
+            errorMessages={errorMessages}
+            plugins={plugins}
+            deferValidation={deferValidation}
+            onValidationResult={onValidationResult}
+            onChange={onChange}
+            onBlur={onBlur}
+            inputRenderFn={(inputProps, inputRendererAPI) => {
                 return (
-                    <InputRadioInternal
-                        {...props}
-                        id={rendererParams.id}
-                        onNewValue={rendererParams.onNewValueHandler}
-                        status={rendererParams.status}
+                    <InputRadioGroupInternal
+                        {...other}
+                        name={inputProps.name}
+                        id={inputProps.id}
+                        value={inputProps.value}
+                        onChange={inputProps.onChange}
+                        onBlur={inputProps.onBlur}
+                        status={inputRendererAPI.status}
                     />
                 );
             }}
-            name={props.name}
-            mandatory={props.mandatory}
-            match={props.match}
-            plugins={props.plugins}
-            presets={props.presets}
-            onValidationResult={props.onValidationResult}
         />
     );
-};
+}
 
-InputRadio.globalStyles = {
-    default: {
-        root: {},
-        inputRow: {},
-        title: {},
-        inputWrapper: {}
-    }
-};
-
-InputRadio.globalClassNames = {
-    default: {
-        root: '',
-        inputRow: '',
-        title: '',
-        inputWrapper: ''
-    }
-};
-
-InputRadio.globalColors = {
-    default: {}
-};
-
-InputRadio.defaultProps = {
-    name: '',
+InputRadioGroup.defaultProps = {
     label: '',
     radios: {},
     mandatory: true,
+    keepMissingStatus: false,
     match: null,
     plugins: [],
-    presets: [],
+    errorMessages: {
+        mandatory: null,
+        match: null
+    },
+    deferValidation: true,
     onValidationResult: null,
-    onNewValue: null,
     onChange: null,
+    onBlur: null,
     style: {},
     className: '',
     customStyles: {},
@@ -363,4 +330,26 @@ InputRadio.defaultProps = {
     globalTheme: 'default'
 };
 
-export {InputRadio};
+InputRadioGroup.globalStyles = {
+    default: {
+        root: {},
+        inputRow: {},
+        title: {},
+        inputWrapper: {}
+    }
+};
+
+InputRadioGroup.globalClassNames = {
+    default: {
+        root: '',
+        inputRow: '',
+        title: '',
+        inputWrapper: ''
+    }
+};
+
+InputRadioGroup.globalColors = {
+    default: {}
+};
+
+export {InputRadioGroup};

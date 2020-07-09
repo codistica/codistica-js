@@ -2,11 +2,12 @@
 
 /**
  * @description Reduces multiple consecutive spaces to single spaces.
- * @returns {{type: 'filter', plugin: function(string): string}} Filter.
+ * @returns {{type: 'filter', name: string, plugin: function(string): string}} Filter.
  */
 function nonSingleSpaceFilter() {
     return {
         type: 'filter',
+        name: 'nonSingleSpaceFilter',
         /**
          * @description Filter.
          * @param {string} value - Input value.

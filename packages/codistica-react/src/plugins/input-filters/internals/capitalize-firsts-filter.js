@@ -4,11 +4,12 @@ import {REG_EXPS} from '@codistica/core';
 
 /**
  * @description Capitalizes all first letters.
- * @returns {{type: 'filter', plugin: function(string): string}} Filter.
+ * @returns {{type: 'filter', name: string, plugin: function(string): string}} Filter.
  */
 function capitalizeFirstsFilter() {
     return {
         type: 'filter',
+        name: 'capitalizeFirstFilter',
         /**
          * @description Filter.
          * @param {string} value - Input value.

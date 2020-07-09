@@ -2,11 +2,12 @@
 
 /**
  * @description Removes space characters.
- * @returns {{type: 'filter', plugin: function(string): string}} Filter.
+ * @returns {{type: 'filter', name: string, plugin: function(string): string}} Filter.
  */
 function spaceFilter() {
     return {
         type: 'filter',
+        name: 'spaceFilter',
         /**
          * @description Filter.
          * @param {string} value - Input value.

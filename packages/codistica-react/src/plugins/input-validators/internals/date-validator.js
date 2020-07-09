@@ -2,8 +2,7 @@
 
 import {dateUtils, numberUtils, regExpUtils} from '@codistica/core';
 import {Types} from '@codistica/types';
-
-// TODO: ADD SUPPORT FOR NUMBER OF YEARS BEFORE AND AFTER TODAY IN minDate AND maxDate.
+import {InputValidatorPluginUtils} from '../../../classes/input-validator-plugin-utils.js';
 
 const dateValidatorSchema = new Types({
     options: {
@@ -12,11 +11,50 @@ const dateValidatorSchema = new Types({
             minDate: {type: 'Object', def: null},
             maxDate: {type: 'Object', def: null},
             minAge: {type: 'number', min: 0, max: Infinity, def: null},
-            format: {type: 'Array<number>', def: [31, 12, 9999]}, // TODO: USE ANOTHER SYSTEM?
-            separator: {type: 'string', def: null}
+            format: {type: 'Array<number>', def: [31, 12, 9999]},
+            separator: {type: 'string', def: null},
+            errorMessages: {
+                type: 'Object',
+                def: {
+                    generic: {
+                        type: ['string', 'Function', 'Object', 'null'],
+                        def: null
+                    },
+                    minDate: {
+                        type: ['string', 'Function', 'Object', 'null'],
+                        def: null
+                    },
+                    maxDate: {
+                        type: ['string', 'Function', 'Object', 'null'],
+                        def: null
+                    },
+                    minAge: {
+                        type: ['string', 'Function', 'Object', 'null'],
+                        def: null
+                    },
+                    format: {
+                        type: ['string', 'Function', 'Object', 'null'],
+                        def: null
+                    },
+                    separator: {
+                        type: ['string', 'Function', 'Object', 'null'],
+                        def: null
+                    }
+                }
+            }
         }
     }
 });
+
+/**
+ * @typedef dateValidatorErrorMessagesType
+ * @property {(string|(function(*): string|null)|Object<string,*>|null)} [generic=null] - Generic error message.
+ * @property {(string|(function(*): string|null)|Object<string,*>|null)} [minDate=null] - Minimum required date error message.
+ * @property {(string|(function(*): string|null)|Object<string,*>|null)} [maxDate=null] - Maximum acceptable date error message.
+ * @property {(string|(function(*): string|null)|Object<string,*>|null)} [minAge=null] - Minimum required age error message.
+ * @property {(string|(function(*): string|null)|Object<string,*>|null)} [format=null] - Enforced format error message.
+ * @property {(string|(function(*): string|null)|Object<string,*>|null)} [separator=null] - Enforced separator error message.
+ */
 
 /**
  * @typedef dateValidatorOptionsType
@@ -25,39 +63,39 @@ const dateValidatorSchema = new Types({
  * @property {(number|null)} [minAge=null] - Minimum required age.
  * @property {Array<number>} [format=[31, 12, 9999]] - Enforced format.
  * @property {string} [separator=null] - Enforced separator.
+ * @property {dateValidatorErrorMessagesType} [errorMessages] - Validation error messages.
  */
 
 /**
  * @description Validates input date according to validation options.
  * @param {dateValidatorOptionsType} [options] - Validation options.
- * @returns {{type: 'validator', plugin: function(string): {result: boolean, report: Object<string,*>}}} Validator.
+ * @returns {{type: 'validator', name: string, messages: Array<string>, plugin: function(string): Object<string,*>}} Validator.
  */
 function dateValidator(options) {
     ({options} = dateValidatorSchema.validate({options}));
 
+    const utils = new InputValidatorPluginUtils({
+        keys: ['minDate', 'maxDate', 'minAge', 'format', 'separator']
+    });
+
     return {
         type: 'validator',
+        name: 'dateValidator',
+        errorMessages: {
+            generic: options.errorMessages.generic
+        },
         /**
          * @description Validator.
          * @param {string} value - Input value.
-         * @returns {{result: boolean, report: Object<string,*>}} - Validation object.
+         * @returns {Object<string,*>} - Validation object.
          */
         plugin(value) {
-            let result = true;
+            utils.init(value, true);
+            utils.setData('interpretation', null);
 
-            let report = {
-                interpretation: null,
-                minDate: true,
-                maxDate: true,
-                minAge: true,
-                exists: true,
-                format: true,
-                separator: true
-            };
+            const today = new Date();
 
-            let today = new Date();
-
-            let formatOrder = options.format.map((val) => {
+            const formatOrder = options.format.map((val) => {
                 // TODO: SORT INSTEAD! (USE ANOTHER SYSTEM?)
                 if (val > 31) {
                     return 'year';
@@ -68,23 +106,24 @@ function dateValidator(options) {
                 }
             });
 
-            let dateArray = numberUtils.parseIntAll(value) || [];
+            const dateArray = numberUtils.parseIntAll(value) || [];
 
-            let dateElements = {
+            const dateElements = {
                 date: null,
                 month: null,
                 year: null
             };
 
-            let parsedDate;
-
             // CHECK FORMAT
             if (dateArray.length !== options.format.length) {
-                report.format = false;
+                utils.invalidate('format', options.errorMessages.format);
             } else {
                 formatOrder.forEach((key, index) => {
                     if (dateArray[index] > options.format[index]) {
-                        report.format = false;
+                        utils.invalidate(
+                            'format',
+                            options.errorMessages.format
+                        );
                     }
                     dateElements[key] = parseInt(dateArray[index]);
                 });
@@ -94,14 +133,12 @@ function dateValidator(options) {
                 dateElements.month--;
             }
 
-            if (!report.format) {
-                report.minDate = null;
-                report.maxDate = null;
-                report.minAge = null;
-                report.exists = null;
-                report.format = false;
-                report.separator = null;
-                result = false;
+            if (!utils.isValid('format')) {
+                utils.disable('minDate');
+                utils.disable('maxDate');
+                utils.disable('minAge');
+                utils.disable('exists');
+                utils.disable('separator');
             } else {
                 // CHECK SEPARATOR
                 if (options.separator !== null) {
@@ -118,13 +155,15 @@ function dateValidator(options) {
                         (value.match(/\D/g) || []).length !==
                             options.format.length - 1
                     ) {
-                        report.separator = false;
-                        result = false;
+                        utils.invalidate(
+                            'separator',
+                            options.errorMessages.separator
+                        );
                     }
                 }
 
                 // PARSE DATE
-                parsedDate = new Date(
+                const parsedDate = new Date(
                     dateElements.year,
                     dateElements.month,
                     dateElements.date
@@ -136,22 +175,23 @@ function dateValidator(options) {
                     parsedDate.getMonth() !== dateElements.month ||
                     parsedDate.getDate() !== dateElements.date
                 ) {
-                    report.exists = false;
-                    report.minDate = null;
-                    report.maxDate = null;
-                    report.minAge = null;
-                    result = false;
+                    utils.invalidate('exists');
+                    utils.disable('minDate');
+                    utils.disable('maxDate');
+                    utils.disable('minAge');
                 } else {
                     // SAVE INTERPRETATION
-                    report.interpretation = parsedDate.toString();
+                    utils.setData('interpretation', parsedDate.toString());
 
                     // CHECK MIN DATE
                     if (
                         options.minDate !== null &&
                         parsedDate < options.minDate
                     ) {
-                        report.minDate = false;
-                        result = false;
+                        utils.invalidate(
+                            'minDate',
+                            options.errorMessages.minDate
+                        );
                     }
 
                     // CHECK MAX DATE
@@ -159,8 +199,10 @@ function dateValidator(options) {
                         options.maxDate !== null &&
                         parsedDate > options.maxDate
                     ) {
-                        report.maxDate = false;
-                        result = false;
+                        utils.invalidate(
+                            'maxDate',
+                            options.errorMessages.maxDate
+                        );
                     }
 
                     // CHECK MIN AGE
@@ -170,16 +212,15 @@ function dateValidator(options) {
                             parsedDate.getFullYear() + options.minAge
                         ) > today
                     ) {
-                        report.minAge = false;
-                        result = false;
+                        utils.invalidate(
+                            'minAge',
+                            options.errorMessages.minAge
+                        );
                     }
                 }
             }
 
-            return {
-                result,
-                report
-            };
+            return utils.getValidatorOutput();
         }
     };
 }

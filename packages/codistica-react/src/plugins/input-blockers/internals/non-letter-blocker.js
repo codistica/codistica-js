@@ -4,11 +4,12 @@ import {REG_EXPS} from '@codistica/core';
 
 /**
  * @description Blocks non letter keystrokes.
- * @returns {{type: 'blocker', plugin: function(Object<string,*>): boolean}} Blocker.
+ * @returns {{type: 'blocker', name: string, plugin: function(Object<string,*>): boolean}} Blocker.
  */
 function nonLetterBlocker() {
     return {
         type: 'blocker',
+        name: 'nonLetterBlocker',
         /**
          * @description Blocker.
          * @param {Object<string,*>} e - Input event.

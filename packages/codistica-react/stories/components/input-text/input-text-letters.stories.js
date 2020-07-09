@@ -11,6 +11,7 @@ import {InputText, inputBlockers, inputFilters} from '../../../src/index.js';
 function InputTextLetters() {
     return (
         <InputText
+            name={'letters'}
             placeholder={'Only Letters'}
             plugins={[
                 inputBlockers.nonLetterBlocker,

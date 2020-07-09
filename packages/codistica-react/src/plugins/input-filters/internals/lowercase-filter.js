@@ -2,11 +2,12 @@
 
 /**
  * @description Makes all characters uppercase.
- * @returns {{type: 'filter', plugin: function(string): string}} Filter.
+ * @returns {{type: 'filter', name: string, plugin: function(string): string}} Filter.
  */
 function lowercaseFilter() {
     return {
         type: 'filter',
+        name: 'lowercaseFilter',
         /**
          * @description Filter.
          * @param {string} value - Input value.

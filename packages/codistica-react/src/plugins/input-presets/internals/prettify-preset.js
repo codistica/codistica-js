@@ -1,5 +1,6 @@
 /** @module react/plugins/input-presets/prettify-preset */
 
+import {Types} from '@codistica/types';
 import {leadingSpaceBlocker} from '../../input-blockers/internals/leading-space-blocker.js';
 import {nonLetterBlocker} from '../../input-blockers/internals/non-letter-blocker.js';
 import {nonSingleSpaceBlocker} from '../../input-blockers/internals/non-single-space-blocker.js';
@@ -10,16 +11,51 @@ import {nonSingleSpaceFilter} from '../../input-filters/internals/non-single-spa
 import {trailingSpaceFilter} from '../../input-filters/internals/trailing-space-filter.js';
 import {uppercaseFilter} from '../../input-filters/internals/uppercase-filter.js';
 
-const prettifyPreset = [
-    nonSingleSpaceBlocker,
-    leadingSpaceBlocker,
-    nonLetterBlocker,
-    nonSingleSpaceFilter,
-    trailingSpaceFilter,
-    leadingSpaceFilter,
-    uppercaseFilter,
-    capitalizeFirstsFilter,
-    nonLetterFilter
-];
+const prettifyPresetSchema = new Types({
+    options: {
+        type: 'Object',
+        def: {
+            errorMessages: {
+                type: 'Object',
+                def: {}
+            }
+        }
+    }
+});
+
+/**
+ * @typedef prettifyPresetErrorMessagesType
+ */
+
+/**
+ * @typedef prettifyPresetOptionsType
+ * @property {prettifyPresetErrorMessagesType} [errorMessages] - Validation error messages.
+ */
+
+/**
+ * @description Prettify preset.
+ * @param {prettifyPresetOptionsType} [options] - Preset options.
+ * @returns {{type: 'preset', name: string, groupErrorMessages: Array<string>, plugin: Array<*>}} Preset.
+ */
+function prettifyPreset(options) {
+    ({options} = prettifyPresetSchema.validate({options}));
+
+    return {
+        type: 'preset',
+        name: 'prettifyPreset',
+        groupErrorMessages: {},
+        plugin: [
+            nonSingleSpaceBlocker,
+            leadingSpaceBlocker,
+            nonLetterBlocker,
+            nonSingleSpaceFilter,
+            trailingSpaceFilter,
+            leadingSpaceFilter,
+            uppercaseFilter,
+            capitalizeFirstsFilter,
+            nonLetterFilter
+        ]
+    };
+}
 
 export {prettifyPreset};

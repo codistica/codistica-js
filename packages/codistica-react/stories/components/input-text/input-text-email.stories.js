@@ -11,8 +11,9 @@ import {InputText, inputPresets} from '../../../src/index.js';
 function InputTextEmail() {
     return (
         <InputText
+            name={'email'}
             placeholder={'Email Validation'}
-            presets={inputPresets.emailPreset}
+            plugins={inputPresets.emailPreset}
         />
     );
 }

@@ -11,6 +11,7 @@ import {InputText, inputBlockers, inputFilters} from '../../../src/index.js';
 function InputTextNumbers() {
     return (
         <InputText
+            name={'numbers'}
             placeholder={'Only Numbers'}
             plugins={[
                 inputBlockers.nonNumberBlocker,

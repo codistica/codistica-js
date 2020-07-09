@@ -2,11 +2,12 @@
 
 /**
  * @description Removes leading spaces.
- * @returns {{type: 'filter', plugin: function(string): string}} Filter.
+ * @returns {{type: 'filter', name: string, plugin: function(string): string}} Filter.
  */
 function leadingSpaceFilter() {
     return {
         type: 'filter',
+        name: 'leadingSpaceFilter',
         /**
          * @description Filter.
          * @param {string} value - Input value.

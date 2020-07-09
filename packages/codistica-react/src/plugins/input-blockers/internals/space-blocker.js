@@ -2,11 +2,12 @@
 
 /**
  * @description Blocks space keystrokes.
- * @returns {{type: 'blocker', plugin: function(Object<string,*>): boolean}} Blocker.
+ * @returns {{type: 'blocker', name: string, plugin: function(Object<string,*>): boolean}} Blocker.
  */
 function spaceBlocker() {
     return {
         type: 'blocker',
+        name: 'spaceBlocker',
         /**
          * @description Blocker.
          * @param {Object<string,*>} e - Input event.

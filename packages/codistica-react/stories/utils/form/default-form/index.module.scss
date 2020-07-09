@@ -11,7 +11,7 @@ $color-violet: #de81d9;
 }
 
 .form > * {
-  margin: 10px 0;
+  margin: 15px 5px;
   display: flex;
   justify-content: center;
 }
@@ -36,15 +36,15 @@ $color-violet: #de81d9;
   margin-left: 10px;
 }
 
-.isInvalid {
+.invalid {
   border: 1px solid $color-red
 }
 
-.isValid {
+.valid {
   border: 1px solid $color-green
 }
 
-.blinkingForm {
+.blinking {
   animation: blink 0.3s linear none 3;
 }
 
@@ -66,10 +66,20 @@ $color-violet: #de81d9;
 .infoBox > h5 {
   margin: 5px 0;
   color: $color-violet;
+  white-space: pre;
 }
 
 .infoBox > *:not(h5) {
   color: $color-black;
+  white-space: pre;
+}
+
+.infoBox > h5 + *:not(h5) {
+  margin-top: 5px;
+}
+
+.infoBox > *:not(h5) + h5 {
+  margin-top: 15px;
 }
 
 @keyframes blink {

@@ -1,6 +1,7 @@
 /** @flow */
 
 import {Sophistication} from '../../classes/sophistication.js';
+import type {StatusType} from '../../utils/input-renderer.js';
 import componentClassNames from './index.module.scss';
 
 type CustomStyles = {
@@ -36,7 +37,7 @@ type Styles = {
 type Params = {
     customStyles?: CustomStyles,
     customColors?: CustomColors,
-    status?: 'valid' | 'invalid' | 'highlight' | 'warning' | null
+    status?: StatusType
 };
 
 const sophistication = new Sophistication<Styles, Params>({
@@ -62,7 +63,7 @@ const sophistication = new Sophistication<Styles, Params>({
         const {
             borderColor = 'rgba(0,0,0,0.7)',
             backgroundColor = 'rgba(0,0,0,0.1)',
-            fillColor = '#232323'
+            fillColor = '#666666'
         } = params.customColors || {};
 
         const statusColor = getStatusColor(params);
@@ -90,7 +91,7 @@ function getStatusColor(params: Params) {
         validColor = '#94ff36',
         invalidColor = '#e83b35',
         warningColor = '#e8e639',
-        highlightColor = '#232323'
+        highlightColor = '#666666'
     } = params.customColors || {};
     switch (params.status) {
         case 'valid':

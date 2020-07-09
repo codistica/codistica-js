@@ -2,11 +2,12 @@
 
 /**
  * @description Removes trailing spaces.
- * @returns {{type: 'filter', plugin: function(string): string}} Filter.
+ * @returns {{type: 'filter', name: string, plugin: function(string): string}} Filter.
  */
 function trailingSpaceFilter() {
     return {
         type: 'filter',
+        name: 'trailingSpaceFilter',
         /**
          * @description Filter.
          * @param {string} value - Input value.

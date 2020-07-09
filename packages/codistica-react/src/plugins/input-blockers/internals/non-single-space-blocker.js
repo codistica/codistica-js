@@ -2,11 +2,12 @@
 
 /**
  * @description Blocks consecutive spaces keystrokes.
- * @returns {{type: 'blocker', plugin: function(Object<string,*>): boolean}} Blocker.
+ * @returns {{type: 'blocker', name: string, plugin: function(Object<string,*>): boolean}} Blocker.
  */
 function nonSingleSpaceBlocker() {
     return {
         type: 'blocker',
+        name: 'nonSingleSpaceBlocker',
         /**
          * @description Blocker.
          * @param {Object<string,*>} e - Input event.

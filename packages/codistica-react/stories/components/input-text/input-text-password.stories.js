@@ -16,6 +16,7 @@ import {
 function InputTextPassword() {
     return (
         <InputText
+            name={'password'}
             type={'password'}
             placeholder={'Password Validator (medium)'}
             plugins={[

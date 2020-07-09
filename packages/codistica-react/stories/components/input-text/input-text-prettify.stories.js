@@ -11,8 +11,9 @@ import {InputText, inputPresets} from '../../../src/index.js';
 function InputTextPrettify() {
     return (
         <InputText
+            name={'prettify'}
             placeholder={'Prettify Input'}
-            presets={inputPresets.prettifyPreset}
+            plugins={inputPresets.prettifyPreset}
         />
     );
 }

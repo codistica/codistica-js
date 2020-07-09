@@ -2,13 +2,11 @@
 
 /** @module react/modules/get-ref-handler */
 
-import {objectUtils} from '@codistica/core';
-
 type Ref = {
     current: any
 };
 
-type RefReceiver = Ref | ((Ref) => void);
+type RefReceiver = null | Ref | ((Ref) => void);
 
 /**
  * @typedef getRefHandlerRefType
@@ -16,7 +14,7 @@ type RefReceiver = Ref | ((Ref) => void);
  */
 
 /**
- * @typedef {(getRefHandlerRefType|function(getRefHandlerRefType): void)} getRefHandlerRefReceiverType
+ * @typedef {(null|getRefHandlerRefType|function(getRefHandlerRefType): void)} getRefHandlerRefReceiverType
  */
 
 /**
@@ -25,7 +23,10 @@ type RefReceiver = Ref | ((Ref) => void);
  * @param {getRefHandlerRefReceiverType} componentRef - Local ref.
  * @returns {function(getRefHandlerRefType): void} Ref handler.
  */
-function getRefHandler(forwardedRef: RefReceiver, componentRef: RefReceiver) {
+function getRefHandler(
+    forwardedRef: RefReceiver,
+    componentRef: RefReceiver
+): (...args: Array<any>) => any {
     /**
      * @description Apply ref to receiver.
      * @param {getRefHandlerRefType} ref - Ref.
@@ -35,7 +36,11 @@ function getRefHandler(forwardedRef: RefReceiver, componentRef: RefReceiver) {
     const applyRef = function applyRef(ref: Ref, refReceiver: RefReceiver) {
         if (typeof refReceiver === 'function') {
             refReceiver(ref);
-        } else if (objectUtils.isPureObject(refReceiver)) {
+        } else if (
+            typeof refReceiver === 'object' &&
+            refReceiver !== null &&
+            !Array.isArray(refReceiver)
+        ) {
             refReceiver.current = ref;
         }
     };

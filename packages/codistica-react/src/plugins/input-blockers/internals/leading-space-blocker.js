@@ -2,11 +2,12 @@
 
 /**
  * @description Blocks leading space keystrokes.
- * @returns {{type: 'blocker', plugin: function(Object<string,*>): boolean}} Blocker.
+ * @returns {{type: 'blocker', name: string, plugin: function(Object<string,*>): boolean}} Blocker.
  */
 function leadingSpaceBlocker() {
     return {
         type: 'blocker',
+        name: 'leadingSpaceBlocker',
         /**
          * @description Blocker.
          * @param {Object<string,*>} e - Input event.

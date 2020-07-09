@@ -11,6 +11,7 @@ import {InputText, inputBlockers, inputFilters} from '../../../src/index.js';
 function InputTextNoSpecials() {
     return (
         <InputText
+            name={'noSpecials'}
             placeholder={'No Specials'}
             plugins={[inputBlockers.specialBlocker, inputFilters.specialFilter]}
         />
