@@ -59,7 +59,7 @@
     },
     "dependencies": {
         "@babel/runtime-corejs3": "^7.9.2",
-        "@codistica/react": "^1.0.0-beta.6",
+        "@codistica/react": "^1.0.0-beta.7",
         "core-js": "^3.6.5"
     },
     "devDependencies": {

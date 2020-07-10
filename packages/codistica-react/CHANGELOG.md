@@ -8,6 +8,8 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+## [1.0.0-beta.7] - 2020-07-10
+
 ### Added
 - Some Material-UI input components wrapped with `input-renderer` utility for validation support.
 - Form validation ecosystem:
@@ -113,7 +115,8 @@ of full path being used for importing in `index.js` file. See [Flow #8354 Issue]
 See [GitHub release notes](https://github.com/codistica/codistica-js/releases?after=@codistica/react@1.0.0-beta.1)
 for info on changes for earlier releases.
 
-[Unreleased]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.6...HEAD
+[Unreleased]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.7...HEAD
+[1.0.0-beta.7]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.6...@codistica/react@1.0.0-beta.7
 [1.0.0-beta.6]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.5...@codistica/react@1.0.0-beta.6
 [1.0.0-beta.5]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.4...@codistica/react@1.0.0-beta.5
 [1.0.0-beta.4]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.3...@codistica/react@1.0.0-beta.4

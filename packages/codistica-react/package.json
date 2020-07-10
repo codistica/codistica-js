@@ -1,6 +1,6 @@
 {
     "name": "@codistica/react",
-    "version": "1.0.0-beta.6",
+    "version": "1.0.0-beta.7",
     "publishConfig": {
         "access": "public"
     },
@@ -59,8 +59,8 @@
     },
     "dependencies": {
         "@babel/runtime-corejs3": "^7.9.2",
-        "@codistica/browser": "^1.0.0-beta.4",
-        "@codistica/core": "^1.0.0-beta.3",
+        "@codistica/browser": "^1.0.0-beta.5",
+        "@codistica/core": "^1.0.0-beta.4",
         "@codistica/types": "^1.0.0-beta.2",
         "@date-io/moment": "1.x",
         "@material-ui/core": "^4.10.2",
