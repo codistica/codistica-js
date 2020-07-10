@@ -169,6 +169,18 @@ type InputCheckboxProps = {
     onValidationResult: null | ((...args: Array<any>) => any)
 };
 
+type GlobalStyles = {
+    [string]: CustomStyles
+};
+
+type GlobalClassNames = {
+    [string]: CustomClassNames
+};
+
+type GlobalColors = {
+    [string]: CustomColors
+};
+
 /**
  * @typedef inputCheckboxErrorMessagesType
  * @property {(string|(function(*): string|null)|Object<string,*>|null)} [mandatory=null] - Mandatory error message.
@@ -271,22 +283,20 @@ InputCheckbox.defaultProps = {
     globalTheme: 'default'
 };
 
-InputCheckbox.globalStyles = {
+InputCheckbox.globalStyles = ({
     default: {
-        root: {},
-        img: {}
+        root: {}
     }
-};
+}: GlobalStyles);
 
-InputCheckbox.globalClassNames = {
+InputCheckbox.globalClassNames = ({
     default: {
-        root: '',
-        img: ''
+        root: ''
     }
-};
+}: GlobalClassNames);
 
-InputCheckbox.globalColors = {
+InputCheckbox.globalColors = ({
     default: {}
-};
+}: GlobalColors);
 
 export {InputCheckbox};

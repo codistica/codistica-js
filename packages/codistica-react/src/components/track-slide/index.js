@@ -45,6 +45,22 @@ type Props = {
     globalTheme: 'default' | string | null
 };
 
+type GlobalStyles = {
+    [string]: {
+        root?: {[string]: any},
+        track?: {[string]: any},
+        item?: {[string]: any}
+    }
+};
+
+type GlobalClassNames = {
+    [string]: {
+        root?: string,
+        track?: string,
+        item?: string
+    }
+};
+
 /**
  * @typedef trackSlideDimensionsType
  * @property {(string|number)} height - Slide height.
@@ -273,20 +289,20 @@ TrackSlide.defaultProps = {
     globalTheme: 'default'
 };
 
-TrackSlide.globalStyles = {
+TrackSlide.globalStyles = ({
     default: {
         root: {},
         track: {},
         item: {}
     }
-};
+}: GlobalStyles);
 
-TrackSlide.globalClassNames = {
+TrackSlide.globalClassNames = ({
     default: {
         root: '',
         track: '',
         item: ''
     }
-};
+}: GlobalClassNames);
 
 export {TrackSlide};

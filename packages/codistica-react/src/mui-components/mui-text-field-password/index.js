@@ -129,7 +129,7 @@ function MUITextFieldPassword(props: Props) {
                             }}
                             InputProps={{
                                 endAdornment: (
-                                    <InputAdornment position='end'>
+                                    <InputAdornment position={'end'}>
                                         <IconButton
                                             onClick={() =>
                                                 setShowPassword(!showPassword)

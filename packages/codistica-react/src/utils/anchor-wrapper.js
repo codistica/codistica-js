@@ -21,6 +21,18 @@ type Props = {
     globalTheme: 'default' | string | null
 };
 
+type GlobalStyles = {
+    [string]: {
+        root?: {[string]: any}
+    }
+};
+
+type GlobalClassNames = {
+    [string]: {
+        root?: string
+    }
+};
+
 /**
  * @typedef anchorWrapperPropsType
  * @property {*} [children=null] - React prop.
@@ -102,16 +114,16 @@ AnchorWrapper.defaultProps = {
     globalTheme: 'default'
 };
 
-AnchorWrapper.globalStyles = {
+AnchorWrapper.globalStyles = ({
     default: {
         root: {}
     }
-};
+}: GlobalStyles);
 
-AnchorWrapper.globalClassNames = {
+AnchorWrapper.globalClassNames = ({
     default: {
         root: ''
     }
-};
+}: GlobalClassNames);
 
 export {AnchorWrapper};

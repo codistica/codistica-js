@@ -39,19 +39,19 @@ type State = {
 
 type GlobalStyles = {
     [string]: {
-        root: {[string]: any},
-        dot: {[string]: any},
-        dotActive: {[string]: any},
-        dotInactive: {[string]: any}
+        root?: {[string]: any},
+        dot?: {[string]: any},
+        dotActive?: {[string]: any},
+        dotInactive?: {[string]: any}
     }
 };
 
 type GlobalClassNames = {
     [string]: {
-        root: string,
-        dot: string,
-        dotActive: string,
-        dotInactive: string
+        root?: string,
+        dot?: string,
+        dotActive?: string,
+        dotInactive?: string
     }
 };
 

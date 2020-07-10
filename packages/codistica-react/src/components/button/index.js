@@ -35,19 +35,19 @@ type Props = {
 
 type GlobalStyles = {
     [string]: {
-        root: {[string]: any},
-        button: {[string]: any},
-        buttonEnabled: {[string]: any},
-        buttonDisabled: {[string]: any}
+        root?: {[string]: any},
+        button?: {[string]: any},
+        buttonEnabled?: {[string]: any},
+        buttonDisabled?: {[string]: any}
     }
 };
 
 type GlobalClassNames = {
     [string]: {
-        root: string,
-        button: string,
-        buttonEnabled: string,
-        buttonDisabled: string
+        root?: string,
+        button?: string,
+        buttonEnabled?: string,
+        buttonDisabled?: string
     }
 };
 

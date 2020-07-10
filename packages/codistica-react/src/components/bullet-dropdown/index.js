@@ -34,6 +34,24 @@ type Props = {
     globalTheme: 'default' | string | null
 };
 
+type GlobalStyles = {
+    [string]: {
+        root?: {[string]: any},
+        bullet?: {[string]: any},
+        title?: {[string]: any},
+        item?: {[string]: any}
+    }
+};
+
+type GlobalClassNames = {
+    [string]: {
+        root?: string,
+        bullet?: string,
+        title?: string,
+        item?: string
+    }
+};
+
 /**
  * @typedef bulletDropdownPropsType
  * @property {string} [title='menu'] - Menu title.
@@ -219,22 +237,22 @@ BulletDropdown.defaultProps = {
     globalTheme: 'default'
 };
 
-BulletDropdown.globalStyles = {
+BulletDropdown.globalStyles = ({
     default: {
         root: {},
         bullet: {},
         title: {},
         item: {}
     }
-};
+}: GlobalStyles);
 
-BulletDropdown.globalClassNames = {
+BulletDropdown.globalClassNames = ({
     default: {
         root: '',
         bullet: '',
         title: '',
         item: ''
     }
-};
+}: GlobalClassNames);
 
 export {BulletDropdown};

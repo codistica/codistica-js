@@ -46,6 +46,20 @@ type Props = {
     globalTheme: 'default' | string | null
 };
 
+type GlobalStyles = {
+    [string]: {
+        root?: {[string]: any},
+        item?: {[string]: any}
+    }
+};
+
+type GlobalClassNames = {
+    [string]: {
+        root?: string,
+        item?: string
+    }
+};
+
 /**
  * @typedef tracklessSlideDimensionsType
  * @property {(string|number)} height - Slide height.
@@ -423,18 +437,18 @@ TracklessSlide.defaultProps = {
     globalTheme: 'default'
 };
 
-TracklessSlide.globalStyles = {
+TracklessSlide.globalStyles = ({
     default: {
         root: {},
         item: {}
     }
-};
+}: GlobalStyles);
 
-TracklessSlide.globalClassNames = {
+TracklessSlide.globalClassNames = ({
     default: {
         root: '',
         item: ''
     }
-};
+}: GlobalClassNames);
 
 export {TracklessSlide};

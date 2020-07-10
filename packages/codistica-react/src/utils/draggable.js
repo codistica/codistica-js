@@ -35,13 +35,13 @@ type State = {
 
 type GlobalStyles = {
     [string]: {
-        root: {[string]: any}
+        root?: {[string]: any}
     }
 };
 
 type GlobalClassNames = {
     [string]: {
-        root: string
+        root?: string
     }
 };
 

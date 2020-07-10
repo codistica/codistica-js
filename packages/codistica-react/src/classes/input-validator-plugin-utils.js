@@ -511,7 +511,7 @@ class InputValidatorPluginUtils {
 
     /**
      * @instance
-     * @description Returns specified key has validation status.
+     * @description Returns specified key validation status.
      * @param {string} [key] - Key.
      * @returns {(boolean|null)} Result.
      */

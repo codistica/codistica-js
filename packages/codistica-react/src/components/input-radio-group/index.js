@@ -230,6 +230,18 @@ type InputRadioGroupProps = {
     onValidationResult: null | ((...args: Array<any>) => any)
 };
 
+type GlobalStyles = {
+    [string]: CustomStyles
+};
+
+type GlobalClassNames = {
+    [string]: CustomClassNames
+};
+
+type GlobalColors = {
+    [string]: CustomColors
+};
+
 /**
  * @typedef inputRadioGroupErrorMessagesType
  * @property {(string|(function(*): string|null)|Object<string,*>|null)} [mandatory=null] - Mandatory error message.
@@ -330,26 +342,26 @@ InputRadioGroup.defaultProps = {
     globalTheme: 'default'
 };
 
-InputRadioGroup.globalStyles = {
+InputRadioGroup.globalStyles = ({
     default: {
         root: {},
         inputRow: {},
         title: {},
         inputWrapper: {}
     }
-};
+}: GlobalStyles);
 
-InputRadioGroup.globalClassNames = {
+InputRadioGroup.globalClassNames = ({
     default: {
         root: '',
         inputRow: '',
         title: '',
         inputWrapper: ''
     }
-};
+}: GlobalClassNames);
 
-InputRadioGroup.globalColors = {
+InputRadioGroup.globalColors = ({
     default: {}
-};
+}: GlobalColors);
 
 export {InputRadioGroup};

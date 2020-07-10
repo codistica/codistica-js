@@ -192,6 +192,18 @@ type InputTextProps = {
     onValidationResult: null | ((...args: Array<any>) => any)
 };
 
+type GlobalStyles = {
+    [string]: CustomStyles
+};
+
+type GlobalClassNames = {
+    [string]: CustomClassNames
+};
+
+type GlobalColors = {
+    [string]: CustomColors
+};
+
 /**
  * @typedef inputTextErrorMessagesType
  * @property {(string|(function(*): string|null)|Object<string,*>|null)} [mandatory=null] - Mandatory error message.
@@ -305,24 +317,24 @@ InputText.defaultProps = {
     globalTheme: 'default'
 };
 
-InputText.globalStyles = {
+InputText.globalStyles = ({
     default: {
         root: {},
         input: {},
         label: {}
     }
-};
+}: GlobalStyles);
 
-InputText.globalClassNames = {
+InputText.globalClassNames = ({
     default: {
         root: '',
         input: '',
         label: ''
     }
-};
+}: GlobalClassNames);
 
-InputText.globalColors = {
+InputText.globalColors = ({
     default: {}
-};
+}: GlobalColors);
 
 export {InputText};

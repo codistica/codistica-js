@@ -41,6 +41,20 @@ type Props = {
     globalTheme: 'default' | string | null
 };
 
+type GlobalStyles = {
+    [string]: {
+        root?: {[string]: any},
+        item?: {[string]: any}
+    }
+};
+
+type GlobalClassNames = {
+    [string]: {
+        root?: string,
+        item?: string
+    }
+};
+
 /**
  * @typedef carouselSlideDimensionsType
  * @property {(string|number)} height - Slide height.
@@ -354,18 +368,18 @@ CarouselSlide.defaultProps = {
     globalTheme: 'default'
 };
 
-CarouselSlide.globalStyles = {
+CarouselSlide.globalStyles = ({
     default: {
         root: {},
         item: {}
     }
-};
+}: GlobalStyles);
 
-CarouselSlide.globalClassNames = {
+CarouselSlide.globalClassNames = ({
     default: {
         root: '',
         item: ''
     }
-};
+}: GlobalClassNames);
 
 export {CarouselSlide};

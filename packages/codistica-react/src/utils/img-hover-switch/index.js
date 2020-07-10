@@ -26,6 +26,20 @@ type Props = {
     globalTheme: 'default' | string | null
 };
 
+type GlobalStyles = {
+    [string]: {
+        root?: {[string]: any},
+        img?: {[string]: any}
+    }
+};
+
+type GlobalClassNames = {
+    [string]: {
+        root?: string,
+        img?: string
+    }
+};
+
 /**
  * @typedef imgHoverSwitchPropsType
  * @property {string} defaultImg - Image path for default state.
@@ -115,18 +129,18 @@ ImgHoverSwitch.defaultProps = {
     globalTheme: 'default'
 };
 
-ImgHoverSwitch.globalStyles = {
+ImgHoverSwitch.globalStyles = ({
     default: {
         root: {},
         img: {}
     }
-};
+}: GlobalStyles);
 
-ImgHoverSwitch.globalClassNames = {
+ImgHoverSwitch.globalClassNames = ({
     default: {
         root: '',
         img: ''
     }
-};
+}: GlobalClassNames);
 
 export {ImgHoverSwitch};

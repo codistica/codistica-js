@@ -30,6 +30,18 @@ type Props = {
     globalTheme: 'default' | string | null
 };
 
+type GlobalStyles = {
+    [string]: {
+        root?: {[string]: any}
+    }
+};
+
+type GlobalClassNames = {
+    [string]: {
+        root?: string
+    }
+};
+
 /**
  * @typedef fullScreenSlidePropsType
  * @property {string} [direction='row'] - Slide direction.
@@ -122,16 +134,16 @@ FullScreenSlide.defaultProps = {
     globalTheme: 'default'
 };
 
-FullScreenSlide.globalStyles = {
+FullScreenSlide.globalStyles = ({
     default: {
         root: {}
     }
-};
+}: GlobalStyles);
 
-FullScreenSlide.globalClassNames = {
+FullScreenSlide.globalClassNames = ({
     default: {
         root: ''
     }
-};
+}: GlobalClassNames);
 
 export {FullScreenSlide};

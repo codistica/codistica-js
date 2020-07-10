@@ -99,11 +99,11 @@ function DefaultForm() {
                 <MUIDatePicker
                     inputVariant={'outlined'}
                     name={'birthday'}
-                    label='Date of birth'
+                    label={'Date of birth'}
                     placeholder={'Click to select date'}
-                    format='DD/MM/YYYY'
+                    format={'DD/MM/YYYY'}
                     views={['year', 'month', 'date']}
-                    openTo='year'
+                    openTo={'year'}
                     disableFuture={true}
                     clearable={true}
                     errorMessages={{
@@ -185,7 +185,7 @@ function DefaultForm() {
                 />
 
                 <FormLabel
-                    component='legend'
+                    component={'legend'}
                     className={componentClassNames.formLabel}>
                     Gender
                 </FormLabel>
@@ -317,7 +317,7 @@ function DefaultForm() {
                             }
                         }}>
                         <Button
-                            variant='contained'
+                            variant={'contained'}
                             disabled={!validationResult}
                             onClick={() => {
                                 formInstanceRef.current &&
@@ -329,7 +329,7 @@ function DefaultForm() {
                         </Button>
                     </span>
                     <Button
-                        variant='contained'
+                        variant={'contained'}
                         onClick={() => {
                             formInstanceRef.current &&
                                 formInstanceRef.current.clear();
