@@ -59,6 +59,7 @@
         "@codistica/react": "^1.0.0-beta.7",
         "@material-ui/core": "^4.10.2",
         "@material-ui/icons": "^4.9.1",
+        "@material-ui/pickers": "^3.2.10",
         "@testing-library/jest-dom": "^5.5.0",
         "@testing-library/react": "^10.0.3",
         "@testing-library/user-event": "^10.1.0",
