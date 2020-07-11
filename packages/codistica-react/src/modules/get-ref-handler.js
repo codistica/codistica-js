@@ -19,13 +19,11 @@ type RefReceiver = null | Ref | ((Ref) => void);
 
 /**
  * @description Utility function for components ref handling.
- * @param {getRefHandlerRefReceiverType} forwardedRef - Forwarded ref.
- * @param {getRefHandlerRefReceiverType} componentRef - Local ref.
+ * @param {...getRefHandlerRefReceiverType} refReceivers - Ref receivers.
  * @returns {function(getRefHandlerRefType): void} Ref handler.
  */
 function getRefHandler(
-    forwardedRef: RefReceiver,
-    componentRef: RefReceiver
+    ...refReceivers: Array<RefReceiver>
 ): (...args: Array<any>) => any {
     /**
      * @description Apply ref to receiver.
@@ -44,9 +42,11 @@ function getRefHandler(
             refReceiver.current = ref;
         }
     };
+
     return (ref: Ref) => {
-        applyRef(ref, forwardedRef);
-        applyRef(ref, componentRef);
+        refReceivers.forEach((refReceiver) => {
+            applyRef(ref, refReceiver);
+        });
     };
 }
 

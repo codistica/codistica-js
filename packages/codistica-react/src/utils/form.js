@@ -457,7 +457,7 @@ class Form extends React.Component<Props> {
         return (
             <form
                 {...other}
-                ref={getRefHandler(null, this.formRef)}
+                ref={getRefHandler(this.formRef)}
                 style={mergedStyles.root}
                 className={mergedClassNames.root}>
                 <InputContext.Provider value={this.inputContextValue}>
