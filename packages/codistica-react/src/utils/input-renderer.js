@@ -49,7 +49,7 @@ type InputProps = {
 
 type InputRendererAPI = {
     status: StatusType,
-    hasInteracted: boolean,
+    isInteracted: boolean,
     validationObject: ValidationObject,
     setNewValue: (value: string) => any
 };
@@ -148,8 +148,7 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
 
     id: string;
 
-    hasInteracted: boolean;
-
+    isInteracted: boolean;
     isVoid: boolean | null;
     isDeferred: boolean | null;
     isStandby: boolean | null;
@@ -157,11 +156,8 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
     isMatched: boolean | null;
 
     inputPluginManager: InputPluginManager;
-
     validatorsOutput: RunValidatorsOutputType;
-
     validationObject: ValidationObject;
-
     attachedPromises: Set<Promise<boolean>>;
 
     inputChangeTracker: string;
@@ -177,7 +173,7 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
 
         this.id = this.nextUniqueId();
 
-        this.hasInteracted = false;
+        this.isInteracted = false;
 
         this.isVoid = null;
         this.isDeferred = null;
@@ -186,18 +182,13 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
         this.isMatched = null;
 
         this.inputPluginManager = new InputPluginManager();
-
-        this.inputPluginManager.loadPlugins(props.plugins);
-
         this.validatorsOutput = {};
-
         this.validationObject = {
             result: null,
             reports: {},
             messages: [],
             data: {}
         };
-
         this.attachedPromises = new Set();
 
         this.inputChangeTracker = props.value;
@@ -207,6 +198,8 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
             value: props.value,
             overrideStatus: false
         };
+
+        this.inputPluginManager.loadPlugins(props.plugins);
 
         // BIND METHODS
         (this: any).setNewValue = this.setNewValue.bind(this);
@@ -296,7 +289,7 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
      * @returns {void} Void.
      */
     validateInput(useLastValidatorsOutput?: boolean) {
-        this.isDeferred = this.props.deferValidation && !this.hasInteracted;
+        this.isDeferred = this.props.deferValidation && !this.isInteracted;
         this.isStandby = false;
 
         this.isMissing = this.checkMandatory();
@@ -441,7 +434,7 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
         } else if (this.isMissing) {
             this.setState({
                 status:
-                    (!this.props.deferValidation || this.hasInteracted) &&
+                    (!this.props.deferValidation || this.isInteracted) &&
                     !this.props.keepMissingStatus
                         ? 'invalid'
                         : 'missing'
@@ -508,7 +501,7 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
      * @returns {void} Void.
      */
     clear() {
-        this.hasInteracted = false;
+        this.isInteracted = false;
         this.inputChangeTracker = this.props.value;
         this.setNewValue(this.props.value);
     }
@@ -623,7 +616,7 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
         }
 
         // INDICATE THAT THERE HAS BEEN INTERACTION
-        this.hasInteracted = true;
+        this.isInteracted = true;
 
         if (
             typeof this.props.booleanInput === 'boolean'
@@ -649,8 +642,8 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
         }
 
         // INDICATE THAT THERE HAS BEEN INTERACTION
-        if (!this.hasInteracted) {
-            this.hasInteracted = true;
+        if (!this.isInteracted) {
+            this.isInteracted = true;
             if (this.props.deferValidation) {
                 this.validateInput();
             }
@@ -690,7 +683,7 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
         const {value, status, overrideStatus} = this.state;
         const {
             id,
-            hasInteracted,
+            isInteracted,
             validationObject,
             setNewValue,
             onKeyDownHandler,
@@ -710,7 +703,7 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
                   },
                   {
                       status: overrideStatus || status,
-                      hasInteracted,
+                      isInteracted,
                       validationObject,
                       setNewValue
                   }

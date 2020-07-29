@@ -325,8 +325,8 @@ class Form extends React.Component<Props> {
             const input = this.registeredInputs[i];
 
             // INDICATE THAT THERE HAS BEEN INTERACTION
-            if (!input.hasInteracted) {
-                input.hasInteracted = true;
+            if (!input.isInteracted) {
+                input.isInteracted = true;
                 input.validateInput();
             }
 
@@ -350,10 +350,10 @@ class Form extends React.Component<Props> {
     /**
      * @instance
      * @description Clears form or single input if specified.
-     * @param {string} inputName - Name of input to be cleared.
+     * @param {string} [inputName] - Name of input to be cleared.
      * @returns {void} Void.
      */
-    clear(inputName: string) {
+    clear(inputName?: string) {
         if (inputName) {
             const input = this.getInputByName(inputName);
             if (input) {
@@ -421,8 +421,8 @@ class Form extends React.Component<Props> {
             const input = this.registeredInputs[i];
 
             // INDICATE THAT THERE HAS BEEN INTERACTION
-            if (!input.hasInteracted) {
-                input.hasInteracted = true;
+            if (!input.isInteracted) {
+                input.isInteracted = true;
                 input.validateInput();
             }
         }
