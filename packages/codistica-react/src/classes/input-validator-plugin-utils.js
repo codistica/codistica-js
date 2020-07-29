@@ -343,13 +343,15 @@ class InputValidatorPluginUtils {
      * @param {(string|(function(*): string|null)|Object<string,*>|null)} [rawMessage] - Raw message.
      * @param {Object<string,*>} [params] - Message parameters.
      * @param {function(string,Object<string,*>): void} callback - Callback.
+     * @param {function(void): void} onAbort - Callback for abort event.
      * @returns {void} Void.
      */
     defer(
         key: string,
         rawMessage?: RawMessageType,
         params?: {[string]: any},
-        callback: DeferCallbackType
+        callback: DeferCallbackType,
+        onAbort?: (void) => void
     ) {
         if (
             this.deferContexts[key] &&
@@ -388,7 +390,8 @@ class InputValidatorPluginUtils {
                     const context = this.createDeferContext(
                         key,
                         resolve,
-                        this.deferCaches[key]
+                        this.deferCaches[key],
+                        onAbort
                     );
 
                     this.deferContexts[key] = context;
@@ -421,12 +424,14 @@ class InputValidatorPluginUtils {
      * @param {string} key - Key.
      * @param {function(boolean): void} resolve - Promise resolve method.
      * @param {Map<string,(boolean|null)>} [cache] - Defer cache.
+     * @param {function(void): void} onAbort - Callback for abort event.
      * @returns {Object<string,*>} Defer context.
      */
     createDeferContext(
         key: string,
         resolve: (boolean) => void,
-        cache?: DeferCacheType
+        cache?: DeferCacheType,
+        onAbort?: (void) => void
     ): DeferContextType {
         let isActive: boolean = true;
         let value = this.value;
@@ -484,6 +489,7 @@ class InputValidatorPluginUtils {
             },
             abort: () => {
                 if (isActive) {
+                    onAbort && onAbort();
                     isActive = false;
                     resolve(false);
                     delete this.validatorOutput.promises[key];
