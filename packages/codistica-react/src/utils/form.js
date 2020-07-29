@@ -218,15 +218,31 @@ class Form extends React.Component<Props> {
      * @instance
      * @description Trigger linked inputs validation.
      * @param {string} inputName - Input name.
+     * @param {Set<string>} ignore - Set of input names to be ignored.
      * @returns {void} Void.
      */
-    validateLinkedInputs(inputName: string) {
+    validateLinkedInputs(inputName: string, ignore?: Set<string>) {
+        const ignoreSet = ignore || new Set();
         const linkedInputsSet = this.linkedInputsMap.get(inputName);
+
         if (linkedInputsSet) {
+            if (!ignoreSet.size) {
+                // DO NOT VALIDATE AGAIN FIRST REQUESTER INPUT.
+                ignoreSet.add(inputName);
+            }
+
             linkedInputsSet.forEach((linkedInputName) => {
                 const linkedInput = this.getInputByName(linkedInputName);
-                if (linkedInput) {
+
+                if (linkedInput && !ignoreSet.has(linkedInputName)) {
+                    ignoreSet.add(linkedInputName);
+
                     linkedInput.validateInput();
+
+                    this.validateLinkedInputs(
+                        linkedInput.props.name,
+                        ignoreSet
+                    );
                 }
             });
         }
