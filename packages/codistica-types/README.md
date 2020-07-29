@@ -16,7 +16,7 @@
 
 ## Documentation
 
-Documentation will be soon available in [Codistica's official website][coidistica-js-docs-url].
+Documentation will be soon available in [Codistica's official website][codistica-js-docs-url].
 
 
 ## Install
@@ -46,4 +46,4 @@ See [LICENSE.md][license]
 [license]: ../../LICENSE.md
 
 <!--EXTERNAL LINKS-->
-[coidistica-js-docs-url]: https://www.codistica.com/
+[codistica-js-docs-url]: https://www.codistica.com/
