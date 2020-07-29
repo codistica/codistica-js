@@ -5,7 +5,7 @@
 // TODO: USE OWN UNIQUE ID SYSTEM? APPLY TO ALL PROJECT.
 
 import {objectUtils} from '@codistica/core';
-import React, {createContext} from 'react';
+import React from 'react';
 import type {Node} from 'react';
 import {default as uniqueId} from 'react-html-id';
 import {InputPluginManager} from '../classes/input-plugin-manager.js';
@@ -20,6 +20,7 @@ import type {
     MessageType,
     DataType
 } from '../classes/input-validator-plugin-utils.js';
+import {FormContext} from './form.js';
 
 type ValidationObject = {
     result: ResultType,
@@ -88,10 +89,6 @@ type State = {
     overrideStatus: StatusType | false
 };
 
-const InputContext: {[string]: any} = createContext({
-    formInstance: null
-});
-
 /**
  * @typedef inputRendererErrorMessagesType
  * @property {(string|(function(*): string|null)|Object<string,*>|null)} [mandatory=null] - Mandatory error message.
@@ -124,7 +121,7 @@ const InputContext: {[string]: any} = createContext({
  * @classdesc A beautiful input renderer.
  */
 class InputRenderer extends React.Component<InputRendererPropsType, State> {
-    static contextType = InputContext;
+    static contextType = FormContext;
 
     static defaultProps = {
         voidValue: '',
@@ -722,5 +719,5 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
     }
 }
 
-export {InputContext, InputRenderer};
+export {FormContext, InputRenderer};
 export type {ValidationObject, StatusType, InputRendererPropsType, PluginType};

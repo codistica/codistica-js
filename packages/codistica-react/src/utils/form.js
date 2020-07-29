@@ -8,12 +8,11 @@
 // TODO: CHECK/IMPROVE ALL JSDOC IN ALL FORM/INPUT FLOW.
 
 import {log} from '@codistica/core';
-import React from 'react';
+import React, {createContext} from 'react';
 import resetClassNames from '../css/reset.module.scss';
 import {getRefHandler} from '../modules/get-ref-handler.js';
 import {mergeClassNames} from '../modules/merge-class-names.js';
 import {mergeStyles} from '../modules/merge-styles.js';
-import {InputContext} from './input-renderer.js';
 import type {InputRenderer, ValidationObject} from './input-renderer.js';
 
 type FormValidationObjectType = {[string]: ValidationObject};
@@ -50,6 +49,10 @@ type GlobalClassNames = {
         root?: string
     }
 };
+
+const FormContext: {[string]: any} = createContext({
+    formInstance: null
+});
 
 /**
  * @typedef formPropsType
@@ -102,7 +105,7 @@ class Form extends React.Component<Props> {
         current: any
     };
 
-    inputContextValue: {
+    FormContextValue: {
         formInstance: Form
     };
 
@@ -140,7 +143,7 @@ class Form extends React.Component<Props> {
         );
         (this: any).getInputByName = this.getInputByName.bind(this);
 
-        this.inputContextValue = {
+        this.FormContextValue = {
             formInstance: this
         };
     }
@@ -460,13 +463,13 @@ class Form extends React.Component<Props> {
                 ref={getRefHandler(this.formRef)}
                 style={mergedStyles.root}
                 className={mergedClassNames.root}>
-                <InputContext.Provider value={this.inputContextValue}>
+                <FormContext.Provider value={this.FormContextValue}>
                     {children}
-                </InputContext.Provider>
+                </FormContext.Provider>
             </form>
         );
     }
 }
 
-export {Form};
+export {Form, FormContext};
 export type {FormValidationObjectType};
