@@ -12,12 +12,7 @@ const emailPresetSchema = new Types({
         def: {
             errorMessages: {
                 type: 'Object',
-                def: {
-                    generic: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    }
-                }
+                def: {}
             }
         }
     }
@@ -26,10 +21,15 @@ const emailPresetSchema = new Types({
 /**
  * @typedef emailPresetErrorMessagesType
  * @property {(string|(function(*): string|null)|Object<string,*>|null)} [generic=null] - Generic error message.
+ * @property {(string|(function(*): string|null)|Object<string,*>|null)} [format=null] - Format error message.
+ * @property {(string|(function(*): string|null)|Object<string,*>|null)} [username=null] - Username format error message.
+ * @property {(string|(function(*): string|null)|Object<string,*>|null)} [domains=null] - Domains error message.
  */
 
 /**
  * @typedef emailPresetOptionsType
+ * @property {(RegExp|null)} [username=null] - Required username format.
+ * @property {(Array<string>|null)} [domains=null] - Allowed domains.
  * @property {emailPresetErrorMessagesType} [errorMessages] - Validation error messages.
  */
 
@@ -41,13 +41,24 @@ const emailPresetSchema = new Types({
 function emailPreset(options) {
     ({options} = emailPresetSchema.validate({options}));
 
+    const {generic, ...otherErrorMessages} = options.errorMessages;
+
     return {
         type: 'preset',
         name: 'emailPreset',
         groupErrorMessages: {
-            generic: options.errorMessages.generic
+            generic: generic
         },
-        plugin: [spaceBlocker, spaceFilter, uppercaseFilter, emailValidator]
+        plugin: [
+            spaceBlocker,
+            spaceFilter,
+            uppercaseFilter,
+            emailValidator({
+                username: options.username,
+                domains: options.domains,
+                errorMessages: otherErrorMessages
+            })
+        ]
     };
 }
 

@@ -172,8 +172,14 @@ function DefaultForm() {
                     label={'Email'}
                     type={'email'}
                     plugins={inputPresets.emailPreset({
+                        username: /^\w+\.\w+$/,
+                        domains: ['codistica.com'],
                         errorMessages: {
-                            generic: 'Please insert a valid email address.'
+                            generic: 'Please check this field:',
+                            format: '- Invalid email address.',
+                            username: '- Use name.surname format.',
+                            domains:
+                                '- You must use a codistica.com email address.'
                         }
                     })}
                     errorMessages={{
