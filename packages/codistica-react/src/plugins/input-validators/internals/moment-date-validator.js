@@ -5,6 +5,11 @@ import {InputValidatorPluginUtils} from '../../../classes/input-validator-plugin
 
 // TODO: ADD stringifier AND parser AS STATIC METHODS.
 
+const messageSchema = {
+    type: ['string', 'Function', 'Object', 'null'],
+    def: null
+};
+
 const momentDateValidatorSchema = new Types({
     options: {
         type: 'Object',
@@ -17,30 +22,12 @@ const momentDateValidatorSchema = new Types({
             errorMessages: {
                 type: 'Object',
                 def: {
-                    generic: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    },
-                    minDate: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    },
-                    maxDate: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    },
-                    minAge: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    },
-                    format: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    },
-                    separator: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    }
+                    generic: messageSchema,
+                    minDate: messageSchema,
+                    maxDate: messageSchema,
+                    minAge: messageSchema,
+                    format: messageSchema,
+                    separator: messageSchema
                 }
             }
         }

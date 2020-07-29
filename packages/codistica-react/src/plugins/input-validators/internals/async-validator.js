@@ -3,6 +3,11 @@
 import {Types} from '@codistica/types';
 import {InputValidatorPluginUtils} from '../../../classes/input-validator-plugin-utils.js';
 
+const messageSchema = {
+    type: ['string', 'Function', 'Object', 'null'],
+    def: null
+};
+
 const asyncValidatorSchema = new Types({
     options: {
         type: 'Object',
@@ -13,32 +18,20 @@ const asyncValidatorSchema = new Types({
             errorMessages: {
                 type: 'Object',
                 def: {
-                    generic: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    },
-                    asyncValidator: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    }
+                    generic: messageSchema,
+                    asyncValidator: messageSchema
                 }
             },
             successMessages: {
                 type: 'Object',
                 def: {
-                    asyncValidator: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    }
+                    asyncValidator: messageSchema
                 }
             },
             standByMessages: {
                 type: 'Object',
                 def: {
-                    asyncValidator: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    }
+                    asyncValidator: messageSchema
                 }
             }
         }

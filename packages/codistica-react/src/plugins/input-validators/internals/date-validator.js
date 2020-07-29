@@ -4,6 +4,11 @@ import {dateUtils, numberUtils, regExpUtils} from '@codistica/core';
 import {Types} from '@codistica/types';
 import {InputValidatorPluginUtils} from '../../../classes/input-validator-plugin-utils.js';
 
+const messageSchema = {
+    type: ['string', 'Function', 'Object', 'null'],
+    def: null
+};
+
 const dateValidatorSchema = new Types({
     options: {
         type: 'Object',
@@ -16,30 +21,12 @@ const dateValidatorSchema = new Types({
             errorMessages: {
                 type: 'Object',
                 def: {
-                    generic: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    },
-                    minDate: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    },
-                    maxDate: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    },
-                    minAge: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    },
-                    format: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    },
-                    separator: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    }
+                    generic: messageSchema,
+                    minDate: messageSchema,
+                    maxDate: messageSchema,
+                    minAge: messageSchema,
+                    format: messageSchema,
+                    separator: messageSchema
                 }
             }
         }

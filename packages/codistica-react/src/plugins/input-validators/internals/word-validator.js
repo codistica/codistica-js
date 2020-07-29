@@ -3,6 +3,11 @@
 import {Types} from '@codistica/types';
 import {InputValidatorPluginUtils} from '../../../classes/input-validator-plugin-utils.js';
 
+const messageSchema = {
+    type: ['string', 'Function', 'Object', 'null'],
+    def: null
+};
+
 const wordValidatorSchema = new Types({
     options: {
         type: 'Object',
@@ -12,10 +17,7 @@ const wordValidatorSchema = new Types({
             errorMessages: {
                 type: 'Object',
                 def: {
-                    generic: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    }
+                    generic: messageSchema
                 }
             }
         }

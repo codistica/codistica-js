@@ -4,6 +4,11 @@ import {REG_EXPS} from '@codistica/core';
 import {Types} from '@codistica/types';
 import {InputValidatorPluginUtils} from '../../../classes/input-validator-plugin-utils.js';
 
+const messageSchema = {
+    type: ['string', 'Function', 'Object', 'null'],
+    def: null
+};
+
 const passwordValidatorSchema = new Types({
     options: {
         type: 'Object',
@@ -17,30 +22,12 @@ const passwordValidatorSchema = new Types({
             errorMessages: {
                 type: 'Object',
                 def: {
-                    generic: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    },
-                    length: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    },
-                    numbers: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    },
-                    lowercases: {
-                        type: ['string', 'Function', 'null'],
-                        def: null
-                    },
-                    uppercases: {
-                        type: ['string', 'Function', 'null'],
-                        def: null
-                    },
-                    specials: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    }
+                    generic: messageSchema,
+                    length: messageSchema,
+                    numbers: messageSchema,
+                    lowercases: messageSchema,
+                    uppercases: messageSchema,
+                    specials: messageSchema
                 }
             }
         }

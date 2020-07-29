@@ -3,6 +3,11 @@
 import {Types} from '@codistica/types';
 import {InputValidatorPluginUtils} from '../../../classes/input-validator-plugin-utils.js';
 
+const messageSchema = {
+    type: ['string', 'Function', 'Object', 'null'],
+    def: null
+};
+
 const lengthValidatorSchema = new Types({
     options: {
         type: 'Object',
@@ -12,18 +17,9 @@ const lengthValidatorSchema = new Types({
             errorMessages: {
                 type: 'Object',
                 def: {
-                    generic: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    },
-                    minLength: {
-                        type: ['string', 'Function', 'null'],
-                        def: null
-                    },
-                    maxLength: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    }
+                    generic: messageSchema,
+                    minLength: messageSchema,
+                    maxLength: messageSchema
                 }
             }
         }

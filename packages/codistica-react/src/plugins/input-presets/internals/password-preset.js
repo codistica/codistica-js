@@ -11,32 +11,7 @@ const passwordPresetSchema = new Types({
         def: {
             errorMessages: {
                 type: 'Object',
-                def: {
-                    generic: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    },
-                    length: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    },
-                    numbers: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    },
-                    lowercases: {
-                        type: ['string', 'Function', 'null'],
-                        def: null
-                    },
-                    uppercases: {
-                        type: ['string', 'Function', 'null'],
-                        def: null
-                    },
-                    specials: {
-                        type: ['string', 'Function', 'Object', 'null'],
-                        def: null
-                    }
-                }
+                def: {}
             }
         }
     }
