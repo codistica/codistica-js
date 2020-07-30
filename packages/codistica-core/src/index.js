@@ -9,6 +9,7 @@ import * as promiseUtils from './modules/promise-utils/index.js';
 import * as randomizer from './modules/randomizer/index.js';
 import * as regExpUtils from './modules/reg-exp-utils/index.js';
 import * as stringUtils from './modules/string-utils/index.js';
+import * as urlUtils from './modules/url-utils/index.js';
 
 export {
     arrayUtils,
@@ -19,7 +20,8 @@ export {
     promiseUtils,
     randomizer,
     regExpUtils,
-    stringUtils
+    stringUtils,
+    urlUtils
 };
 
 // *** NORMAL EXPORT ***
