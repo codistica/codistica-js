@@ -2,8 +2,6 @@
 
 import {log} from '@codistica/core';
 
-// TODO: ADD @instance WHERE NEEDED!
-
 /**
  * @typedef threadOptionsType
  * @property {number} [activeTimeThreshold=100] - Minimum measured time in milliseconds that must be accumulated before using for calculations.
@@ -73,6 +71,7 @@ class Thread {
     }
 
     /**
+     * @instance
      * @description Run specified payload.
      * @param {Object<string,*>} payload - Payload.
      */
@@ -96,16 +95,11 @@ class Thread {
 
     reset() {
         // RESET INSTANCE
-        Object.assign(
-            this,
-            new Thread({
-                activeTimeThreshold: this.options.activeTimeThreshold,
-                threadIndex: this.threadIndex
-            })
-        );
+        Object.assign(this, new Thread(this.options));
     }
 
     /**
+     * @instance
      * @description Callback for end event.
      * @param {{that: Object<string,*>}} arg - Event passed arguments.
      */
@@ -117,6 +111,7 @@ class Thread {
     }
 
     /**
+     * @instance
      * @description Callback for computableProgress event.
      * @param {{that: Object<string,*>, now: number}} arg - Event passed arguments.
      */
@@ -148,6 +143,7 @@ class Thread {
     }
 
     /**
+     * @instance
      * @description Callback for deltaLoaded event.
      * @param {{deltaLoaded: number}} arg - Event passed arguments.
      */
@@ -160,6 +156,7 @@ class Thread {
     }
 
     /**
+     * @instance
      * @description Callback for headers event.
      * @param {{now: number}} arg - Event passed arguments.
      */

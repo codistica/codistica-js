@@ -59,7 +59,7 @@
         "@codistica/core": "^1.0.0-beta.4",
         "@codistica/types": "^1.0.0-beta.2",
         "core-js": "^3.6.5",
-        "eventemitter3": "^4.0.0"
+        "eventemitter3": "^4.0.4"
     },
     "devDependencies": {
         "chai": "^4.2.0"

@@ -1,16 +1,14 @@
 /** @module browser/classes/ajax-request */
 
-import {log, randomizer} from '@codistica/core';
+import {log, urlUtils} from '@codistica/core';
 import {EventEmitter} from 'eventemitter3';
 
 // TODO: LOG AND PASS ERRORS
 // TODO: REMOVE EVENT LISTENERS WHEN FINISHED
-// TODO: REDUCE SIZE IF POSSIBLE
 
 /**
  * @typedef ajaxRequestOptionsType
- * @property {string} path - Request URL.
- * @property {string} [id] - Request ID.
+ * @property {string} url - Request URL.
  * @property {string} [requestMethod='GET'] - HTTP method to be used.
  * @property {(''|'arraybuffer'|'blob'|'document'|'json'|'text')} [responseType='text'] - Response type.
  * @property {boolean} [noCache=false] - If true, appends unique queries to the request URL so fresh responses are forced.
@@ -27,24 +25,22 @@ class AJAXRequest extends EventEmitter {
     constructor(options) {
         super();
 
-        this.path = options.path;
-        this.id =
-            typeof options.id === 'string'
-                ? options.id
-                : randomizer.getUniqueId();
+        this.options = typeof options === 'object' ? options : {};
 
-        this.options = {
-            requestMethod:
-                typeof options.requestMethod === 'string'
-                    ? options.requestMethod
-                    : 'GET',
-            responseType:
-                typeof options.responseType === 'string'
-                    ? options.responseType
-                    : 'text',
-            noCache:
-                typeof options.noCache === 'boolean' ? options.noCache : false
-        };
+        this.options.url = options.url;
+
+        this.options.requestMethod =
+            typeof options.requestMethod === 'string'
+                ? options.requestMethod
+                : 'GET';
+
+        this.options.responseType =
+            typeof options.responseType === 'string'
+                ? options.responseType
+                : 'text';
+
+        this.options.noCache =
+            typeof options.noCache === 'boolean' ? options.noCache : false;
 
         this.stats = {
             sendTimestamp: null
@@ -57,12 +53,19 @@ class AJAXRequest extends EventEmitter {
         this.emit = this.emit.bind(this);
 
         // SAVE REQUEST URL
-        // TODO: IMPROVE QUERY APPENDING. (DO NOT DESTROY EXISTING)
-        this.requestUrl =
-            this.path +
-            (this.options.noCache
-                ? (/\?/.test(this.path) ? '&' : '?') + Date.now()
-                : '');
+        if (this.options.noCache) {
+            const parsedQueryString = urlUtils.parseQueryString(
+                this.options.url
+            );
+
+            parsedQueryString.noCache = Date.now();
+
+            this.requestUrl =
+                urlUtils.stripQueryString(this.options.url) +
+                urlUtils.stringifyQueryString(parsedQueryString);
+        } else {
+            this.requestUrl = this.options.url;
+        }
 
         // CREATE REQUEST
         this.request = new XMLHttpRequest();
@@ -202,6 +205,7 @@ class AJAXRequest extends EventEmitter {
     }
 
     /**
+     * @instance
      * @description Event emission auxiliary method.
      * @param {(string|symbol)} event - Event name to be emitted.
      * @param {...*} args - Arguments to be passed to handlers.

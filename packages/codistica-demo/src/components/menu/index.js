@@ -69,6 +69,11 @@ function Menu() {
                         FORMS
                     </Link>
                 </span>
+                <span>
+                    <Link to={'/ajax'} data-link={'true'}>
+                        AJAX
+                    </Link>
+                </span>
             </div>
         </OnClickOutsideDiv>
     );

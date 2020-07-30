@@ -11,6 +11,7 @@ import {BackgroundStore} from './contexts/background-context.js';
 import {HeaderStore} from './contexts/header-context.js';
 import {MenuStore} from './contexts/menu-context.js';
 import {ThemeStore} from './contexts/theme-context.js';
+import {AJAXRoute} from './routes/ajax/index.js';
 import {FormsRoute} from './routes/forms/index.js';
 import {HomeRoute} from './routes/home/index.js';
 import {ScrollingRoute} from './routes/scrolling/index.js';
@@ -79,6 +80,11 @@ function App() {
                                     path={'/forms'}
                                     exact={true}
                                     component={FormsRoute}
+                                />
+                                <Route
+                                    path={'/ajax'}
+                                    exact={true}
+                                    component={AJAXRoute}
                                 />
                             </Switch>
                         </BodyContainer>

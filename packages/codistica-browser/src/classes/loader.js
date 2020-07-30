@@ -1,6 +1,6 @@
 /** @module browser/classes/loader */
 
-import {log, SEEDS, randomizer} from '@codistica/core';
+import {log, SEEDS} from '@codistica/core';
 import {EventEmitter} from 'eventemitter3';
 import {Payload} from './payload.js';
 import {Thread} from './thread.js';
@@ -9,9 +9,7 @@ import {Thread} from './thread.js';
  * @typedef loaderPayloadPayloadDataType
  * @property {number|null} [total=null] - Payload size in bytes.
  * @property {boolean} [createObjectUrl=false] - If true, object url will be created from response. Only applies if response is of blob type.
- * @property {boolean} [force=false] - Indicates that payload usage must be forced.
- * @property {string} path - Request URL.
- * @property {string|null} [id] - Request ID.
+ * @property {string} url - Request URL.
  * @property {string} [requestMethod='GET'] - HTTP method to be used.
  * @property {(''|'arraybuffer'|'blob'|'document'|'json'|'text')} [responseType='text'] - Response type.
  * @property {boolean} [noCache=false] - If true, appends unique queries to the request URL so fresh responses are forced.
@@ -21,7 +19,7 @@ import {Thread} from './thread.js';
  * @typedef loaderOptionsType
  * @property {number} [maxThreads=4] - Maximum concurrent threads.
  * @property {number} [activeTimeThreshold=100] - Minimum measured time in milliseconds that must be accumulated before using for calculations.
- * @property {string|null} [threadIndex=null] - Thread index in Loader.
+ * @property {boolean} [autoStart=false] - Auto start download process when new items in queue.
  */
 
 /**
@@ -36,17 +34,21 @@ class Loader extends EventEmitter {
         super();
 
         this.threads = {};
-
         this.queue = [];
         this.history = [];
 
-        this.options = {
-            maxThreads: 0,
-            activeTimeThreshold:
-                typeof options.activeTimeThreshold === 'number'
-                    ? options.activeTimeThreshold
-                    : 100
-        };
+        this.options = typeof options === 'object' ? options : {};
+
+        this.options.maxThreads =
+            typeof options.maxThreads === 'number' ? options.maxThreads : 4;
+
+        this.options.activeTimeThreshold =
+            typeof options.activeTimeThreshold === 'number'
+                ? options.activeTimeThreshold
+                : 100;
+
+        this.options.autoStart =
+            typeof options.autoStart === 'boolean' ? options.autoStart : false;
 
         this.status = {
             inProgress: 0,
@@ -59,7 +61,6 @@ class Loader extends EventEmitter {
         };
 
         this.progress = {
-            // TODO: WHEN/HOW TO SET LAP? (RESTART PROGRESS). AFTER HITTING 100%?
             total: 0,
             loaded: 0,
             percent: 0,
@@ -73,19 +74,17 @@ class Loader extends EventEmitter {
         };
 
         // CREATE INITIAL THREADS
-        this.setMaxThreads(
-            typeof options.maxThreads === 'number' ? options.maxThreads : 4
-        );
+        this.setMaxThreads(this.options.maxThreads);
 
         // BIND METHODS
         this.add = this.add.bind(this);
-        this.remove = this.remove.bind(this);
+        // this.remove = this.remove.bind(this);
         this.getPayloads = this.getPayloads.bind(this);
         this.start = this.start.bind(this);
         this.stop = this.stop.bind(this);
         this.reset = this.reset.bind(this);
         this.callThreads = this.callThreads.bind(this);
-        this.sortQueue = this.sortQueue.bind(this);
+        // this.sortQueue = this.sortQueue.bind(this);
         this.setMaxThreads = this.setMaxThreads.bind(this);
         this.balanceThreads = this.balanceThreads.bind(this);
         this.refresh = this.refresh.bind(this);
@@ -100,77 +99,58 @@ class Loader extends EventEmitter {
     }
 
     /**
+     * @instance
      * @description Add new item to loader queue.
-     * @param {(loaderPayloadPayloadDataType|Array<loaderPayloadPayloadDataType>)} item - Item to be added.
+     * @param {loaderPayloadPayloadDataType} payloadData - Payload data to be added.
      * @param {boolean} [addNext=false] - Add to the start of the queue.
-     * @returns {string|Array<string>} Added item respective payload instance.
+     * @param {boolean} [force=false] - Force new payload creation.
+     * @returns {Payload} Added item respective payload instance.
      */
-    add(item, addNext) {
-        let output = [];
+    add(payloadData, addNext, force) {
+        let payload = null;
 
-        item = /** @type {Array<loaderPayloadPayloadDataType>} */ (Array.isArray(
-            item
-        )
-            ? item
-            : [item]);
-
-        item.forEach((payloadData) => {
-            let payload = null;
-
-            if (!payloadData.force) {
-                payload = this.getPayloads(payloadData.path)[0]; // GET LAST ADDED PAYLOAD
-                if (typeof payload === 'object') {
-                    output.push(payload);
-                    return;
-                }
+        if (!force) {
+            // GET LAST ADDED MATCHING PAYLOAD
+            payload = this.getPayloads(payloadData.url)[0];
+            if (payload) {
+                return payload;
             }
+        }
 
-            payload = new Payload({
-                ...payloadData,
-                id: randomizer.getUniqueId()
-            });
+        payload = new Payload(payloadData);
 
-            // ATTACH HANDLERS
-            payload.once('send', ({that}) => {
-                that.once('end', this.onEndHandler);
-                that.on('computableprogress', this.onComputableProgressHandler);
-                that.on('deltaloaded', this.onDeltaLoadedHandler);
-                that.on('deltatotal', this.onDeltaTotalHandler);
-                that.once('headers', this.onHeadersHandler);
-            });
-
-            // SEND PAYLOAD TO QUEUE
-            if (addNext) {
-                this.queue.unshift(payload);
-            } else {
-                this.queue.push(payload);
-            }
-            log.debug('Loader()', `${payload.requestUrl} SENT TO QUEUE`)();
-
-            // UPDATE PROGRESS
-            this.progress.total +=
-                payload.progress.total !== null ? payload.progress.total : 0;
-
-            // PUSH PAYLOAD TO OUTPUT
-            output.push(payload);
+        // ATTACH HANDLERS
+        payload.once('send', ({that}) => {
+            that.once('end', this.onEndHandler);
+            that.on('computableprogress', this.onComputableProgressHandler);
+            that.on('deltaloaded', this.onDeltaLoadedHandler);
+            that.on('deltatotal', this.onDeltaTotalHandler);
+            that.once('headers', this.onHeadersHandler);
         });
 
-        if (this.status.inProgress === 0) {
+        // SEND PAYLOAD TO QUEUE
+        if (addNext) {
+            this.queue.unshift(payload);
+        } else {
+            this.queue.push(payload);
+        }
+        log.debug('Loader()', `${payload.requestUrl} SENT TO QUEUE`)();
+
+        // UPDATE PROGRESS
+        this.progress.total +=
+            payload.progress.total !== null ? payload.progress.total : 0;
+
+        if (this.options.autoStart && this.status.inProgress === 0) {
             this.start();
         }
 
-        return output.length === 1 ? output[0] : output;
+        return payload;
     }
 
     // TODO
-    // /**
-    //  * @param {string|Array<string>}    item
-    //  * @param {boolean} removeAll
-    //  * @returns {boolean|Array<boolean>}
-    //  */
     // remove(item, removeAll) {
-    //     (Array.isArray(item) ? item : [item]).forEach((path) => {
-    //         const payloads = this.getPayloads(path);
+    //     (Array.isArray(item) ? item : [item]).forEach((url) => {
+    //         const payloads = this.getPayloads(url);
     //         if (payloads.length > 0) {
     //
     //         }
@@ -178,11 +158,12 @@ class Loader extends EventEmitter {
     // }
 
     /**
-     * @description Returns an array with all payloads matching indicated path.
-     * @param {string} path - Payload path.
-     * @returns {Array<Object<string,*>>} Payloads array.
+     * @instance
+     * @description Returns an array with all payloads matching indicated url.
+     * @param {string} url - Payload url.
+     * @returns {Array<Payload>} Payloads array.
      */
-    getPayloads(path) {
+    getPayloads(url) {
         const locations = [this.queue, this.threads, this.history];
         let output = [];
         locations.forEach((location) => {
@@ -190,7 +171,7 @@ class Loader extends EventEmitter {
             if (Array.isArray(location)) {
                 location.forEach((elem) => {
                     payload = elem instanceof Payload ? elem : elem.payload;
-                    if (payload && payload.path === path) {
+                    if (payload && payload.url === url) {
                         output.push(payload);
                     }
                 });
@@ -203,7 +184,7 @@ class Loader extends EventEmitter {
                         location[i] instanceof Payload
                             ? location[i]
                             : location[i].payload;
-                    if (payload && payload.path === path) {
+                    if (payload && payload.url === url) {
                         output.push(payload);
                     }
                 }
@@ -223,13 +204,7 @@ class Loader extends EventEmitter {
 
     reset() {
         // RESET INSTANCE
-        Object.assign(
-            this,
-            new Loader({
-                maxThreads: this.options.maxThreads,
-                activeTimeThreshold: this.options.activeTimeThreshold
-            })
-        );
+        Object.assign(this, new Loader(this.options));
     }
 
     callThreads() {
@@ -264,6 +239,7 @@ class Loader extends EventEmitter {
     // }
 
     /**
+     * @instance
      * @description Dynamically set a new maximum number of concurrent threads.
      * @param {number} newMax - New maximum.
      */
@@ -392,6 +368,7 @@ class Loader extends EventEmitter {
     }
 
     /**
+     * @instance
      * @description Callback for end event.
      * @param {{that: Object<string,*>}} arg - Event passed arguments.
      */
@@ -420,12 +397,11 @@ class Loader extends EventEmitter {
     }
 
     /**
+     * @instance
      * @description Callback for computableProgress event.
      * @param {{now: number}} arg - Event passed arguments.
      */
     onComputableProgressHandler({now}) {
-        // TODO: MAKE REQUEST UPDATE A Payload METHOD?
-
         const currentThreads = Object.getOwnPropertyNames(this.threads).length;
 
         let deltaRtt = null;
@@ -511,6 +487,7 @@ class Loader extends EventEmitter {
     }
 
     /**
+     * @instance
      * @description Callback for deltaLoaded event.
      * @param {{deltaLoaded: number}} arg - Event passed arguments.
      */
@@ -520,6 +497,7 @@ class Loader extends EventEmitter {
     }
 
     /**
+     * @instance
      * @description Callback for deltaTotal event.
      * @param {{deltaTotal: number}} arg - Event passed arguments.
      */
@@ -558,6 +536,7 @@ class Loader extends EventEmitter {
     }
 
     /**
+     * @instance
      * @description Event emission auxiliary method.
      * @param {(string|symbol)} event - Event name to be emitted.
      * @param {...*} args - Arguments to be passed to handlers.

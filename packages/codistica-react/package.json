@@ -64,7 +64,6 @@
         "@codistica/types": "^1.0.0-beta.2",
         "@date-io/moment": "1.x",
         "core-js": "^3.6.5",
-        "eventemitter3": "^4.0.0",
         "jss": "^10.1.1",
         "jss-preset-default": "^10.1.1",
         "moment": "^2.27.0",

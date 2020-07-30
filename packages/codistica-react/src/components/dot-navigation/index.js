@@ -14,7 +14,7 @@ type Props = {
     size: string,
     direction: 'row' | 'column',
     auto: boolean,
-    onSwitch: (...args: Array<any>) => any,
+    onSwitch: null | ((...args: Array<any>) => any),
     waitForCallback: boolean,
     style: {[string]: any},
     className: string,

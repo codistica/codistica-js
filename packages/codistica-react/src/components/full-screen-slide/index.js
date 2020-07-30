@@ -50,6 +50,7 @@ type GlobalClassNames = {
  * @property {Function} [onMount=null] - Callback for componentDidMount event.
  * @property {Function} [onNewPosition=null] - Callback for newPosition event.
  * @property {*} [children=null] - React prop.
+ * @property {*} [elements=null] - Slide sibling elements.
  * @property {Object<string,*>} [style={}] - React prop.
  * @property {string} [className=''] - React prop.
  * @property {Object<string,*>} [customStyles={}] - Custom styles prop.

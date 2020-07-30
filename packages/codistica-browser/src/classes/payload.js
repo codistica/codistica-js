@@ -8,9 +8,7 @@ import {AJAXRequest} from './ajax-request.js';
  * @typedef payloadPayloadDataType
  * @property {number|null} [total=null] - Payload size in bytes.
  * @property {boolean} [createObjectUrl=false] - If true, object url will be created from response. Only applies if response is of blob type.
- * @property {boolean} [force=false] - Indicates that payload usage must be forced.
- * @property {string} path - Request URL.
- * @property {string|null} [id] - Request ID.
+ * @property {string} url - Request URL.
  * @property {string} [requestMethod='GET'] - HTTP method to be used.
  * @property {(''|'arraybuffer'|'blob'|'document'|'json'|'text')} [responseType='text'] - Response type.
  * @property {boolean} [noCache=false] - If true, appends unique queries to the request URL so fresh responses are forced.
@@ -26,8 +24,7 @@ class Payload extends AJAXRequest {
      */
     constructor(payloadData) {
         super({
-            path: payloadData.path,
-            id: payloadData.id,
+            url: payloadData.url,
             requestMethod: payloadData.requestMethod,
             responseType: payloadData.responseType,
             noCache: payloadData.noCache
@@ -41,10 +38,6 @@ class Payload extends AJAXRequest {
             createObjectUrl:
                 typeof payloadData.createObjectUrl === 'boolean'
                     ? payloadData.createObjectUrl
-                    : false,
-            force:
-                typeof payloadData.force === 'boolean'
-                    ? payloadData.force
                     : false
         };
 
@@ -68,7 +61,6 @@ class Payload extends AJAXRequest {
         };
 
         this.promise = new Promise((resolve, reject) => {
-            // TODO: CATCH PROMISE ERRORS
             this.resolve = resolve.bind(null, this);
             this.reject = reject.bind(null, this);
         });
@@ -121,6 +113,7 @@ class Payload extends AJAXRequest {
     }
 
     /**
+     * @instance
      * @description Callback for progress event.
      * @param {ProgressEvent} e - Progress event.
      */
@@ -129,7 +122,7 @@ class Payload extends AJAXRequest {
             if (e.loaded > this.progress.total) {
                 log.error(
                     'Payload()',
-                    `${this.path} - LOADED EXCEEDED TOTAL. SWITCHING TO NON COMPUTABLE`
+                    `${this.requestUrl} - LOADED EXCEEDED TOTAL. SWITCHING TO NON COMPUTABLE`
                 )();
 
                 // REVERT PROGRESS
@@ -153,7 +146,7 @@ class Payload extends AJAXRequest {
         let total = null;
 
         // GET SOURCE
-        if (isSafeHeader(this.request, ['Now'])) {
+        if (isSafeHeader(this.request, 'Now')) {
             // TODO: ANOTHER WAY TO DETECT IF FROM CACHE?
 
             responseTimestamp = parseInt(this.request.getResponseHeader('Now'));
@@ -164,14 +157,14 @@ class Payload extends AJAXRequest {
                     this.status.isFromCache = true;
                     log.verbose(
                         'Payload()',
-                        `${this.path} - RESPONSE FROM CACHE`
+                        `${this.requestUrl} - RESPONSE FROM CACHE`
                     )();
                 } else {
                     // CASE: RESPONSE FROM SERVER
                     this.status.isFromCache = false;
                     log.verbose(
                         'Payload()',
-                        `${this.path} - RESPONSE FROM SERVER`
+                        `${this.requestUrl} - RESPONSE FROM SERVER`
                     )();
                 }
             }
@@ -180,12 +173,12 @@ class Payload extends AJAXRequest {
             // CASE: UNKNOWN SOURCE
             log.verbose(
                 'Payload()',
-                `${this.path} - UNKNOWN RESPONSE SOURCE`
+                `${this.requestUrl} - UNKNOWN RESPONSE SOURCE`
             )();
         }
 
         // GET TOTAL
-        if (isSafeHeader(this.request, ['Content-Length'])) {
+        if (isSafeHeader(this.request, 'Content-Length')) {
             total = parseInt(this.request.getResponseHeader('Content-Length'));
             if (!Number.isNaN(total)) {
                 log.debug(
@@ -201,7 +194,7 @@ class Payload extends AJAXRequest {
                     if (this.progress.total !== null) {
                         log.error(
                             'Payload()',
-                            `${this.path} - SAVED TOTAL DIFFERS FROM HEADER. OVERWRITING`
+                            `${this.requestUrl} - SAVED TOTAL DIFFERS FROM HEADER. OVERWRITING`
                         )();
                     }
                 }
@@ -239,6 +232,7 @@ class Payload extends AJAXRequest {
     }
 
     /**
+     * @instance
      * @description Event emission auxiliary method.
      * @param {(string|symbol)} event - Event name to be emitted.
      * @param {...*} args - Arguments to be passed to handlers.
