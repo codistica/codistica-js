@@ -1,19 +1,15 @@
 /** @module browser/classes/loader */
 
-import {log, SEEDS} from '@codistica/core';
-import {EventEmitter} from 'eventemitter3';
-import {Payload} from './payload.js';
+import {log, SEEDS, EventEmitter} from '@codistica/core';
+import {AJAXRequest} from './ajax-request.js';
 import {Thread} from './thread.js';
 
-/**
- * @typedef loaderPayloadPayloadDataType
- * @property {number|null} [total=null] - Payload size in bytes.
- * @property {boolean} [createObjectUrl=false] - If true, object url will be created from response. Only applies if response is of blob type.
- * @property {string} url - Request URL.
- * @property {string} [requestMethod='GET'] - HTTP method to be used.
- * @property {(''|'arraybuffer'|'blob'|'document'|'json'|'text')} [responseType='text'] - Response type.
- * @property {boolean} [noCache=false] - If true, appends unique queries to the request URL so fresh responses are forced.
- */
+// TODO: CHECK ALL JSDOC.
+// TODO: CHECK ALL BOUND METHODS.
+// TODO: DESCRIBE UNITS WHEN POSSIBLE.
+// TODO: DEFINE PROMISES BEHAVIOUR.
+// TODO: CHECK ALL MODEL AND CALCULATIONS. LOOK FOR IMPROVEMENTS.
+// TODO: IMPROVE/REDUCE LOG DENSITY AND LOG LEVELS.
 
 /**
  * @typedef loaderOptionsType
@@ -33,27 +29,34 @@ class Loader extends EventEmitter {
     constructor(options = {}) {
         super();
 
+        if (typeof options === 'object') {
+            /** @type {loaderOptionsType} */
+            this.options = options;
+
+            this.options.maxThreads =
+                typeof options.maxThreads === 'number' ? options.maxThreads : 4;
+
+            this.options.activeTimeThreshold =
+                typeof options.activeTimeThreshold === 'number'
+                    ? options.activeTimeThreshold
+                    : 100;
+
+            this.options.autoStart =
+                typeof options.autoStart === 'boolean'
+                    ? options.autoStart
+                    : false;
+        } else {
+            /** @type {loaderOptionsType} */
+            this.options = {
+                maxThreads: 4,
+                activeTimeThreshold: 100,
+                autoStart: false
+            };
+        }
+
         this.threads = {};
         this.queue = [];
         this.history = [];
-
-        this.options = typeof options === 'object' ? options : {};
-
-        this.options.maxThreads =
-            typeof options.maxThreads === 'number' ? options.maxThreads : 4;
-
-        this.options.activeTimeThreshold =
-            typeof options.activeTimeThreshold === 'number'
-                ? options.activeTimeThreshold
-                : 100;
-
-        this.options.autoStart =
-            typeof options.autoStart === 'boolean' ? options.autoStart : false;
-
-        this.status = {
-            inProgress: 0,
-            stopRequested: false
-        };
 
         this.stats = {
             succeeded: 0,
@@ -73,22 +76,26 @@ class Loader extends EventEmitter {
             throughput: null
         };
 
+        this.status = {
+            inProgress: 0,
+            stopRequested: false
+        };
+
         // CREATE INITIAL THREADS
         this.setMaxThreads(this.options.maxThreads);
 
         // BIND METHODS
         this.add = this.add.bind(this);
         // this.remove = this.remove.bind(this);
-        this.getPayloads = this.getPayloads.bind(this);
+        this.getRequests = this.getRequests.bind(this);
         this.start = this.start.bind(this);
         this.stop = this.stop.bind(this);
         this.reset = this.reset.bind(this);
-        this.callThreads = this.callThreads.bind(this);
+        this.callNextRequests = this.callNextRequests.bind(this);
         // this.sortQueue = this.sortQueue.bind(this);
         this.setMaxThreads = this.setMaxThreads.bind(this);
         this.balanceThreads = this.balanceThreads.bind(this);
         this.refresh = this.refresh.bind(this);
-        this.emit = this.emit.bind(this);
         this.onEndHandler = this.onEndHandler.bind(this);
         this.onComputableProgressHandler = this.onComputableProgressHandler.bind(
             this
@@ -99,59 +106,64 @@ class Loader extends EventEmitter {
     }
 
     /**
-     * @instance
-     * @description Add new item to loader queue.
-     * @param {loaderPayloadPayloadDataType} payloadData - Payload data to be added.
-     * @param {boolean} [addNext=false] - Add to the start of the queue.
-     * @param {boolean} [force=false] - Force new payload creation.
-     * @returns {Payload} Added item respective payload instance.
+     * @typedef loaderAJAXRequestOptionsType
+     * @property {string} url - Request URL.
+     * @property {(number|null)} [total=null] - Payload size in bytes.
+     * @property {string} [requestMethod='GET'] - HTTP method to be used.
+     * @property {(''|'arraybuffer'|'blob'|'document'|'json'|'text')} [responseType='text'] - Response type.
+     * @property {boolean} [noCache=false] - If true, appends unique query to the request URL so fresh responses are forced.
      */
-    add(payloadData, addNext, force) {
-        let payload = null;
 
+    /**
+     * @instance
+     * @description Add request to loader queue.
+     * @param {loaderAJAXRequestOptionsType} AJAXRequestOptions - Options for AJAXRequest to be added.
+     * @param {boolean} [prepend] - Add to the start of the queue.
+     * @param {boolean} [force] - Force new AJAXRequest instance creation.
+     * @returns {AJAXRequest} AJAXRequest.
+     */
+    add(AJAXRequestOptions, prepend, force) {
         if (!force) {
-            // GET LAST ADDED MATCHING PAYLOAD
-            payload = this.getPayloads(payloadData.url)[0];
-            if (payload) {
-                return payload;
+            // GET LAST ADDED MATCHING AJAXRequest INSTANCE
+            const latestRequest = this.getRequests(AJAXRequestOptions.url)[0];
+            if (latestRequest) {
+                return latestRequest;
             }
         }
 
-        payload = new Payload(payloadData);
+        const newRequest = new AJAXRequest(AJAXRequestOptions);
 
         // ATTACH HANDLERS
-        payload.once('send', ({that}) => {
-            that.once('end', this.onEndHandler);
-            that.on('computableprogress', this.onComputableProgressHandler);
-            that.on('deltaloaded', this.onDeltaLoadedHandler);
-            that.on('deltatotal', this.onDeltaTotalHandler);
-            that.once('headers', this.onHeadersHandler);
-        });
+        newRequest.once('end', this.onEndHandler);
+        newRequest.on('computableProgress', this.onComputableProgressHandler);
+        newRequest.on('deltaLoaded', this.onDeltaLoadedHandler);
+        newRequest.on('deltaTotal', this.onDeltaTotalHandler);
+        newRequest.once('headers', this.onHeadersHandler);
 
-        // SEND PAYLOAD TO QUEUE
-        if (addNext) {
-            this.queue.unshift(payload);
+        // SEND NEW AJAXRequest INSTANCE TO QUEUE
+        if (prepend) {
+            this.queue.unshift(newRequest);
         } else {
-            this.queue.push(payload);
+            this.queue.push(newRequest);
         }
-        log.debug('Loader()', `${payload.requestUrl} SENT TO QUEUE`)();
+        log.debug('Loader()', `${newRequest.requestUrl} SENT TO QUEUE`)();
 
         // UPDATE PROGRESS
         this.progress.total +=
-            payload.progress.total !== null ? payload.progress.total : 0;
+            newRequest.progress.total !== null ? newRequest.progress.total : 0;
 
         if (this.options.autoStart && this.status.inProgress === 0) {
             this.start();
         }
 
-        return payload;
+        return newRequest;
     }
 
     // TODO
     // remove(item, removeAll) {
     //     (Array.isArray(item) ? item : [item]).forEach((url) => {
-    //         const payloads = this.getPayloads(url);
-    //         if (payloads.length > 0) {
+    //         const requests = this.getRequests(url);
+    //         if (requests.length > 0) {
     //
     //         }
     //     });
@@ -159,20 +171,21 @@ class Loader extends EventEmitter {
 
     /**
      * @instance
-     * @description Returns an array with all payloads matching indicated url.
-     * @param {string} url - Payload url.
-     * @returns {Array<Payload>} Payloads array.
+     * @description Returns an array with all AJAXRequests instances matching indicated url.
+     * @param {string} url - Url.
+     * @returns {Array<AJAXRequest>} AJAXRequests array.
      */
-    getPayloads(url) {
+    getRequests(url) {
         const locations = [this.queue, this.threads, this.history];
         let output = [];
         locations.forEach((location) => {
-            let payload = null;
+            let request = null;
             if (Array.isArray(location)) {
                 location.forEach((elem) => {
-                    payload = elem instanceof Payload ? elem : elem.payload;
-                    if (payload && payload.url === url) {
-                        output.push(payload);
+                    request =
+                        elem instanceof AJAXRequest ? elem : elem.AJAXRequest;
+                    if (request && request.url === url) {
+                        output.push(request);
                     }
                 });
             } else {
@@ -180,12 +193,12 @@ class Loader extends EventEmitter {
                     if (!Object.prototype.hasOwnProperty.call(location, i)) {
                         continue;
                     }
-                    payload =
-                        location[i] instanceof Payload
+                    request =
+                        location[i] instanceof AJAXRequest
                             ? location[i]
-                            : location[i].payload;
-                    if (payload && payload.url === url) {
-                        output.push(payload);
+                            : location[i].AJAXRequest;
+                    if (request && request.url === url) {
+                        output.push(request);
                     }
                 }
             }
@@ -193,21 +206,41 @@ class Loader extends EventEmitter {
         return output;
     }
 
+    /**
+     * @instance
+     * @description Start loader work.
+     * @returns {void} Void.
+     */
     start() {
         this.status.stopRequested = false;
-        this.callThreads();
+        this.callNextRequests();
     }
 
+    /**
+     * @instance
+     * @description Stop loader work.
+     * @returns {void} Void.
+     */
     stop() {
         this.status.stopRequested = true;
     }
 
+    /**
+     * @instance
+     * @description Reset loader instance.
+     * @returns {void} Void.
+     */
     reset() {
         // RESET INSTANCE
         Object.assign(this, new Loader(this.options));
     }
 
-    callThreads() {
+    /**
+     * @instance
+     * @description Call new requests from queue as needed.
+     * @returns {void} Void.
+     */
+    callNextRequests() {
         let flag = true;
         while (
             this.status.inProgress < this.options.maxThreads &&
@@ -218,7 +251,7 @@ class Loader extends EventEmitter {
                 if (!Object.prototype.hasOwnProperty.call(this.threads, i)) {
                     continue;
                 }
-                if (this.threads[i].payload === null) {
+                if (this.threads[i].AJAXRequest === null) {
                     flag = false;
                     // START REQUEST
                     this.threads[i].run(this.queue.shift());
@@ -242,6 +275,7 @@ class Loader extends EventEmitter {
      * @instance
      * @description Dynamically set a new maximum number of concurrent threads.
      * @param {number} newMax - New maximum.
+     * @returns {void} Void.
      */
     setMaxThreads(newMax) {
         this.options.maxThreads = newMax;
@@ -261,6 +295,11 @@ class Loader extends EventEmitter {
         this.balanceThreads();
     }
 
+    /**
+     * @instance
+     * @description Automatically add or remove threads as needed.
+     * @returns {void} Void.
+     */
     balanceThreads() {
         const currentThreads = Object.getOwnPropertyNames(this.threads).length;
         let i = null;
@@ -282,7 +321,7 @@ class Loader extends EventEmitter {
                 key = SEEDS.alphaUp.charAt(i);
                 correctKey = SEEDS.alphaUp.charAt(j);
                 if (
-                    this.threads[key].payload === null &&
+                    this.threads[key].AJAXRequest === null &&
                     deletedCount < currentThreads - this.options.maxThreads
                 ) {
                     delete this.threads[key];
@@ -295,7 +334,7 @@ class Loader extends EventEmitter {
                     ); // TODO: USE FiberObject.renameProperty()
                     delete this.threads[key];
                     // UPDATE THREAD INDEX
-                    this.threads[correctKey].threadIndex = correctKey;
+                    this.threads[correctKey].options.threadIndex = correctKey;
                     j++;
                 } else {
                     j++;
@@ -328,13 +367,16 @@ class Loader extends EventEmitter {
 
             // CALL NEW THREADS
             log.debug('Loader()', 'CALLING NEW THREADS')();
-            this.callThreads();
+            this.callNextRequests();
         }
     }
 
+    /**
+     * @instance
+     * @description Refresh loader calculations.
+     * @returns {void} Void.
+     */
     refresh() {
-        // TODO: REDUCE REFRESH CALLS? MORE LIKE FIRST IMPLEMENTATION
-
         // GET PERCENT
         this.progress.percent =
             (100 * this.progress.loaded) / this.progress.total;
@@ -365,43 +407,50 @@ class Loader extends EventEmitter {
                 ? 'ETA: -'
                 : `ETA: ${this.progress.eta / 1000} s`
         )();
+
+        this.emit('refresh', this);
     }
 
     /**
      * @instance
      * @description Callback for end event.
-     * @param {{that: Object<string,*>}} arg - Event passed arguments.
+     * @param {Object<string,*>} e - Event.
+     * @param {AJAXRequest} AJAXRequest - AJAXRequest.
+     * @returns {void} Void.
      */
-    onEndHandler({that}) {
+    onEndHandler(e, AJAXRequest) {
         // TODO: REMEMBER .succeeded AND .failed (ON SUCCESS AND ON FAIL)
 
         // DETACH HANDLERS
-        that.off('computableprogress', this.onComputableProgressHandler);
-        that.off('deltaloaded', this.onDeltaLoadedHandler);
-        that.off('deltatotal', this.onDeltaTotalHandler);
+        AJAXRequest.off('computableProgress', this.onComputableProgressHandler);
+        AJAXRequest.off('deltaLoaded', this.onDeltaLoadedHandler);
+        AJAXRequest.off('deltaTotal', this.onDeltaTotalHandler);
 
-        this.history.push(that);
+        this.history.push(AJAXRequest);
         this.status.inProgress--;
 
         this.balanceThreads();
 
         if (this.queue.length !== 0) {
             // CALL NEXT THREADS
-            this.callThreads();
+            this.callNextRequests();
         } else {
             // NO ITEMS LEFT IN QUEUE
-            this.emit('end');
+            this.emit('end', this);
         }
 
-        // this.refresh();
+        this.refresh();
     }
 
     /**
      * @instance
      * @description Callback for computableProgress event.
-     * @param {{now: number}} arg - Event passed arguments.
+     * @param {Object<string,*>} e - Event.
+     * @param {AJAXRequest} AJAXRequest - AJAXRequest.
+     * @returns {void} Void.
      */
-    onComputableProgressHandler({now}) {
+    onComputableProgressHandler(e, AJAXRequest) {
+        const now = AJAXRequest.stats.latestProgressTimestamp;
         const currentThreads = Object.getOwnPropertyNames(this.threads).length;
 
         let deltaRtt = null;
@@ -413,6 +462,7 @@ class Loader extends EventEmitter {
         let isUpdatedCount = 0;
 
         this.performance.rttAhead = 0;
+
         for (const i in this.threads) {
             if (!Object.prototype.hasOwnProperty.call(this.threads, i)) {
                 continue;
@@ -420,12 +470,12 @@ class Loader extends EventEmitter {
             // GET LATENCY AHEAD
             if (
                 !this.threads[i].status.isActive &&
-                this.threads[i].payload !== null &&
+                this.threads[i].AJAXRequest !== null &&
                 this.performance.rtt !== null
             ) {
                 deltaRtt =
                     this.performance.rtt -
-                    (now - this.threads[i].payload.stats.sendTimestamp);
+                    (now - this.threads[i].AJAXRequest.stats.sendTimestamp);
                 if (deltaRtt > 0) {
                     this.performance.rttAhead += deltaRtt;
                     rttAheadCount++;
@@ -463,6 +513,7 @@ class Loader extends EventEmitter {
         if (rttAheadCount !== 0) {
             this.performance.rttAhead /= rttAheadCount;
         }
+
         log.verbose(
             'Loader()',
             this.performance.rttAhead === null
@@ -476,6 +527,7 @@ class Loader extends EventEmitter {
         ) {
             this.performance.throughput = throughput;
         }
+
         log.verbose(
             'Loader()',
             this.performance.throughput === null
@@ -489,27 +541,35 @@ class Loader extends EventEmitter {
     /**
      * @instance
      * @description Callback for deltaLoaded event.
-     * @param {{deltaLoaded: number}} arg - Event passed arguments.
+     * @param {{deltaLoaded: number}} e - Event.
+     * @returns {void} Void.
      */
-    onDeltaLoadedHandler({deltaLoaded}) {
-        this.progress.loaded += deltaLoaded;
-        // this.refresh();
+    onDeltaLoadedHandler(e) {
+        this.progress.loaded += e.deltaLoaded;
+        this.refresh();
     }
 
     /**
      * @instance
      * @description Callback for deltaTotal event.
-     * @param {{deltaTotal: number}} arg - Event passed arguments.
+     * @param {{deltaTotal: number}} e - Event.
+     * @returns {void} Void.
      */
-    onDeltaTotalHandler({deltaTotal}) {
-        this.progress.total += deltaTotal;
-        // this.refresh();
+    onDeltaTotalHandler(e) {
+        this.progress.total += e.deltaTotal;
+        this.refresh();
     }
 
+    /**
+     * @instance
+     * @description Callback for headers event.
+     * @returns {void} Void.
+     */
     onHeadersHandler() {
         // GET LATENCY
         let x = 0;
         let rtt = null;
+
         for (const i in this.threads) {
             if (
                 !Object.prototype.hasOwnProperty.call(this.threads, i) ||
@@ -522,9 +582,11 @@ class Loader extends EventEmitter {
             rtt = rtt === null ? 0 : rtt;
             rtt = (rtt * (x - 1) + this.threads[i].performance.rtt) / x;
         }
+
         if (rtt !== null) {
             this.performance.rtt = rtt;
         }
+
         log.verbose(
             'Loader()',
             this.performance.rtt === null
@@ -532,28 +594,7 @@ class Loader extends EventEmitter {
                 : `LATENCY: ${this.performance.rtt} ms`
         )();
 
-        // this.refresh();
-    }
-
-    /**
-     * @instance
-     * @description Event emission auxiliary method.
-     * @param {(string|symbol)} event - Event name to be emitted.
-     * @param {...*} args - Arguments to be passed to handlers.
-     * @returns {boolean} Event emission result.
-     */
-    emit(event, ...args) {
-        const now = Date.now();
-        const [extraProps, ...otherArgs] = args;
-        return super.emit(
-            event,
-            {
-                that: this,
-                now,
-                ...(extraProps || {})
-            },
-            ...(otherArgs || [])
-        );
+        this.refresh();
     }
 }
 

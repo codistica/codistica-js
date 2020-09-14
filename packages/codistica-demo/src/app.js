@@ -1,5 +1,7 @@
 /** @flow */
 
+import {LogBrowserConsoleBinder} from '@codistica/browser';
+import {log} from '@codistica/core';
 import React, {useRef} from 'react';
 import {Switch, Route, useLocation} from 'react-router-dom';
 import {Background} from './components/background/index.js';
@@ -20,6 +22,8 @@ import {ViewportRoute} from './routes/viewport/index.js';
 import './css/global.module.scss';
 import './css/reset.module.scss';
 import './themes/codistica-react/index.js';
+
+log.setConsoleBinder(new LogBrowserConsoleBinder());
 
 // TODO: CHECK WHY PAGE CAN SCROLL HORIZONTALLY ON MOBILE WHEN MENU IS OPEN (BESIDE OF ScrollBoundary NOT BEING APPLIED YET)
 // TODO: PREVENT TAB NAVIGATING MENU WHEN CLOSED.

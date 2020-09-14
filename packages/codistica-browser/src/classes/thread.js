@@ -2,18 +2,19 @@
 
 import {log} from '@codistica/core';
 
+// TODO: RENAME TO loader-thread
+
 /**
  * @typedef threadOptionsType
- * @property {number} [activeTimeThreshold=100] - Minimum measured time in milliseconds that must be accumulated before using for calculations.
- * @property {string|null} [threadIndex=null] - Thread index in Loader.
+ * @property {number} [activeTimeThreshold=100] - Minimum accumulated active time to perform calculations [ms].
+ * @property {number} [deltaLoadedThreshold=0] - Minimum accumulated delta loaded to perform calculations [B].
+ * @property {(string|null)} [threadIndex=null] - Thread index in Loader.
  */
 
 /**
  * @classdesc Thread class for @codistica/browser Loader class.
  */
 class Thread {
-    // TODO: ADD activeLoadedThreshold. SPECIFY UNITS IN DESCRIPTION, ALSO FOR activeTimeThreshold
-
     /**
      * @description Constructor.
      * @param {threadOptionsType} [options] - Thread options.
@@ -21,23 +22,44 @@ class Thread {
     constructor(options = {}) {
         const that = this;
 
-        this.threadIndex =
-            typeof options.threadIndex === 'string'
-                ? options.threadIndex
-                : null;
-        this.payload = null;
+        if (typeof options === 'object') {
+            /** @type {threadOptionsType} */
+            this.options = options;
 
-        this.options = {
-            activeTimeThreshold:
+            this.options.activeTimeThreshold =
                 typeof options.activeTimeThreshold === 'number'
                     ? options.activeTimeThreshold
-                    : 100
+                    : 100;
+
+            this.options.deltaLoadedThreshold =
+                typeof options.deltaLoadedThreshold === 'number'
+                    ? options.deltaLoadedThreshold
+                    : 0;
+
+            this.options.threadIndex =
+                typeof options.threadIndex === 'string'
+                    ? options.threadIndex
+                    : null;
+        } else {
+            /** @type {threadOptionsType} */
+            this.options = {
+                activeTimeThreshold: 100,
+                deltaLoadedThreshold: 0,
+                threadIndex: null
+            };
+        }
+
+        this.AJAXRequest = null;
+
+        this.stats = {
+            activeTimestamp: null,
+            accumulatedActiveTime: 0,
+            accumulatedDeltaLoaded: 0
         };
 
-        this.timing = {
-            activeTimestamp: null, // TODO: RENAME
-            activeTime: 0, // TODO: RENAME
-            activeLoaded: 0 // TODO: RENAME
+        this.performance = {
+            rtt: null,
+            throughput: null
         };
 
         this.status = {
@@ -48,14 +70,8 @@ class Thread {
              * @returns {boolean} Value.
              */
             get isActive() {
-                // TODO: RENAME
-                return that.timing.activeTimestamp !== null;
+                return that.stats.activeTimestamp !== null;
             }
-        };
-
-        this.performance = {
-            rtt: null,
-            throughput: null
         };
 
         // BIND METHODS
@@ -72,27 +88,41 @@ class Thread {
 
     /**
      * @instance
-     * @description Run specified payload.
-     * @param {Object<string,*>} payload - Payload.
+     * @description Run AJAXRequest.
+     * @param {Object<string,*>} AJAXRequest - AJAXRequest.
      */
-    run(payload) {
-        this.payload = payload;
-
+    run(AJAXRequest) {
         // ATTACH HANDLERS
-        payload.once('end', this.onEndHandler);
-        payload.on('computableprogress', this.onComputableProgressHandler);
-        payload.on('deltaloaded', this.onDeltaLoadedHandler);
-        payload.once('headers', this.onHeadersHandler);
+        AJAXRequest.prependOnceListener('end', this.onEndHandler);
+        AJAXRequest.prependListener(
+            'computableProgress',
+            this.onComputableProgressHandler
+        );
+        AJAXRequest.prependListener('deltaLoaded', this.onDeltaLoadedHandler);
+        AJAXRequest.prependOnceListener('headers', this.onHeadersHandler);
 
-        payload.send();
+        // SEND REQUEST
+        AJAXRequest.send();
+
+        this.AJAXRequest = AJAXRequest;
     }
 
+    /**
+     * @instance
+     * @description Clear thread.
+     * @returns {void} Void.
+     */
     clear() {
-        this.payload = null;
-        this.timing.activeTimestamp = null;
+        this.AJAXRequest = null;
+        this.stats.activeTimestamp = null;
         this.status.firstChunkReceived = false;
     }
 
+    /**
+     * @instance
+     * @description Reset thread.
+     * @returns {void} Void.
+     */
     reset() {
         // RESET INSTANCE
         Object.assign(this, new Thread(this.options));
@@ -101,55 +131,68 @@ class Thread {
     /**
      * @instance
      * @description Callback for end event.
-     * @param {{that: Object<string,*>}} arg - Event passed arguments.
      */
-    onEndHandler({that}) {
+    onEndHandler() {
         // DETACH HANDLERS
-        that.off('deltaloaded', this.onDeltaLoadedHandler);
-        that.off('computableprogress', this.onComputableProgressHandler);
+        this.AJAXRequest.off('deltaLoaded', this.onDeltaLoadedHandler);
+        this.AJAXRequest.off(
+            'computableProgress',
+            this.onComputableProgressHandler
+        );
         this.clear();
     }
 
     /**
      * @instance
      * @description Callback for computableProgress event.
-     * @param {{that: Object<string,*>, now: number}} arg - Event passed arguments.
      */
-    onComputableProgressHandler({that, now}) {
-        let activeTime;
+    onComputableProgressHandler() {
+        const now = this.AJAXRequest.stats.latestProgressTimestamp;
 
-        if (this.timing.activeTimestamp === null) {
-            this.timing.activeTimestamp = now;
+        if (this.stats.activeTimestamp === null) {
+            this.stats.activeTimestamp = now;
         }
 
         // GET THROUGHPUT
-        activeTime = now - this.timing.activeTimestamp + this.timing.activeTime;
-        if (activeTime >= this.options.activeTimeThreshold) {
-            this.performance.throughput = this.timing.activeLoaded / activeTime;
-            this.timing.activeTimestamp = now;
-            this.timing.activeTime = 0;
-            this.timing.activeLoaded = 0;
+        const currentActiveTime = now - this.stats.activeTimestamp;
+        const activeTime = currentActiveTime + this.stats.accumulatedActiveTime;
+
+        if (
+            activeTime >= this.options.activeTimeThreshold &&
+            this.stats.accumulatedDeltaLoaded >=
+                this.options.deltaLoadedThreshold
+        ) {
+            this.performance.throughput =
+                this.stats.accumulatedDeltaLoaded / activeTime;
+
+            this.stats.activeTimestamp = now;
+            this.stats.accumulatedActiveTime = 0;
+            this.stats.accumulatedDeltaLoaded = 0;
+
             this.status.isUpdated = true;
+
             log.debug(
                 'Thread()',
-                `THREAD ${this.threadIndex} - THROUGHPUT: ${
+                `THREAD ${this.options.threadIndex} - THROUGHPUT: ${
                     this.performance.throughput * 7.8125
                 } Kb/s`
             )();
-        } else if (that.progress.loaded === that.progress.total) {
-            // SAVE ACCUMULATED ACTIVE TIME FOR NEXT PAYLOAD
-            this.timing.activeTime = activeTime;
+        } else if (
+            this.AJAXRequest.progress.loaded === this.AJAXRequest.progress.total
+        ) {
+            // SAVE ACCUMULATED ACTIVE TIME FOR NEXT AJAXRequest
+            this.stats.accumulatedActiveTime = activeTime;
         }
     }
 
     /**
      * @instance
      * @description Callback for deltaLoaded event.
-     * @param {{deltaLoaded: number}} arg - Event passed arguments.
+     * @param {{deltaLoaded: number}} e - Event.
      */
-    onDeltaLoadedHandler({deltaLoaded}) {
+    onDeltaLoadedHandler(e) {
         if (this.status.firstChunkReceived) {
-            this.timing.activeLoaded += deltaLoaded;
+            this.stats.accumulatedDeltaLoaded += e.deltaLoaded;
         } else {
             this.status.firstChunkReceived = true;
         }
@@ -158,14 +201,16 @@ class Thread {
     /**
      * @instance
      * @description Callback for headers event.
-     * @param {{now: number}} arg - Event passed arguments.
      */
-    onHeadersHandler({now}) {
+    onHeadersHandler() {
         // GET LATENCY
-        this.performance.rtt = now - this.payload.stats.sendTimestamp;
+        this.performance.rtt =
+            this.AJAXRequest.stats.headersTimestamp -
+            this.AJAXRequest.stats.sendTimestamp;
+
         log.debug(
             'Thread()',
-            `THREAD ${this.threadIndex} - LATENCY: ${this.performance.rtt} ms`
+            `THREAD ${this.options.threadIndex} - LATENCY: ${this.performance.rtt} ms`
         )();
     }
 }
