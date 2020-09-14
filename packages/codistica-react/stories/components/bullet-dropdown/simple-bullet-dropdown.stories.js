@@ -1,7 +1,6 @@
 /** @flow */
 
 import React from 'react';
-import {BGS_DARK} from '../../../.storybook/custom-backgrounds.js';
 import {BulletDropdown} from '../../../src/index.js';
 
 /**
@@ -46,6 +45,8 @@ export {SimpleBulletDropdown};
 export default {
     title: 'Bullet Dropdown',
     parameters: {
-        backgrounds: BGS_DARK
+        backgrounds: {
+            default: 'Dark'
+        }
     }
 };

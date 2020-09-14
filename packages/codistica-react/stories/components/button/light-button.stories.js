@@ -1,7 +1,6 @@
 /** @flow */
 
 import React from 'react';
-import {BGS_LIGHT} from '../../../.storybook/custom-backgrounds.js';
 import {Button} from '../../../src/index.js';
 
 /**
@@ -15,8 +14,5 @@ function LightButton() {
 export {LightButton};
 
 export default {
-    title: 'Button',
-    parameters: {
-        backgrounds: BGS_LIGHT
-    }
+    title: 'Button'
 };

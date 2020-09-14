@@ -1,7 +1,6 @@
 /** @flow */
 
 import React from 'react';
-import {BGS_LIGHT} from '../../../.storybook/custom-backgrounds.js';
 import {InputText, inputValidators} from '../../../src/index.js';
 
 /**
@@ -24,8 +23,5 @@ function InputTextLength() {
 export {InputTextLength};
 
 export default {
-    title: 'Input Text',
-    parameters: {
-        backgrounds: BGS_LIGHT
-    }
+    title: 'Input Text'
 };

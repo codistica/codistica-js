@@ -1,7 +1,6 @@
 /** @flow */
 
 import React from 'react';
-import {BGS_LIGHT} from '../../../.storybook/custom-backgrounds.js';
 import {Draggable} from '../../../src/index.js';
 
 /**
@@ -33,8 +32,5 @@ function SimpleDraggable() {
 export {SimpleDraggable};
 
 export default {
-    title: 'Draggable',
-    parameters: {
-        backgrounds: BGS_LIGHT
-    }
+    title: 'Draggable'
 };

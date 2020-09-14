@@ -1,7 +1,6 @@
 /** @flow */
 
 import React from 'react';
-import {BGS_LIGHT} from '../../../.storybook/custom-backgrounds.js';
 import {InputText, inputBlockers, inputFilters} from '../../../src/index.js';
 
 /**
@@ -21,8 +20,5 @@ function InputTextNoSpecials() {
 export {InputTextNoSpecials};
 
 export default {
-    title: 'Input Text',
-    parameters: {
-        backgrounds: BGS_LIGHT
-    }
+    title: 'Input Text'
 };

@@ -1,7 +1,6 @@
 /** @flow */
 
 import React, {useRef} from 'react';
-import {BGS_LIGHT} from '../../../../.storybook/custom-backgrounds.js';
 import {Button, TrackSlide} from '../../../../src/index.js';
 import componentClassNames from './index.module.scss';
 
@@ -60,8 +59,5 @@ function ViewportResponsiveTrackSlide() {
 export {ViewportResponsiveTrackSlide};
 
 export default {
-    title: 'Track Slide',
-    parameters: {
-        backgrounds: BGS_LIGHT
-    }
+    title: 'Track Slide'
 };

@@ -1,7 +1,6 @@
 /** @flow */
 
 import React, {useState, useRef} from 'react';
-import {BGS_LIGHT} from '../../../../.storybook/custom-backgrounds.js';
 import {DotNavigation, FullScreenSlide} from '../../../../src/index.js';
 import componentClassNames from './index.module.scss';
 
@@ -58,8 +57,5 @@ function FullScreenSlideColumn() {
 export {FullScreenSlideColumn};
 
 export default {
-    title: 'Full Screen Slide',
-    parameters: {
-        backgrounds: BGS_LIGHT
-    }
+    title: 'Full Screen Slide'
 };

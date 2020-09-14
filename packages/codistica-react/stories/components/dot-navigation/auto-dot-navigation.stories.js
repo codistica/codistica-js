@@ -1,7 +1,6 @@
 /** @flow */
 
 import React from 'react';
-import {BGS_LIGHT} from '../../../.storybook/custom-backgrounds.js';
 import {DotNavigation} from '../../../src/index.js';
 
 /**
@@ -15,8 +14,5 @@ function AutoDotNavigation() {
 export {AutoDotNavigation};
 
 export default {
-    title: 'Dot Navigation',
-    parameters: {
-        backgrounds: BGS_LIGHT
-    }
+    title: 'Dot Navigation'
 };

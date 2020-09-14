@@ -2,7 +2,6 @@
 
 import {default as centered} from '@storybook/addon-centered/react';
 import React from 'react';
-import {BGS_LIGHT} from '../../../../.storybook/custom-backgrounds.js';
 import {withTooltip} from '../../../../src/index.js';
 import componentClassNames from './index.module.scss';
 
@@ -32,8 +31,5 @@ export {SimpleWithTooltip};
 
 export default {
     title: 'With Tooltip',
-    parameters: {
-        backgrounds: BGS_LIGHT
-    },
     decorators: [centered]
 };

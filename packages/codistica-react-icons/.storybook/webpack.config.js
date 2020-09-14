@@ -29,9 +29,9 @@ module.exports = async function config({config}) {
             {
                 loader: 'css-loader',
                 options: {
-                    modules: true,
-                    importLoaders: 1,
-                    localsConvention: 'asIs'
+                    modules: {
+                        exportLocalsConvention: 'asIs'
+                    }
                 }
             }
         ]
@@ -55,9 +55,9 @@ module.exports = async function config({config}) {
             {
                 loader: 'css-loader',
                 options: {
-                    modules: true,
-                    importLoaders: 1,
-                    localsConvention: 'asIs'
+                    modules: {
+                        exportLocalsConvention: 'asIs'
+                    }
                 }
             },
             'sass-loader'

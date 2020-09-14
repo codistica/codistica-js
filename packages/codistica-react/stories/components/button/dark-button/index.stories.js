@@ -1,7 +1,6 @@
 /** @flow */
 
 import React from 'react';
-import {BGS_DARK} from '../../../../.storybook/custom-backgrounds.js';
 import {Button} from '../../../../src/index.js';
 import componentClassNames from './index.module.scss';
 
@@ -21,11 +20,14 @@ function DarkButton() {
     );
 }
 
+DarkButton.parameters = {
+    backgrounds: {
+        default: 'Dark'
+    }
+};
+
 export {DarkButton};
 
 export default {
-    title: 'Button',
-    parameters: {
-        backgrounds: BGS_DARK
-    }
+    title: 'Button'
 };

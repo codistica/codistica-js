@@ -2,7 +2,6 @@
 
 import {appendFileSync} from 'fs';
 import {join} from 'path';
-import {STRINGS} from '@codistica/core';
 import {LogFileLoggerCore} from './core.js';
 
 /**
@@ -46,7 +45,7 @@ class LogFileLoggerSync extends LogFileLoggerCore {
         appendFileSync(
             join(this.options.logsPath, this.options.logsFilename + '.txt'),
             LogFileLoggerSync.getLogString(logObj),
-            {encoding: STRINGS.STD_ENCODING}
+            'utf8'
         );
     }
 }

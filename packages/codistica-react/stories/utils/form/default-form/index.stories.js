@@ -1,7 +1,6 @@
 /** @flow */
 
 import React from 'react';
-import {BGS_LIGHT} from '../../../../.storybook/custom-backgrounds.js';
 import {
     Button,
     Form,
@@ -518,8 +517,5 @@ function defaultForm() {
 export {defaultForm};
 
 export default {
-    title: 'Form',
-    parameters: {
-        backgrounds: BGS_LIGHT
-    }
+    title: 'Form'
 };

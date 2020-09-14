@@ -1,7 +1,6 @@
 /** @flow */
 
 import React from 'react';
-import {BGS_LIGHT} from '../../../../.storybook/custom-backgrounds.js';
 import {CarouselSlide} from '../../../../src/index.js';
 import componentClassNames from './index.module.scss';
 
@@ -31,8 +30,5 @@ function SimpleCarouselSlide() {
 export {SimpleCarouselSlide};
 
 export default {
-    title: 'Carousel Slide',
-    parameters: {
-        backgrounds: BGS_LIGHT
-    }
+    title: 'Carousel Slide'
 };
