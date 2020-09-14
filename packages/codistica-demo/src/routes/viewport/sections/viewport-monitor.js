@@ -28,7 +28,7 @@ function ViewportMonitorSection() {
     useEffect(() => {
         viewportMonitor.on('change', onChangeHandler);
         return () => {
-            viewportMonitor.removeListener('change', onChangeHandler);
+            viewportMonitor.off('change', onChangeHandler);
         };
     }, []);
 

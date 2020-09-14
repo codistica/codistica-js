@@ -30,7 +30,7 @@ function WithViewportMonitorSection() {
         refreshSize();
         viewportMonitor.on('change', refreshSize);
         return () => {
-            viewportMonitor.removeListener('change', refreshSize);
+            viewportMonitor.off('change', refreshSize);
         };
     }, []);
 

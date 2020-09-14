@@ -28,6 +28,7 @@ export {
 
 // CLASSES
 export {Catcher} from './classes/catcher.js';
+export {EventEmitter} from './classes/event-emitter.js';
 export {FunctionCache} from './classes/function-cache.js';
 export {LoadingBar} from './classes/loading-bar.js';
 export {Log} from './classes/log.js';

@@ -1,5 +1,6 @@
 import {classFunctionCacheTest} from './classes/function-cache.test.js';
 import {classLoadingBarTest} from './classes/loading-bar.test.js';
+import {EventEmitterTest} from './classes/event-emitter.test.js';
 import {regExpsTest} from './constants/reg-exps.test.js';
 import {arrayUtilsTest} from './modules/array-utils/index.test.js';
 import {controlledTimeoutTest} from './modules/controlled-timeout.test.js';
@@ -17,6 +18,7 @@ describe('@codistica/core', () => {
     describe('Classes', () => {
         classFunctionCacheTest();
         classLoadingBarTest();
+        EventEmitterTest();
     });
 
     // CONSTANTS

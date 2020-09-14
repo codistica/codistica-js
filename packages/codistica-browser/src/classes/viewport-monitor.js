@@ -1,6 +1,6 @@
 /** @module browser/classes/viewport-monitor */
 
-import {EventEmitter} from 'eventemitter3';
+import {EventEmitter} from '@codistica/core';
 import {addStyles} from '../modules/element-utils/internals/add-styles.js';
 
 // TODO: CHECK/IMPROVE/REWRITE!
