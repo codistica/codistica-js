@@ -8,9 +8,16 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+### Added
+- New `get-safe-response-headers` module.
+
+### Changed
+- Removed `is-safe-header` module.
+- Improved Loader ecosystem.
+
 ## [1.0.0-beta.5] - 2020-07-10
 
-## Changed
+### Changed
 - Monorepo dependencies version change.
 
 ## [1.0.0-beta.4] - 2020-06-01
@@ -25,13 +32,13 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 - New `viewport-monitor` class and module.
 - New `overscroll-blocker` class.
 
-## Changed
+### Changed
 - Some cleanups.
 - Moved `get-element-height` and `get-element-width` modules to new `element-utils` group.
 
 ## [1.0.0-beta.3] - 2020-05-16
 
-## Changed
+### Changed
 - Rename `captureEvt` and `passiveEvt` to `capture` and `passive` in event-listener-object-support module.
 
 ## [1.0.0-beta.2] - 2020-05-07
@@ -39,7 +46,7 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 ### Added
 - New get-element-height and get-element-width modules.
 
-## Changed
+### Changed
 - All dependencies have been upgraded.
 
 ## [1.0.0-beta.1] - 2020-04-22

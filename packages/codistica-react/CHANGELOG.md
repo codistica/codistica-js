@@ -8,6 +8,20 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+### Added
+- New onAbort support on input-validator-plugin-utils.
+- Extended email-validator plugin features.
+
+### Changed
+- Other minor improvements/fixes.
+- Improved input plugins schema definitions.
+- InputContext converted into FormContext.
+- Make get-ref-handler work for any number of arguments.
+- Improved Flow type annotations.
+
+### Fixed
+- Wrong Material-UI packages dependencies.
+
 ## [1.0.0-beta.7] - 2020-07-10
 
 ### Added
@@ -40,7 +54,7 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 - New `get-ref-handler` module.
 - New `with-on-scroll-action` hoc.
 
-## Changed
+### Changed
 - Several cleanups.
 - `viewport-monitor` has been moved to `@codistica/browser` package.
 - Renamed: `with-overscroll-monitor` -> `with-overscroll-blocker` hoc.
@@ -52,7 +66,7 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 ### Added
 - New global customization pattern implemented for all components via `globalStyles`, `globalClassNames` and `gloablColors` when available.
 
-## Changed
+### Changed
 - Some cleanups.
 - `merge-class-names` module has been modified to match `merge-styles` syntax. Both modules have been polished.
 - HOCs type annotations have been improved.
@@ -70,7 +84,7 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 - New merge-class-names module.
 - New merge-styles module.
 
-## Changed
+### Changed
 - Other performance improvements and cleanups.
 - ClassNames and styles management normalization and cleanup.
 - Style import naming convention (EX: `styles` -> `classNames`).
@@ -86,7 +100,7 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 - New hover-icon and social-icons components.
 - Add custom JSS instance for components customization.
 
-## Changed
+### Changed
 - Package cleanup.
 - All dependencies have been upgraded.
 - All Storybook stories have been rewritten to match new CSF story format.

@@ -10,22 +10,22 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [1.0.0-beta.5] - 2020-07-10
 
-## Changed
+### Changed
 - Monorepo dependencies version change.
 
 ## [1.0.0-beta.4] - 2020-06-01
 
-## Changed
+### Changed
 - Monorepo dependencies version change.
 
 ## [1.0.0-beta.3] - 2020-05-16
 
-## Changed
+### Changed
 - Monorepo dependencies version change.
 
 ## [1.0.0-beta.2] - 2020-05-07
 
-## Changed
+### Changed
 - All dependencies have been upgraded.
 
 ## [1.0.0-beta.1] - 2020-04-22

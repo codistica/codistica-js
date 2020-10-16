@@ -20,6 +20,13 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+### Added
+- New `react-mui` monorepo package.
+
+### Changed
+- Minor fixes/improvements to .md files.
+- Some dependencies have been upgraded.
+
 [2020-07-10]
 
 ### Added

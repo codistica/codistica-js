@@ -10,7 +10,7 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [1.0.0-beta.2] - 2020-05-07
 
-## Changed
+### Changed
 - All dependencies have been upgraded.
 
 ## [1.0.0-beta.1] - 2020-04-22

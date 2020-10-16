@@ -8,31 +8,38 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+### Added
+- New `event-emitter` class.
+- New `strip-query-string` module in `url-utils`.
+- New `stringify-query-string` module in `url-utils`.
+- New `parse-query-string` module in `url-utils`.
+- New `url-utils` module group.
+
 ## [1.0.0-beta.4] - 2020-07-10
 
-## Added
-- New `promise-utils` module group.
+### Added
 - New `create-state-promise` module in `promise-utils`.
 - New `auto-clear-promises` module in `promise-utils`.
+- New `promise-utils` module group.
 - New `get-values-array` module in `object-utils`.
 
-## Changed
+### Changed
 - Removed `envent-utils` module group.
 
 ## [1.0.0-beta.3] - 2020-06-01
 
-## Added
+### Added
 - New `get-shortest-path` module in `array-utils`.
 - New `conditional-timeout` module.
 - New `create-heartbeat-timeout` module.
 
-## Changed
+### Changed
 - Some cleanups.
 - Renamed: `create-timeout` -> `controlled-timeout` module.
 
 ## [1.0.0-beta.2] - 2020-05-07
 
-## Changed
+### Changed
 - All dependencies have been upgraded.
 
 ### Fixed
