@@ -20,12 +20,25 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+[2020-10-16]
+
 ### Added
 - New `react-mui` monorepo package.
 
 ### Changed
 - Minor fixes/improvements to .md files.
 - Some dependencies have been upgraded.
+
+### Packages Bumps
+- `@codistica/browser`: 1.0.0-beta.6
+- `@codistica/core`: 1.0.0-beta.5
+- `@codistica/demo`: 1.0.0-beta.6
+- `@codistica/dev-tools`: 1.0.0-beta.5
+- `@codistica/node`: 1.0.0-beta.5
+- `@codistica/react`: 1.0.0-beta.8
+- `@codistica/react-icons`: 1.0.0-beta.1
+- `@codistica/scriptfiber`: 1.0.0-beta.6
+- `@codistica/types`: 1.0.0-beta.3
 
 [2020-07-10]
 
@@ -133,6 +146,7 @@ See [GitHub release notes](https://github.com/codistica/codistica-js/releases?af
 for info on changes for earlier releases.
 
 [Unreleased]: https://github.com/codistica/codistica-js/compare/master...HEAD
+[2020-10-16]: https://github.com/codistica/codistica-js/compare/2020/07/10...2020/10/16
 [2020-07-10]: https://github.com/codistica/codistica-js/compare/2020/06/01...2020/07/10
 [2020-06-01]: https://github.com/codistica/codistica-js/compare/2020/05/16...2020/06/01
 [2020-05-16]: https://github.com/codistica/codistica-js/compare/2020/05/13...2020/05/16

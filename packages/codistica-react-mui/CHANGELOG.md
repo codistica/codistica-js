@@ -12,4 +12,4 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 See [GitHub release notes](https://github.com/codistica/codistica-js/releases?after=@codistica/react-mui@1.0.0-beta.1)
 for info on changes for earlier releases.
 
-[Unreleased]: https://github.com/codistica/codistica-js/compare/@codistica/react-mui@1.0.0-beta.0...@codistica/react@1.0.0-beta.1
+[Unreleased]: https://github.com/codistica/codistica-js/compare/@codistica/react-mui@1.0.0-beta.0...HEAD

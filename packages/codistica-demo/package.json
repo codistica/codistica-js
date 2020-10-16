@@ -1,6 +1,6 @@
 {
     "name": "@codistica/demo",
-    "version": "1.0.0-beta.5",
+    "version": "1.0.0-beta.6",
     "private": true,
     "description": "Codistica demo package.",
     "keywords": [
@@ -54,9 +54,9 @@
         "eject": "react-scripts eject"
     },
     "dependencies": {
-        "@codistica/browser": "^1.0.0-beta.5",
-        "@codistica/core": "^1.0.0-beta.4",
-        "@codistica/react": "^1.0.0-beta.7",
+        "@codistica/browser": "^1.0.0-beta.6",
+        "@codistica/core": "^1.0.0-beta.5",
+        "@codistica/react": "^1.0.0-beta.8",
         "@codistica/react-mui": "^1.0.0-beta.0",
         "@material-ui/core": "^4.11.0",
         "@material-ui/icons": "^4.9.1",
