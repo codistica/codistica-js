@@ -45,22 +45,16 @@ export {getRefHandler} from './modules/get-ref-handler';
 export {mergeClassNames} from './modules/merge-class-names';
 export {mergeStyles} from './modules/merge-styles';
 
-// MUI COMPONENTS
-export {MUICheckbox} from './mui-components/mui-checkbox';
-export {MUIDatePicker} from './mui-components/mui-date-picker';
-export {MUIRadioGroup} from './mui-components/mui-radio-group';
-export {MUISwitch} from './mui-components/mui-switch';
-export {MUITextField} from './mui-components/mui-text-field';
-export {MUITextFieldPassword} from './mui-components/mui-text-field-password';
-export {MUITextFieldSelect} from './mui-components/mui-text-field-select';
-
 // UTILS
 export {AnchorWrapper} from './utils/anchor-wrapper';
 export {Draggable} from './utils/draggable';
 export {Form} from './utils/form';
-export type {FormValidationObjectType} from './utils/form';
 export {ImgHoverSwitch} from './utils/img-hover-switch';
 export {InputRenderer} from './utils/input-renderer';
+
+// TYPES
+export type {FormValidationObjectType} from './utils/form';
+export type {PluginType as InputPluginType} from './utils/input-renderer'; // TODO: FIX.
 
 // TODO: IMPORTANT!!!
 // TODO: SUPPORT PAYLOAD GROUPS LIKE permissions:admins, permissions:customers -> [permissions:admins, permissions:customers].

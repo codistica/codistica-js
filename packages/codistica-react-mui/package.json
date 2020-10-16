@@ -1,12 +1,12 @@
 {
-    "name": "@codistica/react",
-    "version": "1.0.0-beta.7",
+    "name": "@codistica/react-mui",
+    "version": "1.0.0-beta.0",
     "publishConfig": {
         "access": "public"
     },
-    "description": "Codistica React library package.",
+    "description": "Codistica React Material UI library package.",
     "keywords": [
-        "codistica, main, library, react"
+        "codistica, main, library, react, material, ui"
     ],
     "author": {
         "name": "Codistica",
@@ -59,19 +59,14 @@
     },
     "dependencies": {
         "@babel/runtime-corejs3": "^7.11.2",
-        "@codistica/browser": "^1.0.0-beta.5",
-        "@codistica/core": "^1.0.0-beta.4",
-        "@codistica/types": "^1.0.0-beta.2",
+        "@date-io/moment": "1.x",
         "core-js": "^3.6.5",
-        "jss": "^10.4.0",
-        "jss-preset-default": "^10.4.0",
-        "moment": "^2.27.0",
-        "react-html-id": "^0.1.5",
-        "react-spring": "^8.0.27",
-        "react-use-gesture": "^7.0.16"
+        "moment": "^2.27.0"
     },
     "devDependencies": {
         "@babel/core": "^7.11.6",
+        "@codistica/core": "^1.0.0-beta.4",
+        "@codistica/react": "^1.0.0-beta.7",
         "@storybook/addon-backgrounds": "^6.0.21",
         "@storybook/addon-centered": "^5.3.21",
         "@storybook/react": "^6.0.21",
@@ -85,6 +80,9 @@
         "style-loader": "^1.2.1"
     },
     "peerDependencies": {
+        "@material-ui/core": "^4.11.0",
+        "@material-ui/icons": "^4.9.1",
+        "@material-ui/pickers": "^3.2.10",
         "node-sass": "^4.14.1",
         "react": "^16.13.1",
         "react-dom": "^16.13.1"

@@ -1,7 +1,9 @@
 /** @flow */
 
-/** @module react/mui-components/mui-text-field-password */
+/** @module react-mui/components/text-field-password */
 
+import {mergeClassNames, InputRenderer} from '@codistica/react';
+import type {InputPluginType} from '@codistica/react';
 import {
     IconButton,
     InputAdornment,
@@ -14,9 +16,6 @@ import {
     VisibilityOff as VisibilityOffIcon
 } from '@material-ui/icons';
 import React, {useState} from 'react';
-import {mergeClassNames} from '../../modules/merge-class-names.js';
-import type {PluginType} from '../../utils/input-renderer.js';
-import {InputRenderer} from '../../utils/input-renderer.js';
 import {useStyles} from './index.styles.js';
 
 type Props = {
@@ -31,7 +30,7 @@ type Props = {
         mandatory?: string | null,
         match?: string | null
     },
-    plugins: PluginType,
+    plugins: InputPluginType,
     deferValidation: boolean,
     onValidationResult: null | ((...args: Array<any>) => any),
     onKeyDown: null | ((...args: Array<any>) => any),
@@ -40,7 +39,7 @@ type Props = {
     classes: {[string]: string}
 };
 
-MUITextFieldPassword.defaultProps = {
+TextFieldPassword.defaultProps = {
     value: '',
     voidValue: '',
     containerProps: {},
@@ -65,7 +64,7 @@ MUITextFieldPassword.defaultProps = {
  * @param {Object<string,*>} props - Component props.
  * @returns {Object<string,*>} React component.
  */
-function MUITextFieldPassword(props: Props) {
+function TextFieldPassword(props: Props) {
     const {
         name,
         value,
@@ -158,4 +157,4 @@ function MUITextFieldPassword(props: Props) {
     );
 }
 
-export {MUITextFieldPassword};
+export {TextFieldPassword};

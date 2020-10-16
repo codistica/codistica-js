@@ -1,17 +1,15 @@
 /** @flow */
 
+import {Form, inputPresets, inputValidators} from '@codistica/react';
 import {
-    Form,
-    inputPresets,
-    inputValidators,
-    MUICheckbox,
-    MUIDatePicker,
-    MUIRadioGroup,
-    MUITextField,
-    MUITextFieldSelect,
-    MUITextFieldPassword,
-    MUISwitch
-} from '@codistica/react';
+    Checkbox,
+    DatePicker,
+    RadioGroup,
+    TextField,
+    TextFieldSelect,
+    TextFieldPassword,
+    Switch
+} from '@codistica/react-mui';
 import {Button, FormLabel} from '@material-ui/core';
 import React, {useState, useRef} from 'react';
 import {Section} from '../../../../components/section/index.js';
@@ -45,10 +43,8 @@ const colors = new Set([
     'brown'
 ]);
 
-const colorsAsyncMockValidator = async function colorsAsyncMockValidator(
-    value
-) {
-    return await new Promise((resolve) => {
+const colorsAsyncMockValidator = function colorsAsyncMockValidator(value) {
+    return new Promise((resolve) => {
         setTimeout(() => {
             resolve(colors.has(value.toLowerCase()));
         }, 2000);
@@ -70,7 +66,7 @@ function DefaultForm() {
                 onMount={(formInstance) =>
                     (formInstanceRef.current = formInstance)
                 }>
-                <MUITextField
+                <TextField
                     variant={'outlined'}
                     name={'firstName'}
                     label={'First Name'}
@@ -83,7 +79,7 @@ function DefaultForm() {
                     }}
                 />
 
-                <MUITextField
+                <TextField
                     variant={'outlined'}
                     name={'lastName'}
                     label={'Last Name'}
@@ -96,7 +92,7 @@ function DefaultForm() {
                     }}
                 />
 
-                <MUIDatePicker
+                <DatePicker
                     inputVariant={'outlined'}
                     name={'birthday'}
                     label={'Date of birth'}
@@ -114,7 +110,7 @@ function DefaultForm() {
                     }}
                 />
 
-                <MUITextField
+                <TextField
                     variant={'outlined'}
                     name={'colorA'}
                     label={'Color A'}
@@ -139,7 +135,7 @@ function DefaultForm() {
                     }}
                 />
 
-                <MUITextField
+                <TextField
                     variant={'outlined'}
                     name={'colorB'}
                     label={'Color B'}
@@ -166,7 +162,7 @@ function DefaultForm() {
                     }}
                 />
 
-                <MUITextField
+                <TextField
                     variant={'outlined'}
                     name={'email'}
                     label={'Email'}
@@ -195,7 +191,7 @@ function DefaultForm() {
                     className={componentClassNames.formLabel}>
                     Gender
                 </FormLabel>
-                <MUIRadioGroup
+                <RadioGroup
                     name={'gender'}
                     radios={{
                         male: 'Male',
@@ -217,7 +213,7 @@ function DefaultForm() {
                     }}
                 />
 
-                <MUITextFieldPassword
+                <TextFieldPassword
                     variant={'outlined'}
                     name={'password'}
                     label={'Password'}
@@ -243,7 +239,7 @@ function DefaultForm() {
                     }}
                 />
 
-                <MUITextFieldPassword
+                <TextFieldPassword
                     variant={'outlined'}
                     name={'repeatPassword'}
                     label={'Repeat Password'}
@@ -257,7 +253,7 @@ function DefaultForm() {
                     }}
                 />
 
-                <MUITextFieldSelect
+                <TextFieldSelect
                     variant={'outlined'}
                     name={'country'}
                     label={'Country'}
@@ -270,7 +266,7 @@ function DefaultForm() {
                     }}
                 />
 
-                <MUICheckbox
+                <Checkbox
                     name={'privacyTerms'}
                     label={'I accept Privacy Terms ad Conditions.'}
                     errorMessages={{
@@ -281,7 +277,7 @@ function DefaultForm() {
                     }}
                 />
 
-                <MUICheckbox
+                <Checkbox
                     name={'serviceTerms'}
                     label={'I accept Service Terms and Conditions.'}
                     errorMessages={{
@@ -292,7 +288,7 @@ function DefaultForm() {
                     }}
                 />
 
-                <MUISwitch
+                <Switch
                     name={'switch1'}
                     label={'I am a switch.'}
                     errorMessages={{
@@ -303,7 +299,7 @@ function DefaultForm() {
                     }}
                 />
 
-                <MUISwitch
+                <Switch
                     name={'switch2'}
                     label={'I am another switch.'}
                     errorMessages={{

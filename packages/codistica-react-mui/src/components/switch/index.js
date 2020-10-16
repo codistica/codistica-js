@@ -1,17 +1,16 @@
 /** @flow */
 
-/** @module react/mui-components/mui-switch */
+/** @module react-mui/components/switch */
 
+import {mergeClassNames, InputRenderer} from '@codistica/react';
+import type {InputPluginType} from '@codistica/react';
 import {
-    Switch,
+    Switch as MUISwitch,
     FormControl,
     FormHelperText,
     FormControlLabel
 } from '@material-ui/core';
 import React from 'react';
-import {mergeClassNames} from '../../modules/merge-class-names.js';
-import type {PluginType} from '../../utils/input-renderer.js';
-import {InputRenderer} from '../../utils/input-renderer.js';
 import {useStyles} from './index.styles.js';
 
 type Props = {
@@ -27,7 +26,7 @@ type Props = {
         mandatory?: string | null,
         match?: string | null
     },
-    plugins: PluginType,
+    plugins: InputPluginType,
     deferValidation: boolean,
     onValidationResult: null | ((...args: Array<any>) => any),
     onChange: null | ((...args: Array<any>) => any),
@@ -35,7 +34,7 @@ type Props = {
     classes: {[string]: string}
 };
 
-MUISwitch.defaultProps = {
+Switch.defaultProps = {
     label: '',
     voidValue: 'false',
     checked: false,
@@ -60,7 +59,7 @@ MUISwitch.defaultProps = {
  * @param {Object<string,*>} props - Component props.
  * @returns {Object<string,*>} React component.
  */
-function MUISwitch(props: Props) {
+function Switch(props: Props) {
     const {
         name,
         label,
@@ -102,7 +101,7 @@ function MUISwitch(props: Props) {
                     <FormControl {...containerProps} error={error}>
                         <FormControlLabel
                             control={
-                                <Switch
+                                <MUISwitch
                                     {...other}
                                     name={inputProps.name}
                                     checked={inputProps.value === 'true'}
@@ -139,4 +138,4 @@ function MUISwitch(props: Props) {
     );
 }
 
-export {MUISwitch};
+export {Switch};

@@ -1,15 +1,17 @@
 /** @flow */
 
-/** @module react/mui-components/mui-date-picker */
+/** @module react-mui/components/date-picker */
 
+import {mergeClassNames, InputRenderer} from '@codistica/react';
+import type {InputPluginType} from '@codistica/react';
 import {default as MomentUtils} from '@date-io/moment';
 import {FormControl, FormHelperText} from '@material-ui/core';
-import {DatePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
+import {
+    DatePicker as MUIDatePicker,
+    MuiPickersUtilsProvider
+} from '@material-ui/pickers';
 import {default as moment} from 'moment';
 import React, {useState} from 'react';
-import {mergeClassNames} from '../../modules/merge-class-names.js';
-import type {PluginType} from '../../utils/input-renderer.js';
-import {InputRenderer} from '../../utils/input-renderer.js';
 import {useStyles} from './index.styles.js';
 
 type Props = {
@@ -24,7 +26,7 @@ type Props = {
         mandatory?: string | null,
         match?: string | null
     },
-    plugins: PluginType,
+    plugins: InputPluginType,
     deferValidation: boolean,
     onValidationResult: null | ((...args: Array<any>) => any),
     onKeyDown: null | ((...args: Array<any>) => any),
@@ -33,7 +35,7 @@ type Props = {
     classes: {[string]: string}
 };
 
-MUIDatePicker.defaultProps = {
+DatePicker.defaultProps = {
     value: null,
     voidValue: '',
     containerProps: {},
@@ -58,7 +60,7 @@ MUIDatePicker.defaultProps = {
  * @param {Object<string,*>} props - Component props.
  * @returns {Object<string,*>} React component.
  */
-function MUIDatePicker(props: Props) {
+function DatePicker(props: Props) {
     const {
         name,
         value,
@@ -109,7 +111,7 @@ function MUIDatePicker(props: Props) {
                 return (
                     <MuiPickersUtilsProvider utils={MomentUtils}>
                         <FormControl {...containerProps} error={error}>
-                            <DatePicker
+                            <MUIDatePicker
                                 {...other}
                                 name={inputProps.name}
                                 value={inputProps.value}
@@ -144,4 +146,4 @@ function MUIDatePicker(props: Props) {
     );
 }
 
-export {MUIDatePicker};
+export {DatePicker};

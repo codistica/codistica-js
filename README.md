@@ -41,15 +41,16 @@ making it suitable for the most demanding applications.
 
 ## Packages
 
-- [browser][codistica-browser]
-- [core][codistica-core]
-- [demo][codistica-demo]
-- [dev-tools][codistica-dev-tools]
-- [node][codistica-node]
-- [react][codistica-react]
-- [react-icons][codistica-react-icons]
-- [scriptfiber][codistica-scriptfiber]
-- [types][codistica-types]
+- [@codistica/browser][codistica-browser]
+- [@codistica/core][codistica-core]
+- [@codistica/demo][codistica-demo]
+- [@codistica/dev-tools][codistica-dev-tools]
+- [@codistica/node][codistica-node]
+- [@codistica/react][codistica-react]
+- [@codistica/react-icons][codistica-react-icons]
+- [@codistica/react-mui][codistica-react-mui]
+- [@codistica/scriptfiber][codistica-scriptfiber]
+- [@codistica/types][codistica-types]
 
 
 ## Documentation
@@ -74,6 +75,7 @@ See [LICENSE.md][license]
 [codistica-node]: packages/codistica-node/README.md
 [codistica-react]: packages/codistica-react/README.md
 [codistica-react-icons]: packages/codistica-react-icons/README.md
+[codistica-react-mui]: packages/codistica-react-mui/README.md
 [codistica-scriptfiber]: packages/codistica-scriptfiber/README.md
 [codistica-types]: packages/codistica-types/README.md
 [contributing]: CONTRIBUTING.md

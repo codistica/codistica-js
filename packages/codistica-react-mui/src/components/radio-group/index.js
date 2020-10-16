@@ -1,18 +1,17 @@
 /** @flow */
 
-/** @module react/mui-components/mui-radio-group */
+/** @module react-mui/components/radio-group */
 
+import type {InputPluginType} from '@codistica/react';
+import {mergeClassNames, InputRenderer} from '@codistica/react';
 import {
-    RadioGroup,
+    RadioGroup as MUIRadioGroup,
     Radio,
     FormControlLabel,
     FormControl,
     FormHelperText
 } from '@material-ui/core';
 import React from 'react';
-import {mergeClassNames} from '../../modules/merge-class-names.js';
-import type {PluginType} from '../../utils/input-renderer.js';
-import {InputRenderer} from '../../utils/input-renderer.js';
 import {useStyles} from './index.styles.js';
 
 type Props = {
@@ -27,7 +26,7 @@ type Props = {
         mandatory?: string | null,
         match?: string | null
     },
-    plugins: PluginType,
+    plugins: InputPluginType,
     deferValidation: boolean,
     onValidationResult: null | ((...args: Array<any>) => any),
     onChange: null | ((...args: Array<any>) => any),
@@ -35,7 +34,7 @@ type Props = {
     classes: {[string]: string}
 };
 
-MUIRadioGroup.defaultProps = {
+RadioGroup.defaultProps = {
     radioProps: {},
     containerProps: {},
     required: true,
@@ -58,7 +57,7 @@ MUIRadioGroup.defaultProps = {
  * @param {Object<string,*>} props - Component props.
  * @returns {Object<string,*>} React component.
  */
-function MUIRadioGroup(props: Props) {
+function RadioGroup(props: Props) {
     const {
         name,
         radios,
@@ -96,7 +95,7 @@ function MUIRadioGroup(props: Props) {
                 const error = inputRendererAPI.status === 'invalid';
                 return (
                     <FormControl {...containerProps} error={error}>
-                        <RadioGroup
+                        <MUIRadioGroup
                             {...other}
                             name={inputProps.name}
                             value={inputProps.value}
@@ -157,7 +156,7 @@ function MUIRadioGroup(props: Props) {
                                 }
                                 return output;
                             })()}
-                        </RadioGroup>
+                        </MUIRadioGroup>
                         {inputRendererAPI.validationObject.messages.map(
                             (item, index) => (
                                 <FormHelperText key={index}>
@@ -172,4 +171,4 @@ function MUIRadioGroup(props: Props) {
     );
 }
 
-export {MUIRadioGroup};
+export {RadioGroup};

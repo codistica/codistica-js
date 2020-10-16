@@ -13,7 +13,8 @@ module.exports = function babelConfig(api) {
                 {
                     reactPackages: [
                         /.+[\\/]packages[\\/]codistica-react[\\/].+\.js$/,
-                        /.+[\\/]packages[\\/]codistica-react-icons[\\/].+\.js$/
+                        /.+[\\/]packages[\\/]codistica-react-icons[\\/].+\.js$/,
+                        /.+[\\/]packages[\\/]codistica-react-mui[\\/].+\.js$/
                     ]
                 }
             ]

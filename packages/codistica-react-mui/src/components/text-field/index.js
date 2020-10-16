@@ -1,24 +1,22 @@
 /** @flow */
 
-/** @module react/mui-components/mui-text-field-select */
+/** @module react-mui/components/text-field */
 
+import {mergeClassNames, InputRenderer} from '@codistica/react';
+import type {InputPluginType} from '@codistica/react';
 import {
-    MenuItem,
-    TextField,
+    TextField as MUITextField,
     FormControl,
     FormHelperText
 } from '@material-ui/core';
 import React from 'react';
-import {mergeClassNames} from '../../modules/merge-class-names.js';
-import type {PluginType} from '../../utils/input-renderer.js';
-import {InputRenderer} from '../../utils/input-renderer.js';
 import {useStyles} from './index.styles.js';
 
 type Props = {
     name: string,
     value: string,
     voidValue: string,
-    options: Array<{value: string, label: string}>,
+    type: string,
     containerProps: {[string]: any},
     required: boolean,
     keepMissingStatus: boolean,
@@ -27,7 +25,7 @@ type Props = {
         mandatory?: string | null,
         match?: string | null
     },
-    plugins: PluginType,
+    plugins: InputPluginType,
     deferValidation: boolean,
     onValidationResult: null | ((...args: Array<any>) => any),
     onKeyDown: null | ((...args: Array<any>) => any),
@@ -36,10 +34,10 @@ type Props = {
     classes: {[string]: string}
 };
 
-MUITextFieldSelect.defaultProps = {
+TextField.defaultProps = {
     value: '',
     voidValue: '',
-    options: [],
+    type: 'text',
     containerProps: {},
     required: true,
     keepMissingStatus: false,
@@ -58,16 +56,16 @@ MUITextFieldSelect.defaultProps = {
 };
 
 /**
- * @description Material UI input text field select component.
+ * @description Material UI text field component.
  * @param {Object<string,*>} props - Component props.
  * @returns {Object<string,*>} React component.
  */
-function MUITextFieldSelect(props: Props) {
+function TextField(props: Props) {
     const {
         name,
         value,
         voidValue,
-        options,
+        type,
         containerProps,
         required,
         keepMissingStatus,
@@ -94,8 +92,8 @@ function MUITextFieldSelect(props: Props) {
             keepMissingStatus={keepMissingStatus}
             match={match}
             errorMessages={errorMessages}
-            deferValidation={deferValidation}
             plugins={plugins}
+            deferValidation={deferValidation}
             onValidationResult={onValidationResult}
             onKeyDown={onKeyDown}
             onChange={onChange}
@@ -104,10 +102,10 @@ function MUITextFieldSelect(props: Props) {
                 const error = inputRendererAPI.status === 'invalid';
                 return (
                     <FormControl {...containerProps} error={error}>
-                        <TextField
+                        <MUITextField
                             {...other}
                             name={inputProps.name}
-                            select={true}
+                            type={type}
                             value={inputProps.value}
                             onKeyDown={inputProps.onKeyDown}
                             onChange={inputProps.onChange}
@@ -123,15 +121,8 @@ function MUITextFieldSelect(props: Props) {
                                         inputRendererAPI.status || 'standBy'
                                     ]
                                 )
-                            }}>
-                            {options.map((option) => (
-                                <MenuItem
-                                    key={option.value}
-                                    value={option.value}>
-                                    {option.label}
-                                </MenuItem>
-                            ))}
-                        </TextField>
+                            }}
+                        />
                         {inputRendererAPI.validationObject.messages.map(
                             (item, index) => (
                                 <FormHelperText key={index}>
@@ -146,4 +137,4 @@ function MUITextFieldSelect(props: Props) {
     );
 }
 
-export {MUITextFieldSelect};
+export {TextField};

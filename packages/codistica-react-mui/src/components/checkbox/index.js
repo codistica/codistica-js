@@ -1,19 +1,23 @@
 /** @flow */
 
-/** @module react/mui-components/mui-text-field */
+/** @module react-mui/components/checkbox */
 
-import {TextField, FormControl, FormHelperText} from '@material-ui/core';
+import {mergeClassNames, InputRenderer} from '@codistica/react';
+import type {InputPluginType} from '@codistica/react';
+import {
+    Checkbox as MUICheckbox,
+    FormControl,
+    FormControlLabel,
+    FormHelperText
+} from '@material-ui/core';
 import React from 'react';
-import {mergeClassNames} from '../../modules/merge-class-names.js';
-import type {PluginType} from '../../utils/input-renderer.js';
-import {InputRenderer} from '../../utils/input-renderer.js';
 import {useStyles} from './index.styles.js';
 
 type Props = {
     name: string,
-    value: string,
+    label: string,
     voidValue: string,
-    type: string,
+    checked: boolean,
     containerProps: {[string]: any},
     required: boolean,
     keepMissingStatus: boolean,
@@ -22,19 +26,18 @@ type Props = {
         mandatory?: string | null,
         match?: string | null
     },
-    plugins: PluginType,
+    plugins: InputPluginType,
     deferValidation: boolean,
     onValidationResult: null | ((...args: Array<any>) => any),
-    onKeyDown: null | ((...args: Array<any>) => any),
     onChange: null | ((...args: Array<any>) => any),
     onBlur: null | ((...args: Array<any>) => any),
     classes: {[string]: string}
 };
 
-MUITextField.defaultProps = {
-    value: '',
-    voidValue: '',
-    type: 'text',
+Checkbox.defaultProps = {
+    label: '',
+    voidValue: 'false',
+    checked: false,
     containerProps: {},
     required: true,
     keepMissingStatus: false,
@@ -46,23 +49,22 @@ MUITextField.defaultProps = {
     plugins: [],
     deferValidation: true,
     onValidationResult: null,
-    onKeyDown: null,
     onChange: null,
     onBlur: null,
     classes: {}
 };
 
 /**
- * @description Material UI text field component.
+ * @description Material UI checkbox component.
  * @param {Object<string,*>} props - Component props.
  * @returns {Object<string,*>} React component.
  */
-function MUITextField(props: Props) {
+function Checkbox(props: Props) {
     const {
         name,
-        value,
+        label,
         voidValue,
-        type,
+        checked,
         containerProps,
         required,
         keepMissingStatus,
@@ -71,7 +73,6 @@ function MUITextField(props: Props) {
         plugins,
         deferValidation,
         onValidationResult,
-        onKeyDown,
         onChange,
         onBlur,
         classes,
@@ -83,7 +84,7 @@ function MUITextField(props: Props) {
     return (
         <InputRenderer
             name={name}
-            value={value}
+            value={checked ? 'true' : 'false'}
             voidValue={voidValue}
             mandatory={required}
             keepMissingStatus={keepMissingStatus}
@@ -92,33 +93,36 @@ function MUITextField(props: Props) {
             plugins={plugins}
             deferValidation={deferValidation}
             onValidationResult={onValidationResult}
-            onKeyDown={onKeyDown}
             onChange={onChange}
             onBlur={onBlur}
             inputRenderFn={(inputProps, inputRendererAPI) => {
                 const error = inputRendererAPI.status === 'invalid';
                 return (
                     <FormControl {...containerProps} error={error}>
-                        <TextField
-                            {...other}
-                            name={inputProps.name}
-                            type={type}
-                            value={inputProps.value}
-                            onKeyDown={inputProps.onKeyDown}
-                            onChange={inputProps.onChange}
-                            onBlur={inputProps.onBlur}
-                            error={error}
-                            required={required}
-                            classes={{
-                                ...classes,
-                                root: mergeClassNames(
-                                    classes.root,
-                                    componentClasses.root,
-                                    componentClasses[
-                                        inputRendererAPI.status || 'standBy'
-                                    ]
-                                )
-                            }}
+                        <FormControlLabel
+                            control={
+                                <MUICheckbox
+                                    {...other}
+                                    name={inputProps.name}
+                                    checked={inputProps.value === 'true'}
+                                    onChange={inputProps.onChange}
+                                    onBlur={inputProps.onBlur}
+                                    error={error}
+                                    required={required}
+                                    classes={{
+                                        ...classes,
+                                        root: mergeClassNames(
+                                            classes.root,
+                                            componentClasses.root,
+                                            componentClasses[
+                                                inputRendererAPI.status ||
+                                                    'standBy'
+                                            ]
+                                        )
+                                    }}
+                                />
+                            }
+                            label={label}
                         />
                         {inputRendererAPI.validationObject.messages.map(
                             (item, index) => (
@@ -134,4 +138,4 @@ function MUITextField(props: Props) {
     );
 }
 
-export {MUITextField};
+export {Checkbox};

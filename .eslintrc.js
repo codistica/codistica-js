@@ -31,6 +31,7 @@ module.exports = {
                 './packages/codistica-demo/src/**/*.js',
                 './packages/codistica-react/src/**/*.js',
                 './packages/codistica-react-icons/src/**/*.js',
+                './packages/codistica-react-mui/src/**/*.js',
                 './packages/*/stories/**/*.js'
             ],
             extends: ['@codistica/eslint-config-default/react']
@@ -41,7 +42,8 @@ module.exports = {
                 './packages/codistica-browser/src/**/*.js',
                 './packages/codistica-demo/src/**/*.js',
                 './packages/codistica-react/src/**/*.js',
-                './packages/codistica-react-icons/src/**/*.js'
+                './packages/codistica-react-icons/src/**/*.js',
+                './packages/codistica-react-mui/src/**/*.js'
             ],
             extends: ['@codistica/eslint-config-default/browser']
         },
@@ -64,7 +66,8 @@ module.exports = {
         {
             files: [
                 './packages/codistica-react/src/index.js',
-                './packages/codistica-react-icons/src/index.js'
+                './packages/codistica-react-icons/src/index.js',
+                './packages/codistica-react-mui/src/index.js'
             ],
             rules: {
                 'import/extensions': ['warn', 'never']

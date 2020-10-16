@@ -15,6 +15,7 @@
             <path value="file://$PROJECT_DIR$/packages/codistica-demo/src" />
             <path value="file://$PROJECT_DIR$/packages/codistica-demo/public" />
             <path value="file://$PROJECT_DIR$/packages/codistica-react-icons/src" />
+            <path value="file://$PROJECT_DIR$/packages/codistica-react-mui/src" />
           </resourceRoots>
         </entryData>
       </entry>

@@ -7,6 +7,7 @@
     <file url="file://$PROJECT_DIR$/packages/codistica-node" libraries="{Node.js Core}" />
     <file url="file://$PROJECT_DIR$/packages/codistica-react" libraries="{HTML}" />
     <file url="file://$PROJECT_DIR$/packages/codistica-react-icons" libraries="{HTML}" />
+    <file url="file://$PROJECT_DIR$/packages/codistica-react-mui" libraries="{HTML}" />
     <file url="file://$PROJECT_DIR$/packages/codistica-scriptfiber" libraries="{Node.js Core}" />
   </component>
 </project>
