@@ -15,6 +15,7 @@ type ExternalProps = {
     height: string | number,
     width: string | number,
     href: string,
+    alt: string,
     style: {[string]: any},
     className: string,
     customStyles: {
@@ -56,6 +57,7 @@ function Icon(props: InternalProps) {
         height,
         width,
         href,
+        alt,
         style,
         className,
         customStyles,
@@ -89,6 +91,7 @@ function Icon(props: InternalProps) {
             <ImgHoverSwitch
                 defaultImg={defaultImg}
                 onHoverImg={onHoverImg}
+                alt={alt}
                 disable={!href}
                 tabIndex={-1}
                 customStyles={{

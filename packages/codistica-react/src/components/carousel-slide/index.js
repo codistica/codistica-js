@@ -2,6 +2,8 @@
 
 /** @module react/components/carousel-slide */
 
+// TODO: FIX CROSS DRAG INTERFERENCE. (EX. HORIZONTAL SLIDE SWITCHING WHEN SCROLLING VERTICALLY)
+
 import React, {useRef, useCallback, useEffect, useState} from 'react';
 import {animated, useSprings} from 'react-spring';
 import {useGesture} from 'react-use-gesture';
@@ -143,7 +145,7 @@ function CarouselSlide(props: Props) {
             const constant = slot * offset + (delta || 0);
             return `calc(${percent}% + ${constant}px)`;
         },
-        [position.current, drift, offset]
+        [drift, offset]
     );
 
     const [springProps, setSpringProps] = useSprings(children.length, (i) => ({
@@ -162,7 +164,7 @@ function CarouselSlide(props: Props) {
                 };
             });
         },
-        [onNewPosition, position.current, getPositionValue]
+        [onNewPosition, setSpringProps, getPositionValue]
     );
 
     const goTo = useCallback(
@@ -172,15 +174,9 @@ function CarouselSlide(props: Props) {
         [clampPosition, setPosition]
     );
 
-    const next = useCallback(() => goTo(position.current + 1), [
-        goTo,
-        position.current
-    ]);
+    const next = useCallback(() => goTo(position.current + 1), [goTo]);
 
-    const previous = useCallback(() => goTo(position.current - 1), [
-        goTo,
-        position.current
-    ]);
+    const previous = useCallback(() => goTo(position.current - 1), [goTo]);
 
     const globalStyles = globalTheme
         ? CarouselSlide.globalStyles[globalTheme] || {}
@@ -223,101 +219,96 @@ function CarouselSlide(props: Props) {
         )
     };
 
-    let bind = null;
-
-    if (!disableGestures) {
-        bind = useGesture(
-            {
-                /**
-                 * @description Callback for clickCapture event.
-                 * @param {Object<string,*>} e - Triggering event.
-                 * @returns {void} Void.
-                 */
-                onClickCapture(e) {
-                    if (isDragging.current) {
-                        e.cancelable && e.preventDefault();
-                        e.stopPropagation();
-                    }
-                },
-                /**
-                 * @description Callback for mouseDownCapture event.
-                 * @returns {void} Void.
-                 */
-                onMouseDownCapture() {
-                    setIsGrabbing(true);
-                },
-                /**
-                 * @description Callback for mouseUpCapture event.
-                 * @returns {void} Void.
-                 */
-                onMouseUpCapture() {
-                    setIsGrabbing(false);
-                },
-                /**
-                 * @description Callback for drag event.
-                 * @param {Object} arg - Arg.
-                 * @param {boolean} arg.down - Down.
-                 * @param {Array<number>} arg.movement - Movement.
-                 * @param {Array<number>} arg.direction - Direction.
-                 * @param {number} arg.distance - Movement.
-                 * @param {Function} arg.cancel - Cancel.
-                 * @returns {void} Void.
-                 */
-                onDrag({
-                    down,
-                    movement: [movX, movY],
-                    direction: [dirX, dirY],
-                    distance,
-                    cancel
-                }) {
-                    let slideSize = isRow
-                        ? window.innerWidth
-                        : window.innerHeight;
-
-                    setIsGrabbing(down);
-
-                    if (!down) {
-                        isDraggingTimer.current = setTimeout(() => {
-                            isDragging.current = false;
-                        }, 500);
-                    } else {
-                        clearTimeout(isDraggingTimer.current);
-                        isDraggingTimer.current = null;
-                        isDragging.current = true;
-                    }
-
-                    if (rootRef.current) {
-                        slideSize = isRow
-                            ? rootRef.current.clientWidth
-                            : rootRef.current.clientHeight;
-                    }
-
-                    const mov = isRow ? movX : movY;
-                    const dir = isRow ? dirX : dirY;
-
-                    const switchThreshold = (slideSize * (1 - drift)) / 4;
-
-                    if (down && distance > switchThreshold) {
-                        cancel();
-                        setPosition(
-                            clampPosition(position.current + (dir > 0 ? -1 : 1))
-                        );
-                    }
-
-                    setSpringProps((i) => {
-                        return {
-                            positionValue: getPositionValue(i, down ? mov : 0)
-                        };
-                    });
+    const bind = useGesture(
+        {
+            /**
+             * @description Callback for clickCapture event.
+             * @param {Object<string,*>} e - Triggering event.
+             * @returns {void} Void.
+             */
+            onClickCapture(e) {
+                if (isDragging.current) {
+                    e.cancelable && e.preventDefault();
+                    e.stopPropagation();
                 }
             },
-            {
-                drag: {
-                    filterTaps: true
+            /**
+             * @description Callback for mouseDownCapture event.
+             * @returns {void} Void.
+             */
+            onMouseDownCapture() {
+                setIsGrabbing(true);
+            },
+            /**
+             * @description Callback for mouseUpCapture event.
+             * @returns {void} Void.
+             */
+            onMouseUpCapture() {
+                setIsGrabbing(false);
+            },
+            /**
+             * @description Callback for drag event.
+             * @param {Object} arg - Arg.
+             * @param {boolean} arg.down - Down.
+             * @param {Array<number>} arg.movement - Movement.
+             * @param {Array<number>} arg.direction - Direction.
+             * @param {number} arg.distance - Movement.
+             * @param {Function} arg.cancel - Cancel.
+             * @returns {void} Void.
+             */
+            onDrag({
+                down,
+                movement: [movX, movY],
+                direction: [dirX, dirY],
+                distance,
+                cancel
+            }) {
+                let slideSize = isRow ? window.innerWidth : window.innerHeight;
+
+                setIsGrabbing(down);
+
+                if (!down) {
+                    isDraggingTimer.current = setTimeout(() => {
+                        isDragging.current = false;
+                    }, 500);
+                } else {
+                    clearTimeout(isDraggingTimer.current);
+                    isDraggingTimer.current = null;
+                    isDragging.current = true;
                 }
+
+                if (rootRef.current) {
+                    slideSize = isRow
+                        ? rootRef.current.clientWidth
+                        : rootRef.current.clientHeight;
+                }
+
+                const mov = isRow ? movX : movY;
+                const dir = isRow ? dirX : dirY;
+
+                const switchThreshold = (slideSize * (1 - drift)) / 4;
+
+                if (down && distance > switchThreshold) {
+                    cancel();
+                    setPosition(
+                        clampPosition(position.current + (dir > 0 ? -1 : 1))
+                    );
+                }
+
+                setSpringProps((i) => {
+                    return {
+                        positionValue: getPositionValue(i, down ? mov : 0)
+                    };
+                });
             }
-        );
-    }
+        },
+        {
+            drag: {
+                filterTaps: true
+            },
+            enabled: !disableGestures
+        }
+    );
 
     useEffect(() => {
         onMount &&
@@ -337,7 +328,7 @@ function CarouselSlide(props: Props) {
                 return (
                     <animated.div
                         key={index}
-                        {...((bind && bind()) || {})}
+                        {...bind()}
                         style={mergeStyles(mergedStyles.item, {
                             [positionKey]: springProp.positionValue
                         })}

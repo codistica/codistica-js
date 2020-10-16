@@ -5,9 +5,8 @@ import {canScrollX} from '../modules/element-utils/internals/can-scroll-x.js';
 import {canScrollY} from '../modules/element-utils/internals/can-scroll-y.js';
 import {whichScrollLimitReached} from '../modules/element-utils/internals/which-scroll-limit-reached.js';
 
-// TODO: FIX ISSUES IN FIREFOX (STICKY ON LIMITS).
-// TODO: TRY FIXING ISSUE WHEN TRYING TO SCROLL DIAGONALLY AGAINST A LIMIT. NON LIMIT AXIS GETS BLOCKED. (SET SCROLL MANUALLY? WHEN DEFAULT PREVENTED. WITH OPTIONS).
-// TODO: USE REACT SPRING TO REVIVE AXIS IF NEEDED (THIS COULD ONLY BE DONE IN @codistica/react).
+// TODO: FIX STICKY ON LIMITS IN FIREFOX. (TRY THROTTLING! FIREFOX SEEMS TO CONTINUE FIRING WHEEL EVENTS WHEN OTHER BROWSERS DONT).
+// TODO: TRY FIXING ISSUE WHEN TRYING TO SCROLL DIAGONALLY AGAINST A LIMIT. NON LIMIT AXIS GETS BLOCKED TOO. (SET SCROLL MANUALLY WHEN DEFAULT PREVENTED? WITH OPTION).
 
 const overscrollBlockerSchema = new Types({
     options: {

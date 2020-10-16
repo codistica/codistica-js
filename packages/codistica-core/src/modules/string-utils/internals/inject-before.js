@@ -1,7 +1,7 @@
 /** @module core/modules/string-utils/inject-before */
 
 /**
- * @description Adds zeros to the beginning of the string until specified length is reached.
+ * @description Injects a character to the beginning of the string until specified length is reached.
  * @param {(string|number)} str - Input string.
  * @param {number} length - Desired length.
  * @param {string} [char=' '] - Character to be injected.

@@ -144,7 +144,7 @@ function TracklessSlide(props: Props) {
                     previousViewArray: previousViewArrayRef.current
                 };
             }),
-        [children.length]
+        [children, onNewPosition]
     );
 
     const next = useCallback(
@@ -160,7 +160,7 @@ function TracklessSlide(props: Props) {
                     previousViewArray: previousViewArrayRef.current
                 };
             }),
-        [itemsPerView, children.length]
+        [itemsPerView, children.length, onNewPosition]
     );
 
     const previous = useCallback(
@@ -180,7 +180,7 @@ function TracklessSlide(props: Props) {
                     previousViewArray: previousViewArrayRef.current
                 };
             }),
-        [itemsPerView, children.length]
+        [itemsPerView, children.length, onNewPosition]
     );
 
     const getIndexFromKey = useCallback((array, key) => {
@@ -219,7 +219,7 @@ function TracklessSlide(props: Props) {
             }
             return output;
         },
-        [children.length, itemsPerView, emulateTrack]
+        [children, itemsPerView, emulateTrack, getStringKey]
     );
 
     const getCurrentViewArray = useCallback(() => {
@@ -277,7 +277,10 @@ function TracklessSlide(props: Props) {
         generateViewArray,
         state.position,
         state.delta,
-        state.previousViewArray
+        state.previousViewArray,
+        emulateTrack,
+        getIndexFromKey,
+        children.length
     ]);
 
     const getTransformValue = useCallback(
@@ -404,7 +407,7 @@ function TracklessSlide(props: Props) {
                 next,
                 previous
             });
-    }, []);
+    }, [goTo, next, onMount, previous]);
 
     return (
         <div style={mergedStyles.root} className={mergedClassNames.root}>

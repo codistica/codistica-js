@@ -59,7 +59,7 @@ function withOverscrollBlocker<ComponentConfig: {}>(
         };
 
         componentRef: any;
-        overscrollBlocker: OverscrollBlocker;
+        overscrollBlocker: {[string]: any};
         touchPos: {
             x: number,
             y: number

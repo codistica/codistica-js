@@ -2,9 +2,9 @@ import {assert} from 'chai';
 import {LoadingBar} from '../../classes/loading-bar.js';
 
 /**@see module:core/classes/loading-bar */
-function classLoadingBarTest() {
+function LoadingBarTest() {
     // TODO: PERHAPS A OVERALL TEST AFTERWARDS.
-    // TODO: LOADINGBAR SHOULD CLEAR INTERVAL ON RESET.
+    // TODO: LOADING BAR SHOULD CLEAR INTERVAL ON RESET.
     /**
      * @description Creates a testing loading bar.
      * @returns {LoadingBar} - Test loading bar.
@@ -129,4 +129,4 @@ function classLoadingBarTest() {
     });
 }
 
-export {classLoadingBarTest};
+export {LoadingBarTest};

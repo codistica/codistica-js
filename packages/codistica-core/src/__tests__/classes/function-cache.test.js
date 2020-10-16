@@ -2,7 +2,7 @@ import {assert} from 'chai';
 import {FunctionCache} from '../../classes/function-cache.js';
 
 /**@see module:core/classes/function-cache */
-function classFunctionCacheTest() {
+function FunctionCacheTest() {
     // TODO: TRIGGER CONDITION "if(!args.hasOwnProperty(i))" FOR REACHING FULL COVERAGE.
     describe('FunctionCache', () => {
         const nonModifiedArg = 'nonModifiedArg';
@@ -118,4 +118,4 @@ function classFunctionCacheTest() {
     });
 }
 
-export {classFunctionCacheTest};
+export {FunctionCacheTest};

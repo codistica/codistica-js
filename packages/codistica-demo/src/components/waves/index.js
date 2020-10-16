@@ -4,7 +4,6 @@ import React, {useEffect, useRef} from 'react';
 import {default as SineWaves} from 'sine-waves';
 import componentClassNames from './index.module.scss';
 
-// TODO: MAKE OWN WAVES PACKAGE! (@codistica/waves?) (FROM CLONED REPOSITORY).
 // TODO: CLEAN AND CUSTOMIZE.
 // TODO: MAKE RESPONSIVE IF POSSIBLE.
 

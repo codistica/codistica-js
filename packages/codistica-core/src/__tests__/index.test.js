@@ -1,6 +1,6 @@
-import {classFunctionCacheTest} from './classes/function-cache.test.js';
-import {classLoadingBarTest} from './classes/loading-bar.test.js';
 import {EventEmitterTest} from './classes/event-emitter.test.js';
+import {FunctionCacheTest} from './classes/function-cache.test.js';
+import {LoadingBarTest} from './classes/loading-bar.test.js';
 import {regExpsTest} from './constants/reg-exps.test.js';
 import {arrayUtilsTest} from './modules/array-utils/index.test.js';
 import {controlledTimeoutTest} from './modules/controlled-timeout.test.js';
@@ -16,9 +16,9 @@ import {stringifyPrimitiveTest} from './modules/stringify-primitive.test.js';
 describe('@codistica/core', () => {
     // CLASSES
     describe('Classes', () => {
-        classFunctionCacheTest();
-        classLoadingBarTest();
         EventEmitterTest();
+        FunctionCacheTest();
+        LoadingBarTest();
     });
 
     // CONSTANTS

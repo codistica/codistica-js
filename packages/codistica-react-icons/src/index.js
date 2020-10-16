@@ -1,3 +1,5 @@
+/** @flow */
+
 /** @todo FOLLOW https://github.com/facebook/flow/issues/8354 and https://youtrack.jetbrains.com/issue/WEB-45239 issues. */
 
 // COMPONENTS

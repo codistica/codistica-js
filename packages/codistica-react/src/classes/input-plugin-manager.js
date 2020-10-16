@@ -196,6 +196,7 @@ class InputPluginManager {
      * @instance
      * @description Load plugins into instance.
      * @param {pluginType} plugins - Plugins to be loaded.
+     * @returns {void} Void.
      */
     loadPlugins(plugins: PluginType) {
         const {blockers, filters, validators} = loadPlugins(plugins);

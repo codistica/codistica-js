@@ -335,7 +335,6 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
                 );
             }
 
-            let activePromisesCount = 0;
             for (const validatorName in this.validatorsOutput) {
                 if (
                     !Object.hasOwnProperty.call(
@@ -382,7 +381,7 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
                     .getValuesArray(validatorOutput.promises)
                     .forEach((promise) => {
                         if (promise.isPending && promise.isPending()) {
-                            activePromisesCount++;
+                            this.isStandby = true;
                             if (!this.attachedPromises.has(promise)) {
                                 this.attachedPromises.add(promise);
                                 promise.then((shouldValidate) => {
@@ -395,8 +394,6 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
                         }
                     });
             }
-
-            this.isStandby = !!activePromisesCount;
 
             if (this.isStandby) {
                 this.validationObject.result = false;
@@ -552,6 +549,7 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
         }
 
         if (
+            !e.target.tagName ||
             e.target.tagName.toLowerCase() !== 'input' ||
             e.metaKey ||
             e.ctrlKey ||

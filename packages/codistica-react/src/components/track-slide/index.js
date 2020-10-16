@@ -126,7 +126,7 @@ function TrackSlide(props: Props) {
             }
             return value;
         },
-        [children.length]
+        [children.length, itemsPerView]
     );
 
     const [state, setState] = useState({
@@ -141,7 +141,7 @@ function TrackSlide(props: Props) {
             onNewPosition && onNewPosition(newPosition);
             setState({position: newPosition});
         },
-        [clampPosition]
+        [clampPosition, onNewPosition]
     );
 
     const next = useCallback(
@@ -154,7 +154,7 @@ function TrackSlide(props: Props) {
                     position: newPosition
                 };
             }),
-        [itemsPerView, clampPosition]
+        [itemsPerView, clampPosition, onNewPosition]
     );
 
     const previous = useCallback(
@@ -167,7 +167,7 @@ function TrackSlide(props: Props) {
                     position: newPosition
                 };
             }),
-        [itemsPerView, clampPosition]
+        [itemsPerView, clampPosition, onNewPosition]
     );
 
     const getTransformValue = useCallback(
@@ -249,7 +249,7 @@ function TrackSlide(props: Props) {
                 next,
                 previous
             });
-    }, []);
+    }, [goTo, next, onMount, previous]);
 
     return (
         <div style={mergedStyles.root} className={mergedClassNames.root}>

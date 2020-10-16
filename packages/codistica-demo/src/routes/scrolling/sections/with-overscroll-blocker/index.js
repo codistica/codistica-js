@@ -5,8 +5,6 @@ import React from 'react';
 import {Section} from '../../../../components/section/index.js';
 import componentClassNames from './index.module.scss';
 
-// TODO: FIX SCROLL BARS NOT REACHING ENDS IN CHROME.
-
 const OverscrollBlockerDiv = withOverscrollBlocker<{}>('div');
 
 const category = 'HOC';
