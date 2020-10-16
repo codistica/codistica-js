@@ -13,9 +13,9 @@ import {BackgroundStore} from './contexts/background-context.js';
 import {HeaderStore} from './contexts/header-context.js';
 import {MenuStore} from './contexts/menu-context.js';
 import {ThemeStore} from './contexts/theme-context.js';
-import {AJAXRoute} from './routes/ajax/index.js';
 import {FormsRoute} from './routes/forms/index.js';
 import {HomeRoute} from './routes/home/index.js';
+import {LoaderRoute} from './routes/loader/index.js';
 import {ScrollingRoute} from './routes/scrolling/index.js';
 import {SlidesRoute} from './routes/slides/index.js';
 import {ViewportRoute} from './routes/viewport/index.js';
@@ -31,9 +31,10 @@ log.setConsoleBinder(new LogBrowserConsoleBinder());
 // TODO: USE will-change PROP WHERE NEEDED.
 // TODO: ADD 404 PAGE.
 // TODO: GLOBALLY CUSTOMIZE SOME COMPONENTS AS DEMO.
-// TODO: CREATE SLIDES ROUTE. ALL SLIDES IN ONE ROUTE.
-// TODO: SEARCH FOR UN USED SCSS COLORS IMPORTS.
+// TODO: SEARCH FOR UNUSED SCSS COLORS IMPORTS.
 // TODO: CHECK DOUBLE RENDERINGS.
+
+// TODO: CREATE CUSTOM Waves MODULE (SPLIT INTO REUSABLE MODULES) + REACT COMPONENT (FOR CANVAS DISPLAYING). (USE CLONED REPOSITORY)
 
 const scrollingElement =
     document.scrollingElement || document.getElementsByTagName('body')[0];
@@ -86,9 +87,9 @@ function App() {
                                     component={FormsRoute}
                                 />
                                 <Route
-                                    path={'/ajax'}
+                                    path={'/loader'}
                                     exact={true}
-                                    component={AJAXRoute}
+                                    component={LoaderRoute}
                                 />
                             </Switch>
                         </BodyContainer>

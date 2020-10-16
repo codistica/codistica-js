@@ -1,5 +1,9 @@
 /** @module core/classes/event-emitter */
 
+// TODO: TEMP.
+let addedCount = 0;
+let removedCount = 0;
+
 /**
  * @classdesc A class for NodeJS like event support.
  */
@@ -134,6 +138,8 @@ function addListener(listeners, listener, prepend) {
     } else {
         listeners.push(listener);
     }
+    addedCount++;
+    console.log('Added: ' + addedCount);
 }
 
 /**
@@ -146,6 +152,8 @@ function removeListener(listeners, listener) {
     for (let i = 0; i < listeners.length; i++) {
         if (listeners[i] === listener) {
             listeners.splice(i, 1);
+            removedCount++;
+            console.log('Removed: ' + removedCount);
             return;
         }
     }

@@ -7,15 +7,15 @@ export {elementUtils};
 // *** NORMAL EXPORT ***
 
 // CLASSES
-export {AJAXRequest} from './classes/ajax-request.js';
+export {LoaderPayload} from './classes/loader-payload.js';
 export {Loader} from './classes/loader.js';
 export {OverscrollBlocker} from './classes/overscroll-blocker.js';
-export {Thread} from './classes/thread.js';
+export {LoaderThread} from './classes/loader-thread.js';
 export {ViewportMonitor} from './classes/viewport-monitor.js';
 
 // MODULES
 export {eventListenerObjectSupport} from './modules/event-listener-object-support.js';
-export {isSafeHeader} from './modules/is-safe-header.js';
+export {getSafeResponseHeaders} from './modules/get-safe-response-headers.js';
 export {viewportMonitor} from './modules/viewport-monitor.js';
 
 // PLUGINS

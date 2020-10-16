@@ -5,10 +5,10 @@ import {Body} from '../../components/body/index.js';
 import {LoaderDemo} from './sections/loader/index.js';
 
 /**
- * @description AJAX route.
+ * @description Loader route.
  * @returns {Object<string,*>} Route.
  */
-function AJAXRoute() {
+function LoaderRoute() {
     return (
         <Body>
             <LoaderDemo />
@@ -16,4 +16,4 @@ function AJAXRoute() {
     );
 }
 
-export {AJAXRoute};
+export {LoaderRoute};

@@ -70,8 +70,8 @@ function Menu() {
                     </Link>
                 </span>
                 <span>
-                    <Link to={'/ajax'} data-link={'true'}>
-                        AJAX
+                    <Link to={'/loader'} data-link={'true'}>
+                        LOADER
                     </Link>
                 </span>
             </div>
