@@ -3,6 +3,7 @@
 import {Types} from '@codistica/types';
 import {InputValidatorPluginUtils} from '../../../classes/input-validator-plugin-utils.js';
 
+// TODO: WORK IN PROGRESS.
 // TODO: ADD stringifier AND parser AS STATIC METHODS.
 
 const messageSchema = {

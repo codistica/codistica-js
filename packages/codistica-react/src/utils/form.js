@@ -295,7 +295,7 @@ class Form extends React.Component<Props> {
             }
 
             // COLLECT INPUT INFORMATION
-            this.dataPayload[input.props.name] = input.state.value;
+            this.dataPayload[input.props.name] = input.getFormValue();
             this.formValidationObject[input.props.name] =
                 input.validationObject;
         }

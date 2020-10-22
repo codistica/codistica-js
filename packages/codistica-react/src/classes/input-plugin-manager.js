@@ -20,7 +20,7 @@ type FilterType = {type: 'filter', name: string, plugin: FilterInstanceType};
 type ValidatorInstanceType =
     | string
     | RegExp
-    | ((value: string) => ValidatorOutputType);
+    | ((stringValue: string, rawValue: any) => ValidatorOutputType);
 type ValidatorType = {
     type: 'validator',
     name: string,
@@ -147,15 +147,17 @@ class InputPluginManager {
     /**
      * @instance
      * @description Validates input value using loaded validators.
-     * @param {string} value - Value to be validated.
+     * @param {string} stringValue - String value to be validated.
+     * @param {*} rawValue - Alternative raw value.
      * @returns {runValidatorsOutputType} Result.
      */
-    runValidators(value: string): RunValidatorsOutputType {
+    runValidators(stringValue: string, rawValue: any): RunValidatorsOutputType {
         const output: RunValidatorsOutputType = {};
 
         for (const validator of this.validators) {
             const validatorOutput = getNormalizedValidatorOutput(
-                value,
+                stringValue,
+                rawValue,
                 validator
             );
 
@@ -332,12 +334,14 @@ function loadPlugins(
 
 /**
  * @description Calls validator for specified value and returns a normalized output.
- * @param {string} value - Value to be validated.
+ * @param {string} stringValue - String value to be validated.
+ * @param {any} rawValue - Alternative raw value.
  * @param {inputValidatorType} validator - Validator instance to be used.
  * @returns {Object<string,*>} Validator output.
  */
 function getNormalizedValidatorOutput(
-    value: string,
+    stringValue: string,
+    rawValue: any,
     validator: ValidatorType
 ): ValidatorOutputType {
     let validatorOutput: ValidatorOutputType = {
@@ -349,16 +353,16 @@ function getNormalizedValidatorOutput(
     };
 
     if (typeof validator.plugin === 'function') {
-        const fnOutput = validator.plugin(value);
+        const fnOutput = validator.plugin(stringValue, rawValue);
         if (typeof fnOutput === 'boolean' || fnOutput === null) {
             validatorOutput.result = fnOutput;
         } else {
             validatorOutput = fnOutput;
         }
     } else if (typeof validator.plugin === 'string') {
-        validatorOutput.result = validator.plugin === value;
+        validatorOutput.result = validator.plugin === stringValue;
     } else if (validator.plugin instanceof RegExp) {
-        validatorOutput.result = validator.plugin.test(value);
+        validatorOutput.result = validator.plugin.test(stringValue);
     }
 
     if (validatorOutput.result === false) {

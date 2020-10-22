@@ -10,7 +10,6 @@ import {
     DatePicker as MUIDatePicker,
     MuiPickersUtilsProvider
 } from '@material-ui/pickers';
-import {default as moment} from 'moment';
 import React, {useState} from 'react';
 import {useStyles} from './index.styles.js';
 
@@ -37,7 +36,7 @@ type Props = {
 
 DatePicker.defaultProps = {
     value: null,
-    voidValue: '',
+    voidValue: null,
     containerProps: {},
     required: true,
     keepMissingStatus: false,
@@ -87,11 +86,10 @@ function DatePicker(props: Props) {
     return (
         <InputRenderer
             name={name}
-            value={(value && value.toString()) || ''}
+            value={value}
             stringifier={(momentDate) =>
                 momentDate ? momentDate.toISOString() : ''
             }
-            parser={(str) => (str ? moment(str) : null)}
             voidValue={voidValue}
             mandatory={required}
             keepMissingStatus={keepMissingStatus}

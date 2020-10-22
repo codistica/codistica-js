@@ -4,6 +4,9 @@
 
 // TODO: USE OWN UNIQUE ID SYSTEM? APPLY TO ALL PROJECT.
 
+// TODO: MAKE IT POSSIBLE TO SPECIFY A KEY FOR RETRIEVING VALUE FROM event.target OBJECT ('value', 'files', ETC.) OR TO USE A RETRIEVER FUNCTION.
+// TODO: WRITE PSEUDO-DOCUMENTATION FOR ALL FORM VALIDATION ENVIRONMENT! BEFORE YOU FORGET HOW IT WORKS.
+
 import {objectUtils} from '@codistica/core';
 import React from 'react';
 import type {Node} from 'react';
@@ -51,13 +54,16 @@ type InputRendererAPI = {
     status: StatusType,
     isInteracted: boolean,
     validationObject: ValidationObject,
-    setNewValue: (value: string) => any
+    setNewValue: (value: string) => any,
+    setIsInteracted: (value: boolean) => any
 };
 
-type InputRendererFn = (
+type InputRenderFn = (
     inputProps: InputProps,
     inputRendererAPI: InputRendererAPI
 ) => Node;
+
+type Stringifier = (any, 'validation' | 'form') => string | any;
 
 type InputRendererPropsType = {
     name: string,
@@ -73,18 +79,17 @@ type InputRendererPropsType = {
         match?: string | null
     },
     plugins: PluginType,
-    stringifier: null | ((any) => string),
-    parser: null | ((string) => any),
+    stringifier: null | Stringifier,
     deferValidation: boolean,
     onValidationResult: null | ((...args: Array<any>) => any),
     onKeyDown: null | ((...args: Array<any>) => any),
     onChange: null | ((...args: Array<any>) => any),
     onBlur: null | ((...args: Array<any>) => any),
-    inputRenderFn: null | InputRendererFn
+    inputRenderFn: null | InputRenderFn
 };
 
 type State = {
-    value: string,
+    value: any,
     status: StatusType,
     overrideStatus: StatusType | false
 };
@@ -108,8 +113,7 @@ type State = {
  * @property {(string|null)} [match=null] - Name of input that has to be matched to correctly validate.
  * @property {inputRendererErrorMessagesType} [errorMessages] - Validation error messages.
  * @property {*} [plugins=[]] - Input plugins.
- * @property {(null|function(*): string)} [stringifier=null] - Value stringifier.
- * @property {(null|function(string): *)} [parser=null] - Value parser.
+ * @property {(null|function(*,string): (string|*))} [stringifier=null] - Value stringifier.
  * @property {boolean} [deferValidation=true] - Defer input validation until there is an interaction.
  * @property {Function} [onValidationResult=null] - Callback for validationResult event.
  * @property {Function} [onKeyDown=null] - Callback for keyDown event.
@@ -136,7 +140,6 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
         },
         plugins: [],
         stringifier: null,
-        parser: null,
         deferValidation: true,
         onValidationResult: null,
         onKeyDown: null,
@@ -203,6 +206,9 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
 
         // BIND METHODS
         (this: any).setNewValue = this.setNewValue.bind(this);
+        (this: any).setIsInteracted = this.setIsInteracted.bind(this);
+        (this: any).getValidationValue = this.getValidationValue.bind(this);
+        (this: any).getFormValue = this.getFormValue.bind(this);
         (this: any).validateInput = this.validateInput.bind(this);
         (this: any).updateStatus = this.updateStatus.bind(this);
         (this: any).highlight = this.highlight.bind(this);
@@ -256,7 +262,7 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
 
     /**
      * @instance
-     * @description Callback for newValue event.
+     * @description Method for setting new value.
      * @param {string} value - New value.
      * @returns {void} Void.
      */
@@ -270,6 +276,47 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
             this.context.formInstance &&
                 this.context.formInstance.validateLinkedInputs(this.props.name);
         });
+    }
+
+    /**
+     * @instance
+     * @description Method for setting isInteracted variable.
+     * @param {boolean} value - New value.
+     * @returns {void} Void.
+     */
+    setIsInteracted(value: boolean) {
+        this.isInteracted = !!value;
+    }
+
+    /**
+     * @instance
+     * @description Method for getting value for validation.
+     * @returns {string} Validation value.
+     */
+    getValidationValue() {
+        const value =
+            this.props.stringifier &&
+            this.props.stringifier(this.state.value, 'validation');
+        if (typeof value === 'string') {
+            return value;
+        } else if (typeof this.state.value === 'string') {
+            return this.state.value;
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * @instance
+     * @description Method for getting value for form.
+     * @returns {*} Form value.
+     */
+    getFormValue() {
+        if (this.props.stringifier) {
+            return this.props.stringifier(this.state.value, 'form');
+        } else {
+            return this.state.value;
+        }
     }
 
     /**
@@ -327,11 +374,14 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
             }
         } else {
             if (!useLastValidatorsOutput) {
+                const validationValue = this.props.runFiltersBeforeValidators
+                    ? this.inputPluginManager.runFilters(
+                          this.getValidationValue()
+                      )
+                    : this.getValidationValue();
                 // RUN VALIDATORS
                 this.validatorsOutput = this.inputPluginManager.runValidators(
-                    this.props.runFiltersBeforeValidators
-                        ? this.inputPluginManager.runFilters(this.state.value)
-                        : this.state.value
+                    validationValue
                 );
             }
 
@@ -591,28 +641,6 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
             newValue = e;
         }
 
-        if (typeof newValue !== 'string') {
-            if (this.props.stringifier) {
-                newValue = this.props.stringifier(newValue);
-            } else {
-                if (typeof newValue !== 'undefined' && newValue !== null) {
-                    if (
-                        Object.hasOwnProperty.call(newValue, 'toString') ||
-                        Object.hasOwnProperty.call(
-                            Object.getPrototypeOf(newValue),
-                            'toString'
-                        )
-                    ) {
-                        newValue = newValue.toString();
-                    }
-                }
-            }
-        }
-
-        if (typeof newValue !== 'string') {
-            newValue = '';
-        }
-
         // INDICATE THAT THERE HAS BEEN INTERACTION
         this.isInteracted = true;
 
@@ -677,36 +705,39 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
      * @returns {Object<string,*>} React component.
      */
     render() {
-        const {name, parser} = this.props;
+        const {name, inputRenderFn} = this.props;
         const {value, status, overrideStatus} = this.state;
         const {
             id,
             isInteracted,
             validationObject,
             setNewValue,
+            setIsInteracted,
             onKeyDownHandler,
             onChangeHandler,
             onBlurHandler
         } = this;
 
-        return this.props.inputRenderFn
-            ? this.props.inputRenderFn(
-                  {
-                      id,
-                      name,
-                      value: parser ? parser(value) : value,
-                      onKeyDown: onKeyDownHandler,
-                      onChange: onChangeHandler,
-                      onBlur: onBlurHandler
-                  },
-                  {
-                      status: overrideStatus || status,
-                      isInteracted,
-                      validationObject,
-                      setNewValue
-                  }
-              )
-            : null;
+        return (
+            inputRenderFn &&
+            inputRenderFn(
+                {
+                    id,
+                    name,
+                    value,
+                    onKeyDown: onKeyDownHandler,
+                    onChange: onChangeHandler,
+                    onBlur: onBlurHandler
+                },
+                {
+                    status: overrideStatus || status,
+                    isInteracted,
+                    validationObject,
+                    setNewValue,
+                    setIsInteracted
+                }
+            )
+        );
     }
 }
 
