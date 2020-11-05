@@ -5,12 +5,13 @@
 import React from 'react';
 import {default as uniqueId} from 'react-html-id';
 import resetClassNames from '../../css/reset.module.scss';
+import {withSophistication} from '../../hocs/with-sophistication.js';
 import {mergeClassNames} from '../../modules/merge-class-names.js';
 import {mergeStyles} from '../../modules/merge-styles.js';
 import {InputRenderer} from '../../utils/input-renderer.js';
 import type {PluginType, StatusType} from '../../utils/input-renderer.js';
 import componentClassNames from './index.module.scss';
-import {sophistication} from './index.sophistication.js';
+import {styles} from './index.sophistication.js';
 import type {
     CustomStyles,
     CustomClassNames,
@@ -38,7 +39,8 @@ type InputRadioGroupInternalProps = {
     ...CommonProps,
     id: string,
     value: string,
-    status: StatusType
+    status: StatusType,
+    getSophistication: (...args: Array<any>) => {[string]: string}
 };
 
 /**
@@ -48,173 +50,177 @@ type InputRadioGroupInternalProps = {
  * @property {('valid'|'invalid'|'highlight'|'warning'|'missing'|'standBy'|null)} status - Input status.
  */
 
-/**
- * @classdesc A beautiful radio input component (Internal).
- */
-class InputRadioGroupInternal extends React.Component<InputRadioGroupInternalProps> {
-    nextUniqueId: (...args: Array<any>) => any;
-
+const InputRadioGroupInternal = withSophistication(
+    styles,
+    true
+)(
     /**
-     * @description Constructor.
-     * @param {(inputRadioGroupPropsType|inputRadioGroupInternalPropsType)} [props] - Component props.
+     * @classdesc A beautiful radio input component (Internal).
      */
-    constructor(props: InputRadioGroupInternalProps) {
-        super(props);
+    class InputRadioGroupInternal extends React.Component<InputRadioGroupInternalProps> {
+        nextUniqueId: (...args: Array<any>) => any;
 
-        uniqueId.enableUniqueIds(this);
+        /**
+         * @description Constructor.
+         * @param {(inputRadioGroupPropsType|inputRadioGroupInternalPropsType)} [props] - Component props.
+         */
+        constructor(props: InputRadioGroupInternalProps) {
+            super(props);
 
-        sophistication.setup(this);
-    }
+            uniqueId.enableUniqueIds(this);
+        }
 
-    /**
-     * @instance
-     * @description React lifecycle.
-     * @returns {void} Void.
-     */
-    componentWillUnmount() {
-        sophistication.destroy(this);
-    }
+        /**
+         * @instance
+         * @description React render method.
+         * @returns {Object<string,*>} React component.
+         */
+        render() {
+            const {
+                name,
+                label,
+                radios,
+                value,
+                status,
+                style,
+                className,
+                customStyles,
+                customClassNames,
+                customColors,
+                globalTheme,
+                onChange,
+                onBlur,
+                getSophistication
+            } = this.props;
 
-    /**
-     * @instance
-     * @description React render method.
-     * @returns {Object<string,*>} React component.
-     */
-    render() {
-        const {
-            name,
-            label,
-            radios,
-            value,
-            status,
-            style,
-            className,
-            customStyles,
-            customClassNames,
-            customColors,
-            globalTheme,
-            onChange,
-            onBlur
-        } = this.props;
+            const globalStyles = globalTheme
+                ? InputRadioGroup.globalStyles[globalTheme] || {}
+                : {};
 
-        const globalStyles = globalTheme
-            ? InputRadioGroup.globalStyles[globalTheme] || {}
-            : {};
+            const globalClassNames = globalTheme
+                ? InputRadioGroup.globalClassNames[globalTheme] || {}
+                : {};
 
-        const globalClassNames = globalTheme
-            ? InputRadioGroup.globalClassNames[globalTheme] || {}
-            : {};
+            const globalColors = globalTheme
+                ? InputRadioGroup.globalColors[globalTheme] || {}
+                : {};
 
-        const globalColors = globalTheme
-            ? InputRadioGroup.globalColors[globalTheme] || {}
-            : {};
+            const jssClassNames = getSophistication({
+                status,
+                customColors: {
+                    ...globalColors,
+                    ...customColors
+                },
+                customStyles
+            });
 
-        const jssClassNames = sophistication.getClassNames(this, {
-            status,
-            customColors: {
-                ...globalColors,
-                ...customColors
-            },
-            customStyles
-        });
+            const mergedStyles = {
+                root: mergeStyles(globalStyles.root, customStyles.root, style),
+                inputRow: mergeStyles(
+                    globalStyles.inputRow,
+                    customStyles.inputRow
+                ),
+                title: mergeStyles(globalStyles.title, customStyles.title),
+                inputWrapper: mergeStyles(
+                    globalStyles.inputWrapper,
+                    customStyles.inputWrapper
+                )
+            };
 
-        const mergedStyles = {
-            root: mergeStyles(globalStyles.root, customStyles.root, style),
-            inputRow: mergeStyles(globalStyles.inputRow, customStyles.inputRow),
-            title: mergeStyles(globalStyles.title, customStyles.title),
-            inputWrapper: mergeStyles(
-                globalStyles.inputWrapper,
-                customStyles.inputWrapper
-            )
-        };
+            const mergedClassNames = {
+                root: mergeClassNames(
+                    resetClassNames.root,
+                    componentClassNames.root,
+                    globalClassNames.root,
+                    customClassNames.root,
+                    className
+                ),
+                inputRow: mergeClassNames(
+                    componentClassNames.inputRow,
+                    globalClassNames.inputRow,
+                    customClassNames.inputRow
+                ),
+                input: mergeClassNames(
+                    componentClassNames.input,
+                    jssClassNames.input
+                ),
+                label: mergeClassNames(
+                    [
+                        componentClassNames.blink,
+                        status === 'highlight' || status === 'warning'
+                    ],
+                    componentClassNames.label,
+                    jssClassNames.label
+                ),
+                title: mergeClassNames(
+                    componentClassNames.title,
+                    globalClassNames.title,
+                    customClassNames.title
+                ),
+                inputWrapper: mergeClassNames(
+                    componentClassNames.inputWrapper,
+                    globalClassNames.inputWrapper,
+                    customClassNames.inputWrapper
+                )
+            };
 
-        const mergedClassNames = {
-            root: mergeClassNames(
-                resetClassNames.root,
-                componentClassNames.root,
-                globalClassNames.root,
-                customClassNames.root,
-                className
-            ),
-            inputRow: mergeClassNames(
-                componentClassNames.inputRow,
-                globalClassNames.inputRow,
-                customClassNames.inputRow
-            ),
-            input: mergeClassNames(
-                componentClassNames.input,
-                jssClassNames.input
-            ),
-            label: mergeClassNames(
-                [
-                    componentClassNames.blink,
-                    status === 'highlight' || status === 'warning'
-                ],
-                componentClassNames.label,
-                jssClassNames.label
-            ),
-            title: mergeClassNames(
-                componentClassNames.title,
-                globalClassNames.title,
-                customClassNames.title
-            ),
-            inputWrapper: mergeClassNames(
-                componentClassNames.inputWrapper,
-                globalClassNames.inputWrapper,
-                customClassNames.inputWrapper
-            )
-        };
-
-        return (
-            <span style={mergedStyles.root} className={mergedClassNames.root}>
-                {(() => {
-                    let index = 0;
-                    let subId = '';
-                    let output = [];
-                    for (const i in radios) {
-                        if (!Object.prototype.hasOwnProperty.call(radios, i)) {
-                            continue;
+            return (
+                <span
+                    style={mergedStyles.root}
+                    className={mergedClassNames.root}>
+                    {(() => {
+                        let index = 0;
+                        let subId = '';
+                        let output = [];
+                        for (const i in radios) {
+                            if (
+                                !Object.prototype.hasOwnProperty.call(radios, i)
+                            ) {
+                                continue;
+                            }
+                            subId = this.nextUniqueId();
+                            output.push(
+                                <span
+                                    key={index}
+                                    style={mergedStyles.inputRow}
+                                    className={mergedClassNames.inputRow}>
+                                    <span
+                                        style={mergedStyles.inputWrapper}
+                                        className={
+                                            mergedClassNames.inputWrapper
+                                        }>
+                                        <input
+                                            id={subId}
+                                            type={'radio'}
+                                            name={name}
+                                            value={i}
+                                            checked={value === i}
+                                            onChange={onChange}
+                                            onBlur={onBlur}
+                                            className={mergedClassNames.input}
+                                        />
+                                        <label
+                                            htmlFor={subId}
+                                            className={mergedClassNames.label}>
+                                            {label || name}
+                                        </label>
+                                    </span>
+                                    <span
+                                        style={mergedStyles.title}
+                                        className={mergedClassNames.title}>
+                                        {radios[i]}
+                                    </span>
+                                </span>
+                            );
+                            index++;
                         }
-                        subId = this.nextUniqueId();
-                        output.push(
-                            <span
-                                key={index}
-                                style={mergedStyles.inputRow}
-                                className={mergedClassNames.inputRow}>
-                                <span
-                                    style={mergedStyles.inputWrapper}
-                                    className={mergedClassNames.inputWrapper}>
-                                    <input
-                                        id={subId}
-                                        type={'radio'}
-                                        name={name}
-                                        value={i}
-                                        checked={value === i}
-                                        onChange={onChange}
-                                        onBlur={onBlur}
-                                        className={mergedClassNames.input}
-                                    />
-                                    <label
-                                        htmlFor={subId}
-                                        className={mergedClassNames.label}>
-                                        {label || name}
-                                    </label>
-                                </span>
-                                <span
-                                    style={mergedStyles.title}
-                                    className={mergedClassNames.title}>
-                                    {radios[i]}
-                                </span>
-                            </span>
-                        );
-                        index++;
-                    }
-                    return output;
-                })()}
-            </span>
-        );
+                        return output;
+                    })()}
+                </span>
+            );
+        }
     }
-}
+);
 
 type InputRadioGroupProps = {
     ...CommonProps,

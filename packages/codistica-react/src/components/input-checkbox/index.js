@@ -4,12 +4,13 @@
 
 import React from 'react';
 import resetClassNames from '../../css/reset.module.scss';
+import {withSophistication} from '../../hocs/with-sophistication.js';
 import {mergeClassNames} from '../../modules/merge-class-names.js';
 import {mergeStyles} from '../../modules/merge-styles.js';
 import {InputRenderer} from '../../utils/input-renderer.js';
 import type {PluginType, StatusType} from '../../utils/input-renderer.js';
 import componentClassNames from './index.module.scss';
-import {sophistication} from './index.sophistication.js';
+import {styles} from './index.sophistication.js';
 import type {
     CustomStyles,
     CustomClassNames,
@@ -35,7 +36,8 @@ type CommonProps = {
 type InputCheckboxInternalProps = {
     ...CommonProps,
     id: string,
-    status: StatusType
+    status: StatusType,
+    getSophistication: (...args: Array<any>) => {[string]: string}
 };
 
 /**
@@ -44,116 +46,105 @@ type InputCheckboxInternalProps = {
  * @property {('valid'|'invalid'|'highlight'|'warning'|'missing'|'standBy'|null)} status - Input status.
  */
 
-/**
- * @classdesc A beautiful checkbox input component (Internal).
- */
-class InputCheckboxInternal extends React.Component<InputCheckboxInternalProps> {
+const InputCheckboxInternal = withSophistication(
+    styles,
+    true
+)(
     /**
-     * @description Constructor.
-     * @param {(inputCheckboxPropsType|inputCheckboxInternalPropsType)} [props] - Component props.
+     * @classdesc A beautiful checkbox input component (Internal).
      */
-    constructor(props: InputCheckboxInternalProps) {
-        super(props);
+    class InputCheckboxInternal extends React.Component<InputCheckboxInternalProps> {
+        /**
+         * @instance
+         * @description React render method.
+         * @returns {Object<string,*>} React component.
+         */
+        render() {
+            const {
+                id,
+                name,
+                label,
+                checked,
+                status,
+                style,
+                className,
+                customStyles,
+                customClassNames,
+                customColors,
+                globalTheme,
+                onChange,
+                onBlur,
+                getSophistication
+            } = this.props;
 
-        sophistication.setup(this);
+            const globalStyles = globalTheme
+                ? InputCheckbox.globalStyles[globalTheme] || {}
+                : {};
+
+            const globalClassNames = globalTheme
+                ? InputCheckbox.globalClassNames[globalTheme] || {}
+                : {};
+
+            const globalColors = globalTheme
+                ? InputCheckbox.globalColors[globalTheme] || {}
+                : {};
+
+            const jssClassNames = getSophistication({
+                status,
+                customColors: {
+                    ...globalColors,
+                    ...customColors
+                },
+                customStyles
+            });
+
+            const mergedStyles = {
+                root: mergeStyles(globalStyles.root, customStyles.root, style)
+            };
+
+            const mergedClassNames = {
+                root: mergeClassNames(
+                    resetClassNames.root,
+                    componentClassNames.root,
+                    globalClassNames.root,
+                    customClassNames.root,
+                    className
+                ),
+                input: mergeClassNames(
+                    componentClassNames.input,
+                    jssClassNames.input
+                ),
+                label: mergeClassNames(
+                    [
+                        componentClassNames.blink,
+                        status === 'highlight' || status === 'warning'
+                    ],
+                    componentClassNames.label,
+                    jssClassNames.label
+                )
+            };
+
+            return (
+                <span
+                    style={mergedStyles.root}
+                    className={mergedClassNames.root}>
+                    <input
+                        type={'checkbox'}
+                        id={id}
+                        name={name}
+                        checked={checked}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        className={mergedClassNames.input}
+                    />
+                    <label htmlFor={id} className={mergedClassNames.label}>
+                        {label || name}
+                    </label>
+                </span>
+            );
+        }
     }
-
-    /**
-     * @instance
-     * @description React lifecycle.
-     * @returns {void} Void.
-     */
-    componentWillUnmount() {
-        sophistication.destroy(this);
-    }
-
-    /**
-     * @instance
-     * @description React render method.
-     * @returns {Object<string,*>} React component.
-     */
-    render() {
-        const {
-            id,
-            name,
-            label,
-            checked,
-            status,
-            style,
-            className,
-            customStyles,
-            customClassNames,
-            customColors,
-            globalTheme,
-            onChange,
-            onBlur
-        } = this.props;
-
-        const globalStyles = globalTheme
-            ? InputCheckbox.globalStyles[globalTheme] || {}
-            : {};
-
-        const globalClassNames = globalTheme
-            ? InputCheckbox.globalClassNames[globalTheme] || {}
-            : {};
-
-        const globalColors = globalTheme
-            ? InputCheckbox.globalColors[globalTheme] || {}
-            : {};
-
-        const jssClassNames = sophistication.getClassNames(this, {
-            status,
-            customColors: {
-                ...globalColors,
-                ...customColors
-            },
-            customStyles
-        });
-
-        const mergedStyles = {
-            root: mergeStyles(globalStyles.root, customStyles.root, style)
-        };
-
-        const mergedClassNames = {
-            root: mergeClassNames(
-                resetClassNames.root,
-                componentClassNames.root,
-                globalClassNames.root,
-                customClassNames.root,
-                className
-            ),
-            input: mergeClassNames(
-                componentClassNames.input,
-                jssClassNames.input
-            ),
-            label: mergeClassNames(
-                [
-                    componentClassNames.blink,
-                    status === 'highlight' || status === 'warning'
-                ],
-                componentClassNames.label,
-                jssClassNames.label
-            )
-        };
-
-        return (
-            <span style={mergedStyles.root} className={mergedClassNames.root}>
-                <input
-                    type={'checkbox'}
-                    id={id}
-                    name={name}
-                    checked={checked}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    className={mergedClassNames.input}
-                />
-                <label htmlFor={id} className={mergedClassNames.label}>
-                    {label || name}
-                </label>
-            </span>
-        );
-    }
-}
+);
 
 type InputCheckboxProps = {
     ...CommonProps,

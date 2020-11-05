@@ -1,6 +1,5 @@
 /** @flow */
 
-import {Sophistication} from '../../classes/sophistication.js';
 import type {StatusType} from '../../utils/input-renderer.js';
 
 type CustomStyles = {
@@ -22,17 +21,13 @@ type CustomColors = {
     highlightColor?: string
 };
 
-type Styles = {
-    input: (...args: Array<any>) => any
-};
-
 type Params = {
     customStyles?: CustomStyles,
     customColors?: CustomColors,
     status?: StatusType
 };
 
-const sophistication = new Sophistication<Styles, Params>({
+const styles = {
     /**
      * @description Input JSS styles.
      * @param {*} params - Component props.
@@ -73,7 +68,7 @@ const sophistication = new Sophistication<Styles, Params>({
             borderColor
         };
     }
-});
+};
 
-export {sophistication};
+export {styles};
 export type {CustomStyles, CustomClassNames, CustomColors};

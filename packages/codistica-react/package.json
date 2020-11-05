@@ -63,6 +63,7 @@
         "@codistica/core": "^1.0.0-beta.5",
         "@codistica/types": "^1.0.0-beta.3",
         "core-js": "^3.6.5",
+        "hoist-non-react-statics": "^3.3.2",
         "jss": "^10.4.0",
         "jss-preset-default": "^10.4.0",
         "moment": "^2.27.0",

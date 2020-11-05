@@ -4,19 +4,20 @@
 
 import React from 'react';
 import resetClassNames from '../../css/reset.module.scss';
+import {withSophistication} from '../../hocs/with-sophistication.js';
 import {mergeClassNames} from '../../modules/merge-class-names.js';
 import {mergeStyles} from '../../modules/merge-styles.js';
 import {InputRenderer} from '../../utils/input-renderer.js';
 import type {PluginType, StatusType} from '../../utils/input-renderer.js';
 import componentClassNames from './index.module.scss';
-import {sophistication} from './index.sophistication.js';
+import {styles} from './index.sophistication.js';
 import type {
     CustomStyles,
     CustomClassNames,
     CustomColors
 } from './index.sophistication.js';
 
-// TODO: RESET BROWSERS AUTOFILL STYLES!
+// TODO: RESET BROWSERS AUTOFILL STYLES.
 
 type CommonProps = {
     name: string,
@@ -38,7 +39,8 @@ type CommonProps = {
 type InputTextInternalProps = {
     ...CommonProps,
     id: string,
-    status: StatusType
+    status: StatusType,
+    getSophistication: (...args: Array<any>) => {[string]: string}
 };
 
 /**
@@ -47,135 +49,132 @@ type InputTextInternalProps = {
  * @property {('valid'|'invalid'|'highlight'|'warning'|'missing'|'standBy'|null)} status - Input status.
  */
 
-/**
- * @classdesc A beautiful text input component (Internal).
- */
-class InputTextInternal extends React.Component<InputTextInternalProps> {
+const InputTextInternal = withSophistication(
+    styles,
+    true
+)(
     /**
-     * @description Constructor.
-     * @param {(inputTextPropsType|inputTextInternalPropsType)} [props] - Component props.
+     * @classdesc A beautiful text input component (Internal).
      */
-    constructor(props: InputTextInternalProps) {
-        super(props);
+    class InputTextInternal extends React.Component<InputTextInternalProps> {
+        /**
+         * @description Constructor.
+         * @param {(inputTextPropsType|inputTextInternalPropsType)} [props] - Component props.
+         */
+        constructor(props: InputTextInternalProps) {
+            super(props);
 
-        if (props.type === 'radio' || props.type === 'checkbox') {
-            props.type = 'text';
+            if (props.type === 'radio' || props.type === 'checkbox') {
+                props.type = 'text';
+            }
         }
 
-        sophistication.setup(this);
+        /**
+         * @instance
+         * @description React render method.
+         * @returns {Object<string,*>} React component.
+         */
+        render() {
+            const {
+                id,
+                name,
+                label,
+                value,
+                type,
+                placeholder,
+                status,
+                style,
+                className,
+                customStyles,
+                customClassNames,
+                customColors,
+                globalTheme,
+                onKeyDown,
+                onChange,
+                onBlur,
+                getSophistication,
+                ...other
+            } = this.props;
+
+            const globalStyles = globalTheme
+                ? InputText.globalStyles[globalTheme] || {}
+                : {};
+
+            const globalClassNames = globalTheme
+                ? InputText.globalClassNames[globalTheme] || {}
+                : {};
+
+            const globalColors = globalTheme
+                ? InputText.globalColors[globalTheme] || {}
+                : {};
+
+            const jssClassNames = getSophistication({
+                status,
+                customColors: {
+                    ...globalColors,
+                    ...customColors
+                },
+                customStyles
+            });
+
+            const mergedStyles = {
+                root: mergeStyles(globalStyles.root, customStyles.root, style),
+                input: mergeStyles(globalStyles.input, customStyles.input),
+                label: mergeStyles(globalStyles.label, customStyles.label)
+            };
+
+            const mergedClassNames = {
+                root: mergeClassNames(
+                    resetClassNames.root,
+                    componentClassNames.root,
+                    globalClassNames.root,
+                    customClassNames.root,
+                    className
+                ),
+                input: mergeClassNames(
+                    [
+                        componentClassNames.blink,
+                        status === 'highlight' || status === 'warning'
+                    ],
+                    componentClassNames.input,
+                    globalClassNames.input,
+                    customClassNames.input,
+                    jssClassNames.input
+                ),
+                label: mergeClassNames(
+                    globalClassNames.label,
+                    customClassNames.label
+                )
+            };
+
+            return (
+                <span
+                    style={mergedStyles.root}
+                    className={mergedClassNames.root}>
+                    <input
+                        {...other}
+                        id={id}
+                        type={type}
+                        name={name}
+                        value={value}
+                        placeholder={placeholder}
+                        onKeyDown={onKeyDown}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        style={mergedStyles.input}
+                        className={mergedClassNames.input}
+                    />
+                    <label
+                        htmlFor={id}
+                        style={mergedStyles.label}
+                        className={mergedClassNames.label}>
+                        {label || name}
+                    </label>
+                </span>
+            );
+        }
     }
-
-    /**
-     * @instance
-     * @description React lifecycle.
-     * @returns {void} Void.
-     */
-    componentWillUnmount() {
-        sophistication.destroy(this);
-    }
-
-    /**
-     * @instance
-     * @description React render method.
-     * @returns {Object<string,*>} React component.
-     */
-    render() {
-        const {
-            id,
-            name,
-            label,
-            value,
-            type,
-            placeholder,
-            status,
-            style,
-            className,
-            customStyles,
-            customClassNames,
-            customColors,
-            globalTheme,
-            onKeyDown,
-            onChange,
-            onBlur,
-            ...other
-        } = this.props;
-
-        const globalStyles = globalTheme
-            ? InputText.globalStyles[globalTheme] || {}
-            : {};
-
-        const globalClassNames = globalTheme
-            ? InputText.globalClassNames[globalTheme] || {}
-            : {};
-
-        const globalColors = globalTheme
-            ? InputText.globalColors[globalTheme] || {}
-            : {};
-
-        const jssClassNames = sophistication.getClassNames(this, {
-            status,
-            customColors: {
-                ...globalColors,
-                ...customColors
-            },
-            customStyles
-        });
-
-        const mergedStyles = {
-            root: mergeStyles(globalStyles.root, customStyles.root, style),
-            input: mergeStyles(globalStyles.input, customStyles.input),
-            label: mergeStyles(globalStyles.label, customStyles.label)
-        };
-
-        const mergedClassNames = {
-            root: mergeClassNames(
-                resetClassNames.root,
-                componentClassNames.root,
-                globalClassNames.root,
-                customClassNames.root,
-                className
-            ),
-            input: mergeClassNames(
-                [
-                    componentClassNames.blink,
-                    status === 'highlight' || status === 'warning'
-                ],
-                componentClassNames.input,
-                globalClassNames.input,
-                customClassNames.input,
-                jssClassNames.input
-            ),
-            label: mergeClassNames(
-                globalClassNames.label,
-                customClassNames.label
-            )
-        };
-
-        return (
-            <span style={mergedStyles.root} className={mergedClassNames.root}>
-                <input
-                    {...other}
-                    id={id}
-                    type={type}
-                    name={name}
-                    value={value}
-                    placeholder={placeholder}
-                    onKeyDown={onKeyDown}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    style={mergedStyles.input}
-                    className={mergedClassNames.input}
-                />
-                <label
-                    htmlFor={id}
-                    style={mergedStyles.label}
-                    className={mergedClassNames.label}>
-                    {label || name}
-                </label>
-            </span>
-        );
-    }
-}
+);
 
 type InputTextProps = {
     ...CommonProps,

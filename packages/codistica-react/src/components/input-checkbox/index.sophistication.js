@@ -1,6 +1,5 @@
 /** @flow */
 
-import {Sophistication} from '../../classes/sophistication.js';
 import type {StatusType} from '../../utils/input-renderer.js';
 import componentClassNames from './index.module.scss';
 
@@ -23,18 +22,13 @@ type CustomColors = {
     focusColor?: string
 };
 
-type Styles = {
-    input: (...args: Array<any>) => any,
-    label: (...args: Array<any>) => any
-};
-
 type Params = {
     customStyles?: CustomStyles,
     customColors?: CustomColors,
     status?: StatusType
 };
 
-const sophistication = new Sophistication<Styles, Params>({
+const styles = {
     /**
      * @description Input JSS styles.
      * @param {*} params - Component props.
@@ -73,7 +67,7 @@ const sophistication = new Sophistication<Styles, Params>({
             }
         };
     }
-});
+};
 
 /**
  * @description Returns status corresponding color.
@@ -101,5 +95,5 @@ function getStatusColor(params: Params) {
     }
 }
 
-export {sophistication};
+export {styles};
 export type {CustomStyles, CustomColors, CustomClassNames};

@@ -32,16 +32,29 @@ export {InputText} from './components/input-text';
 export {TrackSlide} from './components/track-slide';
 export {TracklessSlide} from './components/trackless-slide';
 
+// CONTEXTS
+export {JssOptionsProvider} from './contexts/jss-options-context';
+export {ThemeProvider} from './contexts/theme-context';
+
 // HOCs
 export {withOnClickOutside} from './hocs/with-on-click-outside';
 export {withOnDrag} from './hocs/with-on-drag';
-export {withTooltip} from './hocs/with-tooltip';
 export {withOnScrollAction} from './hocs/with-on-scroll-action';
 export {withOverscrollBlocker} from './hocs/with-overscroll-blocker';
+export {withSophistication} from './hocs/with-sophistication';
+export {withTooltip} from './hocs/with-tooltip';
 export {withViewportMonitor} from './hocs/with-viewport-monitor';
 
+// HOOKS
+export {useJssOptions} from './hooks/use-jss-options';
+export {useTheme} from './hooks/use-theme';
+
 // MODULES
+export {createGetSophistication} from './modules/create-get-sophistication';
+export {createSophistication} from './modules/create-sophistication';
+export {getDisplayName} from './modules/get-display-name';
 export {getRefHandler} from './modules/get-ref-handler';
+export {defaultJss} from './modules/jss';
 export {mergeClassNames} from './modules/merge-class-names';
 export {mergeStyles} from './modules/merge-styles';
 
@@ -56,6 +69,10 @@ export {InputRenderer} from './utils/input-renderer';
 export type {FormValidationObjectType} from './utils/form';
 export type {PluginType as InputPluginType} from './utils/input-renderer'; // TODO: FIX.
 
+// TODO: RENAME globalTheme TO componentThemeName.
+// TODO: MAKE COMPONENTS GET componentThemeName FORM CURRENT THEME BY DEFAULT?
+// TODO: CREATE THEME MANAGEMENT UTILITIES IN @codistica/react-mui TO INTEGRATE CODISTICA's AND MATERIAL UI's THEME SYSTEMS.
+
 // TODO: IMPORTANT!!!
 // TODO: SUPPORT FORM PAYLOAD GROUPS LIKE permissions:admins, permissions:customers -> [permissions:admins, permissions:customers].
 // TODO: RENAME asyncValidator TO asyncCallbackValidator AND CREATE callbackValidator.
@@ -66,12 +83,12 @@ export type {PluginType as InputPluginType} from './utils/input-renderer'; // TO
 
 // TODO: ACCEPT CUSTOM COLORS IN MUI INPUTS (PASS THROUGH useStyles?)
 
-// TODO: ADD SUPPORT FOR MULTIPLE INPUTS AND SINGLE VALIDATION? LIKE FOR CREDIT CARD EXPIRATION DATE.
+// TODO: ADD SUPPORT FOR MULTIPLE INPUTS AND SINGLE VALIDATION? LINKED VALIDATIONS? LIKE FOR CREDIT CARD EXPIRATION DATE.
 
 // TODO: FIX (this: any)?
 // TODO: FIX (...args: Array<any>) => any
 // TODO: FIX REFS FORWARDING TYPES
-// TODO: CORRECTLY ANNOTATE HOCs RETURNED COMPONENTS. ADD POLYMORPHIC TYPES SUPPORT.
+// TODO: CORRECTLY ANNOTATE HOCs RETURNED COMPONENTS. ADD POLYMORPHIC TYPES SUPPORT?
 // TODO: ADD NATIVE DOM PROPS TO COMPONENTS THAT ACCEPT THEM? EXTEND PROPS?
 // TODO: CHECK ALL HOCs.
 // TODO: CHECK ALL HOCs TYPE ANNOTATIONS.
@@ -97,9 +114,6 @@ export type {PluginType as InputPluginType} from './utils/input-renderer'; // TO
 
 // TODO: CREATE BulletMenu COMPONENT USING BulletDropdown UNDER THE HOOD. ALLOWING MULTI-LEVEL OBJECT IN items PROP. (ADD autoSpacing TOO (MODIFY BulletDropdown ACCORDINGLY TO GET ALL NEEDED MEASURES))
 // TODO: SEE REACT SPRINGS FOR A GOOD BulletMenu EXAMPLE. IMPROVE BulletDropdown ACCORDINGLY.
-
-// TODO: IMPLEMENT REACT ESLINT RULES (SEE CODISTICA ESLINT CONFIG PACKAGE). IMPORTANT FOR CHECKS LIKE useEffect DEPENDENCIES.
-// TODO: ENFORCE BRACKETS IN PROPS ASSIGNMENTS.
 
 // TODO: CHECK THAT PROPS VALUES ARE NEVER CHANGED.
 
@@ -133,13 +147,12 @@ export type {PluginType as InputPluginType} from './utils/input-renderer'; // TO
 // TODO: ADD DRAG SUPPORT FOR TrackSlide.
 // TODO: ADD SUPPORT FOR KEYBOARD IN SLIDES (NAVIGATE WITH ARROWS, GOTO WITH NUMBERS, ETC)
 
-// TODO: RENAME sophistication
-
-// TODO: CREATE SEPARATE @codistica/react-mui PACKAGE.
 // TODO: CREATE @codistica/srp PACKAGE?
 // TODO: CREATE @codistica/aws-client AND @codistica/aws-server PACKAGES?
+// TODO: CREATE @codistica/react-aws-amplify?
 
 // TODO: CLEANLY EXPOSE USEFUL TYPES (LIKE INPUT PLUGINS AND PRESETS TYPES). USE MUI CONVENTION CheckboxProps, TracklessSlideProps, ETC... APPEND Type AT THE END.
+// TODO USE Type SUFFIX EVERYWHERE FOR ALL EXPORTED TYPES.
 
 // TODO: REMOVE GLOBAL CUSTOMIZATION FROM WHERE UNNECESSARY (LIKE UTILS).
 // TODO: REMOVE UNNECESSARY ROOT CSS.
