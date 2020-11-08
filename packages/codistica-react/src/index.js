@@ -62,7 +62,7 @@ export {mergeStyles} from './modules/merge-styles';
 export {AnchorWrapper} from './utils/anchor-wrapper';
 export {Draggable} from './utils/draggable';
 export {Form} from './utils/form';
-export {ImgHoverSwitch} from './utils/img-hover-switch';
+export {HoverSwitch} from './utils/hover-switch';
 export {InputRenderer} from './utils/input-renderer';
 
 // TYPES
