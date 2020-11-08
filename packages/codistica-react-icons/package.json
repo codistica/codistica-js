@@ -58,6 +58,7 @@
         "flow": "flow"
     },
     "dependencies": {
+        "@codistica/core": "^1.0.0-beta.5",
         "@babel/runtime-corejs3": "^7.11.2",
         "@codistica/react": "^1.0.0-beta.8",
         "core-js": "^3.6.5"
