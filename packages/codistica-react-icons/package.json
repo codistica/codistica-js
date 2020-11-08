@@ -55,7 +55,8 @@
     "scripts": {
         "start": "start-storybook -p 6008",
         "build": "build-storybook",
-        "flow": "flow"
+        "flow": "flow",
+        "prebuild": "echo \"No pre-build script.\""
     },
     "dependencies": {
         "@codistica/core": "^1.0.0-beta.5",

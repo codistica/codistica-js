@@ -51,7 +51,8 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test --setupFilesAfterEnv=\"./src/setup-tests.js\"",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "prebuild": "echo \"No pre-build script.\""
     },
     "dependencies": {
         "@codistica/browser": "^1.0.0-beta.6",

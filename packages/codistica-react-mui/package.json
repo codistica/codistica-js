@@ -55,7 +55,8 @@
     "scripts": {
         "start": "start-storybook -p 6007",
         "build": "build-storybook",
-        "flow": "flow"
+        "flow": "flow",
+        "prebuild": "echo \"No pre-build script.\""
     },
     "dependencies": {
         "@babel/runtime-corejs3": "^7.11.2",

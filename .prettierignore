@@ -3,9 +3,8 @@
 **/lib
 **/lib-es
 **/types
-!**/.storybook
+**/jsdoc
 !.jsdocrc.js
 !.mocharc.js
 !.prettierrc.js
 !.eslintrc.js
-jsdoc

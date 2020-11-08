@@ -1,21 +1,7 @@
 module.exports = {
     plugins: ['jsdoc-babel'],
     babel: {
-        configFile: false,
-        babelrc: false,
-        plugins: ['@babel/plugin-proposal-class-properties'],
-        overrides: [
-            {
-                test: (file) => {
-                    return [
-                        /.+[\\/]packages[\\/]codistica-react[\\/].+\.js$/,
-                        /.+[\\/]packages[\\/]codistica-react-icons[\\/].+\.js$/,
-                        /.+[\\/]packages[\\/]codistica-react-mui[\\/].+\.js$/
-                    ].some((regExp) => regExp.test(file));
-                },
-                presets: ['@babel/preset-react', '@babel/preset-flow']
-            }
-        ]
+        configFile: '../../babel.config.js'
     },
     recurseDepth: Infinity,
     source: {
