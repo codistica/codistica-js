@@ -208,7 +208,9 @@ class Button extends React.Component<Props> {
                 type={'button'}
                 onClick={this.onClickHandler}
                 onTouchStart={(e) => {
-                    onTouchStart && onTouchStart(e);
+                    if (onTouchStart) {
+                        onTouchStart(e);
+                    }
                 }}
                 style={mergedStyles.button}
                 className={mergedClassNames.button}>

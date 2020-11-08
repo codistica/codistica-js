@@ -41,14 +41,18 @@ function ViewportResponsiveTrackSlide() {
             <Button
                 title={'PREVIOUS'}
                 onClick={() => {
-                    controlsRef.current && controlsRef.current.previous();
+                    if (controlsRef.current) {
+                        controlsRef.current.previous();
+                    }
                 }}
                 className={componentClassNames.button}
             />
             <Button
                 title={'NEXT'}
                 onClick={() => {
-                    controlsRef.current && controlsRef.current.next();
+                    if (controlsRef.current) {
+                        controlsRef.current.next();
+                    }
                 }}
                 className={componentClassNames.button}
             />
@@ -56,8 +60,9 @@ function ViewportResponsiveTrackSlide() {
     );
 }
 
-export {ViewportResponsiveTrackSlide};
-
-export default {
+const meta = {
     title: 'Track Slide'
 };
+
+export {ViewportResponsiveTrackSlide};
+export default meta;

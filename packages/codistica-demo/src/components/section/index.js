@@ -35,7 +35,10 @@ function Section(props: Props) {
         <div className={componentClassNames.root}>
             <div>
                 <h2 className={componentClassNames.title}>
-                    {title} - [{category}]
+                    {title}
+                    {' - ['}
+                    {category}
+                    {']'}
                 </h2>
                 <p className={componentClassNames.description}>{description}</p>
             </div>

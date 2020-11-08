@@ -2,14 +2,14 @@
 
 /**
  * @description Instantiates given input if not already instantiated.
- * @param {*} input - Input.
+ * @param {*} Input - Input.
  * @returns {Object<string,*>} Input instance.
  */
-function instantiatePlugin(input) {
-    if (typeof input === 'function') {
-        return new input();
+function instantiatePlugin(Input) {
+    if (typeof Input === 'function') {
+        return new Input();
     } else {
-        return input;
+        return Input;
     }
 }
 

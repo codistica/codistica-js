@@ -27,8 +27,9 @@ DarkButtonHref.parameters = {
     }
 };
 
-export {DarkButtonHref};
-
-export default {
+const meta = {
     title: 'Button'
 };
+
+export {DarkButtonHref};
+export default meta;

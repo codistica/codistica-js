@@ -17,8 +17,9 @@ function InputTextPrettify() {
     );
 }
 
-export {InputTextPrettify};
-
-export default {
+const meta = {
     title: 'Input Text'
 };
+
+export {InputTextPrettify};
+export default meta;

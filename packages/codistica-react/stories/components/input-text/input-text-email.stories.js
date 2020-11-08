@@ -17,8 +17,9 @@ function InputTextEmail() {
     );
 }
 
-export {InputTextEmail};
-
-export default {
+const meta = {
     title: 'Input Text'
 };
+
+export {InputTextEmail};
+export default meta;

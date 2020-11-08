@@ -402,8 +402,9 @@ function withOnScrollAction<ComponentConfig: {}>(
                     this.delta.y = 0;
 
                     // EMISSION FALLBACK WHEN EXPECTED EVENT DOES NOT ARRIVE
-                    this.props.onScrollAction &&
+                    if (this.props.onScrollAction) {
                         this.props.onScrollAction(derivedEvent);
+                    }
                 },
                 this.props.endThreshold,
                 emit
@@ -415,8 +416,9 @@ function withOnScrollAction<ComponentConfig: {}>(
                 this.delta.y = 0;
 
                 // EMIT WHEN EXPECTED EVENT ARRIVE
-                this.props.onScrollAction &&
+                if (this.props.onScrollAction) {
                     this.props.onScrollAction(derivedEvent);
+                }
             }
         }
 

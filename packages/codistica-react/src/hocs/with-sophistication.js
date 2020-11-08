@@ -22,14 +22,14 @@ function withSophistication(
 
     return function withSophisticationHOC(InnerComponent: ComponentType<any>) {
         const HOC = forwardRef((props, ref) => {
-            const {children, ...otherProps} = props;
+            const {children, ...other} = props;
 
-            const hookResult = useHook(otherProps);
+            const hookResult = useHook(other);
 
             return InnerComponent ? (
                 <InnerComponent
                     ref={ref}
-                    {...otherProps}
+                    {...other}
                     {...(useGetSophistication
                         ? {getSophistication: hookResult}
                         : {jssClassNames: hookResult})}>

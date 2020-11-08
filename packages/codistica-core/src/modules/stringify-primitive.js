@@ -6,6 +6,14 @@
  * @returns {string} String result.
  */
 function stringifyPrimitive(input) {
+    if (typeof input !== 'undefined' && input !== null) {
+        if (
+            Object.hasOwnProperty.call(input, 'toString') ||
+            Object.hasOwnProperty.call(Object.getPrototypeOf(input), 'toString')
+        ) {
+            return input.toString();
+        }
+    }
     if (typeof input === 'undefined') {
         return 'undefined';
     } else {

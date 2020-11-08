@@ -25,9 +25,9 @@ const BackgroundContext: Object = createContext({
 });
 
 /**
- * @classdesc Background context store.
+ * @classdesc Background context provider.
  */
-class BackgroundStore extends React.Component<Props, State> {
+class BackgroundProvider extends React.Component<Props, State> {
     static defaultProps = {
         children: null
     };
@@ -93,4 +93,4 @@ class BackgroundStore extends React.Component<Props, State> {
     }
 }
 
-export {BackgroundContext, BackgroundStore};
+export {BackgroundContext, BackgroundProvider};

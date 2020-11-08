@@ -25,7 +25,9 @@ function FullScreenSlideSectionA() {
             quantity={4}
             direction={'column'}
             onSwitch={(val) => {
-                controlsRef.current && controlsRef.current.goTo(val);
+                if (controlsRef.current) {
+                    controlsRef.current.goTo(val);
+                }
             }}
             dotIndex={dotIndex}
             auto={false}

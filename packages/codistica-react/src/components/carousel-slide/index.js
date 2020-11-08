@@ -156,7 +156,9 @@ function CarouselSlide(props: Props) {
 
     const setPosition = useCallback(
         (newPosition) => {
-            onNewPosition && onNewPosition(newPosition);
+            if (onNewPosition) {
+                onNewPosition(newPosition);
+            }
             position.current = newPosition;
             setSpringProps((i) => {
                 return {
@@ -228,7 +230,9 @@ function CarouselSlide(props: Props) {
              */
             onClickCapture(e) {
                 if (isDragging.current) {
-                    e.cancelable && e.preventDefault();
+                    if (e.cancelable) {
+                        e.preventDefault();
+                    }
                     e.stopPropagation();
                 }
             },
@@ -311,12 +315,13 @@ function CarouselSlide(props: Props) {
     );
 
     useEffect(() => {
-        onMount &&
+        if (onMount) {
             onMount({
                 goTo,
                 next,
                 previous
             });
+        }
     }, [onMount, goTo, next, previous]);
 
     return (

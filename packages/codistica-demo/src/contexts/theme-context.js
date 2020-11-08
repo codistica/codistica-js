@@ -13,11 +13,11 @@ const ThemeContext: Object = createContext({
     setTheme: null
 });
 
-ThemeStore.defaultProps = {
+ThemeProvider.defaultProps = {
     children: null
 };
 
-function ThemeStore(props: Props) {
+function ThemeProvider(props: Props) {
     const [theme, setTheme] = useState('dark');
     const {children} = props;
     return (
@@ -33,4 +33,4 @@ function ThemeStore(props: Props) {
     );
 }
 
-export {ThemeContext, ThemeStore};
+export {ThemeContext, ThemeProvider};

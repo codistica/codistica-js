@@ -16,7 +16,7 @@ function SimpleBulletDropdown() {
                     backgroundColor: '#ffffff',
                     marginBottom: 20
                 }}>
-                OTHER ELEMENTS
+                {'OTHER ELEMENTS'}
             </div>
             <BulletDropdown
                 title={'Simple Menu'}
@@ -34,15 +34,13 @@ function SimpleBulletDropdown() {
                     backgroundColor: '#ffffff',
                     marginTop: 20
                 }}>
-                OTHER ELEMENTS
+                {'OTHER ELEMENTS'}
             </div>
         </div>
     );
 }
 
-export {SimpleBulletDropdown};
-
-export default {
+const meta = {
     title: 'Bullet Dropdown',
     parameters: {
         backgrounds: {
@@ -50,3 +48,6 @@ export default {
         }
     }
 };
+
+export {SimpleBulletDropdown};
+export default meta;

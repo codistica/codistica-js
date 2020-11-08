@@ -219,8 +219,8 @@ class InputValidatorPluginUtils {
         noAbort?: boolean
     ) {
         if (key) {
-            if (!noAbort) {
-                this.deferContexts[key] && this.deferContexts[key].abort();
+            if (!noAbort && this.deferContexts[key]) {
+                this.deferContexts[key].abort();
             }
             this.validatorOutput.report[key] = result;
             if (rawMessage) {
@@ -362,7 +362,9 @@ class InputValidatorPluginUtils {
             return;
         }
 
-        this.deferContexts[key] && this.deferContexts[key].abort();
+        if (this.deferContexts[key]) {
+            this.deferContexts[key].abort();
+        }
 
         if (
             this.options.enableDeferCache &&
@@ -440,12 +442,13 @@ class InputValidatorPluginUtils {
                 rawMessage?: RawMessageType,
                 params?: {[string]: any}
             ) => {
-                cache &&
+                if (cache) {
                     cache.set(value, {
                         result: false,
                         rawMessage,
                         params
                     });
+                }
                 if (isActive) {
                     isActive = false;
                     this.invalidate(key, rawMessage, params);
@@ -457,12 +460,13 @@ class InputValidatorPluginUtils {
                 rawMessage?: RawMessageType,
                 params?: {[string]: any}
             ) => {
-                cache &&
+                if (cache) {
                     cache.set(value, {
                         result: true,
                         rawMessage,
                         params
                     });
+                }
                 if (isActive) {
                     isActive = false;
                     this.validate(key, rawMessage, params);
@@ -474,12 +478,13 @@ class InputValidatorPluginUtils {
                 rawMessage?: RawMessageType,
                 params?: {[string]: any}
             ) => {
-                cache &&
+                if (cache) {
                     cache.set(value, {
                         result: null,
                         rawMessage,
                         params
                     });
+                }
                 if (isActive) {
                     isActive = false;
                     this.disable(key, rawMessage, params);
@@ -489,7 +494,9 @@ class InputValidatorPluginUtils {
             },
             abort: () => {
                 if (isActive) {
-                    onAbort && onAbort();
+                    if (onAbort) {
+                        onAbort();
+                    }
                     isActive = false;
                     resolve(false);
                     delete this.validatorOutput.promises[key];

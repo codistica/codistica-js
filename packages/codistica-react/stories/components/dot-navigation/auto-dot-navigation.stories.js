@@ -11,8 +11,9 @@ function AutoDotNavigation() {
     return <DotNavigation quantity={5} direction={'column'} />;
 }
 
-export {AutoDotNavigation};
-
-export default {
+const meta = {
     title: 'Dot Navigation'
 };
+
+export {AutoDotNavigation};
+export default meta;

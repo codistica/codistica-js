@@ -13,7 +13,7 @@
 
 
 
-# codistica-js
+# Codistica JS
 
 Work in progress, coming soon!
 
@@ -22,14 +22,14 @@ Work in progress, coming soon!
 
 ## Table of contents
 
-* [About codistica-js](#about-codistica-js)
+* [About Codistica JS](#about-codistica-js)
 * [Packages](#packages)
 * [Documentation](#documentation)
 * [Contributing](#contributing)
 * [License](#license)
 
 
-## About codistica-js
+## About Codistica JS
 
 JavaScript is beautiful! 
 

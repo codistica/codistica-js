@@ -26,8 +26,9 @@ DarkButton.parameters = {
     }
 };
 
-export {DarkButton};
-
-export default {
+const meta = {
     title: 'Button'
 };
+
+export {DarkButton};
+export default meta;

@@ -17,8 +17,9 @@ function InputTextNoSpecials() {
     );
 }
 
-export {InputTextNoSpecials};
-
-export default {
+const meta = {
     title: 'Input Text'
 };
+
+export {InputTextNoSpecials};
+export default meta;

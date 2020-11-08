@@ -29,8 +29,9 @@ function SimpleDraggable() {
     );
 }
 
-export {SimpleDraggable};
-
-export default {
+const meta = {
     title: 'Draggable'
 };
+
+export {SimpleDraggable};
+export default meta;

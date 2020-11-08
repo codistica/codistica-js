@@ -40,7 +40,7 @@ function webpackConfigurator(webpackConfig, scriptfiberConfigPath) {
                 webpackConfig.output.devtoolModuleFilenameTemplate,
             fallbackModuleFilenameTemplate:
                 webpackConfig.output.devtoolFallbackModuleFilenameTemplate,
-            /** @todo Create issue on https://github.com/DefinitelyTyped/DefinitelyTyped repository. */
+            /** @todo CREATE ISSUE ON https://github.com/DefinitelyTyped/DefinitelyTyped REPOSITORY. */
             // @ts-ignore
             namespace: webpackConfig.output.devtoolNamespace,
             module: true,
@@ -99,7 +99,7 @@ function webpackConfigurator(webpackConfig, scriptfiberConfigPath) {
         })
     );
 
-    /** @todo Follow https://github.com/webpack-contrib/compression-webpack-plugin/issues/133 issue. */
+    /** @todo FOLLOW https://github.com/webpack-contrib/compression-webpack-plugin/issues/133. */
     webpackUtils.addPlugin(
         webpackConfig,
         new CompressionWebpackPlugin({
@@ -131,7 +131,7 @@ function webpackConfigurator(webpackConfig, scriptfiberConfigPath) {
         })
     );
 
-    scriptfiberConfig.building.useAnalyzer &&
+    if (scriptfiberConfig.building.useAnalyzer) {
         webpackUtils.addPlugin(
             webpackConfig,
             new BundleAnalyzerPlugin({
@@ -141,9 +141,11 @@ function webpackConfigurator(webpackConfig, scriptfiberConfigPath) {
                 generateStatsFile: !isDevMode
             })
         );
+    }
 
-    scriptfiberConfig.building.useProgressBar &&
+    if (scriptfiberConfig.building.useProgressBar) {
         webpackUtils.addPlugin(webpackConfig, new WebpackBarPlugin());
+    }
 
     return webpackConfig;
 }

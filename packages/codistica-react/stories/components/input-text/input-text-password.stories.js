@@ -31,8 +31,9 @@ function InputTextPassword() {
     );
 }
 
-export {InputTextPassword};
-
-export default {
+const meta = {
     title: 'Input Text'
 };
+
+export {InputTextPassword};
+export default meta;

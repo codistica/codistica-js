@@ -32,7 +32,7 @@ class ScriptfiberRuntimeWebpackPlugin {
     apply(compiler) {
         compiler.hooks.compilation.tap(this.constructor.name, (compilation) => {
             if (compilation.mainTemplate.hooks.jsonpScript) {
-                compilation.mainTemplate.hooks.jsonpScript &&
+                if (compilation.mainTemplate.hooks.jsonpScript) {
                     compilation.mainTemplate.hooks.jsonpScript.intercept({
                         register: (tapInfo) => {
                             if (tapInfo.name !== 'JsonpMainTemplatePlugin') {
@@ -44,6 +44,7 @@ class ScriptfiberRuntimeWebpackPlugin {
                             return tapInfo;
                         }
                     });
+                }
 
                 compilation.mainTemplate.hooks.requireEnsure.intercept({
                     register: (tapInfo) => {

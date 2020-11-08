@@ -20,7 +20,7 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
-[2020-10-16]
+## [2020-10-16]
 
 ### Added
 - New `react-mui` monorepo package.
@@ -40,7 +40,7 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 - `@codistica/scriptfiber`: 1.0.0-beta.6
 - `@codistica/types`: 1.0.0-beta.3
 
-[2020-07-10]
+## [2020-07-10]
 
 ### Added
 - New `react-icons` monorepo package.

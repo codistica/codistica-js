@@ -1,10 +1,11 @@
-// *** MODULE GROUPS EXPORT ***
+// *** IMPORTS ***
 
 import * as elementUtils from './modules/element-utils/index.js';
 
-export {elementUtils};
+// *** EXPORTS ***
 
-// *** NORMAL EXPORT ***
+// GROUPS
+export {elementUtils};
 
 // CLASSES
 export {LoaderPayload} from './classes/loader-payload.js';
@@ -20,5 +21,3 @@ export {viewportMonitor} from './modules/viewport-monitor.js';
 
 // PLUGINS
 export {LogBrowserConsoleBinder} from './plugins/log-browser-console-binder.js';
-
-// TODO: ENFORCE HANDLERS NAMING CONVENTION (EX: onClickHandler...)

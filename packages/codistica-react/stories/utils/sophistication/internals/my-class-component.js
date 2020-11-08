@@ -19,9 +19,9 @@ const MyClassComponent = withSophistication(
         }
 
         render() {
-            const {getSophistication, text, ...otherProps} = this.props;
+            const {getSophistication, text, ...other} = this.props;
             const {toggle} = this.state;
-            const jssClassNames = getSophistication({toggle, ...otherProps});
+            const jssClassNames = getSophistication({toggle, ...other});
             return (
                 <div
                     onClick={() =>

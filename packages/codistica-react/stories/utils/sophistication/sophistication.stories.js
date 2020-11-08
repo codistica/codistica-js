@@ -59,7 +59,7 @@ function App() {
                             setTheme(lightTheme);
                         }
                     }}>
-                    Change Theme
+                    {'Change Theme'}
                 </button>
                 <span>{theme === lightTheme ? 'Light' : 'Dark'}</span>
             </div>
@@ -79,8 +79,9 @@ function Sophistication() {
     );
 }
 
-export {Sophistication};
-
-export default {
+const meta = {
     title: 'Sophistication'
 };
+
+export {Sophistication};
+export default meta;

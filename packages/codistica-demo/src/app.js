@@ -9,10 +9,10 @@ import {BodyContainer} from './components/body-container/index.js';
 import {Header} from './components/header/index.js';
 import {Menu} from './components/menu/index.js';
 // import {Waves} from './components/waves/index.js';
-import {BackgroundStore} from './contexts/background-context.js';
-import {HeaderStore} from './contexts/header-context.js';
-import {MenuStore} from './contexts/menu-context.js';
-import {ThemeStore} from './contexts/theme-context.js';
+import {BackgroundProvider} from './contexts/background-context.js';
+import {HeaderProvider} from './contexts/header-context.js';
+import {MenuProvider} from './contexts/menu-context.js';
+import {ThemeProvider} from './contexts/theme-context.js';
 import {FormsRoute} from './routes/forms/index.js';
 import {HomeRoute} from './routes/home/index.js';
 import {LoaderRoute} from './routes/loader/index.js';
@@ -51,10 +51,10 @@ function App() {
         locationRef.current = location;
     }
     return (
-        <ThemeStore>
-            <HeaderStore>
-                <BackgroundStore>
-                    <MenuStore>
+        <ThemeProvider>
+            <HeaderProvider>
+                <BackgroundProvider>
+                    <MenuProvider>
                         {/*<Waves />*/}
                         <Background />
                         <Header />
@@ -93,10 +93,10 @@ function App() {
                                 />
                             </Switch>
                         </BodyContainer>
-                    </MenuStore>
-                </BackgroundStore>
-            </HeaderStore>
-        </ThemeStore>
+                    </MenuProvider>
+                </BackgroundProvider>
+            </HeaderProvider>
+        </ThemeProvider>
     );
 }
 

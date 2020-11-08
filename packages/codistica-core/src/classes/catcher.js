@@ -56,7 +56,6 @@ class Catcher {
     }
 
     /**
-     * @instance
      * @description Analyzes input for error type.
      * @param {*} input - Input.
      * @returns {string} Found error type.
@@ -85,7 +84,6 @@ class Catcher {
     }
 
     /**
-     * @instance
      * @description Collect runtime environment information for error submission.
      * @returns {Object<string,*>} Found error type.
      */

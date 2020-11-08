@@ -3,7 +3,7 @@
 /** @module react/hocs/with-on-click-outside */
 
 import {eventListenerObjectSupport} from '@codistica/browser';
-import React from 'react';
+import React, {Component, forwardRef} from 'react';
 import type {AbstractComponent, Config} from 'react';
 
 const eventOptions = eventListenerObjectSupport.capture
@@ -31,16 +31,16 @@ type DefaultProps = {
 
 /**
  * @description Creates a higher order component with clickOutside event support.
- * @param {(Object<string,*>|string)} Component - React component.
+ * @param {(Object<string,*>|string)} InnerComponent - React component.
  * @returns {Object<string,*>} Created higher order component.
  */
 function withOnClickOutside<ComponentConfig: {}>(
-    Component: AbstractComponent<any> | string
+    InnerComponent: AbstractComponent<any> | string
 ): AbstractComponent<ComponentConfig & Config<Props, DefaultProps>> {
     /**
      * @classdesc Higher order component.
      */
-    class HOC extends React.Component<Props> {
+    class HOC extends Component<Props> {
         static defaultProps: DefaultProps = {
             onClickOutside: null,
             children: null,
@@ -133,9 +133,10 @@ function withOnClickOutside<ComponentConfig: {}>(
             if (
                 this.isOutside &&
                 this.componentRef &&
-                !this.componentRef.contains(target)
+                !this.componentRef.contains(target) &&
+                this.props.onClickOutside
             ) {
-                this.props.onClickOutside && this.props.onClickOutside(e);
+                this.props.onClickOutside(e);
             }
             this.isOutside = false;
         }
@@ -175,14 +176,14 @@ function withOnClickOutside<ComponentConfig: {}>(
                 ...other
             } = this.props;
             return (
-                <Component {...other} ref={this.setComponentRef}>
+                <InnerComponent {...other} ref={this.setComponentRef}>
                     {children}
-                </Component>
+                </InnerComponent>
             );
         }
     }
 
-    return React.forwardRef<ComponentConfig & Config<Props, DefaultProps>, HOC>(
+    return forwardRef<ComponentConfig & Config<Props, DefaultProps>, HOC>(
         (props, ref) => {
             return <HOC {...props} forwardedRef={ref} />;
         }

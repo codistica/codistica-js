@@ -138,7 +138,9 @@ function TrackSlide(props: Props) {
     const goTo = useCallback(
         (newPosition) => {
             newPosition = clampPosition(newPosition);
-            onNewPosition && onNewPosition(newPosition);
+            if (onNewPosition) {
+                onNewPosition(newPosition);
+            }
             setState({position: newPosition});
         },
         [clampPosition, onNewPosition]
@@ -149,7 +151,9 @@ function TrackSlide(props: Props) {
             setState((prevState) => {
                 const delta = group ? itemsPerView : 1;
                 const newPosition = clampPosition(prevState.position + delta);
-                onNewPosition && onNewPosition(newPosition);
+                if (onNewPosition) {
+                    onNewPosition(newPosition);
+                }
                 return {
                     position: newPosition
                 };
@@ -162,7 +166,9 @@ function TrackSlide(props: Props) {
             setState((prevState) => {
                 const delta = group ? -itemsPerView : -1;
                 const newPosition = clampPosition(prevState.position + delta);
-                onNewPosition && onNewPosition(newPosition);
+                if (onNewPosition) {
+                    onNewPosition(newPosition);
+                }
                 return {
                     position: newPosition
                 };
@@ -243,12 +249,13 @@ function TrackSlide(props: Props) {
     });
 
     useEffect(() => {
-        onMount &&
+        if (onMount) {
             onMount({
                 goTo,
                 next,
                 previous
             });
+        }
     }, [goTo, next, onMount, previous]);
 
     return (

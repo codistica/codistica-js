@@ -16,7 +16,7 @@ import {useStyles} from './index.styles.js';
 type Props = {
     name: string,
     label: string,
-    voidValue: string,
+    voidValue: string | null,
     checked: boolean,
     containerProps: {[string]: any},
     required: boolean,

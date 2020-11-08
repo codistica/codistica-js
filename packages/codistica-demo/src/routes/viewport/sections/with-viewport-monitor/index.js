@@ -40,7 +40,7 @@ function WithViewportMonitorSection() {
                 ref={(ref) => (elementRef.current = ref)}
                 style={sizeStyle}
                 className={componentClassNames.rectangle}>
-                <p>With Viewport Monitor</p>
+                <p>{'With Viewport Monitor'}</p>
                 <br />
                 <p>{`${elementSize.height} x ${elementSize.width}`}</p>
             </ViewportMonitorDiv>

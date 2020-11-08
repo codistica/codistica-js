@@ -20,8 +20,9 @@ function InputTextLength() {
     );
 }
 
-export {InputTextLength};
-
-export default {
+const meta = {
     title: 'Input Text'
 };
+
+export {InputTextLength};
+export default meta;

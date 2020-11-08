@@ -16,7 +16,7 @@ function BottomSpacingBulletDropdown() {
                     backgroundColor: '#ffffff',
                     marginBottom: 20
                 }}>
-                OTHER ELEMENTS
+                {'OTHER ELEMENTS'}
             </div>
             <BulletDropdown
                 title={'Auto Spacing Bottom'}
@@ -35,15 +35,13 @@ function BottomSpacingBulletDropdown() {
                     backgroundColor: '#ffffff',
                     marginTop: 20
                 }}>
-                OTHER ELEMENTS
+                {'OTHER ELEMENTS'}
             </div>
         </div>
     );
 }
 
-export {BottomSpacingBulletDropdown};
-
-export default {
+const meta = {
     title: 'Bullet Dropdown',
     parameters: {
         backgrounds: {
@@ -51,3 +49,6 @@ export default {
         }
     }
 };
+
+export {BottomSpacingBulletDropdown};
+export default meta;

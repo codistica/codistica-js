@@ -1,4 +1,4 @@
-// *** MODULE GROUPS EXPORT ***
+// *** IMPORTS ***
 
 import * as arrayUtils from './modules/array-utils/index.js';
 import * as dateUtils from './modules/date-utils/index.js';
@@ -11,6 +11,9 @@ import * as regExpUtils from './modules/reg-exp-utils/index.js';
 import * as stringUtils from './modules/string-utils/index.js';
 import * as urlUtils from './modules/url-utils/index.js';
 
+// *** EXPORTS ***
+
+// GROUPS
 export {
     arrayUtils,
     dateUtils,
@@ -23,8 +26,6 @@ export {
     stringUtils,
     urlUtils
 };
-
-// *** NORMAL EXPORT ***
 
 // CLASSES
 export {Catcher} from './classes/catcher.js';
@@ -49,5 +50,5 @@ export {noop} from './modules/noop.js';
 export {parsePrimitive} from './modules/parse-primitive.js';
 export {stringifyPrimitive} from './modules/stringify-primitive.js';
 
-// TODO: CLEAN TESTS.
+// TODO: CLEANUP TESTS.
 // TODO: CREATE timeUtils.

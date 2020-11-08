@@ -189,7 +189,7 @@ function DefaultForm() {
                 <FormLabel
                     component={'legend'}
                     className={componentClassNames.formLabel}>
-                    Gender
+                    {'Gender'}
                 </FormLabel>
                 <RadioGroup
                     name={'gender'}
@@ -313,30 +313,31 @@ function DefaultForm() {
                 <span className={componentClassNames.buttonsWrapper}>
                     <span
                         onClick={() => {
-                            if (!validationResult) {
-                                formInstanceRef.current &&
-                                    formInstanceRef.current.warnInvalids();
+                            if (!validationResult && formInstanceRef.current) {
+                                formInstanceRef.current.warnInvalids();
                             }
                         }}>
                         <Button
                             variant={'contained'}
                             disabled={!validationResult}
                             onClick={() => {
-                                formInstanceRef.current &&
+                                if (formInstanceRef.current) {
                                     formInstanceRef.current.submit(() =>
                                         alert('SUBMIT')
                                     );
+                                }
                             }}>
-                            SUBMIT
+                            {'SUBMIT'}
                         </Button>
                     </span>
                     <Button
                         variant={'contained'}
                         onClick={() => {
-                            formInstanceRef.current &&
+                            if (formInstanceRef.current) {
                                 formInstanceRef.current.clear();
+                            }
                         }}>
-                        CLEAR
+                        {'CLEAR'}
                     </Button>
                 </span>
             </Form>

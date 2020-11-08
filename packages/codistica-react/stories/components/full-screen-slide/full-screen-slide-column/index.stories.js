@@ -54,8 +54,9 @@ function FullScreenSlideColumn() {
     );
 }
 
-export {FullScreenSlideColumn};
-
-export default {
+const meta = {
     title: 'Full Screen Slide'
 };
+
+export {FullScreenSlideColumn};
+export default meta;

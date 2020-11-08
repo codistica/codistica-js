@@ -16,7 +16,7 @@ import {useStyles} from './index.styles.js';
 type Props = {
     name: string,
     value: Date | null,
-    voidValue: string,
+    voidValue: string | null,
     containerProps: {[string]: any},
     required: boolean,
     keepMissingStatus: boolean,

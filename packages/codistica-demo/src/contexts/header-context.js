@@ -21,9 +21,9 @@ const HeaderContext: Object = createContext({
 });
 
 /**
- * @classdesc Header context store.
+ * @classdesc Header context provider.
  */
-class HeaderStore extends React.Component<Props, State> {
+class HeaderProvider extends React.Component<Props, State> {
     static defaultProps = {
         children: null
     };
@@ -73,4 +73,4 @@ class HeaderStore extends React.Component<Props, State> {
     }
 }
 
-export {HeaderContext, HeaderStore};
+export {HeaderContext, HeaderProvider};

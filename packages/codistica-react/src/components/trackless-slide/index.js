@@ -137,7 +137,9 @@ function TracklessSlide(props: Props) {
                     newPosition
                 );
                 newPosition = (prevState.position + delta) % children.length;
-                onNewPosition && onNewPosition(newPosition);
+                if (onNewPosition) {
+                    onNewPosition(newPosition);
+                }
                 return {
                     position: newPosition,
                     delta,
@@ -153,7 +155,9 @@ function TracklessSlide(props: Props) {
                 const delta = group ? itemsPerView : 1;
                 const newPosition =
                     (prevState.position + delta) % children.length;
-                onNewPosition && onNewPosition(newPosition);
+                if (onNewPosition) {
+                    onNewPosition(newPosition);
+                }
                 return {
                     position: newPosition,
                     delta,
@@ -173,7 +177,9 @@ function TracklessSlide(props: Props) {
                     newPosition >= 0
                         ? newPosition
                         : children.length + newPosition;
-                onNewPosition && onNewPosition(newPosition);
+                if (onNewPosition) {
+                    onNewPosition(newPosition);
+                }
                 return {
                     position: newPosition,
                     delta,
@@ -401,12 +407,13 @@ function TracklessSlide(props: Props) {
     );
 
     useEffect(() => {
-        onMount &&
+        if (onMount) {
             onMount({
                 goTo,
                 next,
                 previous
             });
+        }
     }, [goTo, next, onMount, previous]);
 
     return (

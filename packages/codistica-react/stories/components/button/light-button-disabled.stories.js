@@ -11,8 +11,9 @@ function LightButtonDisabled() {
     return <Button title={'Disabled Button'} disabled={true} />;
 }
 
-export {LightButtonDisabled};
-
-export default {
+const meta = {
     title: 'Button'
 };
+
+export {LightButtonDisabled};
+export default meta;

@@ -11,8 +11,9 @@ function LightButton() {
     return <Button title={'Light Button'} />;
 }
 
-export {LightButton};
-
-export default {
+const meta = {
     title: 'Button'
 };
+
+export {LightButton};
+export default meta;

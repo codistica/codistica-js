@@ -7,6 +7,21 @@
 // TODO: MAKE IT POSSIBLE TO SPECIFY A KEY FOR RETRIEVING VALUE FROM event.target OBJECT ('value', 'files', ETC.) OR TO USE A RETRIEVER FUNCTION.
 // TODO: WRITE PSEUDO-DOCUMENTATION FOR ALL FORM VALIDATION ENVIRONMENT! BEFORE YOU FORGET HOW IT WORKS.
 
+// TODO: SUPPORT FORM PAYLOAD GROUPS LIKE permissions:admins, permissions:customers -> [permissions:admins, permissions:customers].
+// TODO: RENAME asyncValidator TO asyncCallbackValidator AND CREATE callbackValidator.
+// TODO: CREATE regExpValidator
+
+// TODO: ADD SUPPORT FOR SERVER SIDE VALIDATION INTEGRATION.
+// TODO: CHECK/IMPROVE ALL VARIABLE/TYPES NAMES IN ALL FORM/INPUT FLOW.
+// TODO: CHECK/IMPROVE ALL JSDOC IN ALL FORM/INPUT FLOW.
+
+// TODO: ADD SUPPORT FOR PASSING VALIDATION INFORMATION TO INPUT IN A PROP (TO BE MERGED AS IF THEY WERE VALIDATOR OUTPUTS) (CREATE/MODIFY/IMPROVE NEEDED UTILITIES) (STATIC VERSION OF invalidate, validate, disable AND defer? RETURNING VALIDATOR OUTPUT).
+// TODO: SAME LOGIC FOR SERVER VALIDATION. RECEIVE AN OBJECT WITH OUTPUTS, WITH OPTION TO SET MESSAGES AND THEN PASS IT TO FORM AND FORM WILL USE INPUTS INSTANCES TO INJECT VALIDATION INFORMATION LIKE ABOVE (MAKE IT PERSIST UNTIL NEW SERVER SIDE OBJECT IS PASSED OR TO DISAPPEAR ON INPUT CHANGE BASED ON OPTION).
+
+// TODO: ACCEPT CUSTOM COLORS IN MUI INPUTS (PASS THROUGH useStyles?)
+
+// TODO: ADD SUPPORT FOR MULTIPLE INPUTS AND SINGLE VALIDATION? LINKED VALIDATIONS? LIKE FOR CREDIT CARD EXPIRATION DATE.
+
 import {objectUtils} from '@codistica/core';
 import React from 'react';
 import type {Node} from 'react';
@@ -227,19 +242,19 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
      */
     componentDidMount() {
         // REGISTER INPUT
-        this.context.formInstance &&
+        if (this.context.formInstance) {
             this.context.formInstance.registerInput(this);
+        }
 
         // VALIDATE INITIAL VALUE
         this.validateInput();
 
         // LINK INPUTS FOR SUCCESSIVE VALIDATIONS
-        if (this.props.match) {
-            this.context.formInstance &&
-                this.context.formInstance.linkInputs(
-                    this.props.name,
-                    this.props.match.replace(/^!/, '')
-                );
+        if (this.props.match && this.context.formInstance) {
+            this.context.formInstance.linkInputs(
+                this.props.name,
+                this.props.match.replace(/^!/, '')
+            );
         }
     }
 
@@ -250,14 +265,14 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
      */
     componentWillUnmount() {
         // UNLINK INPUT
-        if (this.props.match) {
-            this.context.formInstance &&
-                this.context.formInstance.unlinkInput(this.props.name);
+        if (this.props.match && this.context.formInstance) {
+            this.context.formInstance.unlinkInput(this.props.name);
         }
 
         // UNREGISTER INPUT
-        this.context.formInstance &&
+        if (this.context.formInstance) {
             this.context.formInstance.unregisterInput(this);
+        }
     }
 
     /**
@@ -273,8 +288,9 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
             this.validateInput();
 
             // REQUEST LINKED INPUTS VALIDATION
-            this.context.formInstance &&
+            if (this.context.formInstance) {
                 this.context.formInstance.validateLinkedInputs(this.props.name);
+            }
         });
     }
 
@@ -450,18 +466,21 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
             }
         }
 
-        this.context.formInstance && this.context.formInstance.validateForm();
+        if (this.context.formInstance) {
+            this.context.formInstance.validateForm();
+        }
 
         this.updateStatus();
 
         // EMIT VALIDATION RESULT
-        this.props.onValidationResult &&
+        if (this.props.onValidationResult) {
             this.props.onValidationResult({
                 result: this.validationObject.result,
                 reports: this.validationObject.reports,
                 messages: this.validationObject.messages,
                 data: this.validationObject.data
             });
+        }
     }
 
     /**
@@ -572,11 +591,14 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
             ) || {}
         ).set;
 
-        if (valueSetter && valueSetter !== prototypeValueSetter) {
-            prototypeValueSetter &&
-                prototypeValueSetter.call(inputElement, value);
-        } else {
-            valueSetter && valueSetter.call(inputElement, value);
+        if (
+            valueSetter &&
+            valueSetter !== prototypeValueSetter &&
+            prototypeValueSetter
+        ) {
+            prototypeValueSetter.call(inputElement, value);
+        } else if (valueSetter) {
+            valueSetter.call(inputElement, value);
         }
 
         inputElement.dispatchEvent(new Event('change', {bubbles: true}));

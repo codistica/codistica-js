@@ -57,17 +57,17 @@ function LinearProgress(props: Props) {
     }, [eta]);
 
     return (
-        <Box display='flex' alignItems='center'>
-            <Box width='100%' mr={1}>
+        <Box display={'flex'} alignItems={'center'}>
+            <Box width={'100%'} mr={1}>
                 <MUILinearProgress
-                    variant='determinate'
+                    variant={'determinate'}
                     value={currentPercent}
                 />
             </Box>
             <Box minWidth={35}>
                 <Typography
-                    variant='body2'
-                    color='textSecondary'>{`${Math.round(
+                    variant={'body2'}
+                    color={'textSecondary'}>{`${Math.round(
                     currentPercent
                 )}%`}</Typography>
             </Box>

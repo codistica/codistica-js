@@ -17,19 +17,20 @@ function SimpleWithTooltip() {
             tooltipRenderFn={() => {
                 return (
                     <span className={componentClassNames.tooltip}>
-                        Hello, World!
+                        {'Hello, World!'}
                     </span>
                 );
             }}
             className={componentClassNames.root}>
-            Hover Me
+            {'Hover Me'}
         </Span>
     );
 }
 
-export {SimpleWithTooltip};
-
-export default {
+const meta = {
     title: 'With Tooltip',
     decorators: [centered]
 };
+
+export {SimpleWithTooltip};
+export default meta;

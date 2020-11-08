@@ -1,6 +1,6 @@
 ---
 name: "⭐ Proposal"
-about: "Something codistica-js should add/modify/remove."
+about: "Something Codistica JS should add/modify/remove."
 title: ''
 labels: 'proposal, :hourglass_flowing_sand: pending'
 assignees: ''

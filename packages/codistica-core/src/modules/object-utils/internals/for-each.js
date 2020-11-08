@@ -166,7 +166,9 @@ async function forEach(root, callback, options) {
             branchCircularCache.set(root, '');
         }
 
-        !stopGlobalFlag && !stopCurrentFlag && (await recurse(root, '', 0));
+        if (!stopGlobalFlag && !stopCurrentFlag) {
+            await recurse(root, '', 0);
+        }
     }
 
     return root;
@@ -229,12 +231,13 @@ async function forEach(root, callback, options) {
                             `CIRCULAR REFERENCE FOUND AT: ${newPath}. SKIPPING`
                         )();
                         stopCurrentFlag = true;
-                        typeof options.onCircular === 'function' &&
+                        if (typeof options.onCircular === 'function') {
                             options.onCircular(
                                 elem[key],
                                 branchCircularCache.get(elem[key]),
                                 getAPI(newPath, depth)
                             );
+                        }
                     } else {
                         branchCircularCache.set(elem[key], newPath);
                         branchCircularCacheSet = true;
@@ -248,12 +251,13 @@ async function forEach(root, callback, options) {
                             `REFERENCE FOUND AT: ${newPath}. SKIPPING`
                         )();
                         stopCurrentFlag = true;
-                        typeof options.onReference === 'function' &&
+                        if (typeof options.onReference === 'function') {
                             options.onReference(
                                 elem[key],
                                 globalReferenceCache.get(elem[key]),
                                 getAPI(newPath, depth)
                             );
+                        }
                     } else {
                         globalReferenceCache.set(elem[key], newPath);
                         globalReferenceCacheSet = true;

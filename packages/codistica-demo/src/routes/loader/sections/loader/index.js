@@ -136,36 +136,69 @@ function LoaderDemo() {
             <div className={componentClassNames.mainWrapper}>
                 <Button title={'START'} onClick={() => loader.start()} />
 
-                <h2>Smoothened Progress</h2>
+                <h2>{'Smoothened Progress'}</h2>
                 <LinearProgress eta={data.eta} inertia={10} />
 
-                <h2>Overall Process</h2>
-                <h3>Total Data: {display(data.totalData)} B</h3>
-                <h3>Total Loaded: {display(data.loadedData)} B</h3>
-                <h3>Raw Percent: {display(data.percent, 6, true)} %</h3>
+                <h2>{'Overall Process'}</h2>
                 <h3>
-                    Raw ETA: {display(data.eta && data.eta / 1000, 6, true)} s
+                    {'Total Data: '}
+                    {display(data.totalData)}
+                    {' B'}
+                </h3>
+                <h3>
+                    {'Total Loaded: '}
+                    {display(data.loadedData)}
+                    {' B'}
+                </h3>
+                <h3>
+                    {'Raw Percent: '}
+                    {display(data.percent, 6, true)}
+                    {' %'}
+                </h3>
+                <h3>
+                    {'Raw ETA: '}
+                    {display(data.eta && data.eta / 1000, 6, true)} {'s'}
                 </h3>
 
-                <h2>Status</h2>
-                <h3>In Progress: {data.inProgress || 0}</h3>
-
-                <h2>Stats</h2>
-                <h3>Total Payloads: {data.totalPayloads || 0}</h3>
-                <h3>Succeeded Payloads: {data.succeededPayloads || 0}</h3>
-                <h3>Failed Payloads: {data.failedPayloads || 0}</h3>
-
-                <h2>Performance</h2>
-                <h3>RTT: {display(data.rtt, 7, true)} ms</h3>
-                <h3>RTT AHEAD: {display(data.rttAhead, 7, true)} ms</h3>
+                <h2>{'Status'}</h2>
                 <h3>
-                    THROUGHPUT:{' '}
+                    {'In Progress: '}
+                    {data.inProgress || 0}
+                </h3>
+
+                <h2>{'Stats'}</h2>
+                <h3>
+                    {'Total Payloads: '}
+                    {data.totalPayloads || 0}
+                </h3>
+                <h3>
+                    {'Succeeded Payloads: '}
+                    {data.succeededPayloads || 0}
+                </h3>
+                <h3>
+                    {'Failed Payloads: '}
+                    {data.failedPayloads || 0}
+                </h3>
+
+                <h2>{'Performance'}</h2>
+                <h3>
+                    {'RTT: '}
+                    {display(data.rtt, 7, true)}
+                    {' ms'}
+                </h3>
+                <h3>
+                    {'RTT AHEAD: '}
+                    {display(data.rttAhead, 7, true)}
+                    {' ms'}
+                </h3>
+                <h3>
+                    {'THROUGHPUT:'}{' '}
                     {display(
                         data.throughput && data.throughput * 0.007629,
                         7,
                         true
                     )}{' '}
-                    Mb/s
+                    {'Mb/s'}
                 </h3>
             </div>
         </Section>

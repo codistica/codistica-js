@@ -47,8 +47,8 @@ function autoClearPromises(promises, callback) {
             }
             remainingPromises = Object.getOwnPropertyNames(promises).length;
         }
-        if (!remainingPromises) {
-            callback && callback();
+        if (!remainingPromises && callback) {
+            callback();
         }
     };
 

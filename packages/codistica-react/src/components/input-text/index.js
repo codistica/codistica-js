@@ -178,7 +178,7 @@ const InputTextInternal = withSophistication(
 
 type InputTextProps = {
     ...CommonProps,
-    voidValue: string,
+    voidValue: string | null,
     mandatory: boolean,
     keepMissingStatus: boolean,
     match: string | null,

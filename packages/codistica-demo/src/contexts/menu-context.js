@@ -21,9 +21,9 @@ const MenuContext: Object = createContext({
 });
 
 /**
- * @classdesc Menu context store.
+ * @classdesc Menu context provider.
  */
-class MenuStore extends React.Component<Props, State> {
+class MenuProvider extends React.Component<Props, State> {
     static defaultProps = {
         children: null
     };
@@ -73,4 +73,4 @@ class MenuStore extends React.Component<Props, State> {
     }
 }
 
-export {MenuContext, MenuStore};
+export {MenuContext, MenuProvider};

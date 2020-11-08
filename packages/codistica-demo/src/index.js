@@ -1,6 +1,6 @@
 /** @flow */
 
-import React from 'react';
+import React, {StrictMode} from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter} from 'react-router-dom';
 import {App} from './app.js';
@@ -8,12 +8,15 @@ import * as serviceWorker from './service-worker.js';
 import './fonts/iceland-codistica/iceland-codistica.css';
 import './fonts/jura-codistica/jura-codistica.css';
 
+// TODO: REPLACE create-react-app SETUP WITH A CUSTOM SETUP FROM SCRATCH.
+// TODO: REMOVE JSDOC.
+
 ReactDOM.render(
-    <React.StrictMode>
+    <StrictMode>
         <BrowserRouter>
             <App />
         </BrowserRouter>
-    </React.StrictMode>,
+    </StrictMode>,
     document.getElementById('root')
 );
 

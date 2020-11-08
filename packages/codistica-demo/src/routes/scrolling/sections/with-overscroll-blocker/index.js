@@ -20,7 +20,7 @@ function WithOverscrollBlockerSection() {
     return (
         <Section category={category} title={title} description={description}>
             <div className={componentClassNames.info}>
-                <p>Overscroll is blocked here.</p>
+                <p>{'Overscroll is blocked here.'}</p>
             </div>
             <OverscrollBlockerDiv className={componentClassNames.rectangle}>
                 <div className={componentClassNames.track} />

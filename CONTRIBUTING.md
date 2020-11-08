@@ -182,7 +182,7 @@ Fill the template and submit the pull request for review from the codistica team
 
 
 ##
-#### Thank you for making codistica-js better for everyone!
+#### Thank you for making Codistica JS better for everyone!
 
 
 

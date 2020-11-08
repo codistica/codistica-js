@@ -1,11 +1,12 @@
-// *** MODULE GROUPS EXPORT ***
+// *** IMPORTS ***
 
 import * as fileUtils from './modules/file-utils/index.js';
 import * as promisifiedFs from './modules/promisified-fs/index.js';
 
-export {fileUtils, promisifiedFs};
+// *** EXPORTS ***
 
-// *** NORMAL EXPORT ***
+// GROUPS
+export {fileUtils, promisifiedFs};
 
 // MODULES
 export {parseCmdArgs} from './modules/parse-cmd-args.js';

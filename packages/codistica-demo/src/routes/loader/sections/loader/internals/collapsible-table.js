@@ -60,7 +60,7 @@ function CollapsibleRow(props) {
         <Fragment>
             <TableRow className={classes.root}>
                 <TableCell>
-                    <IconButton size='small' onClick={() => setOpen(!open)}>
+                    <IconButton size={'small'} onClick={() => setOpen(!open)}>
                         {open ? (
                             <KeyboardArrowUpIcon />
                         ) : (
@@ -69,39 +69,39 @@ function CollapsibleRow(props) {
                     </IconButton>
                 </TableCell>
 
-                <TableCell component='th' scope='row'>
+                <TableCell component={'th'} scope={'row'}>
                     {row.name}
                 </TableCell>
 
-                <TableCell align='right'>{row.calories}</TableCell>
-                <TableCell align='right'>{row.fat}</TableCell>
-                <TableCell align='right'>{row.carbs}</TableCell>
-                <TableCell align='right'>{row.protein}</TableCell>
+                <TableCell align={'right'}>{row.calories}</TableCell>
+                <TableCell align={'right'}>{row.fat}</TableCell>
+                <TableCell align={'right'}>{row.carbs}</TableCell>
+                <TableCell align={'right'}>{row.protein}</TableCell>
             </TableRow>
 
             <TableRow>
                 <TableCell
                     style={{paddingBottom: 0, paddingTop: 0}}
                     colSpan={6}>
-                    <Collapse in={open} timeout='auto' unmountOnExit>
+                    <Collapse in={open} timeout={'auto'} unmountOnExit>
                         <Box margin={1}>
                             <Typography
-                                variant='h6'
+                                variant={'h6'}
                                 gutterBottom
-                                component='div'>
-                                History
+                                component={'div'}>
+                                {'History'}
                             </Typography>
 
-                            <Table size='small'>
+                            <Table size={'small'}>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Date</TableCell>
-                                        <TableCell>Customer</TableCell>
-                                        <TableCell align='right'>
-                                            Amount
+                                        <TableCell>{'Date'}</TableCell>
+                                        <TableCell>{'Customer'}</TableCell>
+                                        <TableCell align={'right'}>
+                                            {'Amount'}
                                         </TableCell>
-                                        <TableCell align='right'>
-                                            Total price ($)
+                                        <TableCell align={'right'}>
+                                            {'Total price ($)'}
                                         </TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -110,17 +110,17 @@ function CollapsibleRow(props) {
                                     {row.history.map((historyRow) => (
                                         <TableRow key={historyRow.date}>
                                             <TableCell
-                                                component='th'
-                                                scope='row'>
+                                                component={'th'}
+                                                scope={'row'}>
                                                 {historyRow.date}
                                             </TableCell>
                                             <TableCell>
                                                 {historyRow.customerId}
                                             </TableCell>
-                                            <TableCell align='right'>
+                                            <TableCell align={'right'}>
                                                 {historyRow.amount}
                                             </TableCell>
-                                            <TableCell align='right'>
+                                            <TableCell align={'right'}>
                                                 {Math.round(
                                                     historyRow.amount *
                                                         row.price *
@@ -146,11 +146,15 @@ function CollapsibleTable() {
                 <TableHead>
                     <TableRow>
                         <TableCell />
-                        <TableCell>Dessert (100g serving)</TableCell>
-                        <TableCell align='right'>Calories</TableCell>
-                        <TableCell align='right'>Fat&nbsp;(g)</TableCell>
-                        <TableCell align='right'>Carbs&nbsp;(g)</TableCell>
-                        <TableCell align='right'>Protein&nbsp;(g)</TableCell>
+                        <TableCell>{'Dessert (100g serving)'}</TableCell>
+                        <TableCell align={'right'}>{'Calories'}</TableCell>
+                        <TableCell align={'right'}>{'Fat&nbsp;(g)'}</TableCell>
+                        <TableCell align={'right'}>
+                            {'Carbs&nbsp;(g)'}
+                        </TableCell>
+                        <TableCell align={'right'}>
+                            {'Protein&nbsp;(g)'}
+                        </TableCell>
                     </TableRow>
                 </TableHead>
 

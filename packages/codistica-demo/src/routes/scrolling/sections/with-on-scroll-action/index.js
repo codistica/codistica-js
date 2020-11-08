@@ -28,10 +28,10 @@ function WithOnScrollActionSection() {
     return (
         <Section category={category} title={title} description={description}>
             <div className={componentClassNames.info}>
-                <p>Scroll me!</p>
+                <p>{'Scroll me!'}</p>
                 <p>
-                    TIP: Try using arrows (after focusing element), touch
-                    moving, wheel and any combination.
+                    {'TIP: Try using arrows (after focusing element), touch'}
+                    {'moving, wheel and any combination.'}
                 </p>
             </div>
             <OnScrollActionDiv

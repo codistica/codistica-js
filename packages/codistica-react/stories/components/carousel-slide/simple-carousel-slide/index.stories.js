@@ -27,8 +27,9 @@ function SimpleCarouselSlide() {
     );
 }
 
-export {SimpleCarouselSlide};
-
-export default {
+const meta = {
     title: 'Carousel Slide'
 };
+
+export {SimpleCarouselSlide};
+export default meta;

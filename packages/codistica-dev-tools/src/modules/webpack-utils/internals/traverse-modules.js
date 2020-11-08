@@ -89,7 +89,9 @@ function traverseModules(module, callback, options) {
     if (module) {
         modulesCache.add(module);
         callback(module, API);
-        !stopGlobalFlag && !stopCurrentFlag && recurse(module);
+        if (!stopGlobalFlag && !stopCurrentFlag) {
+            recurse(module);
+        }
     }
 
     /**

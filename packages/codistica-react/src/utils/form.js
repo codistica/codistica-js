@@ -2,11 +2,6 @@
 
 /** @module react/utils/form */
 
-// TODO: ADD SUPPORT FOR SERVER SIDE VALIDATION INTEGRATION.
-
-// TODO: CHECK/IMPROVE ALL VARIABLE/TYPES NAMES IN ALL FORM/INPUT FLOW.
-// TODO: CHECK/IMPROVE ALL JSDOC IN ALL FORM/INPUT FLOW.
-
 import {log} from '@codistica/core';
 import React, {createContext} from 'react';
 import resetClassNames from '../css/reset.module.scss';
@@ -154,7 +149,9 @@ class Form extends React.Component<Props> {
      * @returns {void} Void.
      */
     componentDidMount() {
-        this.props.onMount && this.props.onMount(this);
+        if (this.props.onMount) {
+            this.props.onMount(this);
+        }
     }
 
     /**
@@ -300,12 +297,13 @@ class Form extends React.Component<Props> {
                 input.validationObject;
         }
 
-        this.props.onValidationResult &&
+        if (this.props.onValidationResult) {
             this.props.onValidationResult(
                 this.validationResult,
                 this.dataPayload,
                 this.formValidationObject
             );
+        }
     }
 
     /**

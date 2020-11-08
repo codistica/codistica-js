@@ -7,6 +7,6 @@ assignees: ''
 ---
 
 <!-- 
-Any doubts or question about codistica-js and its packages, do not
+Any doubts or question about Codistica JS and its packages, do not
 hesitate to ask!
 -->

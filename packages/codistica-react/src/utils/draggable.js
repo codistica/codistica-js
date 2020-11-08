@@ -29,8 +29,8 @@ type Props = {
 
 type State = {
     position: string | null,
-    top: number | null,
-    left: number | null
+    top: number,
+    left: number
 };
 
 type GlobalStyles = {
@@ -101,8 +101,8 @@ class Draggable extends React.Component<Props, State> {
 
         this.state = {
             position: null,
-            top: null,
-            left: null
+            top: 0,
+            left: 0
         };
 
         // BIND METHODS

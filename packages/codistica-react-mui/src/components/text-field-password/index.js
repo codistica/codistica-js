@@ -21,7 +21,7 @@ import {useStyles} from './index.styles.js';
 type Props = {
     name: string,
     value: string,
-    voidValue: string,
+    voidValue: string | null,
     containerProps: {[string]: any},
     required: boolean,
     keepMissingStatus: boolean,

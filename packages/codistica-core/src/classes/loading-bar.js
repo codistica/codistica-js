@@ -72,7 +72,9 @@ class LoadingBar {
             if (this.currentPercent === this.targetPercent) {
                 this.stop();
             }
-            this.options.callback && this.options.callback(this.currentPercent);
+            if (this.options.callback) {
+                this.options.callback(this.currentPercent);
+            }
         }, cycleDuration);
     }
 

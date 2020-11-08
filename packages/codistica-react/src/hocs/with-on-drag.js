@@ -191,7 +191,9 @@ function withOnDrag<ComponentConfig: {}>(
                 // TODO: REMOVE. USE PERTINENT HOCS.
                 if (this.props.isolate && e.type === 'touchstart') {
                     e.stopPropagation();
-                    e.cancelable && e.preventDefault();
+                    if (e.cancelable) {
+                        e.preventDefault();
+                    }
                 }
             }
         }

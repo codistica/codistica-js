@@ -1,5 +1,5 @@
 /**
- * @todo Remove this module and replace it's usages with Node new "fs/promises" when polyfill is available.
+ * @todo REMOVE THIS MODULE AND REPLACE IT'S USAGES WITH NODE NEW "fs/promises" WHEN POLYFILL IS AVAILABLE.
  */
 
 import {access} from './internals/access.js';

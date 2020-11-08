@@ -31,7 +31,7 @@ function Menu() {
                         menuContext.openMenu(false);
                     }}
                     style={{cursor: 'pointer'}}>
-                    CLOSE
+                    {'CLOSE'}
                 </span>
             </div>
             <div
@@ -46,32 +46,32 @@ function Menu() {
                 className={componentClassNames.linksContainer}>
                 <span>
                     <Link to={'/'} data-link={'true'}>
-                        HOME
+                        {'HOME'}
                     </Link>
                 </span>
                 <span>
                     <Link to={'/slides'} data-link={'true'}>
-                        SLIDES
+                        {'SLIDES'}
                     </Link>
                 </span>
                 <span>
                     <Link to={'/viewport'} data-link={'true'}>
-                        VIEWPORT
+                        {'VIEWPORT'}
                     </Link>
                 </span>
                 <span>
                     <Link to={'/scrolling'} data-link={'true'}>
-                        SCROLLING
+                        {'SCROLLING'}
                     </Link>
                 </span>
                 <span>
                     <Link to={'/forms'} data-link={'true'}>
-                        FORMS
+                        {'FORMS'}
                     </Link>
                 </span>
                 <span>
                     <Link to={'/loader'} data-link={'true'}>
-                        LOADER
+                        {'LOADER'}
                     </Link>
                 </span>
             </div>

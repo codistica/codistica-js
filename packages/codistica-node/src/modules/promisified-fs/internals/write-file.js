@@ -1,7 +1,6 @@
 /** @module node/modules/promisified-fs/write-file */
 
 import {writeFile as _writeFile} from 'fs';
-import {URL} from 'url';
 
 /** @typedef {number} writeFileIntegerType */
 
@@ -10,7 +9,7 @@ import {URL} from 'url';
 /**
  * @async
  * @description Promisified version of node fs.writeFile method.
- * @param {(string|Buffer|URL|writeFileIntegerType)} file - File.
+ * @param {(string|Buffer|URL|writeFileIntegerType|*)} file - File.
  * @param {(string|Buffer|writeFileTypedArrayType|DataView)} data - Data.
  * @returns {Promise<void>} Promise. Void.
  */

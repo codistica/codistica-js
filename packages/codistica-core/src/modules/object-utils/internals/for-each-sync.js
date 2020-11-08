@@ -165,7 +165,9 @@ function forEachSync(root, callback, options) {
             branchCircularCache.set(root, '');
         }
 
-        !stopGlobalFlag && !stopCurrentFlag && recurse(root, '', 0);
+        if (!stopGlobalFlag && !stopCurrentFlag) {
+            recurse(root, '', 0);
+        }
     }
 
     return root;
@@ -227,12 +229,13 @@ function forEachSync(root, callback, options) {
                             `CIRCULAR REFERENCE FOUND AT: ${newPath}. SKIPPING`
                         )();
                         stopCurrentFlag = true;
-                        typeof options.onCircular === 'function' &&
+                        if (typeof options.onCircular === 'function') {
                             options.onCircular(
                                 elem[key],
                                 branchCircularCache.get(elem[key]),
                                 getAPI(newPath, depth)
                             );
+                        }
                     } else {
                         branchCircularCache.set(elem[key], newPath);
                         branchCircularCacheSet = true;
@@ -246,12 +249,13 @@ function forEachSync(root, callback, options) {
                             `REFERENCE FOUND AT: ${newPath}. SKIPPING`
                         )();
                         stopCurrentFlag = true;
-                        typeof options.onReference === 'function' &&
+                        if (typeof options.onReference === 'function') {
                             options.onReference(
                                 elem[key],
                                 globalReferenceCache.get(elem[key]),
                                 getAPI(newPath, depth)
                             );
+                        }
                     } else {
                         globalReferenceCache.set(elem[key], newPath);
                         globalReferenceCacheSet = true;

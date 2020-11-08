@@ -269,7 +269,7 @@ class DefaultForm extends React.Component<Props, State> {
                                 />
                                 <span
                                     className={componentClassNames.inputTitle}>
-                                    Check 1 (optional)
+                                    {'Check 1 (optional)'}
                                 </span>
                             </span>
                             <span>
@@ -281,7 +281,7 @@ class DefaultForm extends React.Component<Props, State> {
                                 />
                                 <span
                                     className={componentClassNames.inputTitle}>
-                                    Check 2
+                                    {'Check 2'}
                                 </span>
                             </span>
                             <span>
@@ -293,7 +293,7 @@ class DefaultForm extends React.Component<Props, State> {
                                 />
                                 <span
                                     className={componentClassNames.inputTitle}>
-                                    Check 3
+                                    {'Check 3'}
                                 </span>
                             </span>
                         </span>
@@ -324,16 +324,18 @@ class DefaultForm extends React.Component<Props, State> {
                         title={'SUBMIT'}
                         disabled={!this.state.validationResult}
                         onClickEnabled={() => {
-                            this.formInstance &&
+                            if (this.formInstance) {
                                 this.formInstance.submit((validationResult) => {
                                     if (validationResult) {
                                         this.blinkForm();
                                     }
                                 });
+                            }
                         }}
                         onClickDisabled={() => {
-                            this.formInstance &&
+                            if (this.formInstance) {
                                 this.formInstance.warnInvalids();
+                            }
                         }}
                         style={{marginTop: '30px'}}
                     />
@@ -341,22 +343,22 @@ class DefaultForm extends React.Component<Props, State> {
 
                 <div className={componentClassNames.infoContainer}>
                     <div className={componentClassNames.infoBox}>
-                        <h5>[DATA PAYLOAD]</h5>
+                        <h5>{'[DATA PAYLOAD]'}</h5>
                         {listDataPayload(this.state.dataPayload)}
                     </div>
 
                     <div className={componentClassNames.infoBox}>
-                        <h5>[VALIDATION MESSAGES]</h5>
+                        <h5>{'[VALIDATION MESSAGES]'}</h5>
                         {listMessages(this.state.formValidationObject)}
                     </div>
 
                     <div className={componentClassNames.infoBox}>
-                        <h5>[VALIDATION REPORT]</h5>
+                        <h5>{'[VALIDATION REPORT]'}</h5>
                         {listReports(this.state.formValidationObject)}
                     </div>
 
                     <div className={componentClassNames.infoBox}>
-                        <h5>[VALIDATION DATA]</h5>
+                        <h5>{'[VALIDATION DATA]'}</h5>
                         {listData(this.state.formValidationObject)}
                     </div>
                 </div>
@@ -514,8 +516,9 @@ function defaultForm() {
     return <DefaultForm />;
 }
 
-export {defaultForm};
-
-export default {
+const meta = {
     title: 'Form'
 };
+
+export {defaultForm};
+export default meta;

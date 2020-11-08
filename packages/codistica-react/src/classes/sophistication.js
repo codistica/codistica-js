@@ -10,6 +10,9 @@ import type {JssOptionsType} from '../contexts/jss-options-context.js';
 import {defaultTheme} from '../contexts/theme-context.js';
 import type {ThemeType} from '../contexts/theme-context.js';
 
+// TODO: FIX PROGRESSIVE CSS CLASS NAMES NAMING SEQUENCE WITH NO RE-USE.
+// TODO: CHECK CURRENT SPECIFICITY.
+
 type Value = any | ((any) => any);
 type Style = {[string]: Value | Style} | ((any) => {[string]: Value | Style});
 type DynamicStyle = (any) => {[string]: Value | Style};
@@ -35,7 +38,7 @@ class Sophistication {
     styles: {[string]: Style};
     staticStyles: {[string]: StaticStyle} | null;
     dynamicStyles: {[string]: DynamicStyle} | null;
-    /** @todo FOLLOW https://github.com/facebook/flow/issues/8517 issue. */
+    /** @todo FOLLOW https://github.com/facebook/flow/issues/8517. */
     componentInstances: WeakMap<any, ComponentData>;
 
     /**
@@ -138,8 +141,9 @@ class Sophistication {
                 link: !!this.dynamicStyles
             });
 
-        !existingStyleSheet &&
+        if (!existingStyleSheet) {
             this.sheetsManager.add(this.theme, newStyleSheet);
+        }
 
         return newStyleSheet;
     }

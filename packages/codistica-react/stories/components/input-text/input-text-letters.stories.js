@@ -20,8 +20,9 @@ function InputTextLetters() {
     );
 }
 
-export {InputTextLetters};
-
-export default {
+const meta = {
     title: 'Input Text'
 };
+
+export {InputTextLetters};
+export default meta;

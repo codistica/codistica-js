@@ -20,8 +20,9 @@ function InputTextNumbers() {
     );
 }
 
-export {InputTextNumbers};
-
-export default {
+const meta = {
     title: 'Input Text'
 };
+
+export {InputTextNumbers};
+export default meta;

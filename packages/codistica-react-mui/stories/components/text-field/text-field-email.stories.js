@@ -32,8 +32,9 @@ function TextFieldEmail() {
     );
 }
 
-export {TextFieldEmail};
-
-export default {
+const meta = {
     title: 'Text Field'
 };
+
+export {TextFieldEmail};
+export default meta;

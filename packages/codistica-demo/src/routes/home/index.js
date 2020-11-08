@@ -13,7 +13,7 @@ function HomeRoute() {
         <Body appLayout={true}>
             <div>
                 <h1 className={componentClassNames.title}>
-                    Welcome to Codistica&apos;s Demo Package!
+                    {'Welcome to Codistica'}&apos;{'s Demo Package!'}
                 </h1>
             </div>
         </Body>
