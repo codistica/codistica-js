@@ -1,9 +1,9 @@
 /** @module node/modules/file-utils/clear-dir-sync */
 
-import {unlinkSync, rmdirSync, statSync} from 'fs';
 import {log} from '@codistica/core';
 import {getAbsolutePath} from './get-absolute-path.js';
 import {isInCwd} from './is-in-cwd.js';
+import {removeSync} from './remove-sync.js';
 import {scanSync} from './scan-sync.js';
 
 /**
@@ -14,6 +14,7 @@ import {scanSync} from './scan-sync.js';
  */
 function clearDirSync(input, deleteRoot) {
     input = getAbsolutePath(input);
+
     if (!isInCwd(input)) {
         log.error(
             'clearDirSync()',
@@ -21,21 +22,14 @@ function clearDirSync(input, deleteRoot) {
         )();
         return;
     }
+
     const paths = scanSync(input).reverse();
-    let currentStat = null;
-    for (const path of paths) {
-        if (path === input && !deleteRoot) {
-            continue;
-        }
-        currentStat = statSync(path);
-        if (currentStat.isDirectory()) {
-            rmdirSync(path);
-            log.verbose('clearDirSync()', `${path} - REMOVED`)();
-        } else {
-            unlinkSync(path);
-            log.verbose('clearDirSync()', `${path} - REMOVED`)();
-        }
+
+    if (!deleteRoot) {
+        paths.pop();
     }
+
+    removeSync(paths);
 }
 
 export {clearDirSync};

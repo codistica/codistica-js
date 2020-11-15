@@ -33,10 +33,10 @@ const scanSchema = new Types({
 
 /**
  * @async
- * @description Recurses through passes starting directory path and returns an array with all found paths.
+ * @description Recurse through passed starting directory path and returns an array with all found paths.
  * @param {string} startingDirectory - The starting directory path.
  * @param {scanOptionsType} [options] - Scan options.
- * @returns {(Promise<Array<string>|null>)} Promise. Found files path array.
+ * @returns {(Promise<Array<string>>)} Promise. Found files path array.
  */
 async function scan(startingDirectory, options) {
     ({startingDirectory, options} = scanSchema.validate({
@@ -45,7 +45,7 @@ async function scan(startingDirectory, options) {
     }));
     if (!scanSchema.isValid()) {
         log.error('scan()', 'ARGUMENTS ERROR. ABORTING')();
-        return null;
+        return [];
     }
 
     const output = [];

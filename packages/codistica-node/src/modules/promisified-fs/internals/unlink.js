@@ -10,11 +10,11 @@ import {unlink as _unlink} from 'fs';
  */
 async function unlink(path) {
     return await new Promise((resolve, reject) => {
-        _unlink(path, (err) => {
+        _unlink(path, (err, data) => {
             if (err) {
                 reject(err);
             } else {
-                resolve();
+                resolve(data);
             }
         });
     });

@@ -1,6 +1,6 @@
 /** @module node/modules/file-utils/get-absolute-path */
 
-import {isAbsolute, resolve} from 'path';
+import {isAbsolute, resolve, normalize} from 'path';
 
 /**
  * @description Converts the specified path to an absolute path. Received path must be relative to the current working directory.
@@ -8,7 +8,7 @@ import {isAbsolute, resolve} from 'path';
  * @returns {string} Absolute path.
  */
 function getAbsolutePath(path) {
-    return isAbsolute(path) ? path : resolve(process.cwd(), path);
+    return isAbsolute(path) ? normalize(path) : resolve(process.cwd(), path);
 }
 
 export {getAbsolutePath};

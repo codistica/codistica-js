@@ -10,11 +10,11 @@ import {realpath as _realpath} from 'fs';
  */
 async function realpath(path) {
     return await new Promise((resolve, reject) => {
-        _realpath(path, 'utf8', (err, resolvedPath) => {
+        _realpath(path, 'utf8', (err, data) => {
             if (err) {
                 reject(err);
             } else {
-                resolve(resolvedPath);
+                resolve(data);
             }
         });
     });

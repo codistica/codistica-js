@@ -1,11 +1,9 @@
 /** @module node/modules/file-utils/clear-dir */
 
-import {log, catcher} from '@codistica/core';
-import {rmdir} from '../../promisified-fs/internals/rmdir.js';
-import {stat} from '../../promisified-fs/internals/stat.js';
-import {unlink} from '../../promisified-fs/internals/unlink.js';
+import {log} from '@codistica/core';
 import {getAbsolutePath} from './get-absolute-path.js';
 import {isInCwd} from './is-in-cwd.js';
+import {remove} from './remove.js';
 import {scan} from './scan.js';
 
 /**
@@ -17,6 +15,7 @@ import {scan} from './scan.js';
  */
 async function clearDir(input, deleteRoot) {
     input = getAbsolutePath(input);
+
     if (!isInCwd(input)) {
         log.error(
             'clearDir()',
@@ -24,21 +23,14 @@ async function clearDir(input, deleteRoot) {
         )();
         return;
     }
+
     const paths = (await scan(input)).reverse();
-    let currentStat = null;
-    for (const path of paths) {
-        if (path === input && !deleteRoot) {
-            continue;
-        }
-        currentStat = await stat(path).catch(catcher.onReject);
-        if (currentStat.isDirectory()) {
-            await rmdir(path);
-            log.verbose('clearDir()', `${path} - REMOVED`)();
-        } else {
-            await unlink(path);
-            log.verbose('clearDir()', `${path} - REMOVED`)();
-        }
+
+    if (!deleteRoot) {
+        paths.pop();
     }
+
+    await remove(paths);
 }
 
 export {clearDir};

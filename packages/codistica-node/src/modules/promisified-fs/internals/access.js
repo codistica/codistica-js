@@ -13,11 +13,11 @@ import {access as _access} from 'fs';
  */
 async function access(path, mode) {
     return await new Promise((resolve, reject) => {
-        _access(path, mode, (err) => {
+        _access(path, mode, (err, data) => {
             if (err) {
                 reject(err);
             } else {
-                resolve();
+                resolve(data);
             }
         });
     });

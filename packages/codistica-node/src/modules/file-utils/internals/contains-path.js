@@ -2,6 +2,9 @@
 
 import {sep} from 'path';
 
+// TODO: IMPROVE.
+// TODO: RENAME?
+
 /**
  * @description Checks if each passed path is contained in the path at its left. Returns true if all checks succeeded and false otherwise.
  * @param {...string} paths - Paths to be checked in order. From left to right.

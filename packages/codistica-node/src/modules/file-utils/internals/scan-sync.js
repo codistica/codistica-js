@@ -31,10 +31,10 @@ const scanSyncSchema = new Types({
  */
 
 /**
- * @description Recurses through passes starting directory path and returns an array with all found paths.
+ * @description Recurse through passed starting directory path and returns an array with all found paths.
  * @param {string} startingDirectory - The starting directory path.
  * @param {scanSyncOptionsType} [options] - Scan options.
- * @returns {(Array<string>|null)} Found files path array.
+ * @returns {(Array<string>)} Found files path array.
  */
 function scanSync(startingDirectory, options) {
     ({startingDirectory, options} = scanSyncSchema.validate({
@@ -43,7 +43,7 @@ function scanSync(startingDirectory, options) {
     }));
     if (!scanSyncSchema.isValid()) {
         log.error('scanSync()', 'ARGUMENTS ERROR. ABORTING')();
-        return null;
+        return [];
     }
 
     const output = [];
