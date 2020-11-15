@@ -9,6 +9,7 @@ import * as promisifiedFs from './modules/promisified-fs/index.js';
 export {fileUtils, promisifiedFs};
 
 // MODULES
+export {mock} from './modules/mock.js';
 export {parseCmdArgs} from './modules/parse-cmd-args.js';
 
 // PLUGINS

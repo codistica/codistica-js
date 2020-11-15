@@ -1,3 +1,5 @@
 module.exports = {
-    reporter: 'spec'
+    reporter: 'spec',
+    checkLeaks: true,
+    slow: 75
 };
