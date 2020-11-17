@@ -3,44 +3,50 @@
 import {Module as _Module} from 'module';
 
 // TODO: SEE ORIGINAL mockery PACKAGE. ADD MISSING FEATURES, CHECK AND IMPROVE.
-// TODO: RE-EXPORT FROM @codistica/dev-tools.
-// TODO: TEST FOR OPTIMIZATIONS (NUMBER OF REQUESTS HANDLED).
 // TODO: WORKAROUND DEPRECATED module.parent (USE require.main AND module.children).
-// TODO: LEARN HOW TO USE ITERATORS DIRECTLY (IF POSSIBLE).
+// TODO: USE ITERATORS DIRECTLY (IF POSSIBLE).
 // TODO: PREVENT THIS MODULE FROM DISAPPEARING FROM CACHE.
-// TODO: REMEMBER TO CLEAN REFERENCES FROM MODULE TREE (?). DURING CACHE CLEAN AND AFTER NORMALLY LOADING A TARGET MODULE. (SEE MOCKERY SOURCE CODE. DO BETTER). REMOVE MODULES WHEN CLEARED FROM CACHE? GO FROM main? OR SAVE "toBeCleaned" MODULES ON THE WAY?
+// TODO: REMEMBER TO CLEAN REFERENCES FROM REAL MODULE TREE (?). DURING CACHE CLEAN AND AFTER NORMALLY LOADING A TARGET MODULE. (SEE MOCKERY SOURCE CODE. DO BETTER). REMOVE MODULES WHEN CLEARED FROM CACHE? GO FROM main? OR SAVE "toBeCleaned" MODULES ON THE WAY?
 
-// TODO: CLEANUP AND COMMIT CURRENT PROGRESS.
-// TODO: TRY CREATING SOME KIND OF CONTEXT FOR customLoader AND USE IT DURING RECURSION THROUGH originalLoader.
-// TODO: PASS NEEDED INFORMATION UPWARDS TO HANDLE CACHE AS REQUIRED.
 // TODO: CONSIDER ALL LOADING CASES AND COMBINATIONS (LAZY AND NORMAL require, ASYNC import, STATIC import...).
-// TODO: LAZY/DYNAMIC LOADING SHOULD NOT CAUSE PROBLEMS AS THEY ARE EXECUTED LATER IN RUNTIME. WI WILL NOT HAVE STACKS FOR THEM, BUT WE WILL HAVE module AND request. HANDLE THAT LIMITATION AS BETTER AS POSSIBLE AND DOCUMENT IT.
-// TODO: THIS COULD HELP FOR BETTER target MATCHING*, caller SUPPORT AND TREE CLEANUP.
+// TODO: LAZY/DYNAMIC LOADING SHOULD NOT CAUSE PROBLEMS AS THEY ARE EXECUTED LATER IN RUNTIME. WE WILL NOT HAVE STACKS FOR THEM, BUT WE WILL HAVE module AND rawRequest. HANDLE THAT LIMITATION AS BETTER AS POSSIBLE AND DOCUMENT IT.
 
-// TODO: *TO ALLOW USING MORE GENERIC target EXPRESSIONS LIKE target: /./
+// TODO: ADD OPTION TO USE rawRequest INSTEAD OF resolvedRequest (filename) FOR request PATTERN?
+
+// TODO: COMMENT CODE!
+// TODO: RE-CHECK NAMINGS.
+// TODO: CHECK FOR OPTIMIZATIONS.
+
+// TODO: RUN CURRENT CACHE AGAINST NEW MOCK OBJECT ON REGISTRATION, IGNORING REQUEST/CHILDREN, CLEARING MATCHED ENTRIES. (MAKE CONFIGURABLE)
 
 /** @type {Object<string,*>} */
 const Module = _Module;
 
 /**
  * @typedef mockObjectType
- * @property {*} mock - Mock.
+ * @property {*} exports - Mock exports.
+ * @property {function(): *} [refresher] - Mock refresher.
  * @property {(RegExp|string)} request - Request pattern.
  * @property {(RegExp|string)} [target] - Target pattern.
  * @property {(RegExp|string)} [ignore] - Ignore pattern.
- * @property {(RegExp|string)} [caller] - Caller pattern.
+ * @property {(RegExp|string)} [requester] - Requester pattern.
+ * @property {boolean} [shouldRefresh] - Should refresh flag.
  */
 
 /**
  * @typedef mockOptionsType
  * @property {boolean} autoStart - Auto start hooking based on mock registrations.
  * @property {('enable'|'disable'|'preserve')} cacheMode - Cache mode.
+ * @property {boolean} allowNoTarget - Allow no target to be specified.
+ * @property {boolean} startFresh - Start with a fresh cache.
  */
 
 /** @type {mockOptionsType} */
 const defaultOptions = {
     autoStart: true,
-    cacheMode: 'preserve'
+    cacheMode: 'preserve',
+    allowNoTarget: false,
+    startFresh: false
 };
 
 /**
@@ -48,6 +54,7 @@ const defaultOptions = {
  * @property {Map<string,mockObjectType>} registeredMocks - Registered mocks.
  * @property {function(string, Object<string,any>, boolean): *} originalLoader - Original loader.
  * @property {Object<string,*>} originalCache - Original cache.
+ * @property {Map<string,Object<string,*>>} virtualModules - Virtual modules tree. TODO: JSDoc virtualModules.
  * @property {mockOptionsType} options - Options.
  */
 
@@ -56,6 +63,7 @@ const context = {
     registeredMocks: new Map(),
     originalLoader: null,
     originalCache: null,
+    virtualModules: new Map(),
     options: defaultOptions
 };
 
@@ -63,11 +71,12 @@ const context = {
  * @typedef mockRegisterOptions
  * @property {(RegExp|string)} [target] - Target pattern.
  * @property {(RegExp|string)} [ignore] - Ignore pattern.
- * @property {(RegExp|string)} [caller] - Caller pattern.
+ * @property {(RegExp|string)} [requester] - Requester pattern.
+ * @property {function(): *} [refresher] - Refresher function.
  */
 
 /**
- * @description Gets key based on module and options.
+ * @description Gets key based on request and options.
  * @param {(RegExp|string)} request - Request.
  * @param {mockRegisterOptions} [options] - Options.
  * @returns {string} Key.
@@ -82,6 +91,9 @@ function getKey(request, options) {
     if (options) {
         Object.keys(options).forEach((k) => {
             const val = options[k];
+            if (typeof val === 'function') {
+                return;
+            }
             if (val) {
                 if (typeof val === 'string') {
                     key.push(val);
@@ -109,73 +121,193 @@ function checkAgainstPattern(value, pattern) {
 }
 
 /**
- * @description Tests path against mock object to test if matches target module conditions.
+ * @description Tests module filename against mock objects and returns the first one whose conditions have been matched.
  * @param {string} filename - Filename.
- * @param {mockObjectType} mockObject - Mock object.
- * @returns {boolean} Result.
+ * @param {string} [currentRequest] - Current request.
+ * @returns {(mockObjectType|null)} Matched mock object or null.
  */
-function isTargetModule(filename, mockObject) {
-    if (
-        !mockObject.target ||
-        !checkAgainstPattern(filename, mockObject.target)
-    ) {
-        return false;
-    }
-
-    if (mockObject.ignore && checkAgainstPattern(filename, mockObject.ignore)) {
-        return false;
-    }
-
-    // TODO: CHECK caller CONDITION HERE.
-
-    return true;
-}
-
-/**
- * @description The loader replacement that is used when hooking is enabled.
- * @param {string} request - Request.
- * @param {Object<string,any>} module - Requester module.
- * @param {boolean} isMain - Is main.
- * @returns {*} Loaded module content.
- */
-function customLoader(request, module, isMain) {
-    console.log('REQUESTER: ' + module.filename);
-    console.log('REQUEST: ' + request);
-
+function getMatchedMockObject(filename, currentRequest) {
+    const virtualModule = context.virtualModules.get(filename);
+    const cachedModule = Module._cache[filename];
     const mockObjectsArray = Array.from(context.registeredMocks.values());
 
     for (let i = 0; i < mockObjectsArray.length; i++) {
         const mockObject = mockObjectsArray[i];
+
         if (
-            checkAgainstPattern(request, mockObject.request) &&
-            isTargetModule(module.filename, mockObject)
+            !mockObject.target &&
+            !mockObject.ignore &&
+            !context.options.allowNoTarget
         ) {
-            console.log('MOCK LOADING\n');
-            return mockObject.mock;
+            continue;
         }
+
+        if (mockObject.target) {
+            if (!checkAgainstPattern(filename, mockObject.target)) {
+                continue;
+            }
+        }
+
+        if (mockObject.ignore) {
+            if (checkAgainstPattern(filename, mockObject.ignore)) {
+                continue;
+            }
+        }
+
+        if (mockObject.requester) {
+            let passed = false;
+            let current = virtualModule;
+
+            // TODO: HANDLE CIRCULAR REFERENCES.
+            while (current) {
+                if (
+                    checkAgainstPattern(current.filename, mockObject.requester)
+                ) {
+                    passed = true;
+                    break;
+                }
+                // CURRENT MODULE LOAD STACK SHOULD BE OBTAINED BY TRAVERSING VIRTUAL TREE USING LATEST INSERTED PARENT.
+                current = Array.from(current.parents.values()).pop();
+            }
+
+            if (!passed) {
+                continue;
+            }
+        }
+
+        if (currentRequest) {
+            if (!checkAgainstPattern(currentRequest, mockObject.request)) {
+                continue;
+            }
+        } else {
+            let children = [];
+
+            if (virtualModule.children.size) {
+                children = Array.from(virtualModule.children.values());
+            } else if (cachedModule && cachedModule.children.length) {
+                // THIS ARE ONLY THE CHILDREN MODULES THAT HAVE BEEN REQUIRED FOR THE FIRST TIME BY THE CURRENT MODULE, BUT IS THE BEST ALTERNATIVE BEFORE CLEARING CACHE.
+                children = cachedModule.children;
+            }
+
+            if (
+                !children.some((child) => {
+                    return checkAgainstPattern(
+                        child.filename,
+                        mockObject.request
+                    );
+                })
+            ) {
+                continue;
+            }
+        }
+
+        return mockObject;
     }
 
-    console.log('NORMAL LOADING\n');
+    return null;
+}
 
-    const resolvedRequest = Module._resolveFilename(request, module);
+/**
+ * @description Creates a new virtual module if needed and populates module virtual tree accordingly.
+ * @param {(Object<string,*>|string)} input - Module object or filename.
+ * @param {Object<string,*>} [parent] - Parent module.
+ * @returns {Object<string,*>} Virtual module.
+ */
+function createVirtualModule(input, parent) {
+    let isModule = null;
+    let filename = '';
 
-    console.log('RESOLVED REQUEST: ' + resolvedRequest);
+    if (typeof input === 'object') {
+        isModule = true;
+        filename = input.filename;
+    } else {
+        isModule = false;
+        filename = input;
+    }
 
-    // TODO: HERE WE ARE NOT CHECKING IF resolvedRequest MODULE MATCHES mockObject.request CONDITION, SO, FOR EX. target: /./ WILL PREVENT EVERY MODULE FROM BEING CACHED (THUS BREAKING THINGS).
-    const isLoadingTarget = mockObjectsArray.some((mockObject) =>
-        isTargetModule(resolvedRequest, mockObject)
+    const output = context.virtualModules.get(filename) || {
+        filename,
+        module: null,
+        parents: new Set([parent || null]),
+        children: new Set()
+    };
+
+    if (isModule && !output.module) {
+        output.module = input;
+    }
+
+    if (parent) {
+        const virtualParent = createVirtualModule(parent);
+
+        // DELETE AND RE-ADD SO SET VALUES ARE ALWAYS ORDERED BY REQUEST TIME.
+
+        virtualParent.children.delete(output);
+        virtualParent.children.add(output);
+
+        output.parents.delete(virtualParent);
+        output.parents.add(virtualParent);
+    }
+
+    context.virtualModules.set(filename, output);
+
+    return output;
+}
+
+/**
+ * @description The loader replacement that is used when hooking is enabled.
+ * @param {string} rawRequest - Raw request.
+ * @param {Object<string,any>} requesterModule - Requester module.
+ * @param {boolean} isMain - Is main.
+ * @returns {*} Loaded module exports.
+ */
+function customLoader(rawRequest, requesterModule, isMain) {
+    let resolvedRequest = '';
+    let resolveError = null;
+    try {
+        resolvedRequest = Module._resolveFilename(rawRequest, requesterModule);
+    } catch (err) {
+        resolveError = err;
+        resolvedRequest = rawRequest;
+    }
+
+    createVirtualModule(resolvedRequest, requesterModule);
+
+    const mockObject = getMatchedMockObject(
+        requesterModule.filename,
+        resolvedRequest
     );
 
-    console.log('IS LOADING TARGET: ' + isLoadingTarget);
+    if (mockObject) {
+        if (mockObject.refresher) {
+            if (mockObject.shouldRefresh) {
+                mockObject.exports = mockObject.refresher();
+            }
+            mockObject.shouldRefresh = true;
+        }
+        return mockObject.exports;
+    }
+
+    if (resolveError) {
+        throw resolveError;
+    }
 
     const savedCacheEntry = Module._cache[resolvedRequest];
 
-    if (isLoadingTarget && context.options.cacheMode !== 'enable') {
-        delete Module._cache[resolvedRequest];
+    let isLoadingTarget = !!getMatchedMockObject(resolvedRequest);
+
+    if (isLoadingTarget) {
+        if (context.options.cacheMode !== 'enable') {
+            delete Module._cache[resolvedRequest];
+        }
     }
 
     // REMEMBER THAT MODULE LOADING IS RECURSIVE. ORIGINAL LOADER WILL MOST LIKELY TRIGGER ADDITIONAL CUSTOM LOADER CALLS FOR NESTED MODULES.
-    const output = context.originalLoader(request, module, isMain);
+    const exports = context.originalLoader(rawRequest, requesterModule, isMain);
+
+    if (!isLoadingTarget) {
+        // IF FIRST CHECK WAS NEGATIVE, WE NEED TO RE-CHECK AFTER NESTED MODULE RESOLUTION TOOK PLACE, SO WE ALLOW VIRTUAL MODULE CHILDREN SET TO BE POPULATED.
+        isLoadingTarget = !!getMatchedMockObject(resolvedRequest);
+    }
 
     if (isLoadingTarget) {
         if (context.options.cacheMode === 'disable') {
@@ -185,13 +317,15 @@ function customLoader(request, module, isMain) {
         }
     }
 
-    return output;
+    return exports;
 }
 
 /**
  * @typedef mockOptionsUserType
- * @property {boolean} [autoStart] - Auto start hooking based on mock registrations.
- * @property {('enable'|'disable'|'preserve')} [cacheMode] - Cache mode.
+ * @property {boolean} [autoStart=true] - Auto start hooking based on mock registrations.
+ * @property {('enable'|'disable'|'preserve')} [cacheMode='preserve'] - Cache mode.
+ * @property {boolean} [allowNoTarget=false] - Allow no target to be specified.
+ * @property {boolean} [startFresh] - Start with a fresh cache.
  */
 
 /**
@@ -201,16 +335,12 @@ function customLoader(request, module, isMain) {
  */
 function config(options) {
     if (options) {
-        context.options.autoStart =
-            typeof options.autoStart === 'boolean'
-                ? options.autoStart
-                : defaultOptions.autoStart;
-        context.options.cacheMode =
-            typeof options.cacheMode === 'string'
-                ? options.cacheMode
-                : defaultOptions.cacheMode;
-    } else {
-        context.options = defaultOptions;
+        for (const key in options) {
+            if (!Object.hasOwnProperty.call(options, key)) {
+                continue;
+            }
+            context.options[key] = options[key];
+        }
     }
 }
 
@@ -219,7 +349,6 @@ function config(options) {
  * @returns {void} Void.
  */
 function enable() {
-    console.log('ENABLE REQUESTED\n');
     if (context.originalLoader) {
         return;
     }
@@ -227,7 +356,11 @@ function enable() {
     context.originalCache = Module._cache;
     Module._cache = {};
 
-    copyCacheAll(context.originalCache, Module._cache);
+    if (context.options.startFresh) {
+        copyCacheNative(context.originalCache, Module._cache);
+    } else {
+        copyCacheAll(context.originalCache, Module._cache);
+    }
 
     context.originalLoader = Module._load;
     Module._load = customLoader;
@@ -238,7 +371,6 @@ function enable() {
  * @returns {void} Void.
  */
 function disable() {
-    console.log('DISABLE REQUESTED\n');
     if (!context.originalLoader) {
         return;
     }
@@ -257,34 +389,50 @@ function disable() {
  */
 function clearCache() {
     if (context.originalCache) {
-        console.log('CLEAR CACHE');
         Module._cache = {};
         copyCacheNative(context.originalCache, Module._cache);
     }
 }
 
 /**
+ * @typedef registerMockReturnType
+ * @property {function(): void} unregister - Unregister.
+ * @property {function(*): void} refresh - Refresh.
+ */
+
+/**
  * @description Register a mock object.
  * @param {(RegExp|string)} request - Request.
- * @param {*} mock - Mock.
+ * @param {*} exports - Mock exports.
  * @param {mockRegisterOptions} [options] - Options.
- * @returns {function(): void} Unregister function.
+ * @returns {registerMockReturnType} Mock utilities.
  */
-function registerMock(request, mock, options = {}) {
-    console.log('REGISTER');
+function registerMock(request, exports, options = {}) {
     const key = getKey(request, options);
-    context.registeredMocks.set(key, {
-        mock,
+
+    const mockObject = {
+        ...options,
+        exports,
         request,
-        ...options
-    });
+        shouldRefresh: false
+    };
+
+    context.registeredMocks.set(key, mockObject);
 
     if (context.options.autoStart) {
         enable();
     }
 
-    return () => {
-        unregisterMock(request, options);
+    return {
+        unregister: unregisterMock.bind(null, request, options),
+        /**
+         * @description Refresh exports.
+         * @param {*} newExports - New exports.
+         */
+        refresh(newExports) {
+            mockObject.exports = newExports;
+            mockObject.shouldRefresh = false;
+        }
     };
 }
 
@@ -295,12 +443,20 @@ function registerMock(request, mock, options = {}) {
  * @returns {void} Void.
  */
 function unregisterMock(request, options) {
-    console.log('UNREGISTER');
     context.registeredMocks.delete(getKey(request, options));
 
     if (context.options.autoStart && !context.registeredMocks.size) {
         disable();
     }
+}
+
+/**
+ * @description Unregister all mock objects.
+ * @returns {void} Void.
+ */
+function unregisterAll() {
+    context.registeredMocks.clear();
+    disable();
 }
 
 /**
@@ -331,22 +487,63 @@ function copyCacheAll(source, target) {
     });
 }
 
-// TODO: AUTO GET module SOMEHOW? WOULD HAVE TO BE AN INDEPENDENT MODULE, SELF CLEARING FROM CACHE (SEE proxyquire), RECURSE FROM process.mainModule TO module.filename AND GET PARENT. DO ONLY WHEN NO module PASSED.
 /**
- * @description TODO.
- * @param {string} path - Path.
- * @param {Object<string,*>} mocks - Mocks.
- * @param {Object<string,*>} module - Module.
+ * @typedef mockRequireOptions
+ * @property {boolean} [clearCache=false] - Clear cache before start loading.
+ * @property {boolean} [autoClean=true] - Automatically unregister mock objects after loading finishes.
+ */
+
+// TODO: AUTO GET requesterModule SOMEHOW? THIS WOULD HAVE TO BE AN INDEPENDENT MODULE, SELF CLEARING FROM CACHE (SEE proxyquire), RECURSE FROM process.mainModule TO module.filename AND GET PARENT. DO ONLY WHEN NO requesterModule PASSED. MAKE requesterModule OPTIONAL AND PLACE INSIDE options.
+/**
+ * @description Requires module while automatically applying specified mocks.
+ * @param {string} id - Path.
+ * @param {(Object<string,*>|Array<mockObjectType>)} mocks - Mocks.
+ * @param {Object<string,*>} requesterModule - Requester module.
+ * @param {mockRequireOptions} [options] - Options.
  * @returns {*} Module.
  */
-function require(path, mocks, module) {
-    const toUnregister = Object.keys(mocks).map((k) => {
-        return registerMock(k, mocks[k], {
-            target: Module._resolveFilename(path, module)
+function require(id, mocks, requesterModule, options) {
+    const toUnregister = [];
+
+    if (!options) {
+        options = {
+            clearCache: false,
+            autoClean: true
+        };
+    } else {
+        options.clearCache =
+            typeof options.clearCache === 'boolean'
+                ? options.clearCache
+                : false;
+        options.autoClean =
+            typeof options.autoClean === 'boolean' ? options.autoClean : true;
+    }
+
+    if (Array.isArray(mocks)) {
+        mocks.forEach((mockObject) => {
+            const {request, exports, ...options} = mockObject;
+            toUnregister.push(registerMock(request, exports, options));
         });
-    });
-    const requiredModule = module.require(path);
-    toUnregister.forEach((unregisterMock) => unregisterMock());
+    } else {
+        Object.keys(mocks).forEach((k) => {
+            toUnregister.push(
+                registerMock(k, mocks[k], {
+                    target: Module._resolveFilename(id, requesterModule)
+                })
+            );
+        });
+    }
+
+    if (options && options.clearCache) {
+        clearCache();
+    }
+
+    const requiredModule = requesterModule.require(id);
+
+    if (options && options.autoClean) {
+        toUnregister.forEach((mockUtils) => mockUtils.unregister());
+    }
+
     return requiredModule;
 }
 
@@ -357,6 +554,7 @@ const mock = {
     clearCache,
     registerMock,
     unregisterMock,
+    unregisterAll,
     require
 };
 
