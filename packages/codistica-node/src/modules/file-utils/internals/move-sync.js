@@ -11,7 +11,7 @@ import {removeSync} from './remove-sync.js';
  * @returns {Array<string>} Removed paths array.
  */
 function moveSync(input, targetDirPath, force) {
-    return removeSync(copySync(input, targetDirPath, force));
+    return removeSync(copySync(input, targetDirPath, force).reverse());
 }
 
 export {moveSync};

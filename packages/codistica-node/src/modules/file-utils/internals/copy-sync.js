@@ -45,7 +45,7 @@ function copySync(input, targetDirPath, force) {
                 if (!existsSync(destinationPath) || force) {
                     if (statSync(sourcePath).isDirectory()) {
                         mkdirSync(destinationPath);
-                        copiedPaths.push(destinationPath);
+                        copiedPaths.push(sourcePath);
                     } else {
                         copyFileSync(sourcePath, destinationPath);
                         copiedPaths.push(sourcePath);

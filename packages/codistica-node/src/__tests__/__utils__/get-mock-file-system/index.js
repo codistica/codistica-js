@@ -20,7 +20,15 @@ scanSync(realFileSystemPath).forEach((currentPath) => {
  * @returns {Object<string,*>} Mock file system.
  */
 function getMockFileSystem() {
-    return createFsFromVolume(Volume.fromJSON(volumeObject));
+    const vol = Volume.fromJSON(volumeObject);
+    const fs = createFsFromVolume(vol);
+
+    fs.reset = function reset() {
+        vol.reset();
+        vol.fromJSON(volumeObject);
+    };
+
+    return fs;
 }
 
 export {getMockFileSystem};

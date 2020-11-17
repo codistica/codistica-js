@@ -11,7 +11,7 @@ import {scan} from './scan.js';
  * @description Removes directory content recursively.
  * @param {string} input - The starting directory path.
  * @param {boolean} [deleteRoot] - Delete cleared directory.
- * @returns {Promise<void>} Promise. Void.
+ * @returns {Promise<Array<string>>} Promise. Removed paths array.
  */
 async function clearDir(input, deleteRoot) {
     input = getAbsolutePath(input);
@@ -21,7 +21,7 @@ async function clearDir(input, deleteRoot) {
             'clearDir()',
             'RECEIVED PATH IS OUTSIDE OF THE CURRENT WORKING DIRECTORY. OPERATION NOT PERMITTED. ABORTING'
         )();
-        return;
+        return [];
     }
 
     const paths = (await scan(input)).reverse();
@@ -30,7 +30,7 @@ async function clearDir(input, deleteRoot) {
         paths.pop();
     }
 
-    await remove(paths);
+    return await remove(paths);
 }
 
 export {clearDir};

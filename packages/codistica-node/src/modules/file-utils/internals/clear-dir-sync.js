@@ -10,7 +10,7 @@ import {scanSync} from './scan-sync.js';
  * @description Removes directory content recursively.
  * @param {string} input - The starting directory path.
  * @param {boolean} [deleteRoot] - Delete cleared directory.
- * @returns {void} Void.
+ * @returns {Array<string>} Removed paths array.
  */
 function clearDirSync(input, deleteRoot) {
     input = getAbsolutePath(input);
@@ -20,7 +20,7 @@ function clearDirSync(input, deleteRoot) {
             'clearDirSync()',
             'RECEIVED PATH IS OUTSIDE OF THE CURRENT WORKING DIRECTORY. OPERATION NOT PERMITTED. ABORTING'
         )();
-        return;
+        return [];
     }
 
     const paths = scanSync(input).reverse();
@@ -29,7 +29,7 @@ function clearDirSync(input, deleteRoot) {
         paths.pop();
     }
 
-    removeSync(paths);
+    return removeSync(paths);
 }
 
 export {clearDirSync};

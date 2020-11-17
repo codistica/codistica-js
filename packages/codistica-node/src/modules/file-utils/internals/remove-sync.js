@@ -28,7 +28,10 @@ function removeSync(input) {
 
         if (currentStat.isDirectory()) {
             if (readdirSync(currentInput).length) {
-                removeSync(scanSync(currentInput).reverse());
+                Array.prototype.push.apply(
+                    removedPaths,
+                    removeSync(scanSync(currentInput).reverse())
+                );
             } else {
                 rmdirSync(currentInput);
                 removedPaths.push(currentInput);

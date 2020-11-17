@@ -54,7 +54,7 @@ async function copy(input, targetDirPath, force) {
                         if (!(await exists(destinationPath)) || force) {
                             if ((await stat(sourcePath)).isDirectory()) {
                                 await mkdir(destinationPath);
-                                copiedPaths.push(destinationPath);
+                                copiedPaths.push(sourcePath);
                             } else {
                                 await copyFile(sourcePath, destinationPath);
                                 copiedPaths.push(sourcePath);

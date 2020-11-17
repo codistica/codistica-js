@@ -12,7 +12,7 @@ import {remove} from './remove.js';
  * @returns {Promise<Array<string>>} Promise. Moved paths array.
  */
 async function move(input, targetDirPath, force) {
-    return await remove(await copy(input, targetDirPath, force));
+    return await remove((await copy(input, targetDirPath, force)).reverse());
 }
 
 export {move};
