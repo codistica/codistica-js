@@ -32,6 +32,7 @@ module.exports = {
         {
             files: ['!**/src/**/*.js'],
             excludedFiles: [
+                './packages/*/scripts/**/*.js',
                 './packages/*/stories/**/*.js',
                 './packages/*/.storybook/**/*.js'
             ],
@@ -39,7 +40,7 @@ module.exports = {
         },
         // NODE PACKAGES
         {
-            files: nodePackages,
+            files: [...nodePackages, './packages/*/scripts/**/*.js'],
             extends: ['@codistica/eslint-config-default/node-module']
         },
         // BROWSER PACKAGES
@@ -52,12 +53,20 @@ module.exports = {
             files: [...reactPackages, './packages/*/stories/**/*.js'],
             extends: ['@codistica/eslint-config-default/react-preset']
         },
+        // STORYBOOK
+        {
+            files: [
+                './packages/*/stories/**/*.js',
+                './packages/*/.storybook/**/*.js'
+            ],
+            extends: ['@codistica/eslint-config-default/storybook']
+        },
         // JSDOC
         {
             files: jsdocPackages,
             extends: ['@codistica/eslint-config-default/jsdoc']
         },
-        // PUBLIC REACT PACKAGES (EXCEPTION)
+        // PUBLIC REACT PACKAGES INDEX FILES (EXCEPTION)
         /** @todo FOLLOW https://github.com/facebook/flow/issues/8354. */
         /** @todo FOLLOW https://youtrack.jetbrains.com/issue/WEB-45239. */
         {
@@ -69,14 +78,6 @@ module.exports = {
             rules: {
                 'import/extensions': ['warn', 'never']
             }
-        },
-        // STORYBOOK (EXCEPTION)
-        {
-            files: [
-                './packages/*/stories/**/*.js',
-                './packages/*/.storybook/**/*.js'
-            ],
-            extends: ['@codistica/eslint-config-default/storybook']
         }
     ]
 };

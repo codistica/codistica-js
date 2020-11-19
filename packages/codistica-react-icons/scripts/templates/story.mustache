@@ -5,12 +5,9 @@ import {createSophistication} from '@codistica/react';
 import {default as centered} from '@storybook/addon-centered/react';
 import React, {useState, Fragment} from 'react';
 import {
-    Aws as AwsIcon,
-    Babel as BabelIcon,
-    Bitbucket as BitbucketIcon,
-    C as CIcon,
-    CPlusPlus as CPlusPlusIcon,
-    CircleCI as CircleCIIcon
+    {{#icons}}
+        {{componentName}} as {{title}},
+    {{/icons}}
 } from '../../src/index.js';
 
 const useSophistication = createSophistication({
@@ -36,12 +33,9 @@ const useSophistication = createSophistication({
 });
 
 const icons = [
-    AwsIcon,
-    BabelIcon,
-    BitbucketIcon,
-    CIcon,
-    CPlusPlusIcon,
-    CircleCIIcon
+    {{#icons}}
+        {{title}},
+    {{/icons}}
 ];
 
 /**
@@ -86,7 +80,7 @@ function AllIcons() {
 }
 
 const meta = {
-    title: 'Icons',
+    title: 'Build Icons Output',
     parameters: {
         backgrounds: {
             default: 'Dark'

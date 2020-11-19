@@ -4,6 +4,7 @@ packages/*/lib
 packages/*/lib-es
 packages/*/types
 packages/*/jsdoc
+packages/*/build-icons-output
 
 ### Custom (create-react-app) ###
 /.pnp

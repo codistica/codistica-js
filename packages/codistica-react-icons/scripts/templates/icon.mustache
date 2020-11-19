@@ -1,0 +1,30 @@
+/** @flow */
+
+import React from 'react';
+import {SvgIcon} from '../utils/svg-icon/svg-icon.js';
+
+type DefaultProps = {|
+    title: string,
+    size: string | number | null,
+    color: string | null
+|};
+
+type Props = {
+    ...DefaultProps
+};
+
+function {{componentName}}(props: Props) {
+    return (
+        <SvgIcon {...props}>
+            {{svgo.data}}
+        </SvgIcon>
+    );
+}
+
+{{componentName}}.defaultProps = ({
+    title: '{{title}}',
+    size: null,
+    color: null
+}: DefaultProps);
+
+export { {{componentName}} };

@@ -12,10 +12,11 @@ module.exports = function babelConfig(api) {
                 '@codistica/babel-preset-default',
                 {
                     reactPackages: [
-                        /.+[\\/]packages[\\/]codistica-demo[\\/].+\.js$/,
-                        /.+[\\/]packages[\\/]codistica-react[\\/].+\.js$/,
-                        /.+[\\/]packages[\\/]codistica-react-icons[\\/].+\.js$/,
-                        /.+[\\/]packages[\\/]codistica-react-mui[\\/].+\.js$/
+                        /.+[\\/]packages[\\/]codistica-demo[\\/]src[\\/].+\.js$/,
+                        /.+[\\/]packages[\\/]codistica-react[\\/]src[\\/].+\.js$/,
+                        /.+[\\/]packages[\\/]codistica-react-icons[\\/]src[\\/].+\.js$/,
+                        /.+[\\/]packages[\\/]codistica-react-mui[\\/]src[\\/].+\.js$/,
+                        /.+[\\/]packages[\\/][\w-]+[\\/]stories[\\/].+\.js$/
                     ]
                 }
             ]

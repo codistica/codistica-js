@@ -55,7 +55,7 @@
     "scripts": {
         "start": "start-storybook -p 6008",
         "build": "build-storybook",
-        "build:icons": "babel-node --config-file ../../babel.config.js scripts/build-icons.js",
+        "utils:build-icons": "babel-node --config-file ../../babel.config.js scripts/build-icons.js",
         "flow": "flow",
         "prebuild": "echo \"No pre-build script.\""
     },
@@ -68,14 +68,17 @@
     "devDependencies": {
         "@babel/core": "^7.11.6",
         "@babel/node": "^7.12.6",
+        "@codistica/node": "^1.0.0-beta.5",
         "@storybook/addon-backgrounds": "^6.0.21",
         "@storybook/addon-centered": "^5.3.21",
         "@storybook/react": "^6.0.21",
         "babel-loader": "^8.1.0",
         "chai": "^4.2.0",
         "css-loader": "^4.3.0",
+        "eslint": "^7.13.0",
         "mustache": "^4.0.1",
         "node-sass": "^4.14.1",
+        "prettier": "^2.1.1",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
         "sass-loader": "^10.0.2",
