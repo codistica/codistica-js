@@ -1,8 +1,7 @@
 /** @flow */
 
 import React, {Component} from 'react';
-import {withSophistication} from '../../../../src/hocs/with-sophistication.js';
-import {mergeClassNames} from '../../../../src/modules/merge-class-names.js';
+import {mergeClassNames, withSophistication} from '../../../../src/index.js';
 import {styles} from './styles.js';
 
 const MyClassComponent = withSophistication(

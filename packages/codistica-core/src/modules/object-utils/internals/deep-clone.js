@@ -32,6 +32,7 @@ const deepCloneSchema = new Types({
  */
 function deepClone(obj, options) {
     // TODO: ADD OPTION TO SKIP FUNCTIONS AND OTHER NON CLONABLE ELEMENTS. OR CLONE WITH OTHER METHODS? (STRING/EVAL?). NOT BY DEFAULT.
+    // TODO: ADD reference (?) PATTERN OPTION TO COPY BY REFERENCE SPECIFIED PATHS RATHER THAN VALUE PER VALUE COPYING. (CASE WHEN WE WANT A FRESH OBJECT WITHOUT BREAKING SOME INTERNAL STRUCTURES (LIKE REFERENCED INSTANCES))
 
     ({obj, options} = deepCloneSchema.validate({obj, options}));
     if (!deepCloneSchema.isValid()) {

@@ -6,6 +6,8 @@ import {checkOne} from '../../reg-exp-utils/internals/check-one.js';
 import {getKeys} from './get-keys.js';
 import {hasKeys} from './has-keys.js';
 
+// TODO: ACCEPT keys OPTIONS. AN ARRAY OF OBJECTS KEYS TO BE USED ON EACH ITERATION INSTEAD OF TRYING TO GET KEYS.
+
 const rawExpSchema = {
     type: ['string', 'RegExp', 'Array<string|RegExp>'],
     def: null
@@ -81,7 +83,7 @@ const forEachSyncSchema = new Types({
  */
 
 /**
- * @description Recurses through the whole passed object executing callback for every found element.
+ * @description Recurse through the whole passed object executing callback for every found element.
  * @param {*} root - Starting element to be recursed.
  * @param {forEachSyncCallbackType} callback - Function to be executed for each found element.
  * @param {forEachSyncOptionsType} [options] - Recursion options.

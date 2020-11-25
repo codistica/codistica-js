@@ -26,8 +26,7 @@ function addReadOnlyProperty(obj, key, value) {
          * @returns {void} Void.
          */
         set() {
-            // TODO: THROW ERROR (CREATE ERROR THROWING/HANDLING UTILITY. INCLUDE IN Log?)
-            log.error(
+            log.warning(
                 'addReadOnlyProperty()',
                 'TRYING TO MODIFY A READ-ONLY PROPERTY'
             )();

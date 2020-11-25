@@ -108,7 +108,7 @@ class LoaderPayload extends EventEmitter {
         }
 
         this.progress = {
-            total: /** @type {(number|null)} */ this.options.payloadLength, // [B]
+            total: /** @type {(number|null)} */ (this.options.payloadLength), // [B]
             loaded: 0, // [B]
             percent: 0 // [%]
         };

@@ -1,7 +1,7 @@
 /** @module core/modules/object-utils/is-array-path */
 
 /**
- * @description Returns true if the passes array segment is an array like path.
+ * @description Returns true if the passed array segment is an array like path.
  * @param {string} str - String to be tested.
  * @returns {boolean} Result.
  */

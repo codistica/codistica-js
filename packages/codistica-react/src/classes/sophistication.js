@@ -10,8 +10,8 @@ import type {JssOptionsType} from '../contexts/jss-options-context.js';
 import {defaultTheme} from '../contexts/theme-context.js';
 import type {ThemeType} from '../contexts/theme-context.js';
 
-// TODO: FIX PROGRESSIVE CSS CLASS NAMES NAMING SEQUENCE WITH NO RE-USE.
-// TODO: CHECK CURRENT SPECIFICITY.
+// TODO: FIX PROGRESSIVE CSS CLASS NAMES NAMING SEQUENCE WITH NO RE-USE. CHECK IF 'react-jss' HAS SAME BEHAVIOR.
+// TODO: CHECK CURRENT STYLES SPECIFICITY.
 
 type Value = any | ((any) => any);
 type Style = {[string]: Value | Style} | ((any) => {[string]: Value | Style});
@@ -26,6 +26,8 @@ type ComponentData = {
     theme: ThemeType,
     jssOptions: JssOptionsType
 };
+
+/** @todo FOLLOW https://github.com/cssinjs/jss/issues/1421. */
 
 /**
  * @classdesc A class for library components sophistication.

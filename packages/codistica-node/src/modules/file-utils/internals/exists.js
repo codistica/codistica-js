@@ -16,7 +16,11 @@ async function exists(path) {
         await access(getAbsolutePath(path), constants.F_OK);
         return true;
     } catch (err) {
-        log.error('exists()', err)();
+        if (err.code !== 'ENOENT') {
+            // TODO: THIS COULD BE A GOOD EXAMPLE OF HOW ERRORS SHOULD BE MANAGED.
+            log.error('exists()', err)();
+            throw err;
+        }
         return false;
     }
 }

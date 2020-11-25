@@ -42,7 +42,7 @@ const colors = new Set([
 const colorsAsyncMockValidator = async function colorsAsyncMockValidator(
     value
 ) {
-    return await new Promise((resolve) => {
+    return new Promise((resolve) => {
         setTimeout(() => {
             resolve(colors.has(value.toLowerCase()));
         }, 2000);
@@ -121,7 +121,7 @@ class DefaultForm extends React.Component<Props, State> {
             componentClassNames.form,
             [componentClassNames.valid, this.state.validationResult],
             [componentClassNames.invalid, !this.state.validationResult],
-            [componentClassNames.blinking, this.state.blinkForm]
+            [componentClassNames.blink, this.state.blinkForm]
         );
 
         return (

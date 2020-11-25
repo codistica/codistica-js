@@ -1,8 +1,7 @@
 /** @flow */
 
 import React from 'react';
-import {ThemeProvider} from '../../../src/contexts/theme-context.js';
-import {useTheme} from '../../../src/hooks/use-theme.js';
+import {useTheme, ThemeProvider} from '../../../src/index.js';
 import {MyClassComponent} from './internals/my-class-component.js';
 import {MyComponentA} from './internals/my-component-a.js';
 import {MyComponentB} from './internals/my-component-b.js';

@@ -14,7 +14,11 @@ function existsSync(path) {
         accessSync(getAbsolutePath(path), constants.F_OK);
         return true;
     } catch (err) {
-        log.error('existsSync()', err)();
+        if (err.code !== 'ENOENT') {
+            // TODO: THIS COULD BE A GOOD EXAMPLE OF HOW ERRORS SHOULD BE MANAGED.
+            log.error('existsSync()', err)();
+            throw err;
+        }
         return false;
     }
 }

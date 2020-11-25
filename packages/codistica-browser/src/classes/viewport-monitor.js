@@ -111,7 +111,7 @@ class ViewportMonitor extends EventEmitter {
         document.addEventListener('readystatechange', this.viewportFix);
         window.addEventListener('resize', this.viewportFix);
         window.addEventListener('focus', this.viewportFix);
-        window.addEventListener('scroll', this.viewportFix);
+        window.addEventListener('scroll', this.viewportFix); // TODO: CHECK IF FIRES IN STORYBOOK WITHOUT USING capture.
         window.addEventListener('touch', this.viewportFix);
         window.addEventListener('click', this.viewportFix);
     }
@@ -136,7 +136,7 @@ class ViewportMonitor extends EventEmitter {
      * @description Measures viewport and checks for inconsistencies. Results are emitted through EventEmitter. Global CSS variables are set too.
      * @returns {void} Void.
      */
-    // TODO: CHANGE NAME.
+    // TODO: CHANGE NAME. handler?
     viewportFix() {
         let outerMeasure = null;
         let innerMeasure = null;

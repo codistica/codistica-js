@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {Types} from '../../classes/types.js';
 
-/** @see module:codistica-types/classes/types */
+/** @see module:types/classes/types */
 function typesTest() {
     describe('Types', () => {
         const definitionA = {

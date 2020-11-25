@@ -9,14 +9,23 @@ import {prettify} from '../modules/object-utils/internals/prettify.js';
 import {injectBefore} from '../modules/string-utils/internals/inject-before.js';
 import {stringifyPrimitive} from '../modules/stringify-primitive.js';
 
+// TODO: TEST/FIX/IMPROVE BROWSER CONSOLE BINDER.
+// TODO: TEST/FIX/IMPROVE NODE CONSOLE BINDER.
+
+// TODO: OPTIMIZE.
+
 // TODO: DEFINE STRING logLvl WITH A STRING -> NUMBER MAP.
+// TODO: EXPOSE METHODS FOR CHANGING logLvl.
+
 // TODO: ADD FEATURE TO GET LOG METHODS WITH BOUND CALLER.
 // TODO: ADD CALLER FILTER FEATURE.
 // TODO: CREATE UTILITY FOR REMOVING FROM PRODUCTION.
-// TODO: REMOVE () FROM ALL CALLERS.
+// TODO: REMOVE () FROM ALL CALLERS?
 // TODO: LEVERAGE MORE CONSOLE FEATURES, LIKE GROUPS, ETC.
 // TODO: OPTION TO LOG STACKS NATIVELY? OR TO RE-THROW?
 // TODO: CHANGE verbose WITH full? OR SIMILAR. (verbose AND debug CAN BE USED AS SYNONYMS)
+
+// TODO: ADD OPTION TO NOT DISPLAY CALLER.
 
 const logSchema = new Types({
     options: {

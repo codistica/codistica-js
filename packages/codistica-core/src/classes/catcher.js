@@ -52,6 +52,8 @@ class Catcher {
         if (this.options.enableLogging) {
             log.error('onReject()', reason);
         }
+        // TODO: RE-THROW IF NOT HANDLED.
+        // TODO: USER SHOULD BE ABLE TO ACCESS ORIGINAL ERROR OBJECT OR AT LEAST RECEIVE ERROR NAME/CODE TO KNOW HOW TO HANDLE IT.
         return undefined;
     }
 

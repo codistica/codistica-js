@@ -1,7 +1,7 @@
 /** @flow */
 
 import React, {useState} from 'react';
-import {mergeClassNames} from '../../../../src/modules/merge-class-names.js';
+import {mergeClassNames} from '../../../../src/index.js';
 import {useSophistication} from './my-component-b.sophistication.js';
 
 function MyComponentB(props: any) {

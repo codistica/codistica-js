@@ -5,7 +5,7 @@ import {getId} from './get-id.js';
 const store = new Set();
 
 /**
- * @description Generates and return an ID that is guaranteed to be unique during the current process.
+ * @description Generates and return an ID that is guaranteed to be unique as long as module cache persists.
  * @param {number} [length] - Generated ID length.
  * @param {string} [customSeed] - Custom seed to be used for random generation.
  * @returns {string} Generated unique ID.

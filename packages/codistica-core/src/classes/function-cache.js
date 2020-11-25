@@ -1,5 +1,7 @@
 /** @module core/classes/function-cache */
 
+// TODO: RENAME TO Cache.
+
 /**
  * @classdesc Class for creating cache instances with multiple-arguments entry association support for functions memoization.
  */

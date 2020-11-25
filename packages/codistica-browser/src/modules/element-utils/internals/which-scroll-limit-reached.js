@@ -1,5 +1,8 @@
 /** @module browser/modules/element-utils/which-scroll-limit-reached */
 
+// TODO: INVESTIGATE ABOUT THRESHOLDS, (elem.scrollHeight - 1) AND (elem.scrollWidth - 1).
+// TODO: ARE THEY REALLY NECESSARY? CAN BE AVOIDED? HOW CAN THEY AFFECT OTHER MODULES BEHAVIOR? (OverscrollBlocker, withOnScrollAction...)
+
 /**
  * @description Indicates which scrolling limit has been reached if any.
  * @param {HTMLElement} elem - Element.

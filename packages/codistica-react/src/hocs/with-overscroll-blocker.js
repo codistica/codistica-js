@@ -60,6 +60,8 @@ function withOverscrollBlocker<ComponentConfig: {}>(
 
         componentRef: any;
         overscrollBlocker: {[string]: any};
+
+        // TODO: WHAT ARE THESE? REMOVE?
         touchPos: {
             x: number,
             y: number
