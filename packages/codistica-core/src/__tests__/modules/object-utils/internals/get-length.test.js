@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {getLength} from '../../../../modules/object-utils/internals/get-length.js';
 
-/** @see module:codistica-core/modules/object-utils/get-length */
+/** @see module:core/modules/object-utils/get-length */
 function getLengthTest() {
     describe('getLength()', () => {
         it('Should return the number of found keys.', () => {

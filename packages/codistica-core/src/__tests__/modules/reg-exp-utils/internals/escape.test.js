@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {escape} from '../../../../modules/reg-exp-utils/internals/ecape.js';
 
-/** @see module:modules/reg-exp-utils/escape */
+/** @see module:core/modules/reg-exp-utils/escape */
 function escapeTest() {
     describe('escape()', () => {
         it('Should return a string whose RegExp reserved characters have escaped.', () => {

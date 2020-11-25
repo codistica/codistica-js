@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {injectBefore} from '../../../../modules/string-utils/internals/inject-before.js';
 
-/** @see module:modules/string-utils/inject-before */
+/** @see module:core/modules/string-utils/inject-before */
 function injectBeforeTest() {
     describe('injectBefore()', () => {
         it('Should return a string with the correct character injection.', () => {

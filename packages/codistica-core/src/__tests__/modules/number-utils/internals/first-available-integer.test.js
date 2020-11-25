@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {firstAvailableInteger} from '../../../../modules/number-utils/internals/first-available-integer.js';
 
-/** @see module:codistica-core/modules/number-utils/first-available-integer */
+/** @see module:core/modules/number-utils/first-available-integer */
 function firstAvailableIntegerTest() {
     describe('firstAvailableInteger()', () => {
         it('Should return the first not included positive integer in the input array.', () => {

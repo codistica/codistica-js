@@ -3,7 +3,7 @@ import {REG_EXPS} from '../../constants/reg-exps.js';
 import {SEEDS} from '../../constants/seeds.js';
 import {checkAll} from '../../modules/reg-exp-utils/internals/check-all.js';
 
-/** @see module:codistica-core/constants/reg-exps */
+/** @see module:core/constants/reg-exps */
 function regExpsTest() {
     describe('REG_EXPS', () => {
         const specialChars = SEEDS.special

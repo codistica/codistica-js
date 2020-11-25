@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {deepClone} from '../../../../modules/object-utils/internals/deep-clone.js';
 
-/** @see module:codistica-core/modules/object-utils/deep-clone */
+/** @see module:core/modules/object-utils/deep-clone */
 function deepCloneTest() {
     describe('deepClone()', () => {
         it('Should clone every object value one by one.', () => {

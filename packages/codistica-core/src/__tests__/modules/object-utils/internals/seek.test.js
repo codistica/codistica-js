@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {seek} from '../../../../modules/object-utils/internals/seek.js';
 
-/** @see module:codistica-core/modules/object-utils/seek */
+/** @see module:core/modules/object-utils/seek */
 function seekTest() {
     describe('seek()', () => {
         it('Should get or set a value from/to the specified object path.', () => {

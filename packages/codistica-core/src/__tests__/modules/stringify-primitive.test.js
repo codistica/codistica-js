@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {stringifyPrimitive} from '../../modules/stringify-primitive.js';
 
-/** @see module:modules/stringify-primitive */
+/** @see module:core/modules/stringify-primitive */
 function stringifyPrimitiveTest() {
     describe('stringifyPrimitive()', () => {
         it('Should stringify the primitive input', () => {

@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {isPureObject} from '../../../../modules/object-utils/internals/is-pure-object.js';
 
-/** @see module:codistica-core/modules/object-utils/is-pure-object */
+/** @see module:core/modules/object-utils/is-pure-object */
 function isPureObjectTest() {
     describe('isPureObject()', () => {
         it('Should return true if input is an object ({}) and false otherwise.', () => {

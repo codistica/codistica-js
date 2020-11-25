@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {normalize} from '../../../../modules/array-utils/internals/normalize.js';
 
-/** @see module:codistica-core/modules/array-utils/normalize */
+/** @see module:core/modules/array-utils/normalize */
 function normalizeTest() {
     describe('normalize()', () => {
         it('Should always return and array, eventually containing input element if not array itself.', () => {

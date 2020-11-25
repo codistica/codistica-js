@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {toCamelCase} from '../../../../modules/string-utils/internals/to-camel-case.js';
 
-/** @see module:modules/string-utils/to-camel-case */
+/** @see module:core/modules/string-utils/to-camel-case */
 function toCamelCaseTest() {
     describe('toCamelCase()', () => {
         it('Should correctly convert passed string to camelcase.', () => {

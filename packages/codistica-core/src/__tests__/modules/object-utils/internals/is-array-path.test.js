@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {isArrayPath} from '../../../../modules/object-utils/internals/is-array-path.js';
 
-/** @see module:codistica-core/modules/object-utils/is-array-path */
+/** @see module:core/modules/object-utils/is-array-path */
 function isArrayPathTest() {
     describe('isArrayPath()', () => {
         it('Should return true if given path segment is an array like path and false otherwise.', () => {

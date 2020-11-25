@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {parseIntAll} from '../../../../modules/number-utils/internals/parse-int-all.js';
 
-/** @see module:codistica-core/modules/number-utils/parse-int-all */
+/** @see module:core/modules/number-utils/parse-int-all */
 function parseIntAllTest() {
     describe('parseIntAll()', () => {
         it('Should return an array of integers with the parsed input.', () => {

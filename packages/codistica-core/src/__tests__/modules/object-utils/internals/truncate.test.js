@@ -2,7 +2,7 @@ import {assert} from 'chai';
 import {truncate} from '../../../../modules/object-utils/internals/truncate.js';
 import {getObject} from '../../../__utils__/get-object.js';
 
-/** @see module:codistica-core/modules/object-utils/truncate */
+/** @see module:core/modules/object-utils/truncate */
 function truncateTest() {
     describe('truncate()', () => {
         it('Should truncate object at the indicated depth.', () => {

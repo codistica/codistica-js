@@ -2,7 +2,7 @@ import {assert} from 'chai';
 import {STRINGS} from '../../../../constants/strings.js';
 import {prettify} from '../../../../modules/object-utils/internals/prettify.js';
 
-/** @see module:codistica-core/modules/object-utils/prettify */
+/** @see module:core/modules/object-utils/prettify */
 function prettifyTest() {
     describe('prettify()', () => {
         it('Should return a pretified stringified object.', () => {

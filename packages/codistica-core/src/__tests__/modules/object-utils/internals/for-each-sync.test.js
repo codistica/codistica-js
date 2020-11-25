@@ -32,7 +32,7 @@ const expected = {
     }
 };
 
-/** @see module:codistica-core/modules/object-utils/for-each-sync */
+/** @see module:core/modules/object-utils/for-each-sync */
 function forEachSyncTest() {
     describe('forEachSync()', () => {
         it('Should recurse through the entire input allowing sync callback execution with multiple options.', () => {

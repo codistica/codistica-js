@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {dedupe} from '../../../../modules/array-utils/internals/dedupe.js';
 
-/** @see module:codistica-core/modules/array-utils/dedupe */
+/** @see module:core/modules/array-utils/dedupe */
 function dedupeTest() {
     describe('dedupe()', () => {
         it('Should return an array with elements from input array without duplicates.', () => {

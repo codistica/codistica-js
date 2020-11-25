@@ -2,7 +2,7 @@ import {assert} from 'chai';
 import {REG_EXPS} from '../../../../constants/reg-exps.js';
 import {checkOne} from '../../../../modules/reg-exp-utils/internals/check-one.js';
 
-/** @see module:modules/reg-exp-utils/check-one */
+/** @see module:core/modules/reg-exp-utils/check-one */
 function checkOneTest() {
     describe('checkOne()', () => {
         it('Should return a boolean indicating if the input matches any item in rawExp.', () => {

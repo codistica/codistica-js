@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {renameProperty} from '../../../../modules/object-utils/internals/rename-property.js';
 
-/** @see module:codistica-core/modules/object-utils/rename-property */
+/** @see module:core/modules/object-utils/rename-property */
 function renamePropertyTest() {
     describe('renameProperty()', () => {
         it('Should rename indicated property inside object. Returns true if successful and false otherwise.', () => {

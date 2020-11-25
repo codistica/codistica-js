@@ -2,7 +2,7 @@ import {assert} from 'chai';
 import {REG_EXPS} from '../../../../constants/reg-exps.js';
 import {checkNone} from '../../../../modules/reg-exp-utils/internals/check-none.js';
 
-/** @see module:modules/reg-exp-utils/check-none */
+/** @see module:core/modules/reg-exp-utils/check-none */
 function checkNoneTest() {
     describe('checkNone()', () => {
         it('Should return a boolean indicating if the input does not matches any item in rawExp.', () => {

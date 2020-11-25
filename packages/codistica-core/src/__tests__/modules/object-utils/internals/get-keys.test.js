@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {getKeys} from '../../../../modules/object-utils/internals/get-keys.js';
 
-/** @see module:codistica-core/modules/object-utils/get-keys */
+/** @see module:core/modules/object-utils/get-keys */
 function getKeysTest() {
     describe('getKeys()', () => {
         it('Should return an array of keys with correct type values (string|number) depending on input.', () => {

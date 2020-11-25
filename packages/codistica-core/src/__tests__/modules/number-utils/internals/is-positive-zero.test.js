@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {isPositiveZero} from '../../../../modules/number-utils/internals/is-positive-zero.js';
 
-/** @see module:codistica-core/modules/number-utils/is-positive-zero */
+/** @see module:core/modules/number-utils/is-positive-zero */
 function isPositiveZeroTest() {
     describe('isNegativeZero()', () => {
         it('Should return boolean indicating if input is a positive zero.', () => {

@@ -2,7 +2,7 @@ import {assert} from 'chai';
 import {SEEDS} from '../../../../constants/seeds.js';
 import {firstAvailableLetter} from '../../../../modules/string-utils/internals/first-available-letter.js';
 
-/** @see module:modules/string-utils/first-available-letter */
+/** @see module:core/modules/string-utils/first-available-letter */
 function firstAvailableLetterTest() {
     describe('firstAvailableLetter()', () => {
         it('Should return the first available letter.', () => {

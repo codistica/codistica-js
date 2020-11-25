@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {hasKeys} from '../../../../modules/object-utils/internals/has-keys.js';
 
-/** @see module:codistica-core/modules/object-utils/has-keys */
+/** @see module:core/modules/object-utils/has-keys */
 function hasKeysTest() {
     describe('hasKeys()', () => {
         it('Should return true if input has keys and false otherwise.', () => {

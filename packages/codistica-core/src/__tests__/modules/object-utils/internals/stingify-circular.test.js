@@ -2,7 +2,7 @@ import {assert} from 'chai';
 import {stringifyCircular} from '../../../../modules/object-utils/internals/stringify-circular.js';
 import {getCircularObject} from '../../../__utils__/get-circular-object.js';
 
-/** @see module:codistica-core/modules/object-utils/stringify-circular */
+/** @see module:core/modules/object-utils/stringify-circular */
 function stringifyCircularTest() {
     describe('stringifyCircular()', () => {
         it('Should convert all circular references to a string with reference object parsable path.', () => {

@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {getFloorAt} from '../../../../modules/number-utils/internals/get-floor-at.js';
 
-/** @see module:codistica-core/modules/number-utils/get-floor-at */
+/** @see module:core/modules/number-utils/get-floor-at */
 function getFloorAtTest() {
     describe('getFloorAt()', () => {
         it('Should return the floor of the number at the selected level.', () => {

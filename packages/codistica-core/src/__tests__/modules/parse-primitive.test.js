@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {parsePrimitive} from '../../modules/parse-primitive.js';
 
-/** @see module:modules/parse-primitive */
+/** @see module:core/modules/parse-primitive */
 function parsePrimitiveTest() {
     describe('parsePrimitive()', () => {
         it('Should return the correct boolean', () => {

@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {stringToPathArray} from '../../../../modules/object-utils/internals/string-to-path-array.js';
 
-/** @see module:codistica-core/modules/object-utils/string-to-path-array */
+/** @see module:core/modules/object-utils/string-to-path-array */
 function stringToPathArrayTest() {
     describe('stringToPathArray()', () => {
         it('Should convert an object path string to an array with path segments as elements.', () => {

@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {isPrimitive} from '../../../../modules/object-utils/internals/is-primitive.js';
 
-/** @see module:codistica-core/modules/object-utils/is-primitive */
+/** @see module:core/modules/object-utils/is-primitive */
 function isPrimitiveTest() {
     describe('isPrimitive()', () => {
         it('Should return true is input is of primitive type variable and false otherwise.', () => {

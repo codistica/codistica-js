@@ -3,7 +3,7 @@ import {EventEmitter} from '../../classes/event-emitter.js';
 
 // TODO: ADD TESTS FOR NUMBER OF ADDED/REMOVED LISTENERS. CONSIDER MULTIPLE CASES: BY USER, AUTOMATICALLY WHEN USING once SUBSCRIBERS, ETC.
 
-/**@see module:core/classes/event-emitter */
+/** @see module:core/classes/event-emitter */
 function eventEmitterTest() {
     describe('EventEmitter', () => {
         const eventEmitter = new EventEmitter();

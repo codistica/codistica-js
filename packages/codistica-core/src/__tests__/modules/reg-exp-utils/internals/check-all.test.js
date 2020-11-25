@@ -2,7 +2,7 @@ import {assert} from 'chai';
 import {REG_EXPS} from '../../../../constants/reg-exps.js';
 import {checkAll} from '../../../../modules/reg-exp-utils/internals/check-all.js';
 
-/** @see module:modules/reg-exp-utils/check-all */
+/** @see module:core/modules/reg-exp-utils/check-all */
 function checkAllTest() {
     describe('checkAll()', () => {
         it('Should return a boolean indicating if the input matches all items in rawExp.', () => {

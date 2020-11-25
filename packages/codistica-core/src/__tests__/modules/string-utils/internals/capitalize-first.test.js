@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {capitalizeFirst} from '../../../../modules/string-utils/internals/capitalize-first.js';
 
-/** @see module:modules/string-utils/capitalize-first */
+/** @see module:core/modules/string-utils/capitalize-first */
 function capitalizeFirstTest() {
     describe('capitalizeFirst()', () => {
         it('Should correctly capitalize the first letter of passed string.', () => {

@@ -2,7 +2,7 @@ import {assert} from 'chai';
 import {parse} from '../../../../modules/json-utils/internals/parse.js';
 import {getCircularObject} from '../../../__utils__/get-circular-object.js';
 
-/** @see module:modules/json-utils/parse */
+/** @see module:core/modules/json-utils/parse */
 function parseTest() {
     describe('parse()', () => {
         it('Should return a parsed object, including circular object reviving capabilities.', () => {

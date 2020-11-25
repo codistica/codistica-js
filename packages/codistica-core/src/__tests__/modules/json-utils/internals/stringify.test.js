@@ -2,7 +2,7 @@ import {assert} from 'chai';
 import {stringify} from '../../../../modules/json-utils/internals/stringify.js';
 import {getCircularObject} from '../../../__utils__/get-circular-object.js';
 
-/** @see module:modules/json-utils/stringify */
+/** @see module:core/modules/json-utils/stringify */
 function stringifyTest() {
     describe('stringify()', () => {
         it('Should return a stringified object, including circular object stringifying capabilities.', () => {

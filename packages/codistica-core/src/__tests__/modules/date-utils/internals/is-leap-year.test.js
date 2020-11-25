@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {isLeapYear} from '../../../../modules/date-utils/internals/is-leap-year.js';
 
-/** @see module:codistica-core/modules/date-utils/is-leap-year */
+/** @see module:core/modules/date-utils/is-leap-year */
 function isLeapYearTest() {
     describe('isLeapYear()', () => {
         it('Should return a boolean indicated is the input is a leap year.', () => {

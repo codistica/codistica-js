@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {replace} from '../../../../modules/reg-exp-utils/internals/replace.js';
 
-/** @see module:modules/reg-exp-utils/replace */
+/** @see module:core/modules/reg-exp-utils/replace */
 function replaceTest() {
     describe('replace()', () => {
         it('Should return a replaced string.', () => {

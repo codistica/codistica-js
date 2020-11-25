@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {shuffle} from '../../../../modules/array-utils/internals/shuffle.js';
 
-/** @see module:codistica-core/modules/array-utils/shuffle */
+/** @see module:core/modules/array-utils/shuffle */
 function shuffleTest() {
     describe('shuffle()', () => {
         // TODO: PREVENT ERROR WHEN OUTPUT IS EQUAL TO INPUT

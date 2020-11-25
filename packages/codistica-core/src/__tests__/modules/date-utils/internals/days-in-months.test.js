@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {daysInMonth} from '../../../../modules/date-utils/internals/days-in-month.js';
 
-/** @see module:codistica-core/modules/date-utils/days-in-month */
+/** @see module:core/modules/date-utils/days-in-month */
 function daysInMonthTest() {
     describe('daysInMonth()', () => {
         it('Should return the number of days of the specified month/year couple.', () => {

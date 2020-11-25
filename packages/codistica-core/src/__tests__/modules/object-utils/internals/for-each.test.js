@@ -32,7 +32,7 @@ const expected = {
     }
 };
 
-/** @see module:codistica-core/modules/object-utils/for-each */
+/** @see module:core/modules/object-utils/for-each */
 function forEachTest() {
     describe('forEach()', () => {
         it('Should recurse through the entire input allowing async callback execution.', async () => {
