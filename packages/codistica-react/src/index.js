@@ -45,6 +45,7 @@ export {withGetUniqueID} from './hocs/with-get-unique-id';
 export {withOnClickOutside} from './hocs/with-on-click-outside';
 export {withOnDrag} from './hocs/with-on-drag';
 export {withOnScrollAction} from './hocs/with-on-scroll-action';
+export {withOnView} from './hocs/with-on-view';
 export {withOverscrollBlocker} from './hocs/with-overscroll-blocker';
 export {withSophistication} from './hocs/with-sophistication';
 export {withTooltip} from './hocs/with-tooltip';
