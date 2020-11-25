@@ -22,10 +22,11 @@
 
 // TODO: ADD SUPPORT FOR MULTIPLE INPUTS AND SINGLE VALIDATION? LINKED VALIDATIONS? LIKE FOR CREDIT CARD EXPIRATION DATE.
 
+// TODO: PASS hasFocus INFORMATION IN API.
+
 import {objectUtils} from '@codistica/core';
 import React from 'react';
 import type {Node} from 'react';
-import {default as uniqueId} from 'react-html-id';
 import {InputPluginManager} from '../classes/input-plugin-manager.js';
 import type {
     PluginType,
@@ -38,6 +39,7 @@ import type {
     MessageType,
     DataType
 } from '../classes/input-validator-plugin-utils.js';
+import {uniqueID} from '../modules/unique-id.js';
 import {FormContext} from './form.js';
 
 type ValidationObject = {
@@ -162,8 +164,6 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
         onBlur: null
     };
 
-    nextUniqueId: (...args: Array<any>) => any;
-
     id: string;
 
     isInteracted: boolean;
@@ -187,9 +187,7 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
     constructor(props: InputRendererPropsType) {
         super(props);
 
-        uniqueId.enableUniqueIds(this);
-
-        this.id = this.nextUniqueId();
+        this.id = uniqueID.getID();
 
         this.isInteracted = false;
 
@@ -273,6 +271,9 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
         if (this.context.formInstance) {
             this.context.formInstance.unregisterInput(this);
         }
+
+        // RELEASE ID
+        uniqueID.releaseID(this.id);
     }
 
     /**

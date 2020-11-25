@@ -2,9 +2,10 @@
 
 /** @module react/components/input-radio-group */
 
+import {composeFn} from '@codistica/core';
 import React from 'react';
-import {default as uniqueId} from 'react-html-id';
 import resetClassNames from '../../css/reset.module.scss';
+import {withGetUniqueID} from '../../hocs/with-get-unique-id.js';
 import {withSophistication} from '../../hocs/with-sophistication.js';
 import {mergeClassNames} from '../../modules/merge-class-names.js';
 import {mergeStyles} from '../../modules/merge-styles.js';
@@ -40,8 +41,11 @@ type InputRadioGroupInternalProps = {
     id: string,
     value: string,
     status: StatusType,
+    getUniqueID: (any) => string,
     getSophistication: (...args: Array<any>) => {[string]: string}
 };
+
+const hoc = composeFn(withGetUniqueID, withSophistication(styles, true));
 
 /**
  * @typedef inputRadioGroupInternalPropsType
@@ -50,26 +54,11 @@ type InputRadioGroupInternalProps = {
  * @property {('valid'|'invalid'|'highlight'|'warning'|'missing'|'standBy'|null)} status - Input status.
  */
 
-const InputRadioGroupInternal = withSophistication(
-    styles,
-    true
-)(
+const InputRadioGroupInternal = hoc(
     /**
      * @classdesc A beautiful radio input component (Internal).
      */
     class InputRadioGroupInternal extends React.Component<InputRadioGroupInternalProps> {
-        nextUniqueId: (...args: Array<any>) => any;
-
-        /**
-         * @description Constructor.
-         * @param {(inputRadioGroupPropsType|inputRadioGroupInternalPropsType)} [props] - Component props.
-         */
-        constructor(props: InputRadioGroupInternalProps) {
-            super(props);
-
-            uniqueId.enableUniqueIds(this);
-        }
-
         /**
          * @instance
          * @description React render method.
@@ -90,6 +79,7 @@ const InputRadioGroupInternal = withSophistication(
                 globalTheme,
                 onChange,
                 onBlur,
+                getUniqueID,
                 getSophistication
             } = this.props;
 
@@ -178,7 +168,7 @@ const InputRadioGroupInternal = withSophistication(
                             ) {
                                 continue;
                             }
-                            subId = this.nextUniqueId();
+                            subId = getUniqueID(i);
                             output.push(
                                 <span
                                     key={index}

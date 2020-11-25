@@ -1,13 +1,16 @@
 /** @flow */
 
-import type {ComponentType} from 'react';
+import type {ElementType} from 'react';
 
 /**
  * @description Gets component's display name.
  * @param {*} Component - Component.
  * @returns {string} - Display name.
  */
-function getDisplayName<P>(Component: ComponentType<P>) {
+function getDisplayName(Component: ElementType) {
+    if (typeof Component === 'string') {
+        return Component;
+    }
     return Component.displayName || Component.name || 'Component';
 }
 

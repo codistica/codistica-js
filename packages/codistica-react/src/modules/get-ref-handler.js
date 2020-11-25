@@ -6,7 +6,7 @@ type Ref = {
     current: any
 };
 
-type RefReceiver = null | Ref | ((Ref) => void);
+type RefReceiver = null | Ref | ((Ref) => any);
 
 /**
  * @typedef getRefHandlerRefType

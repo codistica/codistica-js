@@ -41,6 +41,7 @@ export {JssOptionsProvider} from './contexts/jss-options-context';
 export {ThemeProvider} from './contexts/theme-context';
 
 // HOCs
+export {withGetUniqueID} from './hocs/with-get-unique-id';
 export {withOnClickOutside} from './hocs/with-on-click-outside';
 export {withOnDrag} from './hocs/with-on-drag';
 export {withOnScrollAction} from './hocs/with-on-scroll-action';
@@ -50,8 +51,10 @@ export {withTooltip} from './hocs/with-tooltip';
 export {withViewportMonitor} from './hocs/with-viewport-monitor';
 
 // HOOKS
+export {useSingleton} from './hooks/use-singleton';
 export {useJssOptions} from './hooks/use-jss-options';
 export {useTheme} from './hooks/use-theme';
+export {useGetUniqueID} from './hooks/use-get-unique-id';
 
 // MODULES
 export {createGetSophistication} from './modules/create-get-sophistication';
@@ -61,6 +64,7 @@ export {getRefHandler} from './modules/get-ref-handler';
 export {defaultJss} from './modules/jss';
 export {mergeClassNames} from './modules/merge-class-names';
 export {mergeStyles} from './modules/merge-styles';
+export {uniqueID} from './modules/unique-id';
 
 // UTILS
 export {AnchorWrapper} from './utils/anchor-wrapper';
