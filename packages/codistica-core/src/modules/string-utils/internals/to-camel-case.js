@@ -1,16 +1,23 @@
 /** @module core/modules/string-utils/to-camel-case */
 
+import {capitalizeFirst} from './capitalize-first.js';
+import {splitByWords} from './split-by-words.js';
+
 /**
- * @description Converts passed string to camelcase.
+ * @description Converts passed string to camel case.
  * @param {string} str - Input string.
  * @returns {string} Resulting string.
  */
 function toCamelCase(str) {
-    const trimmed = str.trim();
-    const result = trimmed.replace(/\W\w/g, function (match) {
-        return match[1].toUpperCase();
-    });
-    return result.charAt(0).toLowerCase() + result.slice(1);
+    return splitByWords(str)
+        .filter((word) => !/[\s\W]/.test(word))
+        .map((word, index) => {
+            if (index) {
+                return capitalizeFirst(word);
+            }
+            return word.toLowerCase();
+        })
+        .join('');
 }
 
 export {toCamelCase};

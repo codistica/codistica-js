@@ -122,6 +122,20 @@ function regExpsTest() {
             assert.isTrue(checkAll(' ', REG_EXPS.SPLIT_BY_CHAR));
             assert.isTrue(checkAll('t', REG_EXPS.SPLIT_BY_CHAR));
         });
+
+        it('Should match short HEX colors.', () => {
+            assert.isFalse(checkAll('#111111', REG_EXPS.SHORTHEX));
+            assert.isTrue(checkAll('#111', REG_EXPS.SHORTHEX));
+            assert.isTrue(checkAll('#AaA', REG_EXPS.SHORTHEX));
+            assert.isFalse(checkAll('#zzz', REG_EXPS.SHORTHEX));
+        });
+
+        it('Should match long HEX colors.', () => {
+            assert.isFalse(checkAll('#111', REG_EXPS.LONGHEX));
+            assert.isTrue(checkAll('#111111', REG_EXPS.LONGHEX));
+            assert.isTrue(checkAll('#A9ff10', REG_EXPS.LONGHEX));
+            assert.isFalse(checkAll('#a9fF1z', REG_EXPS.LONGHEX));
+        });
     });
 }
 

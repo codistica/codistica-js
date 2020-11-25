@@ -9,10 +9,21 @@ function toCamelCaseTest() {
             assert.strictEqual(toCamelCase('camel case'), 'camelCase');
             assert.strictEqual(toCamelCase('Camel case'), 'camelCase');
             assert.strictEqual(toCamelCase('CamelCase'), 'camelCase');
+            assert.strictEqual(toCamelCase('1CamelCase'), '1CamelCase');
+            assert.strictEqual(
+                toCamelCase('SomePARTICULARCamelCase'),
+                'somePARTICULARCamelCase'
+            );
+            assert.strictEqual(
+                toCamelCase('SOMEParticularCamelCase'),
+                'someParticularCamelCase'
+            );
             assert.strictEqual(
                 toCamelCase(' some-strange string '),
                 'someStrangeString'
             );
+            assert.strictEqual(toCamelCase('ESLint'), 'esLint');
+            assert.strictEqual(toCamelCase('AWSIcon'), 'awsIcon');
         });
     });
 }

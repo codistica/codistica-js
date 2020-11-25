@@ -34,6 +34,12 @@ const REG_EXPS = {
     },
     get SPLIT_BY_CHAR() {
         return /(?=[\s\S])/u;
+    },
+    get SHORTHEX() {
+        return /#[a-fA-F0-9]{3}(?=[\s,;'"]|$)/g;
+    },
+    get LONGHEX() {
+        return /#[a-fA-F0-9]{6}(?=[\s,;'"]|$)/g;
     }
 };
 

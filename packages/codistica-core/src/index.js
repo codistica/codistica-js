@@ -41,6 +41,7 @@ export {STRINGS} from './constants/strings.js';
 
 // MODULES
 export {catcher} from './modules/catcher.js';
+export {composeFn} from './modules/compose-fn.js';
 export {conditionalTimeout} from './modules/conditional-timeout.js';
 export {controlledTimeout} from './modules/controlled-timeout.js';
 export {createHeartbeatTimeout} from './modules/create-heartbeat-timeout.js';

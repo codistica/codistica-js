@@ -3,6 +3,7 @@ import {functionCacheTest} from './classes/function-cache.test.js';
 import {loadingBarTest} from './classes/loading-bar.test.js';
 import {regExpsTest} from './constants/reg-exps.test.js';
 import {arrayUtilsTest} from './modules/array-utils/index.test.js';
+import {composeFnTest} from './modules/compose-fn.test.js';
 import {controlledTimeoutTest} from './modules/controlled-timeout.test.js';
 import {dateUtilsTest} from './modules/date-utils/index.test.js';
 import {jsonUtilsTest} from './modules/json-utils/index.test.js';
@@ -29,6 +30,7 @@ describe('@codistica/core', () => {
     // MODULES
     describe('Modules', () => {
         arrayUtilsTest();
+        composeFnTest();
         controlledTimeoutTest();
         dateUtilsTest();
         jsonUtilsTest();
