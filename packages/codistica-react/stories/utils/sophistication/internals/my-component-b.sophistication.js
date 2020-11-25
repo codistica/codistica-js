@@ -1,6 +1,6 @@
 /** @flow */
 
-import {createSophistication} from '../../../../src/modules/create-sophistication.js';
+import {createSophistication} from '../../../../src/hooks/create-sophistication.js';
 import {styles} from './styles.js';
 
 const useSophistication = createSophistication(styles);

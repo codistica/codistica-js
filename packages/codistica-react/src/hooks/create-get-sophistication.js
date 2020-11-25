@@ -1,22 +1,24 @@
 /** @flow */
 
-/** @module react/modules/create-sophistication */
+/** @module react/hooks/create-get-sophistication */
 
 import {useMemo, useLayoutEffect} from 'react';
 import {Sophistication} from '../classes/sophistication.js';
 import type {StylesType} from '../classes/sophistication.js';
-import {useJssOptions} from '../hooks/use-jss-options.js';
-import {useTheme} from '../hooks/use-theme.js';
+import {useJssOptions} from './use-jss-options.js';
+import {useTheme} from './use-theme.js';
 
 /**
- * @description Creates sophistication hook.
+ * @description Creates get sophistication hook.
  * @param {Object<string,*>} styles - Styles.
- * @returns {function(*): Object<string,string>} - Hook.
+ * @returns {function(*): (function(*): Object<string,string>)} - Hook.
  */
-function createSophistication(styles: StylesType) {
+function createGetSophistication(styles: StylesType) {
     const sophistication = new Sophistication(styles);
 
-    return function useSophistication(data: any): {[string]: string} {
+    return function useGetSophistication(
+        fallbackData: any
+    ): (data: any) => {[string]: string} {
         const [theme] = useTheme();
         const [jssOptions] = useJssOptions();
 
@@ -33,22 +35,26 @@ function createSophistication(styles: StylesType) {
             return [styleSheet, dynamicRules];
         }, [jssOptions, theme]);
 
-        // UPDATE
-        useLayoutEffect(() => {
-            sophistication.updateDynamicRules(styleSheet, dynamicRules, data);
-        }, [data, dynamicRules, styleSheet]);
-
         // CLEANUP
         useLayoutEffect(() => {
-            return function () {
+            return () => {
                 sophistication.unmanageStyleSheet(theme);
                 sophistication.deleteDynamicRules(styleSheet, dynamicRules);
             };
         }, [dynamicRules, styleSheet, theme]);
 
-        // GENERATE CLASS NAMES
-        return sophistication.getClassNames(styleSheet, dynamicRules);
+        return function getSophistication(data: any) {
+            // UPDATE
+            sophistication.updateDynamicRules(
+                styleSheet,
+                dynamicRules,
+                data || fallbackData
+            );
+
+            // GENERATE CLASS NAMES
+            return sophistication.getClassNames(styleSheet, dynamicRules);
+        };
     };
 }
 
-export {createSophistication};
+export {createGetSophistication};

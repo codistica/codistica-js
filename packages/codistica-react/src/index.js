@@ -51,14 +51,14 @@ export {withTooltip} from './hocs/with-tooltip';
 export {withViewportMonitor} from './hocs/with-viewport-monitor';
 
 // HOOKS
+export {createGetSophistication} from './hooks/create-get-sophistication';
+export {createSophistication} from './hooks/create-sophistication';
 export {useSingleton} from './hooks/use-singleton';
 export {useJssOptions} from './hooks/use-jss-options';
 export {useTheme} from './hooks/use-theme';
 export {useGetUniqueID} from './hooks/use-get-unique-id';
 
 // MODULES
-export {createGetSophistication} from './modules/create-get-sophistication';
-export {createSophistication} from './modules/create-sophistication';
 export {getDisplayName} from './modules/get-display-name';
 export {getRefHandler} from './modules/get-ref-handler';
 export {defaultJss} from './modules/jss';
