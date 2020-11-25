@@ -1,28 +1,36 @@
-import {readFileSync, readdirSync, writeFileSync, mkdirSync} from 'fs';
+import {readFileSync, writeFileSync, mkdirSync} from 'fs';
 import {resolve, join, basename} from 'path';
-import {stringUtils} from '@codistica/core';
-import {fileUtils} from '@codistica/node';
+import {stringUtils, log} from '@codistica/core';
+import {fileUtils, LogNodeConsoleBinder} from '@codistica/node';
 import {ESLint} from 'eslint';
 import {default as Mustache} from 'mustache';
 import {default as prettier} from 'prettier';
 import {default as SVGO} from 'svgo';
 import {svgoConfig} from './svgo-config.js';
 
+log.setConsoleBinder(new LogNodeConsoleBinder());
+
 // TODO: REGULATE MAXIMUM PARALLEL OPERATIONS (CREATE/USE EXISTING UTILS?). INVESTIGATE.
 // TODO: USE STREAMS WHERE/IF POSSIBLE/NEEDED.
 // TODO: IMPORTANT. REDUCE MEMORY USAGE BY DOING FULL PROCESS AT A TIME PER INPUT FILE BATCH (BATCH SIZE CAN BE CONFIGURED).
 
-// TODO: CHECK ALL LOWERCASE COMMENTS (IN MONOREPO).
-
-// TODO: CUSTOMIZE SVGO. AND MAKE REMOVE <svg> TAGS.
-
-// TODO: OPTIMIZE NAMES IN ILLUSTRATOR PROJECT.
-// TODO: CHANGE NAME OF React ICONS. USE ReactJS.
-// TODO: CHANGE NAME OF c++ ICONS. USE CPlusPlus.
-// TODO: EXPORT WITH 4 DECIMALS RESOLUTION AND ROUND TO 2 WITH SVGO.
+/*
+ * SVG FILES PASSED THROUGH THIS SCRIPT WILL SUFFER THE FOLLOWING TRANSFORMATIONS:
+ * - SVGO OPTIMIZATIONS USING NATIVE PLUGINS.
+ * - ALL STATIC IDs WILL BE REPLACED WITH A JSC CALL TO 'getUniqueID('staticID')' FUNCTION.
+ * - ALL fill/stroke VALUES WILL BE REPLACED WITH A JSX ASSIGNMENT: {color || '#defaultHexColor'}
+ * - IF 'defaultHexColor' MATCHES '#ffffff', IT WILL BE INTERPRETED AS A BACKGROUND COLOR: {backgroundColor || '#defaultHexColor'}
+ * - ALL SHORTHAND fill/stroke VALUES WILL BE REPLACED WITH THEIR LONG REPRESENTATION.
+ * - #111111 WILL BE CONVERTED TO #000000 (USE CASE: ILLUSTRATOR DOES NOT SET fill/stroke IF #000000 IS USED AS COLOR)
+ * - #eeeeee WILL BE CONVERTED TO #ffffff (USE CASE: SET WHITE COLORS THAT SHOULD NOT BE INTERPRETED AS BACKGROUNDS)
+ *
+ * NOTES:
+ * - BE CAREFUL WITH SVG FILES NAMING. FILES NAMES WILL BE USED TO NAME ICONS COMPONENTS.
+ */
 
 if (!process.argv[2]) {
-    throw new Error('No SVG directory path specified.');
+    log.error('build-icons', 'No SVG directory path specified')();
+    process.abort();
 }
 
 const relativePaths = {
@@ -46,6 +54,7 @@ for (const key in relativePaths) {
 
 (async () => {
     // LOAD MUSTACHE TEMPLATES
+    log.progress('build-icons', 'Loading templates')();
     const templates = {
         icon: readFileSync(absolutePaths.iconTemplate, 'utf8'),
         index: readFileSync(absolutePaths.indexTemplate, 'utf8'),
@@ -53,30 +62,54 @@ for (const key in relativePaths) {
     };
 
     // GET SOURCE SVG PATHS
-    // TODO: SORT.
-    const sourceFilenames = readdirSync(absolutePaths.svgDir)
-        .filter((basename) => /\.svg$/.test(basename))
-        .map((basename) => join(absolutePaths.svgDir, basename));
+    log.progress('build-icons', 'Searching SVG files')();
+    const sourceFilenames = fileUtils
+        .scanSync(absolutePaths.svgDir)
+        .filter((basename) => /\.svg$/.test(basename));
 
     // PREPARE ICONS DATA OBJECTS
+    log.progress('build-icons', 'Optimizing')();
     const svgo = new SVGO(svgoConfig);
-    const iconsDataObjects = await Promise.all(
-        sourceFilenames.map(async (filename) => {
-            const rawName = basename(filename).replace(/\.svg$/, '');
-            const componentName = stringUtils.capitalizeFirst(
-                stringUtils.toCamelCase(rawName)
-            );
-            return {
-                rawName,
-                basename: rawName + '.js',
-                componentName,
-                title: componentName + 'Icon',
-                svgo: await svgo.optimize(readFileSync(filename, 'utf8'))
-            };
-        })
-    );
+    const iconsDataObjects = (
+        await Promise.all(
+            sourceFilenames.map(async (filename) => {
+                const rawName = basename(filename).replace(/\.svg$/, '');
+                const name = stringUtils.toKebabCase(rawName);
+                const componentName = stringUtils.toPascalCase(rawName);
+                const svgoResult = await svgo.optimize(
+                    readFileSync(filename, 'utf8')
+                );
+                return {
+                    name,
+                    basename: name + '.js',
+                    componentName,
+                    title: componentName + 'Icon',
+                    svgo: svgoResult,
+                    /** @todo FOLLOW https://github.com/svg/svgo/issues/1306 */
+                    hasDynamicIDs: svgoResult.data.includes('getUniqueID('),
+                    hasBackgroundColor: svgoResult.data.includes(
+                        'backgroundColor ||'
+                    )
+                };
+            })
+        )
+    ).sort((a, b) => {
+        const nameA = a.componentName.toLowerCase();
+        const nameB = b.componentName.toLowerCase();
+        if (nameA < nameB) {
+            return -1;
+        }
+        if (nameA > nameB) {
+            return 1;
+        }
+        return 0;
+    });
 
     // CREATE OUTPUT DIRECTORIES
+    log.progress('build-icons', 'Creating output directories')();
+    if (fileUtils.existsSync(absolutePaths.outputDir)) {
+        fileUtils.removeSync(absolutePaths.outputDir);
+    }
     mkdirSync(join(absolutePaths.outputDir, 'src/icons'), {recursive: true});
     mkdirSync(join(absolutePaths.outputDir, 'stories/icons'), {
         recursive: true
@@ -131,6 +164,8 @@ for (const key in relativePaths) {
         writeFileSync(outputPath, prettierOutput, 'utf8');
     };
 
+    log.progress('build-icons', 'Creating files')();
+
     // CREATE ICONS
     await Promise.all(
         iconsDataObjects.map(async (data) => {
@@ -159,4 +194,6 @@ for (const key in relativePaths) {
         },
         'stories/icons/icons.stories.js'
     );
+
+    log.progress('build-icons', 'Done')();
 })();

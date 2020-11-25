@@ -1,6 +1,9 @@
-import {removeSvgTagPlugin} from './remove-svg-tag-plugin.js';
+import {dynamicFillStrokePlugin} from './svgo-plugins/dynamic-fill-stroke-plugin.js';
+import {dynamicIDsPlugin} from './svgo-plugins/dynamic-ids-plugin.js';
+import {removeSvgTagPlugin} from './svgo-plugins/remove-svg-tag-plugin.js';
+import {xlinkHrefPlugin} from './svgo-plugins/xlink-href-plugin.js';
 
-// SEE https://github.com/svg/svgo/issues/564 FOR ADDING CUSTOM PLUGINS.
+// SEE https://github.com/svg/svgo/issues/564 FOR INFO ABOUT ADDING CUSTOM PLUGINS.
 
 const svgoConfig = {
     floatPrecision: 2,
@@ -23,12 +26,18 @@ const svgoConfig = {
         {cleanupEnableBackground: true},
         {minifyStyles: true},
         {convertStyleToAttrs: true},
-        {convertColors: true},
+        {
+            convertColors: {
+                shorthex: false,
+                shortname: false
+            }
+        },
         {convertPathData: true},
         {convertTransform: true},
         {removeUnknownsAndDefaults: true},
         {removeNonInheritableGroupAttrs: true},
         {
+            // SEE https://github.com/svg/svgo/issues/727#issuecomment-303115276 FOR BETTER OPTIONS DESCRIPTIONS.
             removeUselessStrokeAndFill: {
                 removeNone: true
             }
@@ -49,7 +58,10 @@ const svgoConfig = {
         {removeElementsByAttr: true},
         {removeStyleElement: true},
         {removeScriptElement: true},
-        removeSvgTagPlugin
+        removeSvgTagPlugin,
+        xlinkHrefPlugin,
+        dynamicIDsPlugin,
+        dynamicFillStrokePlugin
     ]
 };
 

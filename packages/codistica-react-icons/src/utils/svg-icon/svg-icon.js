@@ -19,10 +19,10 @@ type Props = {
 };
 
 const useSophistication = createSophistication({
-    /** @todo FOLLOW https://github.com/cssinjs/jss/issues/1421. */
     root: {
         '& *': {
-            fill: ({color}) => color || null
+            fill: ({color}) => (color ? 'currentColor' : null),
+            color: ({color}) => color || null
         }
     }
 });

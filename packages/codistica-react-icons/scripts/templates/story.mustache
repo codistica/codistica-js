@@ -1,6 +1,6 @@
 /** @flow */
 
-import {randomizer} from '@codistica/core';
+import {randomizer, stringUtils} from '@codistica/core';
 import {createSophistication} from '@codistica/react';
 import {default as centered} from '@storybook/addon-centered/react';
 import React, {useState, Fragment} from 'react';
@@ -16,16 +16,33 @@ const useSophistication = createSophistication({
         flexDirection: 'column',
         alignItems: 'center'
     },
-    icons: {
-        margin: '50px 200px',
-        '& > svg': {
-            height: 100,
-            width: 100,
-            margin: 10
-        }
+    icons(data) {
+        return {
+            margin: '50px 200px',
+            textAlign: 'center',
+            '& svg': {
+                height: 100,
+                width: 100
+            },
+            '& span': {
+                width: 100,
+                display: 'inline-flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                margin: 10
+            },
+            '& p': {
+                color: data.textColor
+            }
+        };
     },
     buttons: {
-        marginTop: 100,
+        position: 'fixed',
+        top: '50%',
+        left: 0,
+        transform: 'translateY(-50%)',
+        display: 'flex',
+        flexDirection: 'column',
         '& > button': {
             margin: 10
         }
@@ -43,35 +60,70 @@ const icons = [
  * @returns {Object<string,*>} React component.
  */
 function AllIcons() {
-    const [color, setColor] = useState(null);
-    const jssClassNames = useSophistication();
+    const [iconsColor, setIconsColor] = useState(null);
+    const [iconsBackgroundColor, setIconsBackgroundColor] = useState('#ffffff');
+    const [textColor, setTextColor] = useState('#ffffff');
+    const jssClassNames = useSophistication({textColor});
     return (
         <Fragment>
             <div className={jssClassNames.root}>
                 <div className={jssClassNames.icons}>
-                    {icons.map((Icon, key) => (
-                        <Icon key={key} color={color} />
-                    ))}
+                    {icons.map((Icon, key) => {
+                        const icon = (
+                            <Icon
+                                color={iconsColor}
+                                backgroundColor={iconsBackgroundColor}
+                            />
+                        );
+                        return (
+                            <span key={key}>
+                                {icon}
+                                <p>
+                                    {stringUtils.toTitleCase(icon.props.title)}
+                                </p>
+                            </span>
+                        );
+                    })}
                 </div>
 
                 <div className={jssClassNames.buttons}>
                     <button
                         onClick={() => {
-                            setColor(null);
+                            setIconsColor(null);
                         }}>
                         {'Default Fill'}
                     </button>
                     <button
                         onClick={() => {
-                            setColor('#dededd');
+                            setIconsColor('#dededd');
                         }}>
                         {'B/W Fill'}
                     </button>
                     <button
                         onClick={() => {
-                            setColor(randomizer.getHEXColor());
+                            setIconsColor(randomizer.getHEXColor());
                         }}>
                         {'Random Fill'}
+                    </button>
+                    <button
+                        onClick={() => {
+                            if (iconsBackgroundColor === '#ffffff') {
+                                setIconsBackgroundColor('none');
+                            } else {
+                                setIconsBackgroundColor('#ffffff');
+                            }
+                        }}>
+                        {'Toggle Icons Background'}
+                    </button>
+                    <button
+                        onClick={() => {
+                            if (textColor === '#ffffff') {
+                                setTextColor('#000000');
+                            } else {
+                                setTextColor('#ffffff');
+                            }
+                        }}>
+                        {'Toggle Text Color'}
                     </button>
                 </div>
             </div>

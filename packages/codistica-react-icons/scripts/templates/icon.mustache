@@ -1,12 +1,18 @@
 /** @flow */
 
+{{#hasDynamicIDs}}
+    import {useGetUniqueID} from '@codistica/react';
+{{/hasDynamicIDs}}
 import React from 'react';
 import {SvgIcon} from '../utils/svg-icon/svg-icon.js';
 
 type DefaultProps = {|
     title: string,
     size: string | number | null,
-    color: string | null
+    color: string | null,
+    {{#hasBackgroundColor}}
+        backgroundColor: string | null
+    {{/hasBackgroundColor}}
 |};
 
 type Props = {
@@ -14,8 +20,12 @@ type Props = {
 };
 
 function {{componentName}}(props: Props) {
+    {{#hasDynamicIDs}}
+        const getUniqueID = useGetUniqueID();
+    {{/hasDynamicIDs}}
+    const {color, backgroundColor, ...other} = props;
     return (
-        <SvgIcon {...props}>
+        <SvgIcon {...other}>
             {{svgo.data}}
         </SvgIcon>
     );
@@ -24,7 +34,10 @@ function {{componentName}}(props: Props) {
 {{componentName}}.defaultProps = ({
     title: '{{title}}',
     size: null,
-    color: null
+    color: null,
+    {{#hasBackgroundColor}}
+        backgroundColor: null
+    {{/hasBackgroundColor}}
 }: DefaultProps);
 
 export { {{componentName}} };
