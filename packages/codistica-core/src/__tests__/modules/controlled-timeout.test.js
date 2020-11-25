@@ -4,7 +4,7 @@ import {controlledTimeout} from '../../modules/controlled-timeout.js';
 /** @see: module:core/modules/controlled-timeout*/
 function controlledTimeoutTest() {
     describe('controlledTimeout()', () => {
-        it('Should not trigger the timeout', async function () {
+        it('Should not trigger the timeout.', async () => {
             const delay = 20;
             let timeoutWasTriggered = false;
             controlledTimeout(() => {
@@ -13,7 +13,7 @@ function controlledTimeoutTest() {
             await new Promise((resolve) => setTimeout(resolve, delay + 5));
             assert.isFalse(timeoutWasTriggered);
         });
-        it('Should force trigger the timeout', () => {
+        it('Should force trigger the timeout.', () => {
             let timeoutWasTriggered = false;
             controlledTimeout(
                 () => (timeoutWasTriggered = true),
@@ -21,7 +21,7 @@ function controlledTimeoutTest() {
             ).trigger();
             assert.isTrue(timeoutWasTriggered);
         });
-        it('Should trigger the timeout', async function () {
+        it('Should trigger the timeout.', async () => {
             const delay = 20;
             let timeoutWasTriggered = false;
             controlledTimeout(() => {
@@ -30,7 +30,7 @@ function controlledTimeoutTest() {
             await new Promise((resolve) => setTimeout(resolve, delay + 5));
             assert.isTrue(timeoutWasTriggered);
         });
-        it('Should return null', () => {
+        it('Should return null.', () => {
             assert.isNull(controlledTimeout(undefined, 5));
         });
     });

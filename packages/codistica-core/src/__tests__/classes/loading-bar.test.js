@@ -20,7 +20,7 @@ function loadingBarTest() {
 
     describe('LoadingBar', () => {
         describe('start()', () => {
-            it('Should start the loading bar', () => {
+            it('Should start the loading bar.', () => {
                 const loadingBar = new LoadingBar();
                 assert.doesNotThrow(() => {
                     loadingBar.start();
@@ -43,7 +43,7 @@ function loadingBarTest() {
             });
         });
         describe('reset()', () => {
-            it('Should reset the loading bar', async () => {
+            it('Should reset the loading bar.', async () => {
                 const loadingBar = getTestLoadingBar();
                 loadingBar.start();
                 // WAIT 2 UPDATE CYCLES
@@ -69,7 +69,7 @@ function loadingBarTest() {
             });
         });
         describe('stop()', () => {
-            it('Should stop the loading bar', async () => {
+            it('Should stop the loading bar.', async () => {
                 const loadingBar = getTestLoadingBar();
                 loadingBar.start();
                 // WAIT 2 UPDATE CYCLES
@@ -97,20 +97,20 @@ function loadingBarTest() {
             });
         });
         describe('setTarget()', () => {
-            it('Should change the percentage target', () => {
+            it('Should change the percentage target.', () => {
                 const loadingBar = getTestLoadingBar();
                 loadingBar.setTarget(50);
                 assert.strictEqual(loadingBar.targetPercent, 50);
             });
         });
         describe('setSpeed()', () => {
-            it('Should set speed without inertia', () => {
+            it('Should set speed without inertia.', () => {
                 const loadingBar = getTestLoadingBar();
                 assert.strictEqual(loadingBar.loadingSpeed, 1000);
                 loadingBar.setSpeed(20);
                 assert.strictEqual(loadingBar.loadingSpeed, 20);
             });
-            it('Should set speed with inertia', () => {
+            it('Should set speed with inertia.', () => {
                 const loadingBar = getTestLoadingBar();
                 loadingBar.inertia = 2;
                 assert.strictEqual(loadingBar.loadingSpeed, 1000);
@@ -119,7 +119,7 @@ function loadingBarTest() {
             });
         });
         describe('setEta()', () => {
-            it('Should set a new speed through eta', () => {
+            it('Should set a new speed through eta.', () => {
                 const loadingBar = getTestLoadingBar();
                 assert.doesNotThrow(() => {
                     loadingBar.setEta(0.1);

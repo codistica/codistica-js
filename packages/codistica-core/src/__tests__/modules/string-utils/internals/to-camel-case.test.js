@@ -4,7 +4,7 @@ import {toCamelCase} from '../../../../modules/string-utils/internals/to-camel-c
 /** @see module:core/modules/string-utils/to-camel-case */
 function toCamelCaseTest() {
     describe('toCamelCase()', () => {
-        it('Should correctly convert passed string to camelcase.', () => {
+        it('Should correctly convert passed string to camel case.', () => {
             assert.strictEqual(toCamelCase('test'), 'test');
             assert.strictEqual(toCamelCase('camel case'), 'camelCase');
             assert.strictEqual(toCamelCase('Camel case'), 'camelCase');

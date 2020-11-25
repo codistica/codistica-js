@@ -2,7 +2,7 @@ import {parseTest} from './internals/parse.test.js';
 import {stringifyTest} from './internals/stringify.test.js';
 
 function jsonUtilsTest() {
-    describe('JsonUtils', () => {
+    describe('jsonUtils', () => {
         parseTest();
         stringifyTest();
     });

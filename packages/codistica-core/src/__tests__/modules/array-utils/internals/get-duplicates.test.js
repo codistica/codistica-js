@@ -4,7 +4,7 @@ import {getDuplicates} from '../../../../modules/array-utils/internals/get-dupli
 /** @see module:core/modules/array-utils/get-duplicates*/
 function getDuplicatesTest() {
     describe('getDuplicates()', () => {
-        it('Should return elements that are duplicates', () => {
+        it('Should return elements that are duplicates.', () => {
             assert.sameOrderedMembers(
                 getDuplicates(['one', 'two', 'three', 'two', 'four']),
                 ['two']

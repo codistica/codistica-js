@@ -102,7 +102,7 @@ import {mainFunction} from 'mainFunction file path';
 
 function mainFunctionTest() {
     describe('mainFunction()', () => {
-        it('Should return true', () => {
+        it('Should return true.', () => {
             assert.isTrue(mainFunction('testParam'));
         });
     });

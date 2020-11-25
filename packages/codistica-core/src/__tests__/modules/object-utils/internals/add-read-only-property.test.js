@@ -10,7 +10,7 @@ function addReadOnlyPropertyTest() {
             obj.roProp = false;
             assert.isTrue(obj.roProp);
         });
-        it('Should return false', () => {
+        it('Should return false.', () => {
             const obj = {roProp: true};
             assert.isFalse(addReadOnlyProperty(obj, 'roProp', true));
         });
