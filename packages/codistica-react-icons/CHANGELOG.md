@@ -8,6 +8,13 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+### Added
+- New 76 icons.
+- Automatic icon building script with SVG optimization and dynamic IDs and dynamic coloring support.
+
+### Changed
+- Completely change icons delivery strategy.
+
 ## [1.0.0-beta.1] - 2020-10-16
 
 ### Changed

@@ -20,6 +20,10 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+### Changed
+- Other minor changes and cleanups.
+- Improved ESLint, Prettier, Babel and JSDoc configuration.
+
 ## [2020-10-16]
 
 ### Added

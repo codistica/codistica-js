@@ -8,6 +8,17 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+### Added
+- New NodeJS dependencies mocking system.
+- New `copy-sync` module in `file-utils`.
+- New `copy` module in `file-utils`.
+- New `move-sync` module in `file-utils`.
+- New `move` module in `file-utils`.
+- New `remove-sync` module in `file-utils`.
+- New `remove` module in `file-utils`.
+- New `copy-file` module in `promisified-fs`.
+- New `mkdir` module in `promisified-fs`.
+
 ## [1.0.0-beta.5] - 2020-10-16
 
 ### Changed

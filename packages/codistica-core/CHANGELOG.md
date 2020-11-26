@@ -8,6 +8,21 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+### Added
+- New `SHORTHEX` AND `LONHEX` RegExps.
+- New `compose-fn` module.
+- New `clamp` module in `number-utils`.
+- New `get-char-type` module in `string-utils`.
+- New `split-by-words` module in `string-utils`.
+- New `to-kebab-case` module in `string-utils`.
+- New `to-pascal-case` module in `string-utils`.
+- New `to-title-case` module in `string-utils`.
+- New `capitalize-first` module in `string-utils`.
+- New `to-camel-case` module in `string-utils`.
+
+### Fixed
+- Fixed some JSDoc tag paths and descriptions in tests.
+
 ## [1.0.0-beta.5] - 2020-10-16
 
 ### Added

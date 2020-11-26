@@ -8,6 +8,27 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+### Added
+- New `with-on-view` hoc.
+- New `with-get-unique-id` hoc.
+- New `use-get-unique-id` hook.
+- New `use-singleton` hook.
+- New `unique-id` module.
+- New `jss-options-context` context.
+- New `theme-context` context.
+- New `with-sophistication` hoc.
+- New `use-jss-options` hook.
+- New `use-theme` hook.
+- New `create-get-sophistication` hook.
+- New `create-sophistication` hook.
+- New `get-display-name` module.
+
+### Changed
+- Implement own internal ID management utilities.
+- Replace `img-hover-switch` with new generic `hover-switch` utility.
+- Implement new JSS integration (Sophistication).
+- Allow form validation ecosystem handle any value type.
+
 ## [1.0.0-beta.8] - 2020-10-16
 
 ### Added
@@ -29,16 +50,16 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 ### Added
 - Some Material-UI input components wrapped with `input-renderer` utility for validation support.
 - Form validation ecosystem:
-   - Both `form` and `input-renderer` utility components have been modified and improved to be integrable with any input component.
-   - Added async validation support.
-   - Added inputs linking support at form level.
-   - Validation data flow has been improved.
-   - Improved and extended plugin system. `presets` has been converted into a new `plugin` category.
-   - Bug fixes.
-- New `input-plugin-manager` class.
-   - New `input-validator-plugin-utils` class.
-   - New `word-validator` input renderer plugin.
-   - New `async-validator` input renderer plugin.
+    - Both `form` and `input-renderer` utility components have been modified and improved to be integrable with any input component.
+    - Added async validation support.
+    - Added inputs linking support at form level.
+    - Validation data flow has been improved.
+    - Improved and extended plugin system. `presets` has been converted into a new `plugin` category.
+    - Bug fixes.
+    - New `input-plugin-manager` class.
+    - New `input-validator-plugin-utils` class.
+    - New `word-validator` input renderer plugin.
+    - New `async-validator` input renderer plugin.
 - New `anchor-wrapper` utility component.
 - New `img-hover-switch` utility component.
 
