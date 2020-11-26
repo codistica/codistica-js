@@ -32,6 +32,7 @@ export {DotNavigation} from './components/dot-navigation';
 export {FullScreenSlide} from './components/full-screen-slide';
 export {InputCheckbox} from './components/input-checkbox';
 export {InputRadioGroup} from './components/input-radio-group';
+export {InputFile} from './components/input-file';
 export {InputText} from './components/input-text';
 export {TrackSlide} from './components/track-slide';
 export {TracklessSlide} from './components/trackless-slide';
@@ -75,6 +76,7 @@ export {HoverSwitch} from './utils/hover-switch';
 export {InputRenderer} from './utils/input-renderer';
 
 // TYPES
+export type {InputFilePropsType} from './components/input-file';
 export type {InputPluginType, FormValidationObjectType};
 
 // TODO: FIX (this: any)?
