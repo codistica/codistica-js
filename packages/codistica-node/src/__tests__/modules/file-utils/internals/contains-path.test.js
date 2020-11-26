@@ -9,6 +9,7 @@ function containsPathTest() {
             assert.isTrue(containsPath('/', '/dir/file.txt'));
             assert.isTrue(containsPath('some-dir', 'some-dir/file.txt'));
             assert.isTrue(containsPath('./', './dir', './dir/sub-dir'));
+            assert.isTrue(containsPath('C:', 'C:\\dir', 'C:\\dir/sub_dir'));
         });
         it('Should correctly detect non contained paths.', () => {
             assert.isFalse(containsPath('./dir', './'));
@@ -17,6 +18,7 @@ function containsPathTest() {
             assert.isFalse(containsPath('./', ''));
             assert.isFalse(containsPath('/', ''));
             assert.isFalse(containsPath('/', './'));
+            assert.isFalse(containsPath('C:\\users', 'C:'));
         });
     });
 }

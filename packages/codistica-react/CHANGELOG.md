@@ -34,12 +34,13 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 ### Added
 - New onAbort support on input-validator-plugin-utils.
 - Extended email-validator plugin features.
+- New `input-file` component.
 
 ### Changed
 - Other minor improvements/fixes.
 - Improved input plugins schema definitions.
 - InputContext converted into FormContext.
-- Make get-ref-handler work for any number of arguments.
+- Make `get-ref-handler` work for any number of arguments.
 - Improved Flow type annotations.
 
 ### Fixed
