@@ -20,9 +20,23 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+## [2020-11-26]
+
 ### Changed
 - Other minor changes and cleanups.
 - Improved ESLint, Prettier, Babel and JSDoc configuration.
+
+### Packages Bumps
+- `@codistica/browser`: 1.0.0-beta.7
+- `@codistica/core`: 1.0.0-beta.6
+- `@codistica/demo`: 1.0.0-beta.7
+- `@codistica/dev-tools`: 1.0.0-beta.6
+- `@codistica/node`: 1.0.0-beta.6
+- `@codistica/react`: 1.0.0-beta.9
+- `@codistica/react-icons`: 1.0.0-beta.2
+- `@codistica/react-mui`: 1.0.0-beta.1
+- `@codistica/scriptfiber`: 1.0.0-beta.7
+- `@codistica/types`: 1.0.0-beta.4
 
 ## [2020-10-16]
 
@@ -150,6 +164,7 @@ See [GitHub release notes](https://github.com/codistica/codistica-js/releases?af
 for info on changes for earlier releases.
 
 [Unreleased]: https://github.com/codistica/codistica-js/compare/master...HEAD
+[2020-11-26]: https://github.com/codistica/codistica-js/compare/2020/10/16...2020/11/26
 [2020-10-16]: https://github.com/codistica/codistica-js/compare/2020/07/10...2020/10/16
 [2020-07-10]: https://github.com/codistica/codistica-js/compare/2020/06/01...2020/07/10
 [2020-06-01]: https://github.com/codistica/codistica-js/compare/2020/05/16...2020/06/01

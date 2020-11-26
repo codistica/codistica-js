@@ -1,6 +1,6 @@
 {
     "name": "@codistica/react",
-    "version": "1.0.0-beta.8",
+    "version": "1.0.0-beta.9",
     "publishConfig": {
         "access": "public"
     },
@@ -60,9 +60,9 @@
     },
     "dependencies": {
         "@babel/runtime-corejs3": "^7.11.2",
-        "@codistica/browser": "^1.0.0-beta.6",
-        "@codistica/core": "^1.0.0-beta.5",
-        "@codistica/types": "^1.0.0-beta.3",
+        "@codistica/browser": "^1.0.0-beta.7",
+        "@codistica/core": "^1.0.0-beta.6",
+        "@codistica/types": "^1.0.0-beta.4",
         "core-js": "^3.6.5",
         "hoist-non-react-statics": "^3.3.2",
         "jss": "^10.4.0",

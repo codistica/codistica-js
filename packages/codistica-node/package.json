@@ -1,6 +1,6 @@
 {
     "name": "@codistica/node",
-    "version": "1.0.0-beta.5",
+    "version": "1.0.0-beta.6",
     "publishConfig": {
         "access": "public"
     },
@@ -59,8 +59,8 @@
     },
     "dependencies": {
         "@babel/runtime-corejs3": "^7.11.2",
-        "@codistica/core": "^1.0.0-beta.5",
-        "@codistica/types": "^1.0.0-beta.3",
+        "@codistica/core": "^1.0.0-beta.6",
+        "@codistica/types": "^1.0.0-beta.4",
         "chalk": "^4.1.0",
         "core-js": "^3.6.5"
     },

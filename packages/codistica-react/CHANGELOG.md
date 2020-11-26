@@ -8,6 +8,8 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+## [1.0.0-beta.9] - 2020-11-26
+
 ### Added
 - New `with-on-view` hoc.
 - New `with-get-unique-id` hoc.
@@ -153,7 +155,8 @@ of full path being used for importing in `index.js` file. See [Flow #8354 Issue]
 See [GitHub release notes](https://github.com/codistica/codistica-js/releases?after=@codistica/react@1.0.0-beta.1)
 for info on changes for earlier releases.
 
-[Unreleased]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.8...HEAD
+[Unreleased]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.9...HEAD
+[1.0.0-beta.9]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.8...@codistica/react@1.0.0-beta.9
 [1.0.0-beta.8]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.7...@codistica/react@1.0.0-beta.8
 [1.0.0-beta.7]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.6...@codistica/react@1.0.0-beta.7
 [1.0.0-beta.6]: https://github.com/codistica/codistica-js/compare/@codistica/react@1.0.0-beta.5...@codistica/react@1.0.0-beta.6

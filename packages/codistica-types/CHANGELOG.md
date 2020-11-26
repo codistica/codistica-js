@@ -8,6 +8,11 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+## [1.0.0-beta.4] - 2020-11-26
+
+### Changed
+- Dependencies have been upgraded.
+
 ## [1.0.0-beta.3] - 2020-10-16
 
 ### Changed
@@ -28,7 +33,8 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 See [GitHub release notes](https://github.com/codistica/codistica-js/releases?after=@codistica/types@1.0.0-beta.1)
 for info on changes for earlier releases.
 
-[Unreleased]: https://github.com/codistica/codistica-js/compare/@codistica/types@1.0.0-beta.3...HEAD
+[Unreleased]: https://github.com/codistica/codistica-js/compare/@codistica/types@1.0.0-beta.4...HEAD
+[1.0.0-beta.4]: https://github.com/codistica/codistica-js/compare/@codistica/types@1.0.0-beta.3...@codistica/types@1.0.0-beta.4
 [1.0.0-beta.3]: https://github.com/codistica/codistica-js/compare/@codistica/types@1.0.0-beta.2...@codistica/types@1.0.0-beta.3
 [1.0.0-beta.2]: https://github.com/codistica/codistica-js/compare/@codistica/types@1.0.0-beta.1...@codistica/types@1.0.0-beta.2
 [1.0.0-beta.1]: https://github.com/codistica/codistica-js/compare/@codistica/types@1.0.0-beta.0...@codistica/types@1.0.0-beta.1

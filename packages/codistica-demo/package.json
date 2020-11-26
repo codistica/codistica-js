@@ -1,6 +1,6 @@
 {
     "name": "@codistica/demo",
-    "version": "1.0.0-beta.6",
+    "version": "1.0.0-beta.7",
     "private": true,
     "description": "Codistica demo package.",
     "keywords": [
@@ -55,10 +55,10 @@
         "prebuild": "echo \"No pre-build script.\""
     },
     "dependencies": {
-        "@codistica/browser": "^1.0.0-beta.6",
-        "@codistica/core": "^1.0.0-beta.5",
-        "@codistica/react": "^1.0.0-beta.8",
-        "@codistica/react-mui": "^1.0.0-beta.0",
+        "@codistica/browser": "^1.0.0-beta.7",
+        "@codistica/core": "^1.0.0-beta.6",
+        "@codistica/react": "^1.0.0-beta.9",
+        "@codistica/react-mui": "^1.0.0-beta.1",
         "@material-ui/core": "^4.11.0",
         "@material-ui/icons": "^4.9.1",
         "@material-ui/pickers": "^3.2.10",

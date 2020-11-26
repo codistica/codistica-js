@@ -8,6 +8,8 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+## [1.0.0-beta.6] - 2020-11-26
+
 ### Added
 - New `SHORTHEX` AND `LONHEX` RegExps.
 - New `compose-fn` module.
@@ -72,7 +74,8 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 See [GitHub release notes](https://github.com/codistica/codistica-js/releases?after=@codistica/core@1.0.0-beta.1)
 for info on changes for earlier releases.
 
-[Unreleased]: https://github.com/codistica/codistica-js/compare/@codistica/core@1.0.0-beta.5...HEAD
+[Unreleased]: https://github.com/codistica/codistica-js/compare/@codistica/core@1.0.0-beta.6...HEAD
+[1.0.0-beta.6]: https://github.com/codistica/codistica-js/compare/@codistica/core@1.0.0-beta.5...@codistica/core@1.0.0-beta.6
 [1.0.0-beta.5]: https://github.com/codistica/codistica-js/compare/@codistica/core@1.0.0-beta.4...@codistica/core@1.0.0-beta.5
 [1.0.0-beta.4]: https://github.com/codistica/codistica-js/compare/@codistica/core@1.0.0-beta.3...@codistica/core@1.0.0-beta.4
 [1.0.0-beta.3]: https://github.com/codistica/codistica-js/compare/@codistica/core@1.0.0-beta.2...@codistica/core@1.0.0-beta.3

@@ -8,6 +8,11 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 
 ## [Unreleased]
 
+## [1.0.0-beta.7] - 2020-11-26
+
+### Changed
+- Monorepo dependencies version change.
+
 ## [1.0.0-beta.6] - 2020-10-16
 
 ### Changed
@@ -43,7 +48,8 @@ This change log adheres to standards from [Keep a CHANGELOG](https://keepachange
 See [GitHub release notes](https://github.com/codistica/codistica-js/releases?after=@codistica/scriptfiber@1.0.0-beta.1)
 for info on changes for earlier releases.
 
-[Unreleased]: https://github.com/codistica/codistica-js/compare/@codistica/scriptfiber@1.0.0-beta.6...HEAD
+[Unreleased]: https://github.com/codistica/codistica-js/compare/@codistica/scriptfiber@1.0.0-beta.7...HEAD
+[1.0.0-beta.7]: https://github.com/codistica/codistica-js/compare/@codistica/scriptfiber@1.0.0-beta.6...@codistica/scriptfiber@1.0.0-beta.7
 [1.0.0-beta.6]: https://github.com/codistica/codistica-js/compare/@codistica/scriptfiber@1.0.0-beta.5...@codistica/scriptfiber@1.0.0-beta.6
 [1.0.0-beta.5]: https://github.com/codistica/codistica-js/compare/@codistica/scriptfiber@1.0.0-beta.4...@codistica/scriptfiber@1.0.0-beta.5
 [1.0.0-beta.4]: https://github.com/codistica/codistica-js/compare/@codistica/scriptfiber@1.0.0-beta.3...@codistica/scriptfiber@1.0.0-beta.4
