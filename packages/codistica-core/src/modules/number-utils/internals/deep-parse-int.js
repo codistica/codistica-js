@@ -3,15 +3,15 @@
 /**
  * @description Deep parse integers in input.
  * @param {(string|number)} input - Input.
- * @returns {(number|null)} Parsed integer or null.
+ * @returns {(number|NaN)} Parsed integer or null.
  */
 function deepParseInt(input) {
     if (typeof input === 'string' && input.length > 0) {
-        return parseInt((input.match(/\d/g) || []).join(''));
+        return parseInt(input.replace(/\D/g, ''));
     } else if (typeof input === 'number') {
         return input;
     } else {
-        return null;
+        return NaN;
     }
 }
 

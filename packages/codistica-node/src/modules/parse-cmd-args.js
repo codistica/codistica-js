@@ -1,6 +1,6 @@
 /** @module node/modules/parse-cmd-args */
 
-import {parsePrimitive} from '@codistica/core';
+import {parse} from '@codistica/core';
 
 // TODO: REVIEW
 
@@ -38,12 +38,12 @@ function parseCmdArgs(argv) {
 
             if (/[^=]+=[^=]+$/.test(argv[i])) {
                 // CASE: --key=value OR -key=value
-                outputArgs[argv[i].match(/^.+(?==)/)[0]] = parsePrimitive(
+                outputArgs[argv[i].match(/^.+(?==)/)[0]] = parse(
                     argv[i].match(/(?<==).+$/)[0]
                 );
             } else if (i + 1 < length && !argv[i + 1].startsWith('-')) {
                 // CASE: --key value OR -key value
-                outputArgs[argv[i]] = parsePrimitive(argv[i + 1]);
+                outputArgs[argv[i]] = parse(argv[i + 1]);
                 i++;
             } else {
                 // CASE: --flag OR -flag

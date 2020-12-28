@@ -48,8 +48,8 @@ export {createHeartbeatTimeout} from './modules/create-heartbeat-timeout.js';
 export {log} from './modules/log.js';
 export {memoizeHOF} from './modules/memoize-hof.js';
 export {noop} from './modules/noop.js';
-export {parsePrimitive} from './modules/parse-primitive.js';
-export {stringifyPrimitive} from './modules/stringify-primitive.js';
+export {parse} from './modules/parse.js';
+export {stringify} from './modules/stringify.js';
 
 // TODO: CLEANUP TESTS.
 // TODO: CREATE timeUtils.

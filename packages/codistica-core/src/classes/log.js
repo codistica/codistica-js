@@ -7,10 +7,11 @@ import {isObject} from '../modules/object-utils/internals/is-object.js';
 import {isPrimitive} from '../modules/object-utils/internals/is-primitive.js';
 import {prettify} from '../modules/object-utils/internals/prettify.js';
 import {injectBefore} from '../modules/string-utils/internals/inject-before.js';
-import {stringifyPrimitive} from '../modules/stringify-primitive.js';
+import {stringify} from '../modules/stringify.js';
 
 // TODO: TEST/FIX/IMPROVE BROWSER CONSOLE BINDER.
 // TODO: TEST/FIX/IMPROVE NODE CONSOLE BINDER.
+// TODO: FIX MESSAGES BREAKING WHEN CLOSING/RE-OPENING INSPECTOR (BUG SEEN IN CHROME).
 
 // TODO: OPTIMIZE.
 
@@ -345,7 +346,7 @@ class Log {
     composeLog(logObj) {
         if (isPrimitive(logObj.msg)) {
             logObj.msg = injectBefore(
-                stringifyPrimitive(logObj.msg),
+                stringify(logObj.msg),
                 this.options.typeSize - logObj.type.length,
                 ' '
             );

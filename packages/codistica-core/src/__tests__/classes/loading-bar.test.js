@@ -10,7 +10,7 @@ function loadingBarTest() {
      * @returns {LoadingBar} - Test loading bar.
      */
     const getTestLoadingBar = () => {
-        // LOADING BAR AT 10%/ms.
+        // LOADING BAR AT 10%/ms
         const outputLoadingBar = new LoadingBar();
         outputLoadingBar.setSpeed(1000);
         // CYCLE EVERY 10 ms

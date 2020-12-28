@@ -1,7 +1,7 @@
 /** @module core/modules/reg-exp-utils/normalize */
 
 import {isPrimitive} from '../../object-utils/internals/is-primitive.js';
-import {stringifyPrimitive} from '../../stringify-primitive.js';
+import {stringify} from '../../stringify.js';
 import {escape} from './ecape.js';
 
 /** @typedef {(string|RegExp|Array<(string|RegExp)>)} normalizeRawExpType */
@@ -22,7 +22,7 @@ function normalize(rawExp) {
     } else if (typeof rawExp === 'string') {
         return [new RegExp(escape(rawExp))];
     } else if (isPrimitive(rawExp) && rawExp !== null) {
-        return [new RegExp(escape(stringifyPrimitive(rawExp)))];
+        return [new RegExp(escape(stringify(rawExp)))];
     } else {
         return [];
     }

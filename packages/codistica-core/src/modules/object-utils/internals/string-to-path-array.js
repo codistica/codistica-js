@@ -6,7 +6,12 @@
  * @returns {Array<*>} Resulting array.
  */
 function stringToPathArray(str) {
-    return str.replace(/^\.|\.$|\s+/, '').match(/\[\d*]|[^.[\]]+/g) || [];
+    return (
+        str
+            .replace(/\s/g, '')
+            .replace(/^\.|\.$/g, '')
+            .match(/\[\d*]|[^.[\]]+/g) || []
+    );
 }
 
 export {stringToPathArray};

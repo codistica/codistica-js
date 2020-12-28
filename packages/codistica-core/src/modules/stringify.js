@@ -1,12 +1,16 @@
-/** @module core/modules/stringify-primitive */
+/** @module core/modules/stringify */
 
 /**
- * @description Receives any primitive as input and returns its string version.
+ * @description Receives any value as input and returns its stringified version.
  * @param {*} input - Input value.
  * @returns {string} String result.
  */
-function stringifyPrimitive(input) {
-    if (typeof input !== 'undefined' && input !== null) {
+function stringify(input) {
+    if (
+        typeof input !== 'undefined' &&
+        typeof input !== 'object' &&
+        input !== null
+    ) {
         if (
             Object.hasOwnProperty.call(input, 'toString') ||
             Object.hasOwnProperty.call(Object.getPrototypeOf(input), 'toString')
@@ -21,4 +25,4 @@ function stringifyPrimitive(input) {
     }
 }
 
-export {stringifyPrimitive};
+export {stringify};

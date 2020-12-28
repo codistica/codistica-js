@@ -28,7 +28,7 @@ class EventEmitter {
         if (!listeners || !listeners.length) {
             return false;
         }
-        // USING slice() CREATES A NEW ARRAY PREVENTING ISSUES IF ONE LISTENER MODIFIES ORIGINAL ARRAY DURING ITERATION.
+        // USING slice() CREATES A NEW ARRAY PREVENTING ISSUES IF ONE LISTENER MODIFIES ORIGINAL ARRAY DURING ITERATION
         listeners.slice().forEach((listener) => {
             listener(...args);
         });
