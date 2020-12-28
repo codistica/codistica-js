@@ -49,8 +49,8 @@ function WithViewportMonitorSection() {
 
     function refreshSize() {
         setElementSize({
-            height: Math.round(elementUtils.getHeight(elementRef.current)),
-            width: Math.round(elementUtils.getWidth(elementRef.current))
+            height: Math.round(elementUtils.getOuterHeight(elementRef.current)),
+            width: Math.round(elementUtils.getOuterWidth(elementRef.current))
         });
     }
 }

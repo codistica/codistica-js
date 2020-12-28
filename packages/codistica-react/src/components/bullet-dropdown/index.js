@@ -1,7 +1,5 @@
 /** @flow */
 
-/** @module react/components/bullet-dropdown */
-
 import {elementUtils} from '@codistica/browser';
 import React, {useRef, useState} from 'react';
 import resetClassNames from '../../css/reset.module.scss';
@@ -52,24 +50,6 @@ type GlobalClassNames = {
     }
 };
 
-/**
- * @typedef bulletDropdownPropsType
- * @property {string} [title='menu'] - Menu title.
- * @property {Object<string,string>} [items={}] - Menu items.
- * @property {boolean} [autoClose=false] - Auto close menu on click outside.
- * @property {('top'|'bottom'|null)} [autoSpacing=null] - Auto reserve space for menu opening.
- * @property {Object<string,*>} [style={}] - React prop.
- * @property {string} [className=''] - React prop.
- * @property {Object<string,*>} [customStyles={}] - Custom styles prop.
- * @property {Object<string,*>} [customClassNames={}] - Custom classNames prop.
- * @property {('default'|string|null)} [globalTheme='default'] - Global theme to be used.
- */
-
-/**
- * @description A modern bullet dropdown list.
- * @param {bulletDropdownPropsType} props - Props.
- * @returns {Object<string,*>} React component.
- */
 function BulletDropdown(props: Props) {
     const {
         title,
@@ -119,7 +99,7 @@ function BulletDropdown(props: Props) {
 
     const mergedClassNames = {
         root: mergeClassNames(
-            resetClassNames.root,
+            resetClassNames.greedy,
             componentClassNames.root,
             globalClassNames.root,
             customClassNames.root,
@@ -142,12 +122,18 @@ function BulletDropdown(props: Props) {
         )
     };
 
+    const conditionalProps = {
+        onClickOutside() {
+            if (open) {
+                setOpen(false);
+            }
+        }
+    };
+
     return (
         <Element
+            {...(autoClose ? conditionalProps : {})}
             ref={setRootRef}
-            onClickOutside={
-                autoClose ? () => open && setOpen(false) : undefined
-            }
             style={mergedStyles.root}
             className={mergedClassNames.root}>
             <div
@@ -170,9 +156,9 @@ function BulletDropdown(props: Props) {
                     opacity: open ? 1 : null
                 }}
                 className={componentClassNames.list}>
-                {names.map((name, key) => (
+                {names.map((name, index) => (
                     <a
-                        key={key}
+                        key={index}
                         href={items[name]}
                         target={'_blank'}
                         rel={'noopener noreferrer'}
@@ -187,11 +173,6 @@ function BulletDropdown(props: Props) {
         </Element>
     );
 
-    /**
-     * @description Save root element reference.
-     * @param {Object<string,*>} ref - Root element reference.
-     * @returns {void} Void.
-     */
     function setRootRef(ref: any) {
         rootRef.current = ref;
         if (open === null) {
@@ -199,27 +180,19 @@ function BulletDropdown(props: Props) {
         }
     }
 
-    /**
-     * @description Calculate header height.
-     * @returns {number} Header height.
-     */
     function getHeaderHeight() {
         if (!rootRef.current) {
             return 0;
         }
-        return elementUtils.getHeight(rootRef.current.firstChild);
+        return elementUtils.getOuterHeight(rootRef.current.firstChild);
     }
 
-    /**
-     * @description Calculate list height based on children.
-     * @returns {number} List height.
-     */
     function getListHeight() {
         if (!rootRef.current) {
             return 0;
         }
         return Array.from(rootRef.current.lastChild.children).reduce(
-            (acc, elem) => acc + elementUtils.getHeight(elem),
+            (acc, elem) => acc + elementUtils.getOuterHeight(elem),
             0
         );
     }
