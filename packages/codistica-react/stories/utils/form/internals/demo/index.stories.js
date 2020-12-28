@@ -10,8 +10,8 @@ import {
     inputPresets,
     inputValidators,
     mergeClassNames
-} from '../../../../src/index.js';
-import type {FormValidationObjectType} from '../../../../src/index.js';
+} from '../../../../../src/index.js';
+import type {FormValidationObjectType} from '../../../../../src/index.js';
 import componentClassNames from './index.module.scss';
 
 type Props = {};
@@ -49,16 +49,9 @@ const colorsAsyncMockValidator = async function colorsAsyncMockValidator(
     });
 };
 
-/**
- * @classdesc Form demo.
- */
-class DefaultForm extends React.Component<Props, State> {
+class DemoClass extends React.Component<Props, State> {
     formInstance: any;
 
-    /**
-     * @description Constructor.
-     * @param {Object<string,*>} [props] - Component props.
-     */
     constructor(props: Props) {
         super(props);
 
@@ -78,17 +71,9 @@ class DefaultForm extends React.Component<Props, State> {
         (this: any).blinkForm = this.blinkForm.bind(this);
     }
 
-    /**
-     * @instance
-     * @description Callback for validationResult event.
-     * @param {boolean} validationResult - Form validation result.
-     * @param {Object<string,*>} dataPayload - Form data payload.
-     * @param {Object<string,*>} validationObject - Form validation object.
-     * @returns {void} Void.
-     */
     onValidationResultHandler(
         validationResult: boolean,
-        dataPayload: {[string]: string},
+        dataPayload: {[string]: string | Array<string>},
         validationObject: FormValidationObjectType
     ) {
         this.setState({
@@ -111,11 +96,6 @@ class DefaultForm extends React.Component<Props, State> {
         }
     }
 
-    /**
-     * @instance
-     * @description React render method.
-     * @returns {Object<string,*>} React component.
-     */
     render() {
         const rootClassNames = mergeClassNames(
             componentClassNames.form,
@@ -135,8 +115,8 @@ class DefaultForm extends React.Component<Props, State> {
                         root: rootClassNames
                     }}>
                     <InputText
-                        placeholder={'Name'}
-                        name={'name'}
+                        placeholder={'First Name'}
+                        name={'firstName'}
                         plugins={inputPresets.prettifyPreset}
                         errorMessages={{
                             mandatory: 'This field is mandatory.'
@@ -144,8 +124,8 @@ class DefaultForm extends React.Component<Props, State> {
                     />
 
                     <InputText
-                        placeholder={'Surname (optional)'}
-                        name={'surname'}
+                        placeholder={'Last Name (optional)'}
+                        name={'lastName'}
                         plugins={inputPresets.prettifyPreset}
                         mandatory={false}
                     />
@@ -250,7 +230,7 @@ class DefaultForm extends React.Component<Props, State> {
 
                     <InputText
                         placeholder={'Repeat Password'}
-                        name={'repeat_password'}
+                        name={'repeatPassword'}
                         type={'password'}
                         match={'password'}
                         errorMessages={{
@@ -264,7 +244,7 @@ class DefaultForm extends React.Component<Props, State> {
                             className={componentClassNames.checkboxesContainer}>
                             <span>
                                 <InputCheckbox
-                                    name={'check1'}
+                                    name={'checks:1'}
                                     mandatory={false}
                                 />
                                 <span
@@ -274,7 +254,7 @@ class DefaultForm extends React.Component<Props, State> {
                             </span>
                             <span>
                                 <InputCheckbox
-                                    name={'check2'}
+                                    name={'checks:2'}
                                     errorMessages={{
                                         mandatory: 'This field is mandatory.'
                                     }}
@@ -286,7 +266,7 @@ class DefaultForm extends React.Component<Props, State> {
                             </span>
                             <span>
                                 <InputCheckbox
-                                    name={'check3'}
+                                    name={'checks:3'}
                                     errorMessages={{
                                         mandatory: 'This field is mandatory.'
                                     }}
@@ -367,11 +347,6 @@ class DefaultForm extends React.Component<Props, State> {
     }
 }
 
-/**
- * @description Generate data payload list items.
- * @param {Object<string,string>} dataPayload - Data payload.
- * @returns {Array} - List items.
- */
 function listDataPayload(dataPayload) {
     let output = [];
     let index = 0;
@@ -385,11 +360,6 @@ function listDataPayload(dataPayload) {
     return output;
 }
 
-/**
- * @description Generate validation messages list items.
- * @param {Object<string,*>} formValidationObject - Form validation object.
- * @returns {Array} - List items.
- */
 function listMessages(formValidationObject: FormValidationObjectType) {
     let output = [];
     let index = 0;
@@ -412,11 +382,6 @@ function listMessages(formValidationObject: FormValidationObjectType) {
     return output;
 }
 
-/**
- * @description Generate validation report list items.
- * @param {Object<string,*>} formValidationObject - Form validation object.
- * @returns {Array} - List items.
- */
 function listReports(formValidationObject: FormValidationObjectType) {
     let output = [];
     let index = 0;
@@ -460,11 +425,6 @@ function listReports(formValidationObject: FormValidationObjectType) {
     return output;
 }
 
-/**
- * @description Generate validation data list items.
- * @param {Object<string,*>} formValidationObject - Form validation object.
- * @returns {Array} - List items.
- */
 function listData(formValidationObject: FormValidationObjectType) {
     let output = [];
     let index = 0;
@@ -508,17 +468,8 @@ function listData(formValidationObject: FormValidationObjectType) {
     return output;
 }
 
-/**
- * @description Auxiliary functional component.
- * @returns {Object<string,*>} React component.
- */
-function defaultForm() {
-    return <DefaultForm />;
+function Demo() {
+    return <DemoClass />;
 }
 
-const meta = {
-    title: 'Form'
-};
-
-export {defaultForm};
-export default meta;
+export {Demo};

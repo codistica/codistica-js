@@ -1,7 +1,5 @@
 /** @flow */
 
-/** @module react/utils/form */
-
 import {log} from '@codistica/core';
 import React, {createContext} from 'react';
 import resetClassNames from '../css/reset.module.scss';
@@ -10,11 +8,13 @@ import {mergeClassNames} from '../modules/merge-class-names.js';
 import {mergeStyles} from '../modules/merge-styles.js';
 import type {InputRenderer, ValidationObject} from './input-renderer.js';
 
+type DataPayload = {[string]: string | Array<string>};
+
 type FormValidationObjectType = {[string]: ValidationObject};
 
 type OnValidationHandler = (
     validationResult: boolean,
-    dataPayload: {[string]: string},
+    dataPayload: DataPayload,
     formValidationObject: FormValidationObjectType
 ) => void;
 
@@ -49,21 +49,6 @@ const FormContext: {[string]: any} = createContext({
     formInstance: null
 });
 
-/**
- * @typedef formPropsType
- * @property {Function} [onValidationResult=null] - Callback for validationResult event.
- * @property {Function} [onMount=null] - Callback for componentDidMount event.
- * @property {*} [children=null] - React prop.
- * @property {Object<string,*>} [style={}] - React prop.
- * @property {string} [className=''] - React prop.
- * @property {Object<string,*>} [customStyles={}] - Custom styles prop.
- * @property {Object<string,*>} [customClassNames={}] - Custom classNames prop.
- * @property {('default'|string|null)} [globalTheme='default'] - Global theme to be used.
- */
-
-/**
- * @classdesc A beautiful form component.
- */
 class Form extends React.Component<Props> {
     static globalStyles: GlobalStyles = {
         default: {
@@ -91,7 +76,7 @@ class Form extends React.Component<Props> {
     registeredInputs: {[string]: InputRenderer};
 
     validationResult: boolean;
-    dataPayload: {[string]: string};
+    dataPayload: DataPayload;
     formValidationObject: FormValidationObjectType;
 
     linkedInputsMap: Map<string, Set<string>>;
@@ -104,10 +89,6 @@ class Form extends React.Component<Props> {
         formInstance: Form
     };
 
-    /**
-     * @description Constructor.
-     * @param {formPropsType} [props] - Component props.
-     */
     constructor(props: Props) {
         super(props);
 
@@ -143,23 +124,12 @@ class Form extends React.Component<Props> {
         };
     }
 
-    /**
-     * @instance
-     * @description React lifecycle.
-     * @returns {void} Void.
-     */
     componentDidMount() {
         if (this.props.onMount) {
             this.props.onMount(this);
         }
     }
 
-    /**
-     * @instance
-     * @description Register input in the form component.
-     * @param {InputRenderer} input - Input instance.
-     * @returns {void} Void.
-     */
     registerInput(input: InputRenderer) {
         if (this.getInputByName(input.props.name)) {
             log.warning('registerInput()', 'INPUT ALREADY REGISTERED')();
@@ -167,22 +137,10 @@ class Form extends React.Component<Props> {
         this.registeredInputs[input.id] = input;
     }
 
-    /**
-     * @instance
-     * @description Unregister input from the form component.
-     * @param {InputRenderer} input - Input instance.
-     * @returns {void} Void.
-     */
     unregisterInput(input: InputRenderer) {
         delete this.registeredInputs[input.id];
     }
 
-    /**
-     * @instance
-     * @description Link inputs for parallel validation.
-     * @param {...string} inputsNames - Inputs names.
-     * @returns {void} Void.
-     */
     linkInputs(...inputsNames: Array<string>) {
         inputsNames.forEach((inputNameA, indexA) => {
             const linkedInputsSet =
@@ -196,12 +154,6 @@ class Form extends React.Component<Props> {
         });
     }
 
-    /**
-     * @instance
-     * @description Unlink inputs.
-     * @param {string} inputName - Input name.
-     * @returns {void} Void.
-     */
     unlinkInput(inputName: string) {
         this.linkedInputsMap.forEach((linkedInputsSet, currentInputName) => {
             if (currentInputName !== inputName) {
@@ -211,20 +163,13 @@ class Form extends React.Component<Props> {
         this.linkedInputsMap.delete(inputName);
     }
 
-    /**
-     * @instance
-     * @description Trigger linked inputs validation.
-     * @param {string} inputName - Input name.
-     * @param {Set<string>} ignore - Set of input names to be ignored.
-     * @returns {void} Void.
-     */
     validateLinkedInputs(inputName: string, ignore?: Set<string>) {
         const ignoreSet = ignore || new Set();
         const linkedInputsSet = this.linkedInputsMap.get(inputName);
 
         if (linkedInputsSet) {
             if (!ignoreSet.size) {
-                // DO NOT VALIDATE AGAIN FIRST REQUESTER INPUT.
+                // DO NOT VALIDATE AGAIN FIRST REQUESTER INPUT
                 ignoreSet.add(inputName);
             }
 
@@ -245,12 +190,6 @@ class Form extends React.Component<Props> {
         }
     }
 
-    /**
-     * @instance
-     * @description Checks input based on its matching rules prop.
-     * @param {string} inputName - Input name.
-     * @returns {(boolean|null)} Result.
-     */
     checkMatch(inputName: string) {
         let result = null;
         const input = this.getInputByName(inputName);
@@ -269,13 +208,9 @@ class Form extends React.Component<Props> {
         return result;
     }
 
-    /**
-     * @instance
-     * @description Validates entire form based on registered inputs data.
-     * @returns {void} Void.
-     */
     validateForm() {
         this.validationResult = true;
+        this.dataPayload = {};
 
         for (const i in this.registeredInputs) {
             if (
@@ -292,7 +227,17 @@ class Form extends React.Component<Props> {
             }
 
             // COLLECT INPUT INFORMATION
-            this.dataPayload[input.props.name] = input.getFormValue();
+            const groupName = (input.props.name.match(/[^:]+(?=:)/) || [])[0];
+            if (groupName) {
+                if (Array.isArray(this.dataPayload[groupName])) {
+                    this.dataPayload[groupName].push(input.getFormValue());
+                } else {
+                    this.dataPayload[groupName] = [input.getFormValue()];
+                }
+            } else {
+                this.dataPayload[input.props.name] = input.getFormValue();
+            }
+
             this.formValidationObject[input.props.name] =
                 input.validationObject;
         }
@@ -306,11 +251,6 @@ class Form extends React.Component<Props> {
         }
     }
 
-    /**
-     * @instance
-     * @description Triggers warning highlighting on invalid inputs.
-     * @returns {void} Void.
-     */
     warnInvalids() {
         let focused = false;
 
@@ -345,12 +285,6 @@ class Form extends React.Component<Props> {
         }
     }
 
-    /**
-     * @instance
-     * @description Clears form or single input if specified.
-     * @param {string} [inputName] - Name of input to be cleared.
-     * @returns {void} Void.
-     */
     clear(inputName?: string) {
         if (inputName) {
             const input = this.getInputByName(inputName);
@@ -370,12 +304,6 @@ class Form extends React.Component<Props> {
         }
     }
 
-    /**
-     * @instance
-     * @description Searches input element by name.
-     * @param {string} inputName - Input name.
-     * @returns {(HTMLInputElement|null)} Found inputs array.
-     */
     getInputElementByName(inputName: string): HTMLInputElement | null {
         return (
             this.formRef.current &&
@@ -383,12 +311,6 @@ class Form extends React.Component<Props> {
         );
     }
 
-    /**
-     * @instance
-     * @description Search registered inputs and returns first matched name input or null.
-     * @param {string} inputName - Input name.
-     * @returns {(InputRenderer|null)} Found input or null.
-     */
     getInputByName(inputName: string): InputRenderer | null {
         for (const i in this.registeredInputs) {
             if (
@@ -403,12 +325,6 @@ class Form extends React.Component<Props> {
         return null;
     }
 
-    /**
-     * @instance
-     * @description Form submission utility.
-     * @param {Function} handler - Submission handler.
-     * @returns {void} Void.
-     */
     submit(handler: OnValidationHandler) {
         for (const i in this.registeredInputs) {
             if (
@@ -432,11 +348,6 @@ class Form extends React.Component<Props> {
         );
     }
 
-    /**
-     * @instance
-     * @description React render method.
-     * @returns {Object<string,*>} React component.
-     */
     render() {
         const {
             onValidationResult,
