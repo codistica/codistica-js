@@ -1,16 +1,13 @@
-
-<!--suppress HtmlDeprecatedAttribute -->
+<!--suppress HtmlDeprecatedAttribute-->
 
 <br/>
 
 <div align="center">
   <a href="https://www.codistica.com">
-    <img height="200" src="https://codistica-public.s3-eu-west-1.amazonaws.com/logo-full.png" alt="CODISTICA">
+    <img height="auto" width="300" src="https://assets.codistica.com/img/logo/light.png" alt="CODISTICA">
   </a>
   <br>
-  
 </div>
-
 
 # @codistica/types
 
@@ -18,15 +15,20 @@
 
 Documentation will be soon available in [Codistica's official website][codistica-js-docs-url].
 
+In the meantime, you can take a look at the following references:
+
+-   [Types][types]
 
 ## Install
 
 ### npm
+
 ```bash
 npm install @codistica/types
 ```
 
 ### yarn
+
 ```bash
 yarn add @codistica/types
 ```
@@ -35,15 +37,16 @@ yarn add @codistica/types
 
 See [CONTRIBUTING.md][contributing]
 
-
 ## License
 
 See [LICENSE.md][license]
 
-
 <!--INTERNAL LINKS-->
-[contributing]: ../../CONTRIBUTING.md
-[license]: ../../LICENSE.md
+
+[contributing]: /CONTRIBUTING.md
+[license]: /LICENSE.md
+[types]: docs/TYPES.md
 
 <!--EXTERNAL LINKS-->
+
 [codistica-js-docs-url]: https://www.codistica.com/

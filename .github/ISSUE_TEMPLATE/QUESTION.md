@@ -1,12 +1,14 @@
 ---
-name: "❓ Question"
+name: '❓ - Question'
 about: Questions and doubts.
 title: ''
 labels: 'question, :hourglass_flowing_sand: pending'
 assignees: ''
 ---
 
-<!-- 
-Any doubts or question about Codistica JS and its packages, do not
+## Question
+
+<!--
+Any doubts or question about Codistica JS and its packages. Do not
 hesitate to ask!
 -->

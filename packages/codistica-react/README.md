@@ -1,16 +1,13 @@
-
-<!--suppress HtmlDeprecatedAttribute -->
+<!--suppress HtmlDeprecatedAttribute-->
 
 <br/>
 
 <div align="center">
   <a href="https://www.codistica.com">
-    <img height="200" src="https://codistica-public.s3-eu-west-1.amazonaws.com/logo-full.png" alt="CODISTICA">
+    <img height="auto" width="300" src="https://assets.codistica.com/img/logo/light.png" alt="CODISTICA">
   </a>
   <br>
-  
 </div>
-
 
 # @codistica/react
 
@@ -20,16 +17,18 @@ Documentation will be soon available in [Codistica's official website][codistica
 
 In the meantime, you can take a look at the following references:
 
-* [Forms][forms]
+-   [Forms][forms]
 
 ## Install
 
 ### npm
+
 ```bash
 npm install @codistica/react
 ```
 
 ### yarn
+
 ```bash
 yarn add @codistica/react
 ```
@@ -38,16 +37,16 @@ yarn add @codistica/react
 
 See [CONTRIBUTING.md][contributing]
 
-
 ## License
 
 See [LICENSE.md][license]
 
-
 <!--INTERNAL LINKS-->
-[contributing]: ../../CONTRIBUTING.md
-[license]: ../../LICENSE.md
-[forms]: ./docs/FORMS.md
+
+[contributing]: /CONTRIBUTING.md
+[license]: /LICENSE.md
+[forms]: docs/forms/FORMS.md
 
 <!--EXTERNAL LINKS-->
+
 [codistica-js-docs-url]: https://www.codistica.com/

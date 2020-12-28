@@ -1,20 +1,26 @@
-<!--TODO: -->
+# Contributing to Codistica JS
 
-# Contributing to codistica-js
-Thank you for contributing to codistica-js!
+_(Work in progress.)_
+
+Thank you for contributing to Codistica JS.
 
 Before starting, be sure you have installed:
-* [Node][node-url] with version > 10.0.0
-* [Yarn][yarn-url] with version > 1.22.0
-* [Git][git-url]
 
+-   [Node][node-url]
+-   [Yarn][yarn-url]
+-   [Git][git-url]
 
-## Code styling
-In order to guarantee harmony to the repository, 
+## Code Styling
+
+In order to guarantee harmony to the repository,
 any code modification should follow the rules stated in this file.
 
-### Javascript Standard
+## Javascript Standard
+
 Use [ES6][es6-url] standard.
+
+**Example:**
+
 ```js
 import {importedSomething} from 'file'; // YEAH
 const importedSomething = require('file'); // NOPE
@@ -22,181 +28,182 @@ const importedSomething = require('file'); // NOPE
 let a = 5; // YEAH
 var a = 5; // YIKES
 
-export {exportedSomething} // :-)
-module.export = exportedSomething // :-(
+export {exportedSomething}; // :-)
+module.export = exportedSomething; // :-(
 ```
 
-### React
-For the react package, [Flow][flow-url] typing standard will also help us.
+## Type Checking
 
-### Comments
-Add as many comments as needed so others understand whats going on. 
-Comments should be in capital letters and close to where it is referring. 
-Example:
+-   For packages featuring React, we will use [Flow][flow-url] as type checker.
+
+-   For any other package, we will use pure [JSDoc][jsdoc-url] that will be then parsed by [TypeScript][typescript-url] to generate and ship declaration files (more about this below).
+
+## Comments
+
+Add as many comments as needed so others understand what is going on.
+Comments should be in capital letters and be placed close to where they are referring.
+
+**Example:**
+
 ```js
-// PRINTING NUMBERS 1 UP TO 3.
+// PRINTING NUMBERS 1 UP TO 3
 [1, 2, 3].forEach((n) => {
-    console.log(n)
+    console.log(n);
 });
 ```
 
-### Modules
+## Modular Approach
 
-If you think any new or existing code can be reused, 
-it would be better to add it as a new module, class or constant!
+If you think any new or existing code can be reused,
+it would be better to add it as a new standalone module, class or constant.
 
-### jsdoc
+## JSDoc and TypeScript
 
-Any new function or class should be documented with [JSdocs][jsdoc-url]. It facilitates typechecking without 
-intruding the code, easing any further access to the code. 
-Any documentation should have description, param (type and description) and returns.
+Any new function or class should be documented using [JSDoc][jsdoc-url]. It facilitates type checking without
+intruding the code, easing any further access to it.
 Use other piece codes to guide yourself.
 
-e.g.
+**Example:**
+
 ```js
 /**
-* @description Adds one to the input.
-* @param {number} input - input number.
-* @returns {number} input plus one.
-*/
+ * @description Adds one to the input.
+ * @param {number} input - Input number.
+ * @returns {number} Input plus one.
+ */
 function addOne(input) {
     return input + 1;
 }
 ```
 
 ## Testing
+
 Every modification to the code should have a corresponding testing adaptation.
 
-### Running internal tests
-Running internal tests it is important to catch any unexpected behavior:
+### Running Tests Locally
+
+Running tests is important to catch any unexpected behavior.
+
 ```bash
 yarn test:quick
 ```
+
 or
+
 ```bash
 yarn build
 yarn test
 ```
-*(NOTE: The repository has to be built for tests to work, thats why
-yarn test by itself won't work.)*
 
-### Tests locations 
-Tests are located under the ```__Tests__``` file of each package, having the same
-file structure as the ```src``` directory.
+_(NOTE: The repository has to be built for tests to work)_
 
-### Adding/Modifying/Removing tests
-Every module should have a test that runs every single line of the code, so be sure 
-any addition/modification/removal of code should have its respective test change.
+### Tests Locations
 
-To add a test, create a new .js file on the correct directory 
-```<FILENAME OF MODULE>.test```. Write the test and export it to its parent
-```index.test.js``` file. (You can see previous tests to guide yourself).
+Tests are located under the `src/__tests__` directories of each package, replicating the same
+file structure as the `src` directory itself.
 
-### Test code style
-Testing uses [Chai's Assertion library][chai-url] to run tests. 
-Thus a testing module may look like this:
+### Adding/Modifying/Removing Tests
 
-```js
-import {assert} from 'chai';
-import {mainFunction} from 'mainFunction file path';
-
-function mainFunctionTest() {
-    describe('mainFunction()', () => {
-        it('Should return true.', () => {
-            assert.isTrue(mainFunction('testParam'));
-        });
-    });
-}
-
-export {mainFunctionTest};
-
-```
+Every module should have a test that runs every single line of the interested code, so be sure
+any addition/modification/removal of code meets this requirement.
 
 ## Commits
-In order to have an organized workflow, be sure to split any modification to different
-packages onto separate commits. 
-Commits should have the following description:
+
+In order to keep an organized workflow, be sure to split any modification to different
+packages onto separate commits.
+Commits should have the following syntax:
+
 ```bash
 [<TAG>][<PACKAGE-NAME>] - <DESCRIPTION>.
 ```
-Available tags:
-* <b>[DOCS]</b> - For documentation related commits.
-* <b>[FIX]</b> - Bug and other code fixes.
-* <b>[MERGE]</b> - Merging previous features into a branch.
-* <b>[NEW]</b> - Addition of something new.
-* <b>[POLISH]</b> - Code rewritten.
-* <b>[REFACTOR]</b> - File renaming.
-* <b>[TESTS]</b> - Addition/modification of tests.
 
-Available package names:
-See packages section on [README.MD][readme-url]
-(NOTE: a [pre-commit][githooks-url] pre-hook will run to validate any commit message,
-be sure you do not have pre-hooks disabled)
+Available tags are:
 
-## Pull Requests
+-   **[DOCS]** - Documentation related commits.
+-   **[FIX]** - Bug and other code fixes.
+-   **[NEW]** - Addition of something new.
+-   **[POLISH]** - Code rewritten.
+-   **[REFACTOR]** - File renaming.
+-   **[TESTS]** - Addition/modification of tests.
 
-Once the hard job is done, its the moment for a [pull request][pull-request-url]. 
-This is the way to implement your changes to the code base and be published in
-the next release!. But hold on! before putting the pull request, let the community
-know your contributions to codistica-js!
+Available package names are:
 
-### Add your contribution to the CHANGELOG.md
-On the [CHANGELOG.md][changelog-url] files of the interested packages,
-add your contribution under the 
-'Unreleased' title (and under the section(s) that better matches your contribution).
+-   **browser**
+-   **core**
+-   **demo**
+-   **dev-tools**
+-   **node**
+-   **react**
+-   **react-icons**
+-   **react-mui**
+-   **scriptfiber**
+-   **types**
+
+_(NOTE: A [git hook][git-hooks-url] handler will run to validate and auto-fix every commit message, be sure you do not have pre-hooks disabled.)_
+
+## Changelogs
+
+On the changelog files of the interested packages,
+add your contribution under the
+'unreleased' title (and under the section(s) that better matches your contribution).
+
 Sections can be:
-* **New Features**
-* **Bug Fixes**
-* **Documentation**
-* **Polish**
+
+-   **Added**
+-   **Changed**
+-   **Fixed**
 
 Your contribution may look like this:
-```md
-Brief description ([#<Issue number>], [@<your github username>])
-```
-*(NOTE: if you prefer, you can keep your username anonymous, just write 
-"Anonymous" instead of your github username)*
 
-Then, at the bottom of the CHANGELOG file, under the 'CONTRIBUTORS' section,
+```md
+### Added
+
+-   Brief description (#<Issue number>, @<your github username>).
+```
+
+_(NOTE: if you prefer, you can keep your username anonymous, just write
+"Anonymous" instead of your github username)_
+
+Then, at the bottom of the changelog file, under the 'CONTRIBUTORS' section,
 link your username to your github profile link:
 
-```
+```md
 <!--CONTRIBUTORS-->
-[@<your github username>]: <Your github profile link>
+
+[@<your github username>]: <Your github profile url>
 ```
 
 Finally, link the issue number to the actual issue that originated your pull
 request under the 'ISSUES' section:
 
-```
+```md
 <!--ISSUES-->
-[#<Issue number>]: <issue link>
+
+[#<issue number>]: <issue url>
 ```
-*(NOTE: If your contribution has no issue related, you may avoid this part)*
 
+_(NOTE: If your contribution has no related issue, you can skip this part)_
 
-### Now the actual pull request
+### Pull Requests
 
-Finally, [create a new pull request][codistica-pr-url] from `your branch` to `develop`.
-Fill the template and submit the pull request for review from the codistica team!.
+Once the hard job is done, it's the moment for a [pull request][pull-request-url].
+This is the way to implement your changes to the codebase, so they will be published in
+the next release.
 
+[Create a new pull request][codistica-pr-url] from `your-branch` to `develop`.
+Fill the template and submit the pull request for review.
 
-##
 #### Thank you for making Codistica JS better for everyone!
 
-
-
 <!--EXTERNAL LINKS-->
-[chai-url]: https://www.chaijs.com/api/assert/
-[changelog-url]: https://github.com/codistica/codistica-js/blob/develop/CHANGELOG.md
+
 [codistica-pr-url]: https://github.com/codistica/codistica-js/pulls
 [es6-url]: http://es6-features.org/
 [flow-url]: https://flow.org/en/
+[typescript-url]: https://www.typescriptlang.org/
 [git-url]: https://git-scm.com/
-[githooks-url]: https://githooks.com/
+[git-hooks-url]: https://githooks.com/
 [jsdoc-url]: https://jsdoc.app/
 [node-url]: https://nodejs.org/en/
 [pull-request-url]: https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests
-[readme-url]: https://github.com/codistica/codistica-js/blob/develop/README.md
-[webstorm-url]: https://www.jetbrains.com/webstorm/
 [yarn-url]: https://yarnpkg.com/

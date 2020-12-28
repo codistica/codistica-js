@@ -1,16 +1,13 @@
-
-<!--suppress HtmlDeprecatedAttribute -->
+<!--suppress HtmlDeprecatedAttribute-->
 
 <br/>
 
 <div align="center">
   <a href="https://www.codistica.com">
-    <img height="200" src="https://codistica-public.s3-eu-west-1.amazonaws.com/logo-full.png" alt="CODISTICA">
+    <img height="auto" width="300" src="https://assets.codistica.com/img/logo/light.png" alt="CODISTICA">
   </a>
   <br>
-  
 </div>
-
 
 # @codistica/demo
 
@@ -24,16 +21,16 @@ See also [Create React App readme.][cra-readme]
 
 See [CONTRIBUTING.md][contributing]
 
-
 ## License
 
 See [LICENSE.md][license]
 
-
 <!--INTERNAL LINKS-->
-[contributing]: ../../CONTRIBUTING.md
-[license]: ../../LICENSE.md
+
+[contributing]: /CONTRIBUTING.md
+[license]: /LICENSE.md
+[cra-readme]: docs/CRA-README.md
 
 <!--EXTERNAL LINKS-->
+
 [codistica-js-docs-url]: https://www.codistica.com/
-[cra-readme]: docs/CRA-README.md

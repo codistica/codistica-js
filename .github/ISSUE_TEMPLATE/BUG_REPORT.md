@@ -1,37 +1,45 @@
 ---
-name: "🦟 Report a bug"
-about: "Something is not behaving as expected."
+name: '🦟 - Bug Report'
+about: 'Something is not behaving as expected.'
 title: ''
 labels: 'bug, :hourglass_flowing_sand: pending'
 assignees: ''
 ---
 
-## Bug report
+## Bug Report
 
-### My configurations
-* Node version: [e.g. Node 13.0.0]
-* OS: [e.g Windows 10/OS X Sierra]
-* Browser: [e.g. Chrome 80/Firefox 30/Not used]
+### Setup
 
-### Package(s) where bug is present
-e.g. - @codistica/react, @codistica/scriptfiber
+-   Platform: <!--macOS 10.15.7-->
+-   Node: <!--13.0.0)-->
+-   Environments: <!--Chrome 80, Firefox 30, Node 13.0.0, Electron 11.1.1-->
 
-### Bug description
-e.g. Function console.log is printing stuff in spanish.
+### Interested Packages
 
-### Code triggering the bug
+<!--Remove non interested packages-->
+
+-   root
+-   codistica-browser
+-   codistica-core
+-   codistica-demo
+-   codistica-dev-tools
+-   codistica-node
+-   codistica-react
+-   codistica-react-icons
+-   codistica-react-mui
+-   codistica-scriptfiber
+-   codistica-types
+
+### Bug Description
+
+### Your Code
+
+<!--Code triggering the bug-->
+
 ```js
-console.log('Hello World!')
+
 ```
 
-### Expected behavior
-e.g.
-```bash
-Hello World!
-```
+### Expected Behavior
 
 ### Actual behavior
-e.g.
-```Bash
-Adios Mundo!
-```

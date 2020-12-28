@@ -1,45 +1,44 @@
 ---
-name: "⭐ Proposal"
-about: "Something Codistica JS should add/modify/remove."
+name: '⭐ - Feature Request'
+about: 'Propose your ideas.'
 title: ''
 labels: 'proposal, :hourglass_flowing_sand: pending'
 assignees: ''
 ---
 
 <!--
-Thank for your proposal! Any changes, as minor as they may look, may help improve the
-overall result!
+Thank you! Any contribution, as minor as it may look, can really help us improve the
+overall result.
 -->
-## Proposal
 
-### What is this proposal about
-<!-- Describe what should be done (rename/add/remove/rewrite/merge)-->
-e.g. We should make errors to print emojis.
+## Feature Request
 
+### Interested Packages
 
-### To which package(s) 
-<!-- Which packages (if not all) should the proposal be implemented-->
-e.g. - To the whole repository, @codistica/react, @codistica/scriptfiber
+<!--Remove non interested packages-->
 
+-   root
+-   codistica-browser
+-   codistica-core
+-   codistica-demo
+-   codistica-dev-tools
+-   codistica-node
+-   codistica-react
+-   codistica-react-icons
+-   codistica-react-mui
+-   codistica-scriptfiber
+-   codistica-types
 
-### How should it be implemented
-<!-- Strategies, sugestions -->
-e.g. It should be implemented on any new Error.
+### Description
 
-### Example
-<!-- 
-Optional: add examples of how would the new proposal look like
--->
-e.g.:
+<!--Describe what you think should be done-->
 
-The following code:
-```js
-throw new Error()
-```
-Should output:
-```bash
-😨
-```
+### Implementation Ideas
 
-## I would like to work on this feature
-Yes/No.
+<!--Implementation strategies and/or suggestions-->
+
+### Examples
+
+<!--Optional-->
+
+### I would like to work on this feature: Yes / No.
