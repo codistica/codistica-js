@@ -119,7 +119,7 @@ const InputRadioGroupInternal = hoc(
 
             const mergedClassNames = {
                 root: mergeClassNames(
-                    resetClassNames.root,
+                    resetClassNames.greedy,
                     componentClassNames.root,
                     globalClassNames.root,
                     customClassNames.root,

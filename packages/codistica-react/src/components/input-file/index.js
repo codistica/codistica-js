@@ -115,7 +115,7 @@ function InputFileInternal({
                 componentClassNames.blink,
                 status === 'highlight' || status === 'warning'
             ],
-            resetClassNames.root,
+            resetClassNames.greedy,
             componentClassNames.root,
             globalClassNames.root,
             customClassNames.root,

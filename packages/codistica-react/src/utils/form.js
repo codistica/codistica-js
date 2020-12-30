@@ -375,7 +375,7 @@ class Form extends React.Component<Props> {
 
         const mergedClassNames = {
             root: mergeClassNames(
-                resetClassNames.root,
+                resetClassNames.greedy,
                 globalClassNames.root,
                 customClassNames.root,
                 className

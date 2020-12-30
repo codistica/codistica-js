@@ -125,7 +125,7 @@ const InputTextInternal = withSophistication(
 
             const mergedClassNames = {
                 root: mergeClassNames(
-                    resetClassNames.root,
+                    resetClassNames.greedy,
                     componentClassNames.root,
                     globalClassNames.root,
                     customClassNames.root,

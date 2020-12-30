@@ -87,7 +87,7 @@ function HoverSwitch(props: Props) {
 
     const mergedClassNames = {
         root: mergeClassNames(
-            resetClassNames.root,
+            resetClassNames.greedy,
             globalClassNames.root,
             customClassNames.root,
             className

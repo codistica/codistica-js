@@ -205,7 +205,7 @@ class DotNavigation extends React.Component<Props, State> {
 
         const mergedClassNames = {
             root: mergeClassNames(
-                resetClassNames.root,
+                resetClassNames.greedy,
                 componentClassNames.root,
                 globalClassNames.root,
                 customClassNames.root,

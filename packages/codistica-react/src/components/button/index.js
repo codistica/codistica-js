@@ -180,7 +180,7 @@ class Button extends React.Component<Props> {
 
         const mergedClassNames = {
             button: mergeClassNames(
-                [resetClassNames.root, !href],
+                [resetClassNames.greedy, !href],
                 [componentClassNames.buttonEnabled, !disabled],
                 [componentClassNames.buttonDisabled, disabled],
                 [globalClassNames.root, !href],
@@ -195,7 +195,7 @@ class Button extends React.Component<Props> {
             ),
             anchor: href
                 ? mergeClassNames(
-                      resetClassNames.root,
+                      resetClassNames.greedy,
                       globalClassNames.root,
                       customClassNames.root,
                       className

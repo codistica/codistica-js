@@ -1,37 +1,58 @@
-.root {
-  * {
+@mixin base($selector) {
+  #{$selector} {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    outline: none;
-    box-shadow: none;
-    border: none;
     text-decoration: none;
   }
+}
 
-  *:hover,
-  *:focus,
-  *:active,
-  *:visited {
+@mixin deep($selector) {
+  #{$selector} {
+    border: none;
+    background-color: transparent;
+  }
+}
+
+@mixin contour($selector) {
+  #{$selector} {
     outline: none;
     box-shadow: none;
   }
 }
 
-.root {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  outline: none;
-  box-shadow: none;
-  border: none;
-  text-decoration: none;
+@mixin interaction($selector) {
+  #{$selector}:hover,
+  #{$selector}:focus,
+  #{$selector}:active,
+  #{$selector}:visited {
+    @include contour('&');
+  }
 }
 
-.root:hover,
-.root:focus,
-.root:active,
-.root:visited {
-  outline: none;
-  box-shadow: none;
+.greedy {
+  @include base('&');
+  @include base('*');
+  @include interaction('&');
+  @include interaction('*');
+}
+
+.lazy {
+  @include base('&');
+  @include interaction('&');
+}
+
+.deepGreedy {
+  @include base('&');
+  @include base('*');
+  @include deep('&');
+  @include deep('*');
+  @include interaction('&');
+  @include interaction('*');
+}
+
+.deepLazy {
+  @include base('&');
+  @include deep('&');
+  @include interaction('&');
 }
