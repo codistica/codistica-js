@@ -1,20 +1,21 @@
 /** @flow */
 
-/** @module react/utils/draggable */
-
-import React from 'react';
+import {elementUtils, viewportMonitor} from '@codistica/browser';
+import React, {useState, useRef, useCallback, useEffect} from 'react';
+import {useSpring, animated} from 'react-spring';
 import resetClassNames from '../css/reset.module.scss';
 import {withOnDrag} from '../hocs/with-on-drag.js';
+import {getRefHandler} from '../modules/get-ref-handler.js';
 import {mergeClassNames} from '../modules/merge-class-names.js';
 import {mergeStyles} from '../modules/merge-styles.js';
 
-// TODO: CREATE withPositionBoundaries HOC (TO PREVENT EXITING PARENT ELEMENT VIA POSITION PROPERTIES).
-
-const Div = withOnDrag<{}>('div');
+// TODO: IMPLEMENT Impetus.js LIBRARY. DO IN withOnDrag HOC?
+// TODO: MAKE ADJUST ON VIEWPORT change (OR SIMILAR) VIA OPTION INSTEAD OF shift WHEN ViewportMonitor IS IMPROVED.
 
 type Props = {
-    noLimit: boolean,
-    isolate: boolean,
+    momentum: boolean,
+    boundary: 'none' | 'parent' | 'viewport' | HTMLElement | null,
+    grabThreshold: null | number,
     children: any,
     style: {[string]: any},
     className: string,
@@ -25,12 +26,6 @@ type Props = {
         root?: string
     },
     globalTheme: 'default' | string | null
-};
-
-type State = {
-    position: string | null,
-    top: number,
-    left: number
 };
 
 type GlobalStyles = {
@@ -45,191 +40,170 @@ type GlobalClassNames = {
     }
 };
 
-/**
- * @typedef draggablePropsType
- * @property {boolean} [noLimit=false] - Allow element to be dragged outside of parent element.
- * @property {boolean} [isolate=true] - Prevent gestures propagation.
- * @property {*} [children=null] - React prop.
- * @property {Object<string,*>} [style={}] - React prop.
- * @property {string} [className=''] - React prop.
- * @property {Object<string,*>} [customStyles={}] - Custom styles prop.
- * @property {Object<string,*>} [customClassNames={}] - Custom classNames prop.
- * @property {('default'|string|null)} [globalTheme='default'] - Global theme to be used.
- */
+const AnimatedDiv = withOnDrag({
+    isolateTouch: true
+})(animated.div);
 
-/**
- * @classdesc A draggable component.
- */
-class Draggable extends React.Component<Props, State> {
-    static globalStyles: GlobalStyles = {
-        default: {
-            root: {}
+const Div = withOnDrag({
+    isolateTouch: true
+})(animated.div);
+
+function Draggable(props: Props) {
+    const {
+        momentum,
+        boundary,
+        grabThreshold,
+        children,
+        style,
+        className,
+        customStyles,
+        customClassNames,
+        globalTheme,
+        ...other
+    } = props;
+
+    const componentRef = useRef(null);
+
+    const lastTop = useRef(0);
+    const lastLeft = useRef(0);
+
+    const [isGrabbed, setIsGrabbed] = useState(false);
+
+    const [position, setPosition] = useState({
+        top: 0,
+        left: 0
+    });
+
+    const [spring, setSpring] = useSpring(() => ({
+        top: 0,
+        left: 0,
+        config: {
+            mass: 0.1,
+            tension: 200,
+            friction: 20,
+            velocity: 0
         }
-    };
+    }));
 
-    static globalClassNames: GlobalClassNames = {
-        default: {
-            root: ''
-        }
-    };
+    const onDragStartHandler = useCallback(() => {
+        setIsGrabbed(true);
+    }, []);
 
-    static defaultProps = {
-        noLimit: false,
-        isolate: true,
-        children: null,
-        style: {},
-        className: '',
-        customStyles: {},
-        customClassNames: {},
-        globalTheme: 'default'
-    };
+    const onDragEndHandler = useCallback(() => {
+        setIsGrabbed(false);
+    }, []);
 
-    elementRef: any;
-    containerHeight: number;
-    containerWidth: number;
-
-    /**
-     * @description Constructor.
-     * @param {draggablePropsType} [props] - Component props.
-     */
-    constructor(props: Props) {
-        super(props);
-
-        this.elementRef = null;
-        this.containerHeight = 0;
-        this.containerWidth = 0;
-
-        this.state = {
-            position: null,
-            top: 0,
-            left: 0
-        };
-
-        // BIND METHODS
-        (this: any).onDrag = this.onDrag.bind(this);
-        (this: any).setElementRef = this.setElementRef.bind(this);
-    }
-
-    /**
-     * @instance
-     * @description React lifecycle.
-     * @returns {void} Void.
-     */
-    componentDidMount() {
-        this.containerHeight = this.elementRef.offsetParent.clientHeight;
-        this.containerWidth = this.elementRef.offsetParent.clientWidth;
-        this.setState({
-            position: 'absolute',
-            top:
-                this.props.noLimit ||
-                (this.elementRef.offsetTop + this.elementRef.offsetHeight <=
-                    this.containerHeight &&
-                    this.elementRef.offsetTop >= 0)
-                    ? this.elementRef.offsetTop
-                    : 0,
-            left:
-                this.props.noLimit ||
-                (this.elementRef.offsetLeft + this.elementRef.offsetWidth <=
-                    this.containerWidth &&
-                    this.elementRef.offsetLeft >= 0)
-                    ? this.elementRef.offsetLeft
-                    : 0
-        });
-    }
-
-    /**
-     * @instance
-     * @description Callback for drag event.
-     * @param {Object<string,*>} e - Triggering event.
-     * @returns {void} Void.
-     */
-    onDrag(e: {[string]: any}) {
-        this.setState((prevState) => {
-            const limitTop =
-                this.containerHeight - this.elementRef.offsetHeight;
-            const limitLeft = this.containerWidth - this.elementRef.offsetWidth;
-            let newTop = prevState.top + e.deltaY;
-            let newLeft = prevState.left + e.deltaX;
-            if (!this.props.noLimit) {
-                newTop = newTop > limitTop ? limitTop : newTop;
-                newTop = newTop < 0 ? 0 : newTop;
-                newLeft = newLeft > limitLeft ? limitLeft : newLeft;
-                newLeft = newLeft < 0 ? 0 : newLeft;
+    const onDragHandler = useCallback(
+        ({deltaX, deltaY}) => {
+            if (!componentRef.current) {
+                return;
             }
-            return {
-                top: newTop,
-                left: newLeft
-            };
-        });
-    }
 
-    /**
-     * @instance
-     * @description Save component reference.
-     * @param {Object<string,*>} ref - Component reference.
-     * @returns {void} Void.
-     */
-    setElementRef(ref: any) {
-        // SAVE REF
-        this.elementRef = ref;
-    }
+            const {top, left} = elementUtils.getBoundPosition({
+                top: lastTop.current + deltaY,
+                left: lastLeft.current + deltaX,
+                elem: componentRef.current,
+                boundary
+            });
 
-    /**
-     * @instance
-     * @description React render method.
-     * @returns {Object<string,*>} React component.
-     */
-    render() {
-        const {
-            children,
-            isolate,
-            noLimit,
-            style,
-            className,
-            customStyles,
-            customClassNames,
-            globalTheme,
-            ...other
-        } = this.props;
-        const {position, top, left} = this.state;
+            lastTop.current = top;
+            lastLeft.current = left;
 
-        const globalStyles = globalTheme
-            ? Draggable.globalStyles[globalTheme] || {}
-            : {};
-
-        const globalClassNames = globalTheme
-            ? Draggable.globalClassNames[globalTheme] || {}
-            : {};
-
-        const mergedStyles = {
-            root: mergeStyles(globalStyles.root, customStyles.root, style, {
-                position,
+            setPosition({
                 top,
                 left
-            })
+            });
+
+            setSpring({
+                top,
+                left
+            });
+        },
+        [boundary, setSpring]
+    );
+
+    const globalStyles = globalTheme
+        ? Draggable.globalStyles[globalTheme] || {}
+        : {};
+
+    const globalClassNames = globalTheme
+        ? Draggable.globalClassNames[globalTheme] || {}
+        : {};
+
+    const mergedStyles = {
+        root: mergeStyles(globalStyles.root, customStyles.root, style, {
+            position: 'absolute',
+            top: momentum ? spring.top : position.top,
+            left: momentum ? spring.left : position.left,
+            cursor: isGrabbed ? 'grabbing' : 'grab'
+        })
+    };
+
+    const mergedClassNames = {
+        root: mergeClassNames(
+            resetClassNames.root,
+            globalClassNames.root,
+            customClassNames.root,
+            className
+        )
+    };
+
+    const Component = momentum ? AnimatedDiv : Div;
+
+    useEffect(() => {
+        const handler = function handler() {
+            setSpring({
+                reset: !momentum, // TODO: IS THIS NEEDED?
+                immediate: !momentum
+            });
+            onDragHandler({deltaX: 0, deltaY: 0, velocityX: 0});
         };
 
-        const mergedClassNames = {
-            root: mergeClassNames(
-                resetClassNames.root,
-                globalClassNames.root,
-                customClassNames.root,
-                className
-            )
-        };
+        // THIS WILL ALLOW elementUtils.getBoundPosition TO ADJUST BOUNDARY WHEN VIEWPORT SHIFTS.
+        viewportMonitor.on('shift', handler);
 
-        return (
-            <Div
-                {...other}
-                isolate={isolate}
-                onDrag={this.onDrag}
-                ref={this.setElementRef}
-                style={mergedStyles.root}
-                className={mergedClassNames.root}>
-                {children}
-            </Div>
-        );
-    }
+        handler();
+
+        return () => viewportMonitor.off('shift', handler);
+    }, [momentum, onDragHandler, setSpring]);
+
+    return (
+        <Component
+            {...other}
+            onDragStart={onDragStartHandler}
+            onDragEnd={onDragEndHandler}
+            onDrag={onDragHandler}
+            grabThreshold={grabThreshold}
+            ref={getRefHandler(componentRef)}
+            style={mergedStyles.root}
+            className={mergedClassNames.root}>
+            {children}
+        </Component>
+    );
 }
+
+Draggable.defaultProps = {
+    momentum: true,
+    boundary: 'viewport',
+    grabThreshold: null,
+    children: null,
+    style: {},
+    className: '',
+    customStyles: {},
+    customClassNames: {},
+    globalTheme: 'default'
+};
+
+Draggable.globalStyles = ({
+    default: {
+        root: {}
+    }
+}: GlobalStyles);
+
+Draggable.globalClassNames = ({
+    default: {
+        root: ''
+    }
+}: GlobalClassNames);
 
 export {Draggable};

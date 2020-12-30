@@ -1,339 +1,324 @@
 /** @flow */
 
-/** @module react/hocs/with-on-drag */
-
 import {eventListenerObjectSupport} from '@codistica/browser';
-import {log} from '@codistica/core';
-import React from 'react';
-import type {AbstractComponent, Config} from 'react';
-import {mergeStyles} from '../modules/merge-styles.js';
+import {log, conditionalTimeout} from '@codistica/core';
+import {default as hoistNonReactStatics} from 'hoist-non-react-statics';
+import React, {useRef, useCallback, useEffect, forwardRef} from 'react';
+import type {ComponentType} from 'react';
+import {getDisplayName} from '../modules/get-display-name.js';
+import {getRefHandler} from '../modules/get-ref-handler.js';
 
-// TODO: ADD DAMPING OPTION (FUNCTION)
-// TODO: ADD MOMENTUM OPTION (COEFFICIENT)
-// TODO: ADD THRESHOLD TO GRAB OPTION (TIME)
+// TODO: TYPES (SEE HOC TYPING FROM JSS REPO AND COMPONENT THROUGH HOC TYPING).
+// TODO: SEE Impetus.js CODE FOR VELOCITIES CALCULATION. USE requestAnimationFrame? ACCUMULATE TRACKING POINTS? CHECK.
 
-const eventOptions = eventListenerObjectSupport.capture
-    ? {capture: true}
-    : true;
+type Options = {
+    isolateTouch?: boolean
+};
 
 type Props = {
-    isolate: boolean, // TODO: USE SPECIFIC HOC/UTILITY?
     onDragStart: null | ((...args: Array<any>) => any),
     onDrag: null | ((...args: Array<any>) => any),
     onDragEnd: null | ((...args: Array<any>) => any),
-    children: any,
-    forwardedRef: any,
-    style: {[string]: any}
+    grabThreshold: null | number,
+    children: any
 };
 
-type DefaultProps = {
-    isolate: false,
-    onDragStart: null,
-    onDrag: null,
-    onDragEnd: null,
-    children: null,
-    forwardedRef: null,
-    style: {}
-};
+function withOnDrag(options?: Options) {
+    const {isolateTouch} = options || {};
 
-type State = {
-    isDragging: boolean,
-    isGrabbed: boolean
-};
+    const eventOptions = eventListenerObjectSupport.capture
+        ? {capture: true, passive: !isolateTouch}
+        : true;
 
-/**
- * @typedef withOnDragPropsType
- * @property {boolean} [isolate=false] - Isolate component dragging events. Do not allow propagation to other elements.
- * @property {Function} [onDragStart=null] - Callback for dragStart event.
- * @property {Function} [onDrag=null] - Callback for drag event.
- * @property {Function} [onDragEnd=null] - Callback for dragEnd event.
- * @property {*} [children=null] - React prop.
- * @property {*} [forwardedRef=null] - React prop.
- * @property {Object<string,*>} [style={}] - React prop.
- */
-
-/**
- * @description Creates a higher order component with dragging capabilities.
- * @param {(Object<string,*>|string)} Component - React component.
- * @returns {Object<string,*>} Created higher order component.
- */
-function withOnDrag<ComponentConfig: {}>(
-    Component: AbstractComponent<any> | string
-): AbstractComponent<ComponentConfig & Config<Props, DefaultProps>> {
-    /**
-     * @classdesc Higher order component.
-     */
-    class HOC extends React.Component<Props, State> {
-        static defaultProps: DefaultProps = {
-            isolate: false,
-            onDragStart: null,
-            onDrag: null,
-            onDragEnd: null,
-            children: null,
-            forwardedRef: null,
-            style: {}
-        };
-
-        componentRef: any;
-        touchIdentifier: number | null;
-        xPos: number;
-        yPos: number;
-
-        /**
-         * @description Constructor.
-         * @param {withOnDragPropsType} [props] - Component props.
-         */
-        constructor(props: Props) {
-            super(props);
-
-            this.componentRef = null;
-            this.touchIdentifier = null;
-            this.xPos = 0;
-            this.yPos = 0;
-
-            this.state = {
-                isDragging: false,
-                isGrabbed: false
-            };
-
-            // BIND METHODS
-            (this: any).onStart = this.onStart.bind(this);
-            (this: any).onEnd = this.onEnd.bind(this);
-            (this: any).onMove = this.onMove.bind(this);
-            (this: any).setComponentRef = this.setComponentRef.bind(this);
-        }
-
-        /**
-         * @instance
-         * @description React lifecycle.
-         * @returns {void} Void.
-         */
-        componentDidMount() {
-            this.componentRef.addEventListener(
-                'touchstart',
-                this.onStart,
-                eventOptions
-            );
-            this.componentRef.addEventListener(
-                'mousedown',
-                this.onStart,
-                eventOptions
-            );
-            this.componentRef.addEventListener(
-                'touchend',
-                this.onEnd,
-                eventOptions
-            );
-            window.addEventListener('mouseup', this.onEnd, eventOptions);
-        }
-
-        /**
-         * @instance
-         * @description React lifecycle.
-         * @returns {void} Void.
-         */
-        componentWillUnmount() {
-            this.componentRef.removeEventListener(
-                'touchstart',
-                this.onStart,
-                eventOptions
-            );
-            this.componentRef.removeEventListener(
-                'mousedown',
-                this.onStart,
-                eventOptions
-            );
-            this.componentRef.removeEventListener(
-                'touchend',
-                this.onEnd,
-                eventOptions
-            );
-            window.removeEventListener('mouseup', this.onEnd, eventOptions);
-        }
-
-        /**
-         * @instance
-         * @description Callback for start event.
-         * @param {Object<string,*>} e - Triggering event.
-         * @returns {void} Void.
-         */
-        onStart(e: {[string]: any}) {
-            if (
-                (e.type === 'mousedown' && e.button === 0) ||
-                (e.type === 'touchstart' && e.touches.length === 1)
-            ) {
-                log.debug('onStart()', 'DRAG STARTED')();
-
-                this.componentRef.addEventListener(
-                    'touchmove',
-                    this.onMove,
-                    eventOptions
-                );
-                window.addEventListener('mousemove', this.onMove, eventOptions);
-
-                this.setState({
-                    isGrabbed: true
-                });
-
-                if (e.type === 'mousedown') {
-                    this.xPos = e.clientX;
-                    this.yPos = e.clientY;
-                } else {
-                    this.touchIdentifier = e.touches[0].identifier;
-                    this.xPos = e.touches[0].screenX;
-                    this.yPos = e.touches[0].screenY;
-                }
-
-                if (typeof this.props.onDragStart === 'function') {
-                    this.props.onDragStart();
-                }
-
-                // TODO: REMOVE. USE PERTINENT HOCS.
-                if (this.props.isolate && e.type === 'touchstart') {
-                    e.stopPropagation();
-                    if (e.cancelable) {
-                        e.preventDefault();
-                    }
-                }
-            }
-        }
-
-        /**
-         * @instance
-         * @description Callback for end event.
-         * @param {Object<string,*>} e - Triggering event.
-         * @returns {void} Void.
-         */
-        onEnd(e: {[string]: any}) {
-            if (
-                this.state.isGrabbed &&
-                ((e.type === 'mouseup' && e.button === 0) ||
-                    (e.type === 'touchend' &&
-                        Array.from(e.changedTouches).some(
-                            (elem) => elem.identifier === this.touchIdentifier
-                        )))
-            ) {
-                log.debug('onEnd()', 'DRAG ENDED')();
-
-                this.componentRef.removeEventListener(
-                    'touchmove',
-                    this.onMove,
-                    eventOptions
-                );
-                window.removeEventListener(
-                    'mousemove',
-                    this.onMove,
-                    eventOptions
-                );
-
-                this.setState({
-                    isDragging: false,
-                    isGrabbed: false
-                });
-
-                if (e.type === 'touchend') {
-                    this.touchIdentifier = null;
-                }
-
-                if (typeof this.props.onDragEnd === 'function') {
-                    this.props.onDragEnd();
-                }
-            }
-        }
-
-        /**
-         * @instance
-         * @description Callback for move event.
-         * @param {Object<string,*>} e - Triggering event.
-         * @returns {void} Void.
-         */
-        onMove(e: {[string]: any}) {
-            if (
-                this.state.isGrabbed &&
-                (e.type === 'mousemove' ||
-                    e.touches.length === 1 ||
-                    this.state.isDragging)
-            ) {
-                this.setState({
-                    isDragging: true
-                });
-                if (typeof this.props.onDrag === 'function') {
-                    if (e.type === 'mousemove') {
-                        this.props.onDrag({
-                            deltaX: e.clientX - this.xPos,
-                            deltaY: e.clientY - this.yPos
-                        });
-                        this.xPos = e.clientX;
-                        this.yPos = e.clientY;
-                    } else {
-                        this.props.onDrag({
-                            deltaX: e.touches[0].screenX - this.xPos,
-                            deltaY: e.touches[0].screenY - this.yPos
-                        });
-                        this.xPos = e.touches[0].screenX;
-                        this.yPos = e.touches[0].screenY;
-                    }
-                }
-            }
-        }
-
-        /**
-         * @instance
-         * @description Save and pass component reference.
-         * @param {Object<string,*>} ref - Component reference.
-         * @returns {void} Void.
-         */
-        setComponentRef(ref: any) {
-            // FORWARD REF
-            const {forwardedRef} = this.props;
-            if (typeof forwardedRef === 'function') {
-                forwardedRef(ref);
-            } else if (
-                typeof forwardedRef === 'object' &&
-                forwardedRef !== null &&
-                typeof forwardedRef.current !== 'undefined'
-            ) {
-                forwardedRef.current = ref;
-            }
-            // SAVE REF
-            this.componentRef = ref;
-        }
-
-        /**
-         * @instance
-         * @description React render method.
-         * @returns {Object<string,*>} React component.
-         */
-        render() {
+    return function withOnDragHOC(InnerComponent: ComponentType<any> | string) {
+        const HOC = forwardRef((props: Props, ref) => {
             const {
                 onDrag,
                 onDragStart,
                 onDragEnd,
+                grabThreshold,
                 children,
-                forwardedRef,
-                isolate,
-                style,
                 ...other
-            } = this.props;
-            const {isGrabbed} = this.state;
-            return (
-                <Component
-                    {...other}
-                    ref={this.setComponentRef}
-                    style={mergeStyles(style, {
-                        cursor: isGrabbed ? 'grabbing' : 'grab'
-                    })}>
-                    {children}
-                </Component>
-            );
-        }
-    }
+            } = props;
 
-    return React.forwardRef<ComponentConfig & Config<Props, DefaultProps>, HOC>(
-        (props, ref) => {
-            return <HOC {...props} forwardedRef={ref} />;
-        }
-    );
+            const componentRef = useRef(null);
+
+            const touchIdentifierRef = useRef(null);
+
+            const posXRef = useRef(0);
+            const posYRef = useRef(0);
+
+            const timeoutRef = useRef(null);
+            const isDraggingRef = useRef(false);
+            const isGrabbedRef = useRef(false);
+
+            const velocityRef = useRef({
+                velocityX: 0,
+                velocityY: 0,
+                deltaX: 0,
+                deltaY: 0,
+                nowX: 0,
+                nowY: 0
+            });
+
+            const onMoveHandler = useCallback(
+                (e: {[string]: any}) => {
+                    if (
+                        timeoutRef.current &&
+                        e.target !== componentRef.current
+                    ) {
+                        timeoutRef.current.clear();
+                    }
+
+                    if (
+                        isGrabbedRef.current &&
+                        (e.type === 'mousemove' ||
+                            e.touches.length === 1 ||
+                            isDraggingRef.current)
+                    ) {
+                        isDraggingRef.current = true;
+
+                        let deltaX = 0;
+                        let deltaY = 0;
+
+                        if (e.type === 'mousemove') {
+                            deltaX = e.clientX - posXRef.current;
+                            deltaY = e.clientY - posYRef.current;
+                            posXRef.current = e.clientX;
+                            posYRef.current = e.clientY;
+                        } else {
+                            deltaX = e.touches[0].screenX - posXRef.current;
+                            deltaY = e.touches[0].screenY - posYRef.current;
+                            posXRef.current = e.touches[0].screenX;
+                            posYRef.current = e.touches[0].screenY;
+                        }
+
+                        velocityRef.current.deltaX += deltaX;
+                        velocityRef.current.deltaY += deltaY;
+
+                        const now = Date.now();
+
+                        const deltaNowX = now - velocityRef.current.nowX;
+                        const deltaNowY = now - velocityRef.current.nowY;
+
+                        if (deltaNowX && velocityRef.current.deltaX) {
+                            velocityRef.current.velocityX =
+                                (velocityRef.current.deltaX / deltaNowX) * 1000;
+                            velocityRef.current.deltaX = 0;
+                            velocityRef.current.nowX = now;
+                        }
+
+                        if (deltaNowY && velocityRef.current.deltaY) {
+                            velocityRef.current.velocityY =
+                                (velocityRef.current.deltaY / deltaNowY) * 1000;
+                            velocityRef.current.deltaY = 0;
+                            velocityRef.current.nowY = now;
+                        }
+
+                        const velocity = Math.sqrt(
+                            velocityRef.current.velocityX ** 2 +
+                                velocityRef.current.velocityY ** 2
+                        );
+
+                        if (onDrag) {
+                            onDrag({
+                                deltaX,
+                                deltaY,
+                                velocity,
+                                velocityX: velocityRef.current.velocityX,
+                                velocityY: velocityRef.current.velocityY
+                            });
+                        }
+                    }
+                },
+                [onDrag]
+            );
+
+            const onStartHandler = useCallback(
+                (e: {[string]: any}) => {
+                    if (
+                        (e.type === 'mousedown' && e.button === 0) ||
+                        (e.type === 'touchstart' && e.touches.length === 1)
+                    ) {
+                        timeoutRef.current = conditionalTimeout(
+                            grabThreshold,
+                            () => {
+                                log.debug('onStart()', 'DRAG STARTED')();
+
+                                if (!componentRef.current) {
+                                    return;
+                                }
+
+                                isGrabbedRef.current = true;
+
+                                if (e.type === 'mousedown') {
+                                    posXRef.current = e.clientX;
+                                    posYRef.current = e.clientY;
+                                } else {
+                                    touchIdentifierRef.current =
+                                        e.touches[0].identifier;
+                                    posXRef.current = e.touches[0].screenX;
+                                    posYRef.current = e.touches[0].screenY;
+                                }
+
+                                const now = Date.now();
+
+                                if (!velocityRef.current.nowX) {
+                                    velocityRef.current.nowX = now;
+                                }
+
+                                if (!velocityRef.current.nowY) {
+                                    velocityRef.current.nowY = now;
+                                }
+
+                                if (onDragStart) {
+                                    onDragStart();
+                                }
+
+                                if (isolateTouch && e.type === 'touchstart') {
+                                    if (e.cancelable) {
+                                        e.preventDefault();
+                                    }
+                                }
+                            },
+                            grabThreshold
+                        );
+                    }
+                },
+                [grabThreshold, onDragStart]
+            );
+
+            const onEndHandler = useCallback(
+                (e: {[string]: any}) => {
+                    if (timeoutRef.current) {
+                        timeoutRef.current.clear();
+                    }
+
+                    if (
+                        isGrabbedRef.current &&
+                        ((e.type === 'mouseup' && e.button === 0) ||
+                            (e.type === 'touchend' &&
+                                Array.from(e.changedTouches).some(
+                                    (elem) =>
+                                        elem.identifier ===
+                                        touchIdentifierRef.current
+                                )))
+                    ) {
+                        log.debug('onEnd()', 'DRAG ENDED')();
+
+                        if (!componentRef.current) {
+                            return;
+                        }
+
+                        isDraggingRef.current = false;
+                        isGrabbedRef.current = false;
+
+                        if (e.type === 'touchend') {
+                            touchIdentifierRef.current = null;
+                        }
+
+                        velocityRef.current = {
+                            deltaX: 0,
+                            deltaY: 0,
+                            velocityX: 0,
+                            velocityY: 0,
+                            nowX: 0,
+                            nowY: 0
+                        };
+
+                        if (onDragEnd) {
+                            onDragEnd();
+                        }
+                    }
+                },
+                [onDragEnd]
+            );
+
+            useEffect(() => {
+                if (!componentRef.current) {
+                    return () => {};
+                }
+
+                const element = componentRef.current;
+
+                element.addEventListener(
+                    'touchstart',
+                    onStartHandler,
+                    eventOptions
+                );
+                element.addEventListener(
+                    'mousedown',
+                    onStartHandler,
+                    eventOptions
+                );
+
+                element.addEventListener(
+                    'touchmove',
+                    onMoveHandler,
+                    eventOptions
+                );
+                window.addEventListener(
+                    'mousemove',
+                    onMoveHandler,
+                    eventOptions
+                );
+
+                element.addEventListener(
+                    'touchend',
+                    onEndHandler,
+                    eventOptions
+                );
+                window.addEventListener('mouseup', onEndHandler, eventOptions);
+
+                return () => {
+                    element.removeEventListener(
+                        'touchstart',
+                        onStartHandler,
+                        eventOptions
+                    );
+                    element.removeEventListener(
+                        'mousedown',
+                        onStartHandler,
+                        eventOptions
+                    );
+
+                    element.removeEventListener(
+                        'touchmove',
+                        onMoveHandler,
+                        eventOptions
+                    );
+                    window.removeEventListener(
+                        'mousemove',
+                        onMoveHandler,
+                        eventOptions
+                    );
+
+                    element.removeEventListener(
+                        'touchend',
+                        onEndHandler,
+                        eventOptions
+                    );
+                    window.removeEventListener(
+                        'mouseup',
+                        onEndHandler,
+                        eventOptions
+                    );
+                };
+            }, [onEndHandler, onMoveHandler, onStartHandler]);
+
+            return (
+                <InnerComponent
+                    {...other}
+                    ref={getRefHandler(componentRef, ref)}>
+                    {children}
+                </InnerComponent>
+            );
+        });
+
+        HOC.displayName = `withOnDrag(${getDisplayName(InnerComponent)})`;
+
+        return hoistNonReactStatics(HOC, InnerComponent);
+    };
 }
 
 export {withOnDrag};
