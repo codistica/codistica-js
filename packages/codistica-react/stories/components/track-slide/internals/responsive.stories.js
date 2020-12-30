@@ -1,22 +1,43 @@
 /** @flow */
 
 import React, {useRef} from 'react';
-import {Button, TrackSlide} from '../../../../src/index.js';
-import componentClassNames from './index.module.scss';
+import {
+    Button,
+    createSophistication,
+    TrackSlide
+} from '../../../../src/index.js';
 
-/**
- * @description A simple track slide demo.
- * @returns {Object<string,*>} React component.
- */
-function SimpleTrackSlide() {
+const useSophistication = createSophistication({
+    root: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+    },
+    slideItem: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100%',
+        width: '100%'
+    },
+    button: {
+        width: 300,
+        margin: 10
+    }
+});
+
+function Responsive() {
     const controlsRef = useRef(null);
 
+    const jssClassNames = useSophistication();
+
     return (
-        <div className={componentClassNames.root}>
+        <div className={jssClassNames.root}>
             <TrackSlide
+                direction={'column'}
                 dimensions={{
-                    height: '200px',
-                    width: '200px'
+                    height: '40vh',
+                    width: '60vw'
                 }}
                 customStyles={{
                     root: {
@@ -31,7 +52,7 @@ function SimpleTrackSlide() {
                         <span
                             key={index}
                             style={{backgroundColor: color}}
-                            className={componentClassNames.slideItem}>
+                            className={jssClassNames.slideItem}>
                             {index}
                         </span>
                     )
@@ -44,7 +65,7 @@ function SimpleTrackSlide() {
                         controlsRef.current.previous();
                     }
                 }}
-                className={componentClassNames.button}
+                className={jssClassNames.button}
             />
             <Button
                 title={'NEXT'}
@@ -53,15 +74,10 @@ function SimpleTrackSlide() {
                         controlsRef.current.next();
                     }
                 }}
-                className={componentClassNames.button}
+                className={jssClassNames.button}
             />
         </div>
     );
 }
 
-const meta = {
-    title: 'Track Slide'
-};
-
-export {SimpleTrackSlide};
-export default meta;
+export {Responsive};

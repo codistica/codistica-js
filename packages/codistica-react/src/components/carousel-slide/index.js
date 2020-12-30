@@ -1,7 +1,5 @@
 /** @flow */
 
-/** @module react/components/carousel-slide */
-
 // TODO: FIX CROSS DRAG INTERFERENCE. (EX. HORIZONTAL SLIDE SWITCHING WHEN SCROLLING VERTICALLY)
 
 import React, {useRef, useCallback, useEffect, useState} from 'react';
@@ -57,38 +55,6 @@ type GlobalClassNames = {
     }
 };
 
-/**
- * @typedef carouselSlideDimensionsType
- * @property {(string|number)} height - Slide height.
- * @property {(string|number)} width - Slide width.
- * @property {(string|number)} [minHeight=null] - Slide minimum height.
- * @property {(string|number)} [minWidth=null] - Slide minimum width.
- * @property {(string|number)} [maxHeight=null] - Slide maximum height.
- * @property {(string|number)} [maxWidth=null] - Slide maximum width.
- */
-
-/**
- * @typedef carouselSlidePropsType
- * @property {string} [direction='row'] - Slide direction.
- * @property {number} [startingPosition=0] - Slide starting position.
- * @property {carouselSlideDimensionsType} [dimensions] - Slide dimensions.
- * @property {number} [drift=0] - Drift for items separation.
- * @property {number} [offset=0] - Offset for items separation.
- * @property {Function} [onMount=null] - Callback for componentDidMount event.
- * @property {Function} [onNewPosition=null] - Callback for newPosition event.
- * @property {*} [children=null] - React prop.
- * @property {Object<string,*>} [style={}] - React prop.
- * @property {string} [className=''] - React prop.
- * @property {Object<string,*>} [customStyles={}] - Custom styles prop.
- * @property {Object<string,*>} [customClassNames={}] - Custom classNames prop.
- * @property {('default'|string|null)} [globalTheme='default'] - Global theme to be used.
- */
-
-/**
- * @description A simple yet powerful carousel slide component.
- * @param {carouselSlidePropsType} props - Component props.
- * @returns {Object<string,*>} React component.
- */
 function CarouselSlide(props: Props) {
     const {
         direction,
@@ -129,10 +95,11 @@ function CarouselSlide(props: Props) {
         [children.length]
     );
 
-    const position = useRef(clampPosition(startingPosition));
+    const positionRef = useRef(clampPosition(startingPosition));
     const rootRef = useRef(null);
-    const isDragging = useRef(false);
-    const isDraggingTimer = useRef(null);
+    const isDraggingRef = useRef(false);
+    const isDraggingTimerRef = useRef(null);
+
     const [isGrabbing, setIsGrabbing] = useState(false);
 
     const isRow: boolean = direction === 'row';
@@ -140,7 +107,7 @@ function CarouselSlide(props: Props) {
 
     const getPositionValue = useCallback(
         (i, delta) => {
-            const slot = i - position.current;
+            const slot = i - positionRef.current;
             const percent = 50 + slot * 50 * (1 - drift);
             const constant = slot * offset + (delta || 0);
             return `calc(${percent}% + ${constant}px)`;
@@ -148,37 +115,40 @@ function CarouselSlide(props: Props) {
         [drift, offset]
     );
 
-    const [springProps, setSpringProps] = useSprings(children.length, (i) => ({
-        positionValue: getPositionValue(i),
+    const [springs, setSprings] = useSprings(children.length, (i) => ({
+        position: getPositionValue(i),
         scale: 1,
         display: 'block'
     }));
 
     const setPosition = useCallback(
         (newPosition) => {
+            if (newPosition === positionRef.current) {
+                return;
+            }
             if (onNewPosition) {
                 onNewPosition(newPosition);
             }
-            position.current = newPosition;
-            setSpringProps((i) => {
+            positionRef.current = newPosition;
+            setSprings((i) => {
                 return {
-                    positionValue: getPositionValue(i)
+                    position: getPositionValue(i)
                 };
             });
         },
-        [onNewPosition, setSpringProps, getPositionValue]
+        [onNewPosition, setSprings, getPositionValue]
     );
 
     const goTo = useCallback(
-        (newPosition) => {
-            setPosition(clampPosition(newPosition));
+        (targetPosition) => {
+            setPosition(clampPosition(targetPosition));
         },
         [clampPosition, setPosition]
     );
 
-    const next = useCallback(() => goTo(position.current + 1), [goTo]);
+    const next = useCallback(() => goTo(positionRef.current + 1), [goTo]);
 
-    const previous = useCallback(() => goTo(position.current - 1), [goTo]);
+    const previous = useCallback(() => goTo(positionRef.current - 1), [goTo]);
 
     const globalStyles = globalTheme
         ? CarouselSlide.globalStyles[globalTheme] || {}
@@ -223,43 +193,20 @@ function CarouselSlide(props: Props) {
 
     const bind = useGesture(
         {
-            /**
-             * @description Callback for clickCapture event.
-             * @param {Object<string,*>} e - Triggering event.
-             * @returns {void} Void.
-             */
             onClickCapture(e) {
-                if (isDragging.current) {
+                if (isDraggingRef.current) {
                     if (e.cancelable) {
                         e.preventDefault();
                     }
                     e.stopPropagation();
                 }
             },
-            /**
-             * @description Callback for mouseDownCapture event.
-             * @returns {void} Void.
-             */
             onMouseDownCapture() {
                 setIsGrabbing(true);
             },
-            /**
-             * @description Callback for mouseUpCapture event.
-             * @returns {void} Void.
-             */
             onMouseUpCapture() {
                 setIsGrabbing(false);
             },
-            /**
-             * @description Callback for drag event.
-             * @param {Object} arg - Arg.
-             * @param {boolean} arg.down - Down.
-             * @param {Array<number>} arg.movement - Movement.
-             * @param {Array<number>} arg.direction - Direction.
-             * @param {number} arg.distance - Movement.
-             * @param {Function} arg.cancel - Cancel.
-             * @returns {void} Void.
-             */
             onDrag({
                 down,
                 movement: [movX, movY],
@@ -272,13 +219,13 @@ function CarouselSlide(props: Props) {
                 setIsGrabbing(down);
 
                 if (!down) {
-                    isDraggingTimer.current = setTimeout(() => {
-                        isDragging.current = false;
+                    isDraggingTimerRef.current = setTimeout(() => {
+                        isDraggingRef.current = false;
                     }, 500);
                 } else {
-                    clearTimeout(isDraggingTimer.current);
-                    isDraggingTimer.current = null;
-                    isDragging.current = true;
+                    clearTimeout(isDraggingTimerRef.current);
+                    isDraggingTimerRef.current = null;
+                    isDraggingRef.current = true;
                 }
 
                 if (rootRef.current) {
@@ -295,13 +242,13 @@ function CarouselSlide(props: Props) {
                 if (down && distance > switchThreshold) {
                     cancel();
                     setPosition(
-                        clampPosition(position.current + (dir > 0 ? -1 : 1))
+                        clampPosition(positionRef.current + (dir > 0 ? -1 : 1))
                     );
                 }
 
-                setSpringProps((i) => {
+                setSprings((i) => {
                     return {
-                        positionValue: getPositionValue(i, down ? mov : 0)
+                        position: getPositionValue(i, down ? mov : 0)
                     };
                 });
             }
@@ -313,6 +260,10 @@ function CarouselSlide(props: Props) {
             enabled: !disableGestures
         }
     );
+
+    useEffect(() => {
+        goTo(positionRef.current);
+    }, [children, children.length, goTo]);
 
     useEffect(() => {
         if (onMount) {
@@ -329,13 +280,13 @@ function CarouselSlide(props: Props) {
             ref={rootRef}
             style={mergedStyles.root}
             className={mergedClassNames.root}>
-            {springProps.map((springProp, index) => {
+            {springs.map((spring, index) => {
                 return (
                     <animated.div
                         key={index}
                         {...bind()}
                         style={mergeStyles(mergedStyles.item, {
-                            [positionKey]: springProp.positionValue
+                            [positionKey]: spring.position
                         })}
                         className={mergedClassNames.item}>
                         {children[index]}

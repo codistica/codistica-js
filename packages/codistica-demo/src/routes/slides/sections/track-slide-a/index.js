@@ -1,8 +1,8 @@
 /** @flow */
 
-import {stringUtils} from '@codistica/core';
+import {numberUtils, stringUtils} from '@codistica/core';
 import {TrackSlide, Button} from '@codistica/react';
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {Section} from '../../../../components/section/index.js';
 import componentClassNames from './index.module.scss';
 
@@ -10,19 +10,15 @@ const category = 'COMPONENT';
 const title = '<TrackSlide>';
 const description = 'A flexible classic slide.';
 
-const items = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-
-/**
- * @description Track slide section A.
- * @returns {Object<string,*>} Section.
- */
 function TrackSlideSectionA() {
     const controlsRef = useRef(null);
+    const [items, setItems] = useState([0, 1, 2, 3, 4, 5]);
+    const [itemsPerView, setItemsPerView] = useState(4);
     return (
         <Section category={category} title={title} description={description}>
             <TrackSlide
                 direction={'column'}
-                itemsPerView={4}
+                itemsPerView={itemsPerView}
                 dimensions={{
                     height: '30vh',
                     width: '80%',
@@ -30,11 +26,11 @@ function TrackSlideSectionA() {
                 }}
                 onMount={(controls) => (controlsRef.current = controls)}
                 className={componentClassNames.slide}>
-                {items.map((item, key) => (
+                {items.map((item, index) => (
                     <div
-                        key={key}
+                        key={index}
                         className={
-                            item % 2 !== 0
+                            index % 2 !== 0
                                 ? componentClassNames.slideChildOdd
                                 : componentClassNames.slideChildEven
                         }>
@@ -45,7 +41,7 @@ function TrackSlideSectionA() {
             <div className={componentClassNames.controlsContainer}>
                 <div className={componentClassNames.controlPanel}>
                     <Button
-                        title={'- ITEM'}
+                        title={'PREVIOUS'}
                         onClick={() =>
                             controlsRef.current &&
                             controlsRef.current.previous()
@@ -53,7 +49,7 @@ function TrackSlideSectionA() {
                         className={componentClassNames.button}
                     />
                     <Button
-                        title={'+ ITEM'}
+                        title={'NEXT'}
                         onClick={() =>
                             controlsRef.current && controlsRef.current.next()
                         }
@@ -75,19 +71,51 @@ function TrackSlideSectionA() {
                         }
                         className={componentClassNames.button}
                     />
+                    <Button
+                        title={'- ITEM'}
+                        onClick={() => {
+                            const newItems = [...items];
+                            newItems.pop();
+                            setItems(newItems);
+                        }}
+                        className={componentClassNames.button}
+                    />
+                    <Button
+                        title={'+ ITEM'}
+                        onClick={() => {
+                            const newItems = [
+                                ...items,
+                                numberUtils.firstAvailableInteger(items)
+                            ];
+                            setItems(newItems);
+                        }}
+                        className={componentClassNames.button}
+                    />
+                    <Button
+                        title={'- PER VIEW'}
+                        onClick={() =>
+                            setItemsPerView((x) => (x > 1 ? x - 1 : 1))
+                        }
+                        className={componentClassNames.button}
+                    />
+                    <Button
+                        title={'+ PER VIEW'}
+                        onClick={() => setItemsPerView((x) => x + 1)}
+                        className={componentClassNames.button}
+                    />
                 </div>
                 <div className={componentClassNames.controlPanel}>
-                    {items.map((item, key) => (
+                    {items.map((item, index) => (
                         <Button
-                            key={key}
+                            key={index}
                             title={stringUtils.injectBefore(
-                                item,
+                                index,
                                 items[items.length - 1].toString().length,
                                 '0'
                             )}
                             onClick={() =>
                                 controlsRef.current &&
-                                controlsRef.current.goTo(item)
+                                controlsRef.current.goTo(index)
                             }
                             className={componentClassNames.goToButton}
                         />

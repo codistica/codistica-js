@@ -1,21 +1,16 @@
 /** @flow */
 
-/** @module react/components/trackless-slide */
-
-// TODO: ADD OPTION TO AVOID INITIAL ANIMATION.
-// TODO: ADD OPTION TO NOT ADD INTERNAL DIMENSION STYLES.
-// TODO: MAKE next AND previous CALL goTo? TO AVOID CONFUSIONS. (TO CHANGE STATE ONLY IN ONE PLACE)
-// TODO: IMPLEMENT DEFINITIVE KEY SYSTEM (MAKE IT WORK FOR ANY NUMBER OF CHILDREN).
-// TODO: ADD DRAG SUPPORT VIA draggable BOOLEAN PROP (ONLY IF POSSIBLE) (USE react-use-gesture).
+// TODO: ADD OPTION TO NOT ADD INTERNAL DIMENSION STYLES?
+// TODO: ADD DRAG SUPPORT VIA draggable BOOLEAN PROP (IF POSSIBLE) (USE react-use-gesture).
 // TODO: ADD swipe SUPPORT IF DRAG SUPPORT IS NOT POSSIBLE.
 
-import {arrayUtils, SEEDS} from '@codistica/core';
-import React, {useState, useCallback, useEffect, useRef} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {animated, useTransition} from 'react-spring';
 import resetClassNames from '../../css/reset.module.scss';
 import {mergeClassNames} from '../../modules/merge-class-names.js';
 import {mergeStyles} from '../../modules/merge-styles.js';
 import componentClassNames from './index.module.scss';
+import {generateView} from './internals/generate-view.js';
 
 type Props = {
     direction: 'row' | 'column',
@@ -29,7 +24,9 @@ type Props = {
         maxHeight?: string | number,
         maxWidth?: string | number
     },
-    emulateTrack: boolean,
+    waitForSpring: boolean,
+    lazyRender: boolean,
+    precision: number,
     onMount: null | ((...args: Array<any>) => any),
     onNewPosition: null | ((...args: Array<any>) => any),
     children: any,
@@ -60,45 +57,15 @@ type GlobalClassNames = {
     }
 };
 
-/**
- * @typedef tracklessSlideDimensionsType
- * @property {(string|number)} height - Slide height.
- * @property {(string|number)} width - Slide width.
- * @property {(string|number)} [minHeight=null] - Slide minimum height.
- * @property {(string|number)} [minWidth=null] - Slide minimum width.
- * @property {(string|number)} [maxHeight=null] - Slide maximum height.
- * @property {(string|number)} [maxWidth=null] - Slide maximum width.
- */
-
-/**
- * @typedef tracklessSlidePropsType
- * @property {string} [direction='row'] - Slide direction.
- * @property {number} [startingPosition=0] - Slide starting position.
- * @property {number} [itemsPerView=1] - Slide items per view.
- * @property {tracklessSlideDimensionsType} [dimensions] - Slide dimensions.
- * @property {boolean} [emulateTrack=false] - Emulate a track by rendering all children.
- * @property {Function} [onMount=null] - Callback for componentDidMount event.
- * @property {Function} [onNewPosition=null] - Callback for newPosition event.
- * @property {*} [children=null] - React prop.
- * @property {Object<string,*>} [style={}] - React prop.
- * @property {string} [className=''] - React prop.
- * @property {Object<string,*>} [customStyles={}] - Custom styles prop.
- * @property {Object<string,*>} [customClassNames={}] - Custom classNames prop.
- * @property {('default'|string|null)} [globalTheme='default'] - Global theme to be used.
- */
-
-/**
- * @description A simple yet powerful trackless slide component.
- * @param {tracklessSlidePropsType} props - Component props.
- * @returns {Object<string,*>} React component.
- */
 function TracklessSlide(props: Props) {
     const {
         direction,
         startingPosition,
         itemsPerView,
         dimensions,
-        emulateTrack,
+        waitForSpring,
+        lazyRender,
+        precision,
         onMount,
         onNewPosition,
         children,
@@ -118,186 +85,90 @@ function TracklessSlide(props: Props) {
         maxWidth = null
     } = dimensions || {};
 
-    const [state, setState] = useState({
-        position: startingPosition,
-        delta: itemsPerView,
-        previousViewArray: []
-    });
+    const clampPosition = useCallback(
+        (value) => {
+            if (!children.length) {
+                return 0;
+            }
+            if (value < 0) {
+                return (value % children.length) + children.length;
+            }
+            return value % children.length;
+        },
+        [children.length]
+    );
 
-    const previousViewArrayRef = useRef([]);
+    const positionRef = useRef(clampPosition(startingPosition));
+    const isFirstRenderRef = useRef(true);
+    const isRestingRef = useRef(true);
 
-    const isRow: boolean = direction === 'row';
+    const [view, setView] = useState(() =>
+        generateView({
+            children,
+            itemsPerView,
+            position: positionRef.current,
+            lazyRender,
+            previousView: null
+        })
+    );
 
     const goTo = useCallback(
-        (newPosition) =>
-            setState((prevState) => {
-                const delta = arrayUtils.getShortestPath(
+        (targetPosition) => {
+            if (waitForSpring && !isRestingRef.current) {
+                return;
+            }
+
+            const newPosition = clampPosition(targetPosition);
+
+            if (onNewPosition && newPosition !== positionRef.current) {
+                onNewPosition(newPosition);
+            }
+
+            positionRef.current = newPosition;
+
+            setView((prevView) => {
+                return generateView({
                     children,
-                    prevState.position,
-                    newPosition
-                );
-                newPosition = (prevState.position + delta) % children.length;
-                if (onNewPosition) {
-                    onNewPosition(newPosition);
-                }
-                return {
-                    position: newPosition,
-                    delta,
-                    previousViewArray: previousViewArrayRef.current
-                };
-            }),
-        [children, onNewPosition]
+                    itemsPerView,
+                    position: positionRef.current,
+                    lazyRender,
+                    previousView: prevView
+                });
+            });
+        },
+        [
+            waitForSpring,
+            clampPosition,
+            onNewPosition,
+            children,
+            itemsPerView,
+            lazyRender
+        ]
     );
 
     const next = useCallback(
-        (group) =>
-            setState((prevState) => {
-                const delta = group ? itemsPerView : 1;
-                const newPosition =
-                    (prevState.position + delta) % children.length;
-                if (onNewPosition) {
-                    onNewPosition(newPosition);
-                }
-                return {
-                    position: newPosition,
-                    delta,
-                    previousViewArray: previousViewArrayRef.current
-                };
-            }),
-        [itemsPerView, children.length, onNewPosition]
+        (group) => {
+            goTo(positionRef.current + (group ? itemsPerView : 1));
+        },
+        [goTo, itemsPerView]
     );
 
     const previous = useCallback(
-        (group) =>
-            setState((prevState) => {
-                const delta = group ? -itemsPerView : -1;
-                let newPosition =
-                    (prevState.position + delta) % children.length;
-                newPosition =
-                    newPosition >= 0
-                        ? newPosition
-                        : children.length + newPosition;
-                if (onNewPosition) {
-                    onNewPosition(newPosition);
-                }
-                return {
-                    position: newPosition,
-                    delta,
-                    previousViewArray: previousViewArrayRef.current
-                };
-            }),
-        [itemsPerView, children.length, onNewPosition]
-    );
-
-    const getIndexFromKey = useCallback((array, key) => {
-        for (let i = 0; i < array.length; i++) {
-            if (array[i].key === key || array[i].key === key + 'X') {
-                return i;
-            }
-        }
-        return null;
-    }, []);
-
-    const getStringKey = useCallback((input) => {
-        return SEEDS.alphaLow.charAt(input);
-    }, []);
-
-    const generateViewArray = useCallback(
-        (position) => {
-            const output = [];
-            let slot = -Math.floor((children.length - itemsPerView) / 2);
-            let key = (position + slot) % children.length;
-            let index = 0;
-            if (key < 0) {
-                key += children.length;
-            }
-            while (index < children.length) {
-                if (emulateTrack || (slot >= 0 && slot < itemsPerView)) {
-                    output.push({
-                        elem: children[key],
-                        key: getStringKey(key),
-                        slot
-                    });
-                }
-                slot++;
-                key = (key + 1) % children.length;
-                index++;
-            }
-            return output;
+        (group) => {
+            goTo(positionRef.current + (group ? -itemsPerView : -1));
         },
-        [children, itemsPerView, emulateTrack, getStringKey]
+        [goTo, itemsPerView]
     );
-
-    const getCurrentViewArray = useCallback(() => {
-        const newViewArray = generateViewArray(state.position);
-
-        if (!emulateTrack) {
-            return newViewArray;
-        }
-
-        const forward = Math.sign(state.delta) !== -1;
-
-        let probeIndex = getIndexFromKey(
-            state.previousViewArray,
-            newViewArray[forward ? 0 : newViewArray.length - 1].key
-        );
-
-        if (typeof probeIndex !== 'number') {
-            probeIndex = forward ? 0 : newViewArray.length - 1;
-        }
-
-        let equivalentIndex = probeIndex;
-
-        for (
-            let index = forward ? 0 : newViewArray.length - 1;
-            forward ? index < newViewArray.length : index >= 0;
-            index += forward ? 1 : -1
-        ) {
-            if (state.previousViewArray[probeIndex]) {
-                newViewArray[index].key =
-                    state.previousViewArray[probeIndex].key;
-            } else {
-                if (state.previousViewArray[equivalentIndex]) {
-                    newViewArray[index].key = state.previousViewArray[
-                        equivalentIndex
-                    ].key.endsWith('X')
-                        ? state.previousViewArray[equivalentIndex].key.replace(
-                              'X',
-                              ''
-                          )
-                        : state.previousViewArray[equivalentIndex].key + 'X';
-                }
-            }
-
-            probeIndex += forward ? 1 : -1;
-            equivalentIndex =
-                (equivalentIndex + (forward ? 1 : -1)) % children.length;
-
-            if (equivalentIndex < 0) {
-                equivalentIndex += state.previousViewArray.length;
-            }
-        }
-
-        return newViewArray;
-    }, [
-        generateViewArray,
-        state.position,
-        state.delta,
-        state.previousViewArray,
-        emulateTrack,
-        getIndexFromKey,
-        children.length
-    ]);
 
     const getTransformValue = useCallback(
         (value) => {
-            if (isRow) {
+            if (direction === 'row') {
                 return `translateX(${value}%)`;
             } else {
                 return `translateY(${value}%)`;
             }
         },
-        [isRow]
+        [direction]
     );
 
     const globalStyles = globalTheme
@@ -318,8 +189,8 @@ function TracklessSlide(props: Props) {
             maxWidth
         }),
         item: mergeStyles(globalStyles.item, customStyles.item, {
-            height: !isRow ? `${100 / itemsPerView}%` : '100%',
-            width: isRow ? `${100 / itemsPerView}%` : '100%',
+            height: direction !== 'row' ? `${100 / itemsPerView}%` : '100%',
+            width: direction === 'row' ? `${100 / itemsPerView}%` : '100%',
             minHeight: null,
             minWidth: null,
             maxHeight: null,
@@ -342,69 +213,43 @@ function TracklessSlide(props: Props) {
         )
     };
 
-    const transitions = useTransition(
-        (previousViewArrayRef.current = getCurrentViewArray()),
-        (i) => i.key,
+    const transition = useTransition(
+        lazyRender ? view.items.filter((a) => a.isInView) : view.items,
+        (item) => item.key,
         {
-            unique: false,
-            /**
-             * @description Callback for from event.
-             * @param {Object} arg - Arg.
-             * @param {number} arg.slot - Item slot.
-             * @returns {Object<string,*>} Props.
-             */
-            from: function from({slot}) {
-                const sign = Math.sign(state.delta);
-                const multiplier = emulateTrack
-                    ? Math.abs(state.delta)
-                    : Math.min(Math.abs(state.delta), itemsPerView);
-                return {
-                    transform: getTransformValue(
-                        100 * (slot + sign * multiplier)
-                    )
-                };
+            config: {
+                precision
             },
-            /**
-             * @description Callback for enter event.
-             * @param {Object} arg - Arg.
-             * @param {number} arg.slot - Item slot.
-             * @returns {Object<string,*>} Props.
-             */
-            enter: function enter({slot}) {
-                return {
-                    transform: getTransformValue(slot * 100)
-                };
+            unique: true,
+            reset: true,
+            from(item) {
+                return item.from;
             },
-            /**
-             * @description Callback for leave event.
-             * @param {Object} arg - Arg.
-             * @param {number} arg.slot - Item slot.
-             * @returns {Object<string,*>} Props.
-             */
-            leave: function leave({slot}) {
-                const sign = Math.sign(state.delta);
-                const multiplier = emulateTrack
-                    ? Math.abs(state.delta)
-                    : Math.min(Math.abs(state.delta), itemsPerView);
-                return {
-                    transform: getTransformValue(
-                        100 * (slot - sign * multiplier)
-                    )
-                };
+            enter(item) {
+                return item.enter;
             },
-            /**
-             * @description Callback for update event.
-             * @param {Object} arg - Arg.
-             * @param {number} arg.slot - Item slot.
-             * @returns {Object<string,*>} Props.
-             */
-            update: function update({slot}) {
-                return {
-                    transform: getTransformValue(slot * 100)
-                };
+            leave(item) {
+                return item.leave;
+            },
+            update(item) {
+                return item.update;
+            },
+            onStart() {
+                isRestingRef.current = false;
+            },
+            onRest() {
+                isRestingRef.current = true;
             }
         }
     );
+
+    useEffect(() => {
+        if (isFirstRenderRef.current) {
+            isFirstRenderRef.current = false;
+            return;
+        }
+        goTo(positionRef.current);
+    }, [children, children.length, goTo]);
 
     useEffect(() => {
         if (onMount) {
@@ -418,13 +263,19 @@ function TracklessSlide(props: Props) {
 
     return (
         <div style={mergedStyles.root} className={mergedClassNames.root}>
-            {transitions.map((transition) => {
+            {transition.map((data) => {
+                const {transform, visibility} = data.props;
                 return (
                     <animated.div
-                        key={transition.key}
-                        style={mergeStyles(mergedStyles.item, transition.props)}
+                        key={data.key}
+                        style={mergeStyles(mergedStyles.item, {
+                            transform: transform.interpolate((val) =>
+                                getTransformValue(val)
+                            ),
+                            visibility
+                        })}
                         className={mergedClassNames.item}>
-                        {transition.item.elem}
+                        {data.item.child}
                     </animated.div>
                 );
             })}
@@ -436,7 +287,9 @@ TracklessSlide.defaultProps = {
     direction: 'row',
     startingPosition: 0,
     itemsPerView: 1,
-    emulateTrack: false,
+    waitForSpring: false,
+    lazyRender: true,
+    precision: 0.01,
     onMount: null,
     onNewPosition: null,
     children: null,

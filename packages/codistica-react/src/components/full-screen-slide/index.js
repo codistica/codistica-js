@@ -1,13 +1,13 @@
 /** @flow */
 
-/** @module react/components/full-screen-slide */
-
 import React from 'react';
 import resetClassNames from '../../css/reset.module.scss';
 import {withOverscrollBlocker} from '../../hocs/with-overscroll-blocker.js';
 import {mergeClassNames} from '../../modules/merge-class-names.js';
 import {mergeStyles} from '../../modules/merge-styles.js';
 import {TrackSlide} from '../track-slide/index.js';
+
+// TODO: ADD SUPPORT FOR KEYBOARD NAVIGATION (NAVIGATE WITH ARROWS, GOTO WITH NUMBERS, ETC)
 
 const OverscrollBlockerDiv = withOverscrollBlocker<{}>('div');
 
@@ -42,27 +42,6 @@ type GlobalClassNames = {
     }
 };
 
-/**
- * @typedef fullScreenSlidePropsType
- * @property {string} [direction='row'] - Slide direction.
- * @property {number} [startingPosition=0] - Slide starting position.
- * @property {number} [itemsPerView=1] - Slide items per view.
- * @property {Function} [onMount=null] - Callback for componentDidMount event.
- * @property {Function} [onNewPosition=null] - Callback for newPosition event.
- * @property {*} [children=null] - React prop.
- * @property {*} [elements=null] - Slide sibling elements.
- * @property {Object<string,*>} [style={}] - React prop.
- * @property {string} [className=''] - React prop.
- * @property {Object<string,*>} [customStyles={}] - Custom styles prop.
- * @property {Object<string,*>} [customClassNames={}] - Custom classNames prop.
- * @property {('default'|string|null)} [globalTheme='default'] - Global theme to be used.
- */
-
-/**
- * @description A simple yet powerful full screen slide component.
- * @param {fullScreenSlidePropsType} props - Component props.
- * @returns {Object<string,*>} React component.
- */
 function FullScreenSlide(props: Props) {
     const {
         elements,
@@ -106,6 +85,7 @@ function FullScreenSlide(props: Props) {
         <OverscrollBlockerDiv
             style={mergedStyles.root}
             className={mergedClassNames.root}>
+            {elements}
             <TrackSlide
                 {...others}
                 dimensions={{
@@ -115,7 +95,6 @@ function FullScreenSlide(props: Props) {
                 globalTheme={null}>
                 {children}
             </TrackSlide>
-            {elements}
         </OverscrollBlockerDiv>
     );
 }

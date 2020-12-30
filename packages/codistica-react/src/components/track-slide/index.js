@@ -1,7 +1,5 @@
 /** @flow */
 
-/** @module react/components/track-slide */
-
 import React, {useState, useCallback, useEffect} from 'react';
 import {animated, useSpring} from 'react-spring';
 import resetClassNames from '../../css/reset.module.scss';
@@ -9,11 +7,12 @@ import {mergeClassNames} from '../../modules/merge-class-names.js';
 import {mergeStyles} from '../../modules/merge-styles.js';
 import componentClassNames from './index.module.scss';
 
-// TODO: SUPPORT ADJUST SLIDE SIZE TO CURRENT ITEM SIZE (TO LEAVE SCROLLING TO DOCUMENT) (MAKE A SEPARATE COMPONENT?)
-// TODO: ADD OPTION TO MAKE INITIAL ANIMATION (LIKE TracklessSlide).
-// TODO: ADD OPTION TO NOT ADD INTERNAL DIMENSION STYLES.
-// TODO: ADD DRAG SUPPORT VIA draggable BOOLEAN PROP (ONLY IF POSSIBLE) (USE react-use-gesture).
+// TODO: MAKE next AND previous CALL goTo? TO AVOID CONFUSIONS. (TO CHANGE STATE ONLY IN ONE PLACE)
+// TODO: ADD OPTION TO NOT ADD INTERNAL DIMENSION STYLES?
+// TODO: ADD DRAG SUPPORT VIA draggable BOOLEAN PROP (IF POSSIBLE) (USE react-use-gesture).
 // TODO: ADD swipe SUPPORT IF DRAG SUPPORT IS NOT POSSIBLE.
+// TODO: SUPPORT ADJUST SLIDE SIZE TO CURRENT ITEM/ITEMS SIZE? (TO LEAVE SCROLLING TO DOCUMENT) (MAKE A SEPARATE COMPONENT?)
+// TODO: CHECK CHANGING itemsPerView WHEN POSITIONED ON HIGH NUMBERED ITEM.
 
 type Props = {
     direction: 'row' | 'column',
@@ -61,37 +60,6 @@ type GlobalClassNames = {
     }
 };
 
-/**
- * @typedef trackSlideDimensionsType
- * @property {(string|number)} height - Slide height.
- * @property {(string|number)} width - Slide width.
- * @property {(string|number)} [minHeight=null] - Slide minimum height.
- * @property {(string|number)} [minWidth=null] - Slide minimum width.
- * @property {(string|number)} [maxHeight=null] - Slide maximum height.
- * @property {(string|number)} [maxWidth=null] - Slide maximum width.
- */
-
-/**
- * @typedef trackSlidePropsType
- * @property {string} [direction='row'] - Slide direction.
- * @property {number} [startingPosition=0] - Slide starting position.
- * @property {number} [itemsPerView=1] - Slide items per view.
- * @property {trackSlideDimensionsType} [dimensions] - Slide dimensions.
- * @property {Function} [onMount=null] - Callback for componentDidMount event.
- * @property {Function} [onNewPosition=null] - Callback for newPosition event.
- * @property {*} [children=null] - React prop.
- * @property {Object<string,*>} [style={}] - React prop.
- * @property {string} [className=''] - React prop.
- * @property {Object<string,*>} [customStyles={}] - Custom styles prop.
- * @property {Object<string,*>} [customClassNames={}] - Custom classNames prop.
- * @property {('default'|string|null)} [globalTheme='default'] - Global theme to be used.
- */
-
-/**
- * @description A simple yet powerful track slide component.
- * @param {trackSlidePropsType} props - Component props.
- * @returns {Object<string,*>} React component.
- */
 function TrackSlide(props: Props) {
     const {
         direction,
@@ -119,72 +87,67 @@ function TrackSlide(props: Props) {
 
     const clampPosition = useCallback(
         (value) => {
-            if (value + itemsPerView >= children.length) {
-                value = children.length - itemsPerView;
-            } else if (value < 0) {
+            if (value < 0 || itemsPerView >= children.length) {
                 value = 0;
+            } else if (value + itemsPerView >= children.length) {
+                value = children.length - itemsPerView;
             }
             return value;
         },
         [children.length, itemsPerView]
     );
 
-    const [state, setState] = useState({
-        position: clampPosition(startingPosition)
-    });
-
-    const isRow: boolean = direction === 'row';
+    const [position, setPosition] = useState(clampPosition(startingPosition));
 
     const goTo = useCallback(
-        (newPosition) => {
-            newPosition = clampPosition(newPosition);
+        (targetPosition) => {
+            const newPosition = clampPosition(targetPosition);
+            if (newPosition === position) {
+                return;
+            }
             if (onNewPosition) {
                 onNewPosition(newPosition);
             }
-            setState({position: newPosition});
+            setPosition(newPosition);
         },
-        [clampPosition, onNewPosition]
+        [clampPosition, onNewPosition, position]
     );
 
     const next = useCallback(
         (group) =>
-            setState((prevState) => {
+            setPosition((prevPosition) => {
                 const delta = group ? itemsPerView : 1;
-                const newPosition = clampPosition(prevState.position + delta);
+                const newPosition = clampPosition(prevPosition + delta);
                 if (onNewPosition) {
                     onNewPosition(newPosition);
                 }
-                return {
-                    position: newPosition
-                };
+                return newPosition;
             }),
         [itemsPerView, clampPosition, onNewPosition]
     );
 
     const previous = useCallback(
         (group) =>
-            setState((prevState) => {
+            setPosition((prevPosition) => {
                 const delta = group ? -itemsPerView : -1;
-                const newPosition = clampPosition(prevState.position + delta);
+                const newPosition = clampPosition(prevPosition + delta);
                 if (onNewPosition) {
                     onNewPosition(newPosition);
                 }
-                return {
-                    position: newPosition
-                };
+                return newPosition;
             }),
         [itemsPerView, clampPosition, onNewPosition]
     );
 
     const getTransformValue = useCallback(
         (value) => {
-            if (isRow) {
+            if (direction === 'row') {
                 return `translateX(${value}%)`;
             } else {
                 return `translateY(${value}%)`;
             }
         },
-        [isRow]
+        [direction]
     );
 
     const globalStyles = globalTheme
@@ -215,8 +178,8 @@ function TrackSlide(props: Props) {
             flexDirection: direction
         }),
         item: mergeStyles(globalStyles.item, customStyles.item, {
-            height: !isRow ? `${100 / itemsPerView}%` : '100%',
-            width: isRow ? `${100 / itemsPerView}%` : '100%',
+            height: direction !== 'row' ? `${100 / itemsPerView}%` : '100%',
+            width: direction === 'row' ? `${100 / itemsPerView}%` : '100%',
             minHeight: null,
             minWidth: null,
             maxHeight: null,
@@ -244,9 +207,13 @@ function TrackSlide(props: Props) {
         )
     };
 
-    const springProps = useSpring({
-        translateValue: (-100 * state.position) / itemsPerView
+    const spring = useSpring({
+        translate: (-100 * position) / itemsPerView
     });
+
+    useEffect(() => {
+        goTo(position);
+    }, [children, children.length, goTo, position]);
 
     useEffect(() => {
         if (onMount) {
@@ -262,7 +229,7 @@ function TrackSlide(props: Props) {
         <div style={mergedStyles.root} className={mergedClassNames.root}>
             <animated.div
                 style={mergeStyles(mergedStyles.track, {
-                    transform: springProps.translateValue.interpolate((val) =>
+                    transform: spring.translate.interpolate((val) =>
                         getTransformValue(val)
                     )
                 })}

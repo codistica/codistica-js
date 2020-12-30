@@ -1,23 +1,42 @@
 /** @flow */
 
 import React, {useRef} from 'react';
-import {Button, TrackSlide} from '../../../../src/index.js';
-import componentClassNames from './index.module.scss';
+import {
+    Button,
+    createSophistication,
+    TrackSlide
+} from '../../../../src/index.js';
 
-/**
- * @description A viewport responsive track slide demo.
- * @returns {Object<string,*>} React component.
- */
-function ViewportResponsiveTrackSlide() {
+const useSophistication = createSophistication({
+    root: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+    },
+    slideItem: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100%',
+        width: '100%'
+    },
+    button: {
+        width: 300,
+        margin: 10
+    }
+});
+
+function Simple() {
     const controlsRef = useRef(null);
 
+    const jssClassNames = useSophistication();
+
     return (
-        <div className={componentClassNames.root}>
+        <div className={jssClassNames.root}>
             <TrackSlide
-                direction={'column'}
                 dimensions={{
-                    height: '10vh',
-                    width: '15vw'
+                    height: '400px',
+                    width: '400px'
                 }}
                 customStyles={{
                     root: {
@@ -32,7 +51,7 @@ function ViewportResponsiveTrackSlide() {
                         <span
                             key={index}
                             style={{backgroundColor: color}}
-                            className={componentClassNames.slideItem}>
+                            className={jssClassNames.slideItem}>
                             {index}
                         </span>
                     )
@@ -45,7 +64,7 @@ function ViewportResponsiveTrackSlide() {
                         controlsRef.current.previous();
                     }
                 }}
-                className={componentClassNames.button}
+                className={jssClassNames.button}
             />
             <Button
                 title={'NEXT'}
@@ -54,15 +73,10 @@ function ViewportResponsiveTrackSlide() {
                         controlsRef.current.next();
                     }
                 }}
-                className={componentClassNames.button}
+                className={jssClassNames.button}
             />
         </div>
     );
 }
 
-const meta = {
-    title: 'Track Slide'
-};
-
-export {ViewportResponsiveTrackSlide};
-export default meta;
+export {Simple};

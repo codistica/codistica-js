@@ -1,16 +1,27 @@
 /** @flow */
 
 import React, {useState, useRef} from 'react';
-import {DotNavigation, FullScreenSlide} from '../../../../src/index.js';
-import componentClassNames from './index.module.scss';
+import {
+    DotNavigation,
+    FullScreenSlide,
+    createSophistication
+} from '../../../../src/index.js';
 
-/**
- * @description A full screen slide column demo.
- * @returns {Object<string,*>} React component.
- */
-function FullScreenSlideColumn() {
+const useSophistication = createSophistication({
+    slideItem: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100%',
+        width: '100%'
+    }
+});
+
+function FullScreenColumn() {
     const [dotIndex, setDotIndex] = useState(0);
     const controlsRef = useRef(null);
+
+    const jssClassNames = useSophistication();
 
     const dotNavigation = (
         <DotNavigation
@@ -26,7 +37,8 @@ function FullScreenSlideColumn() {
                     position: 'absolute',
                     right: '10px',
                     top: '50%',
-                    transform: 'translateY(-50%)'
+                    transform: 'translateY(-50%)',
+                    zIndex: 10
                 }
             }}
         />
@@ -45,7 +57,7 @@ function FullScreenSlideColumn() {
                     <span
                         key={index}
                         style={{backgroundColor: color}}
-                        className={componentClassNames.slideItem}>
+                        className={jssClassNames.slideItem}>
                         {index}
                     </span>
                 )
@@ -54,9 +66,4 @@ function FullScreenSlideColumn() {
     );
 }
 
-const meta = {
-    title: 'Full Screen Slide'
-};
-
-export {FullScreenSlideColumn};
-export default meta;
+export {FullScreenColumn};
