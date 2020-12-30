@@ -1,6 +1,6 @@
 /** @flow */
 
-import React, {createContext} from 'react';
+import React, {createContext, Component} from 'react';
 
 type Props = {
     children: any
@@ -12,11 +12,6 @@ type State = {
     opacity: number
 };
 
-/**
- * @typedef backgroundContextProps
- * @property {*} [children=null] - React prop.
- */
-
 const BackgroundContext: Object = createContext({
     imgSrc: '',
     movSrc: '',
@@ -24,18 +19,11 @@ const BackgroundContext: Object = createContext({
     changeBackground: null
 });
 
-/**
- * @classdesc Background context provider.
- */
-class BackgroundProvider extends React.Component<Props, State> {
+class BackgroundProvider extends Component<Props, State> {
     static defaultProps = {
         children: null
     };
 
-    /**
-     * @description Constructor.
-     * @param {backgroundContextProps} [props] - Component props.
-     */
     constructor(props: Props) {
         super(props);
 
@@ -49,19 +37,6 @@ class BackgroundProvider extends React.Component<Props, State> {
         (this: any).changeBackground = this.changeBackground.bind(this);
     }
 
-    /**
-     * @typedef backgroundContextChangeBackgroundType
-     * @property {string} [imgSrc] - Background image source.
-     * @property {string} [movSrc] - Background video source.
-     * @property {number} [opacity] - Opacity to be applied to opacity layer.
-     */
-
-    /**
-     * @instance
-     * @description Background change method.
-     * @param {backgroundContextChangeBackgroundType} bgData - New background data.
-     * @returns {void} Void.
-     */
     changeBackground(bgData: {
         imgSrc: string,
         movSrc: string,
@@ -71,11 +46,6 @@ class BackgroundProvider extends React.Component<Props, State> {
         this.setState({imgSrc, movSrc, opacity});
     }
 
-    /**
-     * @instance
-     * @description React render method.
-     * @returns {Object<string,*>} React component.
-     */
     render() {
         const {imgSrc, movSrc, opacity} = this.state;
         const {changeBackground} = this;

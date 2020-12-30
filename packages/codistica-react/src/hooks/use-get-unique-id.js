@@ -6,34 +6,34 @@ import {uniqueID} from '../modules/unique-id.js';
 import {useSingleton} from './use-singleton.js';
 
 function useGetUniqueID() {
-    const globalId = useRef('');
-    const localMap = useRef(new Map());
-    const localCounter = useRef(0);
+    const globalIdRef = useRef('');
+    const localMapRef = useRef(new Map());
+    const localCounterRef = useRef(0);
 
     // CREATE GLOBAL
     useSingleton(() => {
-        globalId.current = uniqueID.getID();
+        globalIdRef.current = uniqueID.getID();
     });
 
     // CLEANUP GLOBAL
     useEffect(() => {
         return () => {
-            localMap.current = new Map();
-            localCounter.current = 0;
-            uniqueID.releaseID(globalId.current);
+            localMapRef.current = new Map();
+            localCounterRef.current = 0;
+            uniqueID.releaseID(globalIdRef.current);
         };
     }, []);
 
-    return function getUniqueID(key: any): string | null {
+    return function getUniqueID(key: any): string {
         if (!key) {
             log.error('getUniqueID()', 'NO VALID KEY PROVIDED')();
-            return null;
+            return '';
         }
-        let id = localMap.current.get(key);
+        let id = localMapRef.current.get(key);
         if (!id) {
-            localCounter.current++;
-            id = `${globalId.current}-${localCounter.current}`;
-            localMap.current.set(key, id);
+            localCounterRef.current++;
+            id = `${globalIdRef.current}-${localCounterRef.current}`;
+            localMapRef.current.set(key, id);
         }
         return id;
     };

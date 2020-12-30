@@ -5,7 +5,7 @@ const xlinkHrefPlugin = {
         type: 'perItem',
         description: 'Replaces deprecated xlink:href attribute with href.',
         params: {},
-        fn: function fn(item) {
+        fn(item) {
             item.eachAttr((attr) => {
                 const {name, changeName} = parseAttr(item, attr);
                 if (name === 'xlink:href') {

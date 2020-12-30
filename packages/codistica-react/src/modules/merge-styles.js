@@ -2,7 +2,7 @@
 
 /** @module react/modules/merge-styles */
 
-type Style = typeof undefined | {[string]: any};
+type Style = typeof undefined | {[string]: any} | null;
 type Flag = any;
 type Args = Array<Style | [Style, Flag]>;
 

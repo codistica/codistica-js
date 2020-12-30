@@ -1,15 +1,21 @@
 /** @flow */
 
-import {mergeClassNames, createSophistication} from '@codistica/react';
+import {
+    mergeClassNames,
+    mergeStyles,
+    createSophistication
+} from '@codistica/react';
 import React, {forwardRef} from 'react';
 import componentClassNames from './index.module.scss';
 
 // TODO: FIX <any, any>
 // TODO: CORRECTLY TYPE ANNOTATE HOC.
 // TODO: ADD defaultProps?
+// TODO: ADD SUPPORT FOR SVG EFFECTS/FILTERS. (IS elements PROP SUFFICIENT?)
 
 type Props = {
     children: any,
+    elements: any,
     className: string,
     style: {[string]: any},
     color: string,
@@ -28,7 +34,17 @@ const useSophistication = createSophistication({
 });
 
 const SvgIcon = forwardRef<any, any>(function SvgIcon(props: Props, ref) {
-    const {children, className, color, title, viewBox, size, ...other} = props;
+    const {
+        children,
+        elements,
+        className,
+        style,
+        color,
+        title,
+        viewBox,
+        size,
+        ...other
+    } = props;
 
     const jssClassNames = useSophistication({color});
 
@@ -43,11 +59,15 @@ const SvgIcon = forwardRef<any, any>(function SvgIcon(props: Props, ref) {
                 className
             )}
             focusable={'false'}
-            style={{
-                height: size,
-                width: size
-            }}>
+            style={mergeStyles(
+                {
+                    height: size,
+                    width: size
+                },
+                style
+            )}>
             {title ? <title>{title}</title> : null}
+            {elements}
             {children}
         </svg>
     );

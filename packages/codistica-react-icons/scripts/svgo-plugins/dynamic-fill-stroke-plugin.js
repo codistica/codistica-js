@@ -12,12 +12,12 @@ const dynamicFillStrokePlugin = {
                 '#ffffff': 'backgroundColor'
             }
         },
-        fn: function fn(item, params) {
+        fn(item, params) {
             item.eachAttr((attr) => {
                 const {name, value, changeValue} = parseAttr(item, attr);
 
                 if (name === 'fill' || name === 'stroke') {
-                    // CONVERT SHORT HEX TO LONG HEX.
+                    // CONVERT SHORT HEX TO LONG HEX
                     const shorthex = (value.match(REG_EXPS.SHORTHEX) || [])[0];
                     let longHex = (value.match(REG_EXPS.LONGHEX) || [])[0];
                     if (shorthex) {

@@ -23,7 +23,7 @@ function {{componentName}}(props: Props) {
     {{#hasDynamicIDs}}
         const getUniqueID = useGetUniqueID();
     {{/hasDynamicIDs}}
-    const {color, backgroundColor, ...other} = props;
+    const {color,{{#hasBackgroundColor}} backgroundColor,{{/hasBackgroundColor}} ...other} = props;
     return (
         <SvgIcon {...other}>
             {{svgo.data}}

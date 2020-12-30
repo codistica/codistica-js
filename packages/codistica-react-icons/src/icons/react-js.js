@@ -14,7 +14,7 @@ type Props = {
 };
 
 function ReactJS(props: Props) {
-    const {color, backgroundColor, ...other} = props;
+    const {color, ...other} = props;
     return (
         <SvgIcon {...other}>
             <g fill={color || '#53c1de'}>

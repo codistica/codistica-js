@@ -4,11 +4,16 @@ import {eventListenerObjectSupport, viewportMonitor} from '@codistica/browser';
 import {numberUtils} from '@codistica/core';
 import {default as hoistNonReactStatics} from 'hoist-non-react-statics';
 import React, {forwardRef, useEffect, useRef} from 'react';
-import type {ElementType} from 'react';
+import type {ComponentType} from 'react';
 import {getDisplayName} from '../modules/get-display-name.js';
 import {getRefHandler} from '../modules/get-ref-handler.js';
 
 // TODO: TYPES (SEE HOC TYPING FROM JSS REPO AND COMPONENT THROUGH HOC TYPING).
+
+type Props = {
+    children: any,
+    onView: null | ((...args: Array<any>) => any)
+};
 
 type Context = {|
     instanceCount: number,
@@ -60,8 +65,8 @@ function cleanUp(handler) {
 }
 
 function withOnView(trackOutside?: boolean) {
-    return function withOnViewHOC(InnerComponent: ElementType) {
-        const HOC = forwardRef((props, ref) => {
+    return function withOnViewHOC(InnerComponent: ComponentType<any> | string) {
+        const HOC = forwardRef((props: Props, ref) => {
             const {children, onView, ...other} = props;
 
             const componentRef = useRef(null);
@@ -162,8 +167,8 @@ function withOnView(trackOutside?: boolean) {
 
             return InnerComponent ? (
                 <InnerComponent
-                    ref={getRefHandler(ref, componentRef)}
-                    {...other}>
+                    {...other}
+                    ref={getRefHandler(ref, componentRef)}>
                     {children}
                 </InnerComponent>
             ) : (

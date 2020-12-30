@@ -12,6 +12,8 @@ import resetClassNames from '../css/reset.module.scss';
 import {mergeClassNames} from '../modules/merge-class-names.js';
 import {mergeStyles} from '../modules/merge-styles.js';
 
+// TODO: ADD SUPPORT FOR FOCUSING?
+
 type ElementType = ComponentType<any> | string;
 
 type DefaultProps = {|

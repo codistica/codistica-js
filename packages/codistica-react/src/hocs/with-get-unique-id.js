@@ -8,14 +8,18 @@ import {getDisplayName} from '../modules/get-display-name.js';
 
 // TODO: TYPES (SEE HOC TYPING FROM JSS REPO AND COMPONENT THROUGH HOC TYPING).
 
-function withGetUniqueID(InnerComponent: ComponentType<any>) {
-    const HOC = forwardRef((props, ref) => {
+type Props = {
+    children: any
+};
+
+function withGetUniqueID(InnerComponent: ComponentType<any> | string) {
+    const HOC = forwardRef((props: Props, ref) => {
         const {children, ...other} = props;
 
         const getUniqueID = useGetUniqueID();
 
         return InnerComponent ? (
-            <InnerComponent ref={ref} {...other} getUniqueID={getUniqueID}>
+            <InnerComponent {...other} getUniqueID={getUniqueID} ref={ref}>
                 {children}
             </InnerComponent>
         ) : (

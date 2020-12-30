@@ -51,7 +51,7 @@ function preventTaps(hooks, options) {
             : null;
     hooks.forEach((hook) => {
         hook.intercept({
-            register: function register(tapInfo) {
+            register(tapInfo) {
                 /**
                  * @function composeFn
                  * @description Generates composed function to allow switching between real and mocked tap function.

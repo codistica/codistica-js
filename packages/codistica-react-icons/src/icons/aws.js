@@ -14,7 +14,7 @@ type Props = {
 };
 
 function AWS(props: Props) {
-    const {color, backgroundColor, ...other} = props;
+    const {color, ...other} = props;
     return (
         <SvgIcon {...other}>
             <g fill={color || '#ff9902'}>

@@ -10,7 +10,7 @@ const OverscrollBlockerDiv = withOverscrollBlocker<{}>('div');
 const category = 'HOC';
 const title = 'withOverscrollBlocker()';
 const description =
-    'Disables overscroll on passed component, without disrupting normal scroll behaviour.';
+    'Disables overscroll on passed component, without disrupting normal scroll behavior.';
 
 /**
  * @description With overscroll blocker section.

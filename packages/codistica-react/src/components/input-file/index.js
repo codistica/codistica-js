@@ -1,7 +1,5 @@
 /** @flow */
 
-/** @module react-mui/components/text-field */
-
 import React, {useRef} from 'react';
 import type {Node} from 'react';
 import resetClassNames from '../../css/reset.module.scss';
@@ -47,11 +45,6 @@ type InputFileInternalProps = {
     } | null
 };
 
-/**
- * @description Internal element of InputFile.
- * @param {InputFileInternalProps} props - Component props.
- * @returns {React.Component} Styled internal input file.
- */
 function InputFileInternal({
     placeholder,
     name,
@@ -254,43 +247,7 @@ InputFile.globalColors = ({
     }
 }: GlobalColors);
 
-/**
- * @typedef inputFileErrorMessageType
- * @property {(string|(function(*): string|null)|Object<string,*>|null)} [mandatory=null] - Mandatory error message.
- * @property {(string|(function(*): string|null)|Object<string,*>|null)} [match=null] - Match error message.
- */
-
-/**
- * @typedef InputFileProps
- * @property {string} name - Input name.
- * @property {string} [label=''] - Input label.
- * @property {string|null} [accept=null] - Input accept attribute.
- * @property {string|boolean|null} [capture=null] - Input capture attribute.
- * @property {string} [placeholder='No file chosen'] - Text that appears when no file has been selected.
- * @property {boolean} [mandatory=false] - Input mandatory flag.
- * @property {boolean} [keepMissingStatus=false] - Keep missing status after user interaction.
- * @property {(string|null)} [match=null] - Name of input that has to be matched to correctly validate.
- * @property {inputFileErrorMessageType} [errorMessages] - Validation error messages.
- * @property {PluginType} [plugins=[]] - Input plugins.
- * @property {boolean} [deferValidation=false] - Defer input validation until there is an interaction.
- * @property {Function|null} [onValidationResult=null] - Callback for validationResult event.
- * @property {(function(SyntheticInputEvent<HTMLInputElement>): void) | null} [onChange=null] - Callback for change event.
- * @property {function(FocusEvent): void | null} [onBlur=null] - Callback for blur event.
- * @property {string} [className=''] - Classname applied to the root element.
- * @property {CSSStyleDeclaration} [style={}] - Css style passed to the root element.
- * @property {CustomStyles} [customStyles={}] - Custom styles prop.
- * @property {CustomClassNames} [customClassNames={}] - Custom classNames prop.
- * @property {CustomColors} [customColors={}] - Custom colors prop.
- * @property {'default'|string|null} [globalTheme='default'] - Global theme to be used.
- * @property {Object<string,*> | null} [children=null] - Children prop.
- */
-
-/**
- * @description A file input component.
- * @param {Object<string,*>} props - Component props.
- * @returns {Object<string,*>} React component.
- */
-function InputFile(props: InputFileProps): React$Element<any> {
+function InputFile(props: InputFilePropsType): React$Element<any> {
     const {
         name,
         value,

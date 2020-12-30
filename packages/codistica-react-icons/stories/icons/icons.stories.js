@@ -214,7 +214,7 @@ function AllIcons() {
         <Fragment>
             <div className={jssClassNames.root}>
                 <div className={jssClassNames.icons}>
-                    {icons.map((Icon, key) => {
+                    {icons.map((Icon, index) => {
                         const icon = (
                             <Icon
                                 color={iconsColor}
@@ -222,7 +222,7 @@ function AllIcons() {
                             />
                         );
                         return (
-                            <span key={key}>
+                            <span key={index}>
                                 {icon}
                                 <p>
                                     {stringUtils.toTitleCase(icon.props.title)}

@@ -108,7 +108,7 @@ function RadioGroup(props: Props) {
                             }}>
                             {(() => {
                                 let output = [];
-                                let key = 0;
+                                let index = 0;
                                 for (const radioValue in radios) {
                                     if (
                                         !Object.prototype.hasOwnProperty.call(
@@ -120,7 +120,7 @@ function RadioGroup(props: Props) {
                                     }
                                     output.push(
                                         <FormControlLabel
-                                            key={key}
+                                            key={index}
                                             control={
                                                 <Radio
                                                     {...radioProps}
@@ -152,7 +152,7 @@ function RadioGroup(props: Props) {
                                             label={radios[radioValue]}
                                         />
                                     );
-                                    key++;
+                                    index++;
                                 }
                                 return output;
                             })()}

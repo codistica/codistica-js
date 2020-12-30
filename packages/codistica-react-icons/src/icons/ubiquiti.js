@@ -14,7 +14,7 @@ type Props = {
 };
 
 function Ubiquiti(props: Props) {
-    const {color, backgroundColor, ...other} = props;
+    const {color, ...other} = props;
     return (
         <SvgIcon {...other}>
             <path

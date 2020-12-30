@@ -2,6 +2,10 @@
 
 /** @module react/hocs/with-viewport-monitor */
 
+// TODO: ADD OPTION TO ONLY REPLACE STYLES AFTER VIEWPORT CHANGE ENDED.
+// TODO: MAKE THIS WORK WITH react-spring?
+// TODO: ADD OPTION TO BLOCK INTERACTIONS WHILE VIEWPORT IS CHANGING?
+
 import {viewportMonitor} from '@codistica/browser';
 import {objectUtils} from '@codistica/core';
 import React from 'react';

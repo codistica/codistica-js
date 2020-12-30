@@ -3,7 +3,7 @@ const removeSvgTagPlugin = {
         type: 'full',
         description: 'Removes main svg tag.',
         params: {},
-        fn: function fn(ast) {
+        fn(ast) {
             const svgElemIndex = ast.content.findIndex((item) =>
                 item.isElem('svg')
             );

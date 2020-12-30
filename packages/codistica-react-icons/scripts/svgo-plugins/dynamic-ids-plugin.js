@@ -8,7 +8,7 @@ const dynamicIDsPlugin = {
         params: {
             fnName: 'getUniqueID'
         },
-        fn: function fn(item, params) {
+        fn(item, params) {
             item.eachAttr((attr) => {
                 const {name, value, changeValue} = parseAttr(item, attr);
 

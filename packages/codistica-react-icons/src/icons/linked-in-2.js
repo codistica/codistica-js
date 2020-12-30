@@ -16,7 +16,7 @@ type Props = {
 
 function LinkedIn2(props: Props) {
     const getUniqueID = useGetUniqueID();
-    const {color, backgroundColor, ...other} = props;
+    const {color, ...other} = props;
     return (
         <SvgIcon {...other}>
             <defs>

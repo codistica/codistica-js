@@ -14,7 +14,7 @@ type Props = {
 };
 
 function CircleCI(props: Props) {
-    const {color, backgroundColor, ...other} = props;
+    const {color, ...other} = props;
     return (
         <SvgIcon {...other}>
             <g fill={color || '#37474f'}>

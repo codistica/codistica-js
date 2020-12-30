@@ -9,7 +9,7 @@ import {mergeStyles} from '../modules/merge-styles.js';
 
 type Props = {
     children: any,
-    href: string,
+    href: string | null,
     style: {[string]: any},
     className: string,
     customStyles: {

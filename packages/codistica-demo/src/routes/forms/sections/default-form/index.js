@@ -173,7 +173,7 @@ function DefaultForm() {
                         errorMessages: {
                             generic: 'Please check this field:',
                             format: '- Invalid email address.',
-                            username: '- Use name.surname format.',
+                            username: '- Use firstName.lastName format.',
                             domains:
                                 '- You must use a codistica.com email address.'
                         }

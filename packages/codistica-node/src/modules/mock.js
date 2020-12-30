@@ -3,7 +3,7 @@
 import {Module as _Module} from 'module';
 
 // TODO: SEE ORIGINAL mockery PACKAGE. ADD MISSING FEATURES, CHECK AND IMPROVE.
-// TODO: WORKAROUND DEPRECATED module.parent (USE require.main AND module.children).
+// TODO: DO NOT USE DEPRECATED module.parent (USE require.main AND module.children).
 // TODO: USE ITERATORS DIRECTLY (IF POSSIBLE).
 // TODO: PREVENT THIS MODULE FROM DISAPPEARING FROM CACHE.
 // TODO: REMEMBER TO CLEAN REFERENCES FROM REAL MODULE TREE (?). DURING CACHE CLEAN AND AFTER NORMALLY LOADING A TARGET MODULE. (SEE MOCKERY SOURCE CODE. DO BETTER). REMOVE MODULES WHEN CLEARED FROM CACHE? GO FROM main? OR SAVE "toBeCleaned" MODULES ON THE WAY?
@@ -166,7 +166,7 @@ function getMatchedMockObject(filename, currentRequest) {
                     passed = true;
                     break;
                 }
-                // CURRENT MODULE LOAD STACK SHOULD BE OBTAINED BY TRAVERSING VIRTUAL TREE USING LATEST INSERTED PARENT.
+                // CURRENT MODULE LOAD STACK SHOULD BE OBTAINED BY TRAVERSING VIRTUAL TREE USING LATEST INSERTED PARENT
                 current = Array.from(current.parents.values()).pop();
             }
 
@@ -239,7 +239,7 @@ function createVirtualModule(input, parent) {
     if (parent) {
         const virtualParent = createVirtualModule(parent);
 
-        // DELETE AND RE-ADD SO SET VALUES ARE ALWAYS ORDERED BY REQUEST TIME.
+        // DELETE AND RE-ADD SO SET VALUES ARE ALWAYS ORDERED BY REQUEST TIME
 
         virtualParent.children.delete(output);
         virtualParent.children.add(output);
@@ -305,7 +305,7 @@ function customLoader(rawRequest, requesterModule, isMain) {
     const exports = context.originalLoader(rawRequest, requesterModule, isMain);
 
     if (!isLoadingTarget) {
-        // IF FIRST CHECK WAS NEGATIVE, WE NEED TO RE-CHECK AFTER NESTED MODULE RESOLUTION TOOK PLACE, SO WE ALLOW VIRTUAL MODULE CHILDREN SET TO BE POPULATED.
+        // IF FIRST CHECK WAS NEGATIVE, WE NEED TO RE-CHECK AFTER NESTED MODULE RESOLUTION TOOK PLACE, SO WE ALLOW VIRTUAL MODULE CHILDREN SET TO BE POPULATED
         isLoadingTarget = !!getMatchedMockObject(resolvedRequest);
     }
 
@@ -384,7 +384,7 @@ function disable() {
 }
 
 /**
- * @description If the clean cache option is in effect, reset the current cache to an empty state.
+ * @description Reset the current cache to an empty state.
  * @returns {void} Void.
  */
 function clearCache() {

@@ -17,7 +17,7 @@ import type {
     CustomColors
 } from './index.sophistication.js';
 
-// TODO: ALLOW CHECKING BY CLICKING ON 'LABEL' (TITLE) TO MATCH NATIVE BEHAVIOUR.
+// TODO: ALLOW CHECKING BY CLICKING ON 'LABEL' (TITLE) TO MATCH NATIVE BEHAVIOR.
 
 type CommonProps = {
     name: string,

@@ -274,3 +274,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/node,linux,macos,windows,webstorm
+
+### Custom (overrides) ###
+!packages/codistica-demo/.env

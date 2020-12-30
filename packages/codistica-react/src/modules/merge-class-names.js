@@ -2,7 +2,7 @@
 
 /** @module react/modules/merge-class-names */
 
-type ClassName = typeof undefined | string;
+type ClassName = typeof undefined | string | null;
 type Flag = any;
 type Args = Array<ClassName | [ClassName, Flag]>;
 
