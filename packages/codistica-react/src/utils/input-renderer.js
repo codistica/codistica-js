@@ -1,13 +1,7 @@
 /** @flow */
 
-/** @module react/utils/input-renderer */
-
-// TODO: USE OWN UNIQUE ID SYSTEM? APPLY TO ALL PROJECT.
-
 // TODO: MAKE IT POSSIBLE TO SPECIFY A KEY FOR RETRIEVING VALUE FROM event.target OBJECT ('value', 'files', ETC.) OR TO USE A RETRIEVER FUNCTION.
-// TODO: WRITE PSEUDO-DOCUMENTATION FOR ALL FORM VALIDATION ENVIRONMENT! BEFORE YOU FORGET HOW IT WORKS.
 
-// TODO: SUPPORT FORM PAYLOAD GROUPS LIKE permissions:admins, permissions:customers -> [permissions:admins, permissions:customers].
 // TODO: RENAME asyncValidator TO asyncCallbackValidator AND CREATE callbackValidator.
 // TODO: CREATE regExpValidator
 
@@ -24,7 +18,9 @@
 
 // TODO: PASS hasFocus INFORMATION IN API.
 
-import {objectUtils} from '@codistica/core';
+// TODO: CREATE HOOK AND HOC? (inputManagerRenderer, useInputManager, withInputManager) (COMMON InputManager CLASS? HOW TO USE CONTEXT?)
+
+import {objectUtils, stringify} from '@codistica/core';
 import React from 'react';
 import type {Node} from 'react';
 import {InputPluginManager} from '../classes/input-plugin-manager.js';
@@ -69,7 +65,6 @@ type InputProps = {
 
 type InputRendererAPI = {
     status: StatusType,
-    isInteracted: boolean,
     validationObject: ValidationObject,
     setNewValue: (value: string) => any,
     setIsInteracted: (value: boolean) => any
@@ -111,40 +106,11 @@ type State = {
     overrideStatus: StatusType | false
 };
 
-/**
- * @typedef inputRendererErrorMessagesType
- * @property {(string|(function(*): string|null)|Object<string,*>|null)} [mandatory=null] - Mandatory error message.
- * @property {(string|(function(*): string|null)|Object<string,*>|null)} [match=null] - Match error message.
- */
-
-/**
- * @typedef inputRendererPropsTypeType
- * @property {Object<string,*>} inputRenderFn - Input component render prop.
- * @property {string} name - Input name.
- * @property {string} value - Input value.
- * @property {(string|null)} [voidValue=''] - Value to consider input to be void.
- * @property {boolean} [booleanInput=null] - Boolean input flag.
- * @property {boolean} [mandatory=false] - Input mandatory flag.
- * @property {boolean} [keepMissingStatus=false] - Keep missing status after user interaction.
- * @property {boolean} [runFiltersBeforeValidators=false] - Filter input value before passing it to validators.
- * @property {(string|null)} [match=null] - Name of input that has to be matched to correctly validate.
- * @property {inputRendererErrorMessagesType} [errorMessages] - Validation error messages.
- * @property {*} [plugins=[]] - Input plugins.
- * @property {(null|function(*,string): (string|*))} [stringifier=null] - Value stringifier.
- * @property {boolean} [deferValidation=true] - Defer input validation until there is an interaction.
- * @property {Function} [onValidationResult=null] - Callback for validationResult event.
- * @property {Function} [onKeyDown=null] - Callback for keyDown event.
- * @property {Function} [onChange=null] - Callback for change event.
- * @property {Function} [onBlur=null] - Callback for blur event.
- */
-
-/**
- * @classdesc A beautiful input renderer.
- */
 class InputRenderer extends React.Component<InputRendererPropsType, State> {
     static contextType = FormContext;
 
     static defaultProps = {
+        value: '',
         voidValue: '',
         booleanInput: null,
         mandatory: true,
@@ -156,7 +122,7 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
             match: null
         },
         plugins: [],
-        stringifier: null,
+        stringifier: stringify,
         deferValidation: true,
         onValidationResult: null,
         onKeyDown: null,
@@ -180,10 +146,6 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
 
     inputChangeTracker: string;
 
-    /**
-     * @description Constructor.
-     * @param {inputRendererPropsTypeType} [props] - Component props.
-     */
     constructor(props: InputRendererPropsType) {
         super(props);
 
@@ -233,11 +195,6 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
         (this: any).onBlurHandler = this.onBlurHandler.bind(this);
     }
 
-    /**
-     * @instance
-     * @description React lifecycle.
-     * @returns {void} Void.
-     */
     componentDidMount() {
         // REGISTER INPUT
         if (this.context.formInstance) {
@@ -256,11 +213,6 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
         }
     }
 
-    /**
-     * @instance
-     * @description React lifecycle.
-     * @returns {void} Void.
-     */
     componentWillUnmount() {
         // UNLINK INPUT
         if (this.props.match && this.context.formInstance) {
@@ -276,12 +228,6 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
         uniqueID.releaseID(this.id);
     }
 
-    /**
-     * @instance
-     * @description Method for setting new value.
-     * @param {string} value - New value.
-     * @returns {void} Void.
-     */
     setNewValue(value: string) {
         // SET NEW VALUE
         this.setState({value}, () => {
@@ -295,27 +241,13 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
         });
     }
 
-    /**
-     * @instance
-     * @description Method for setting isInteracted variable.
-     * @param {boolean} value - New value.
-     * @returns {void} Void.
-     */
     setIsInteracted(value: boolean) {
         this.isInteracted = !!value;
     }
 
-    /**
-     * @instance
-     * @description Method for getting value for validation.
-     * @returns {string} Validation value.
-     */
     getValidationValue() {
-        const value =
-            this.props.stringifier &&
-            this.props.stringifier(this.state.value, 'validation');
-        if (typeof value === 'string') {
-            return value;
+        if (this.props.stringifier) {
+            return this.props.stringifier(this.state.value, 'validation');
         } else if (typeof this.state.value === 'string') {
             return this.state.value;
         } else {
@@ -323,11 +255,6 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
         }
     }
 
-    /**
-     * @instance
-     * @description Method for getting value for form.
-     * @returns {*} Form value.
-     */
     getFormValue() {
         if (this.props.stringifier) {
             return this.props.stringifier(this.state.value, 'form');
@@ -336,22 +263,11 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
         }
     }
 
-    /**
-     * @instance
-     * @description Checks input based on its mandatory prop.
-     * @returns {(boolean|null)} Result.
-     */
     checkMandatory() {
         this.isVoid = this.state.value === this.props.voidValue;
         return this.props.mandatory && this.isVoid;
     }
 
-    /**
-     * @instance
-     * @description Run input validation process.
-     * @param {boolean} [useLastValidatorsOutput] - Use last validators output instead of running validators again.
-     * @returns {void} Void.
-     */
     validateInput(useLastValidatorsOutput?: boolean) {
         this.isDeferred = this.props.deferValidation && !this.isInteracted;
         this.isStandby = false;
@@ -484,11 +400,6 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
         }
     }
 
-    /**
-     * @instance
-     * @description Updates input status.
-     * @returns {void} Void.
-     */
     updateStatus() {
         if (this.isStandby) {
             this.setState({
@@ -520,12 +431,6 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
         }
     }
 
-    /**
-     * @instance
-     * @description Triggers highlight state for the specified amount of time.
-     * @param {number} duration - State duration.
-     * @returns {void} Void.
-     */
     highlight(duration?: number) {
         if (!this.state.overrideStatus) {
             this.setState({
@@ -541,12 +446,6 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
         }
     }
 
-    /**
-     * @instance
-     * @description Triggers warning state for the specified amount of time.
-     * @param {number} duration - State duration.
-     * @returns {void} Void.
-     */
     warn(duration?: number) {
         if (!this.state.overrideStatus) {
             this.setState({
@@ -562,24 +461,12 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
         }
     }
 
-    /**
-     * @instance
-     * @description Clears input.
-     * @returns {void} Void.
-     */
     clear() {
         this.isInteracted = false;
         this.inputChangeTracker = this.props.value;
         this.setNewValue(this.props.value);
     }
 
-    /**
-     * @instance
-     * @description Changes input value by dispatching a change event.
-     * @param {HTMLInputElement} inputElement - Input element.
-     * @param {string} value - New value.
-     * @returns {void} Void.
-     */
     emulateChange(inputElement: HTMLInputElement, value: string) {
         const valueSetter = (
             Object.getOwnPropertyDescriptor(inputElement, 'value') || {}
@@ -605,12 +492,6 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
         inputElement.dispatchEvent(new Event('change', {bubbles: true}));
     }
 
-    /**
-     * @instance
-     * @description Callback for keyDown event.
-     * @param {Object<string,*>} e - Triggering event.
-     * @returns {void} Void.
-     */
     onKeyDownHandler(e: {[string]: any}) {
         // CHAIN PASSED EVENT HANDLER IF NECESSARY
         if (typeof this.props.onKeyDown === 'function') {
@@ -640,12 +521,6 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
         }
     }
 
-    /**
-     * @instance
-     * @description Callback for change event.
-     * @param {*} e - Triggering event.
-     * @returns {void} Void.
-     */
     onChangeHandler(e: any) {
         // CHAIN PASSED EVENT HANDLER IF NECESSARY
         if (typeof this.props.onChange === 'function') {
@@ -678,12 +553,6 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
         }
     }
 
-    /**
-     * @instance
-     * @description Callback for blur event.
-     * @param {Object<string,*>} e - Triggering event.
-     * @returns {void} Void.
-     */
     onBlurHandler(e: {[string]: any}) {
         // CHAIN PASSED EVENT HANDLER IF NECESSARY
         if (typeof this.props.onBlur === 'function') {
@@ -698,7 +567,7 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
             }
         }
 
-        // IMITATE onChange EVENT REAL SPECIFICATION BEHAVIOUR
+        // IMITATE onChange EVENT REAL SPECIFICATION BEHAVIOR
         if (e.target.value !== this.inputChangeTracker) {
             // RESET inputChangeTracker
             this.inputChangeTracker = e.target.value;
@@ -722,17 +591,30 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
         }
     }
 
-    /**
-     * @instance
-     * @description React render method.
-     * @returns {Object<string,*>} React component.
-     */
     render() {
-        const {name, inputRenderFn} = this.props;
-        const {value, status, overrideStatus} = this.state;
+        const {
+            name,
+            value,
+            voidValue,
+            booleanInput,
+            mandatory,
+            keepMissingStatus,
+            runFiltersBeforeValidators,
+            match,
+            errorMessages,
+            plugins,
+            stringifier,
+            deferValidation,
+            onValidationResult,
+            onKeyDown,
+            onChange,
+            onBlur,
+            inputRenderFn,
+            ...other
+        } = this.props;
+
         const {
             id,
-            isInteracted,
             validationObject,
             setNewValue,
             setIsInteracted,
@@ -745,16 +627,16 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
             inputRenderFn &&
             inputRenderFn(
                 {
+                    ...other,
                     id,
                     name,
-                    value,
+                    value: this.state.value,
                     onKeyDown: onKeyDownHandler,
                     onChange: onChangeHandler,
                     onBlur: onBlurHandler
                 },
                 {
-                    status: overrideStatus || status,
-                    isInteracted,
+                    status: this.state.overrideStatus || this.state.status,
                     validationObject,
                     setNewValue,
                     setIsInteracted
