@@ -25,7 +25,7 @@ import React from 'react';
 import type {Node} from 'react';
 import {InputPluginManager} from '../classes/input-plugin-manager.js';
 import type {
-    PluginType,
+    InputPluginType,
     RunValidatorsOutputType
 } from '../classes/input-plugin-manager.js';
 import {InputValidatorPluginUtils} from '../classes/input-validator-plugin-utils.js';
@@ -90,7 +90,7 @@ type InputRendererPropsType = {
         mandatory?: string | null,
         match?: string | null
     },
-    plugins: PluginType,
+    plugins: InputPluginType,
     stringifier: null | Stringifier,
     deferValidation: boolean,
     onValidationResult: null | ((...args: Array<any>) => any),
@@ -647,4 +647,9 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
 }
 
 export {FormContext, InputRenderer};
-export type {ValidationObject, StatusType, InputRendererPropsType, PluginType};
+export type {
+    ValidationObject,
+    StatusType,
+    InputRendererPropsType,
+    InputPluginType
+};

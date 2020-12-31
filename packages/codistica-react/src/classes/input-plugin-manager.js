@@ -30,7 +30,7 @@ type ValidatorType = {
     plugin: ValidatorInstanceType
 };
 
-type PresetInstanceType = PluginType;
+type PresetInstanceType = InputPluginType;
 type PresetType = {
     type: 'preset',
     name: string,
@@ -41,7 +41,7 @@ type PresetType = {
 type AllPluginsType = BlockerType | FilterType | ValidatorType | PresetType;
 type PluginWrapperType = (options?: any) => AllPluginsType;
 
-type PluginType =
+type InputPluginType =
     | (AllPluginsType | PluginWrapperType)
     | Array<AllPluginsType | PluginWrapperType>;
 
@@ -200,7 +200,7 @@ class InputPluginManager {
      * @param {pluginType} plugins - Plugins to be loaded.
      * @returns {void} Void.
      */
-    loadPlugins(plugins: PluginType) {
+    loadPlugins(plugins: InputPluginType) {
         const {blockers, filters, validators} = loadPlugins(plugins);
         this.blockers = mergePlugins<BlockerType>(this.blockers, blockers);
         this.filters = mergePlugins<FilterType>(this.filters, filters);
@@ -279,7 +279,7 @@ function mergePlugins<MergePluginType: AllPluginsType>(
  * @returns {{blockers: Array<BlockerType>, filters: Array<FilterType>, validators: Array<ValidatorType>}} Plugins object.
  */
 function loadPlugins(
-    plugins: PluginType
+    plugins: InputPluginType
 ): {
     blockers: Array<BlockerType>,
     filters: Array<FilterType>,
@@ -413,4 +413,4 @@ function getNormalizedValidatorOutput(
 }
 
 export {InputPluginManager};
-export type {PluginType, RunValidatorsOutputType};
+export type {InputPluginType, RunValidatorsOutputType};

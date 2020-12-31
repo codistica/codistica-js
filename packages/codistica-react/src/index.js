@@ -11,9 +11,6 @@ import * as inputFilters from './plugins/input-filters';
 import * as inputPresets from './plugins/input-presets';
 import * as inputValidators from './plugins/input-validators';
 
-import type {FormValidationObjectType} from './utils/form';
-import type {PluginType as InputPluginType} from './utils/input-renderer';
-
 // *** EXPORTS ***
 
 // GROUPS
@@ -76,8 +73,9 @@ export {HoverSwitch} from './utils/hover-switch';
 export {InputRenderer} from './utils/input-renderer';
 
 // TYPES
+export type {FormValidationObjectType} from './utils/form';
 export type {InputFilePropsType} from './components/input-file';
-export type {InputPluginType, FormValidationObjectType};
+export type {InputPluginType} from './utils/input-renderer';
 
 // TODO: REMOVE NEXT/PREVIOUS group OPTION FROM ALL SLIDES.
 

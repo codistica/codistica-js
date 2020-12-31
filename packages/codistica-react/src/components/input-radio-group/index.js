@@ -10,7 +10,7 @@ import {withSophistication} from '../../hocs/with-sophistication.js';
 import {mergeClassNames} from '../../modules/merge-class-names.js';
 import {mergeStyles} from '../../modules/merge-styles.js';
 import {InputRenderer} from '../../utils/input-renderer.js';
-import type {PluginType, StatusType} from '../../utils/input-renderer.js';
+import type {InputPluginType, StatusType} from '../../utils/input-renderer.js';
 import componentClassNames from './index.module.scss';
 import {styles} from './index.sophistication.js';
 import type {
@@ -221,7 +221,7 @@ type InputRadioGroupProps = {
         mandatory?: string | null,
         match?: string | null
     },
-    plugins: PluginType,
+    plugins: InputPluginType,
     deferValidation: boolean,
     onValidationResult: null | ((...args: Array<any>) => any)
 };

@@ -7,7 +7,7 @@ import {mergeClassNames} from '../../modules/merge-class-names.js';
 import {mergeStyles} from '../../modules/merge-styles.js';
 import {lengthValidator} from '../../plugins/input-validators/index.js';
 import {InputRenderer} from '../../utils/input-renderer.js';
-import type {PluginType, StatusType} from '../../utils/input-renderer.js';
+import type {InputPluginType, StatusType} from '../../utils/input-renderer.js';
 import componentClassNames from './index.module.scss';
 import {useSophistication} from './index.sophistication.js';
 import type {
@@ -182,7 +182,7 @@ type InputFilePropsType = {
         mandatory?: string | ((any) => string | null) | {[string]: any} | null,
         match?: string | ((any) => string | null) | {[string]: any} | null
     },
-    plugins: PluginType,
+    plugins: InputPluginType,
     deferValidation: boolean,
     onValidationResult: null | ((...args: Array<any>) => any)
 };
@@ -266,7 +266,7 @@ function InputFile(props: InputFilePropsType): React$Element<any> {
     } = props;
 
     const pluginArray = Array.isArray(plugins) ? plugins : [plugins];
-    const mergedPlugins: Array<PluginType> = [
+    const mergedPlugins: Array<InputPluginType> = [
         lengthValidator({
             minLength: 1
         }),
