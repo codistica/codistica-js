@@ -1,9 +1,8 @@
-name: Pre Release Tags
+name: 'Pre Release Tags'
 
 on:
   pull_request:
-    branches:
-      - master
+    branches: [ master ]
 
 jobs:
   comment:
@@ -11,21 +10,22 @@ jobs:
     if: github.event.action == 'opened'
 
     steps:
-      - name: Reject branches different from develop
+      - name: Check Branch
         if: github.event.pull_request.head.ref != 'develop'
         run: exit 1
 
-      - uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.ref }}
 
-      - uses: actions/setup-node@v1
+      - name: Setup Node
+        uses: actions/setup-node@v1
 
-      - name: Intall dependencies
-        run: |
-          yarn install
+      - name: Intall Dependencies
+        run: yarn install
 
-      - name: Check if Codistica member
+      - name: Check User
         id: is-member
         uses: codistica/actions/is-member@v1
         with:
@@ -34,7 +34,7 @@ jobs:
           username: ${{ github.event.pull_request.user.login }}
           throwError: false
 
-      - name: Get tags
+      - name: Get Tags
         if: steps.is-member.outputs.result == '1'
         id: tags
         uses: codistica/actions/monorepo-release-tags@v1

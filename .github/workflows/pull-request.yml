@@ -1,4 +1,4 @@
-name: Pull Request
+name: 'Pull Request'
 
 on:
   pull_request:
@@ -6,24 +6,39 @@ on:
     types: [ opened, synchronize ]
 
 jobs:
-  build:
-    name: Internal Check
+  labels:
+    name: Update Labels
     runs-on: ubuntu-latest
     steps:
-      - name: Update Label
+      - name: Update Labels
         uses: codistica/actions/label@v1
         with:
           token: ${{ secrets.CODISTIBOT_TOKEN }}
           number: ${{ github.event.pull_request.number }}
           labels: '["⏳ pending"]'
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+
+  tests:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+
       - name: Install Dependencies
         run: yarn install
-      - name: Build
-        run: yarn build
+
+      - name: Build All
+        run: yarn run build
+
+      - name: Test
+        run: yarn run test
+
       - name: Create Coverage File
-        run: yarn coverage
+        run: yarn run coverage
+
       - name: Report Coverage
         uses: coverallsapp/github-action@master
         with:
