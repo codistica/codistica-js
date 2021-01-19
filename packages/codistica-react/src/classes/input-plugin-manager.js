@@ -295,7 +295,7 @@ function loadPlugins(
         validators: []
     };
 
-    arrayUtils.flatten(arrayUtils.normalize(plugins)).forEach((plugin) => {
+    arrayUtils.flat(arrayUtils.normalize(plugins)).forEach((plugin) => {
         const pluginObject = InputPluginManager.initializePlugin(plugin);
         if (!pluginObject) {
             return;
