@@ -6,7 +6,7 @@ import {getLength} from '../modules/object-utils/internals/get-length.js';
 import {isObject} from '../modules/object-utils/internals/is-object.js';
 import {isPrimitive} from '../modules/object-utils/internals/is-primitive.js';
 import {prettify} from '../modules/object-utils/internals/prettify.js';
-import {injectBefore} from '../modules/string-utils/internals/inject-before.js';
+import {padStart} from '../modules/string-utils/internals/pad-start.js';
 import {stringify} from '../modules/stringify.js';
 
 // TODO: TEST/FIX/IMPROVE BROWSER CONSOLE BINDER.
@@ -345,7 +345,7 @@ class Log {
      */
     composeLog(logObj) {
         if (isPrimitive(logObj.msg)) {
-            logObj.msg = injectBefore(
+            logObj.msg = padStart(
                 stringify(logObj.msg),
                 this.options.typeSize - logObj.type.length,
                 ' '
@@ -353,7 +353,7 @@ class Log {
         } else {
             logObj.msg = '\n' + prettify(logObj.msg);
         }
-        logObj.caller = injectBefore(
+        logObj.caller = padStart(
             logObj.caller,
             this.options.callerSize - logObj.caller.length,
             ' '

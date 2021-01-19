@@ -3,7 +3,7 @@ import {splitByWords} from '../../../../modules/string-utils/internals/split-by-
 
 /** @see module:core/modules/string-utils/split-by-words */
 function splitByWordsTest() {
-    describe('toTitleCase()', () => {
+    describe('splitByWords()', () => {
         it('Should correctly split passed string by words.', () => {
             assert.deepEqual(splitByWords('thisIsATest'), [
                 'this',
@@ -18,6 +18,48 @@ function splitByWordsTest() {
                 'for',
                 'All',
                 'TESTS'
+            ]);
+            assert.deepEqual(splitByWords('Hello, World!'), [
+                'Hello',
+                ',',
+                ' ',
+                'World',
+                '!'
+            ]);
+            assert.deepEqual(splitByWords('Hello,%$#  World!'), [
+                'Hello',
+                ',',
+                '%',
+                '$',
+                '#',
+                ' ',
+                ' ',
+                'World',
+                '!'
+            ]);
+            assert.deepEqual(splitByWords('Hello,123  World!!'), [
+                'Hello',
+                ',',
+                '123',
+                ' ',
+                ' ',
+                'World',
+                '!',
+                '!'
+            ]);
+            assert.deepEqual(splitByWords('hello,world'), [
+                'hello',
+                ',',
+                'world'
+            ]);
+            assert.deepEqual(splitByWords("WeCan'tLetThisTest-Fail"), [
+                'We',
+                "Can't",
+                'Let',
+                'This',
+                'Test',
+                '-',
+                'Fail'
             ]);
         });
     });

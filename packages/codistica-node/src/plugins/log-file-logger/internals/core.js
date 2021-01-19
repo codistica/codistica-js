@@ -24,23 +24,19 @@ class LogFileLoggerCore {
      */
     static getLogString(logObj) {
         return (
-            `${stringUtils.injectBefore(
+            `${stringUtils.padStart(
                 logObj.date.getHours(),
                 2,
                 '0'
-            )}:${stringUtils.injectBefore(
+            )}:${stringUtils.padStart(
                 logObj.date.getMinutes(),
                 2,
                 '0'
-            )}:${stringUtils.injectBefore(
+            )}:${stringUtils.padStart(
                 logObj.date.getSeconds(),
                 2,
                 '0'
-            )}:${stringUtils.injectBefore(
-                logObj.date.getMilliseconds(),
-                3,
-                '0'
-            )}` +
+            )}:${stringUtils.padStart(logObj.date.getMilliseconds(), 3, '0')}` +
             STRINGS.STD_TAB_SPACE +
             logObj.type +
             logObj.caller +

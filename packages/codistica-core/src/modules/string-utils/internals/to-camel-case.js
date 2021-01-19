@@ -10,7 +10,7 @@ import {splitByWords} from './split-by-words.js';
  */
 function toCamelCase(str) {
     return splitByWords(str)
-        .filter((word) => !/[\s\W]/.test(word))
+        .filter((word) => !/[\s-]/.test(word))
         .map((word, index) => {
             if (index) {
                 return capitalizeFirst(word);

@@ -10,7 +10,7 @@ import {splitByWords} from './split-by-words.js';
  */
 function toPascalCase(str) {
     return splitByWords(str)
-        .filter((word) => !/[\s\W]/.test(word))
+        .filter((word) => !/[\s-]/.test(word))
         .map((word) => capitalizeFirst(word))
         .join('');
 }

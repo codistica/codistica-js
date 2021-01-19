@@ -6,6 +6,9 @@
  * @returns {string} String result.
  */
 function stringify(input) {
+    if (typeof input === 'string') {
+        return input;
+    }
     if (
         typeof input !== 'undefined' &&
         typeof input !== 'object' &&

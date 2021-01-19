@@ -9,7 +9,7 @@ import {splitByWords} from './split-by-words.js';
  */
 function toKebabCase(str) {
     return splitByWords(str)
-        .filter((word) => !/[\s\W]/.test(word))
+        .filter((word) => !/[\s-]/.test(word))
         .map((word) => word.toLowerCase())
         .join('-');
 }

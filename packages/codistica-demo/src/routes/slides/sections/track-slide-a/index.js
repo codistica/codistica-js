@@ -108,7 +108,7 @@ function TrackSlideSectionA() {
                     {items.map((item, index) => (
                         <Button
                             key={index}
-                            title={stringUtils.injectBefore(
+                            title={stringUtils.padStart(
                                 index,
                                 items[items.length - 1].toString().length,
                                 '0'

@@ -6,6 +6,11 @@ function toPascalCaseTest() {
     describe('toPascalCase()', () => {
         it('Should correctly convert passed string to pascal case.', () => {
             assert.strictEqual(toPascalCase('ES Lint'), 'ESLint');
+            assert.strictEqual(toPascalCase('test-test'), 'TestTest');
+            assert.strictEqual(
+                toPascalCase('123 456 TestTest1'),
+                '123456TestTest1'
+            );
         });
     });
 }

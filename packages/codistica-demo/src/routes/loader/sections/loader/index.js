@@ -50,7 +50,7 @@ function display(input, length, round) {
     if (round) {
         input = (Math.round(input * 100) / 100).toFixed(2);
     }
-    return stringUtils.injectBefore(input.toString(), length || 10, '0');
+    return stringUtils.padStart(input.toString(), length || 10, '0');
 }
 
 const category = 'DEMO';

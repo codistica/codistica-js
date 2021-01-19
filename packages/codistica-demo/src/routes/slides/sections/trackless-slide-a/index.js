@@ -121,7 +121,7 @@ function TracklessSlideSectionA() {
                     {items.map((item, index) => (
                         <Button
                             key={item}
-                            title={stringUtils.injectBefore(
+                            title={stringUtils.padStart(
                                 item,
                                 items[items.length - 1].toString().length,
                                 '0'

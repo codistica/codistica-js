@@ -38,19 +38,19 @@ function WithOnScrollActionSection() {
                 tabIndex={1}
                 onScrollAction={(e) => {
                     setScrollData({
-                        sourceX: stringUtils.injectBefore(
+                        sourceX: stringUtils.padStart(
                             e.sourceX || '         ',
                             9,
                             ' '
                         ),
-                        sourceY: stringUtils.injectBefore(
+                        sourceY: stringUtils.padStart(
                             e.sourceY || '         ',
                             9,
                             ' '
                         ),
                         deltaX: e.deltaX,
                         deltaY: e.deltaY,
-                        reachedLimit: stringUtils.injectBefore(
+                        reachedLimit: stringUtils.padStart(
                             e.reachedLimit || '      ',
                             6,
                             ' '
@@ -63,11 +63,11 @@ function WithOnScrollActionSection() {
             <div className={componentClassNames.info}>
                 <p>
                     {'source x: ' +
-                        stringUtils.injectBefore(scrollData.sourceX, 3, ' ')}
+                        stringUtils.padStart(scrollData.sourceX, 3, ' ')}
                 </p>
                 <p>
                     {'source y: ' +
-                        stringUtils.injectBefore(scrollData.sourceY, 3, ' ')}
+                        stringUtils.padStart(scrollData.sourceY, 3, ' ')}
                 </p>
                 <p>{'deltaX: ' + scrollData.deltaX}</p>
                 <p>{'deltaY: ' + scrollData.deltaY}</p>

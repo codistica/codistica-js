@@ -10,6 +10,16 @@ function toTitleCaseTest() {
                 toTitleCase('thisIsANOTHERTitle'),
                 'This Is ANOTHER Title'
             );
+            assert.strictEqual(toTitleCase('hello,world!'), 'Hello, World!');
+            assert.strictEqual(toTitleCase('(hello)-world!'), '(Hello) World!');
+            assert.strictEqual(
+                toTitleCase('(hello)- world!'),
+                '(Hello) - World!'
+            );
+            assert.strictEqual(
+                toTitleCase("WeCan'tLetThisTest -Fail"),
+                "We Can't Let This Test - Fail"
+            );
         });
     });
 }
