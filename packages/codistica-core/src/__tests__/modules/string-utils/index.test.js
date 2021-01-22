@@ -6,6 +6,7 @@ import {parseTest} from './internals/parse.test.js';
 import {splitByWordsTest} from './internals/split-by-words.test.js';
 import {titleToUrlTest} from './internals/title-to-url.test.js';
 import {toCamelCaseTest} from './internals/to-camel-case.test.js';
+import {toDataStorageUnitsTest} from './internals/to-data-storage-units.js';
 import {toKebabCaseTest} from './internals/to-kebab-case.test.js';
 import {toPascalCaseTest} from './internals/to-pascal-case.test.js';
 import {toSentenceCaseTest} from './internals/to-sentence-case.test.js';
@@ -24,6 +25,7 @@ function stringUtilsTest() {
         splitByWordsTest();
         titleToUrlTest();
         toCamelCaseTest();
+        toDataStorageUnitsTest();
         toKebabCaseTest();
         toPascalCaseTest();
         toSentenceCaseTest();

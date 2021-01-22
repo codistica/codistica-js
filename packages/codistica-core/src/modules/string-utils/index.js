@@ -6,6 +6,7 @@ import {parse} from './internals/parse.js';
 import {splitByWords} from './internals/split-by-words.js';
 import {titleToUrl} from './internals/title-to-url.js';
 import {toCamelCase} from './internals/to-camel-case.js';
+import {toDataStorageUnits} from './internals/to-data-storage-units.js';
 import {toKebabCase} from './internals/to-kebab-case.js';
 import {toPascalCase} from './internals/to-pascal-case.js';
 import {toSentenceCase} from './internals/to-sentence-case.js';
@@ -23,6 +24,7 @@ export {
     splitByWords,
     titleToUrl,
     toCamelCase,
+    toDataStorageUnits,
     toKebabCase,
     toPascalCase,
     toSentenceCase,
