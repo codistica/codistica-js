@@ -1,92 +1,74 @@
 /** @flow */
 
-import {createSophistication} from '../../hooks/create-sophistication.js';
 import type {StatusType} from '../../utils/input-renderer.js';
+
+type CustomStyles = {
+    root?: {[string]: any},
+    button?: {[string]: any},
+    list?: {[string]: any}
+};
+
+type CustomClassNames = {
+    root?: string,
+    button?: string,
+    list?: string
+};
 
 type CustomColors = {
     validColor?: string,
     invalidColor?: string,
     warningColor?: string,
-    highlightColor?: string
-};
-
-type GlobalCustomClassNames = {
-    root?: string,
-    input?: string,
-    label?: string
-};
-
-type CustomClassNames = {
-    ...GlobalCustomClassNames,
-    placeholder: string,
-    text: string
-};
-
-type GlobalCustomStyles = {
-    root: $Shape<CSSStyleDeclaration> | null,
-    input: $Shape<CSSStyleDeclaration> | null,
-    label: $Shape<CSSStyleDeclaration> | null
-};
-
-type CustomStyles = {
-    ...GlobalCustomStyles,
-    placeholder: $Shape<CSSStyleDeclaration> | null,
-    text: $Shape<CSSStyleDeclaration> | null
+    highlightColor?: string,
+    focusColor?: string
 };
 
 type Params = {
-    customStyles?: CustomStyles,
     customColors?: CustomColors,
     status?: StatusType
 };
 
-const useSophistication = createSophistication({
-    /**
-     * @description Input JSS styles.
-     * @param {*} params - Component props.
-     * @returns {Object<string,*>} Style.
-     */
-    root(params: Params = {}) {
-        const {
-            validColor = '#94ff36',
-            invalidColor = '#e83b35',
-            warningColor = '#e8e639',
-            highlightColor = null
-        } = params.customColors || {};
-        let borderColor = null;
-        let color = null;
-
-        switch (params.status) {
-            case 'valid':
-                borderColor = [[validColor], '!important'];
-                break;
-            case 'invalid':
-                borderColor = [[invalidColor], '!important'];
-                break;
-            case 'warning':
-                color = warningColor;
-                borderColor = warningColor;
-                break;
-            case 'highlight':
-                color = highlightColor;
-                borderColor = highlightColor;
-                break;
-            default:
-                break;
-        }
+const styles = {
+    input(params: Params = {}) {
+        const {focusColor = '#e88b0e'} = params.customColors || {};
+        const color = getStatusColor(params) || focusColor;
+        return {
+            '&:focus + label': {
+                color,
+                borderColor: color
+            }
+        };
+    },
+    button(params: Params = {}) {
+        const statusColor = getStatusColor(params);
 
         return {
-            color,
-            borderColor
+            color: statusColor,
+            borderColor: statusColor
         };
     }
-});
-
-export {useSophistication};
-export type {
-    CustomStyles,
-    CustomColors,
-    CustomClassNames,
-    GlobalCustomClassNames,
-    GlobalCustomStyles
 };
+
+function getStatusColor(params: Params) {
+    const {
+        validColor = '#94ff36',
+        invalidColor = '#e83b35',
+        warningColor = '#e8e639',
+        highlightColor = null
+    } = params.customColors || {};
+
+    switch (params.status) {
+        case 'valid':
+            return validColor;
+        case 'invalid':
+            return invalidColor;
+        case 'warning':
+            return warningColor;
+        case 'highlight':
+            return highlightColor;
+        default:
+            return null;
+    }
+}
+
+export {styles};
+export type {CustomStyles, CustomClassNames, CustomColors};

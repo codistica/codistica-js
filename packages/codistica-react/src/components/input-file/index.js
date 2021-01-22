@@ -1,74 +1,75 @@
 /** @flow */
 
-import React, {useRef} from 'react';
-import type {Node} from 'react';
+import {stringUtils} from '@codistica/core';
+import React from 'react';
 import resetClassNames from '../../css/reset.module.scss';
+import {createSophistication} from '../../hooks/create-sophistication.js';
 import {mergeClassNames} from '../../modules/merge-class-names.js';
 import {mergeStyles} from '../../modules/merge-styles.js';
-import {lengthValidator} from '../../plugins/input-validators/index.js';
 import {InputRenderer} from '../../utils/input-renderer.js';
 import type {InputPluginType, StatusType} from '../../utils/input-renderer.js';
+import {Button} from '../button/index.js';
 import componentClassNames from './index.module.scss';
-import {useSophistication} from './index.sophistication.js';
+import {styles} from './index.sophistication.js';
 import type {
-    CustomColors,
     CustomStyles,
     CustomClassNames,
-    GlobalCustomClassNames,
-    GlobalCustomStyles
+    CustomColors
 } from './index.sophistication.js';
+
+// TODO: ADD remove (x) ON LIST.
+// TODO: CREATE AD-HOC VALIDATOR WITH PER FILE VALIDATION SUPPORT.
+// TODO: ADD maxFiles PROP.
+// TODO: ADD InputFile.Preview? (COMPOUND COMPONENT)
+// TODO: OR ADD PREVIEW TOOLTIP WHEN HOVER/TOUCH? (BOTH?)
 
 type CommonProps = {
     name: string,
-    label: string,
-    accept: string | null,
-    capture: string | boolean | null,
+    buttonTitle: string,
+    value: Array<File> | null,
     placeholder: string,
-    onChange: ((SyntheticInputEvent<HTMLInputElement>) => void) | null,
-    onBlur: ((SyntheticFocusEvent<HTMLInputElement>) => void) | null,
+    accept: string,
+    capture: string | typeof undefined,
+    multiple: boolean,
+    onChange: null | ((...args: Array<any>) => any),
+    onBlur: null | ((...args: Array<any>) => any),
+    style: {[string]: any},
     className: string,
-    customColors: CustomColors,
     customStyles: CustomStyles,
     customClassNames: CustomClassNames,
-    style: $Shape<CSSStyleDeclaration> | null,
-    globalTheme: 'default' | string | null,
-    children: Node | null
+    customColors: CustomColors,
+    globalTheme: 'default' | string | null
 };
 
 type InputFileInternalProps = {
     ...CommonProps,
     id: string,
-    status: StatusType,
-    currentValue: {
-        files: FileList,
-        value: string
-    } | null
+    status: StatusType
 };
 
-function InputFileInternal({
-    placeholder,
-    name,
-    id,
-    label,
-    accept,
-    capture,
-    onChange,
-    status,
-    customColors,
-    customStyles,
-    customClassNames,
-    globalTheme,
-    className,
-    style,
-    children,
-    currentValue,
-    ...other
-}: InputFileInternalProps) {
-    const {files, value} = currentValue || {files: null, value: ''};
-    const currentFile = files ? files[0] : null;
-    const inputRef = useRef<HTMLInputElement | null>(null);
+const useSophistication = createSophistication(styles);
 
-    const labelIsHidden = !(customStyles.label || customClassNames.label);
+function InputFileInternal(props: InputFileInternalProps) {
+    const {
+        id,
+        name,
+        buttonTitle,
+        value,
+        placeholder,
+        accept,
+        capture,
+        multiple,
+        status,
+        style,
+        className,
+        customStyles,
+        customClassNames,
+        customColors,
+        globalTheme,
+        onChange,
+        onBlur,
+        ...other
+    } = props;
 
     const globalStyles = globalTheme
         ? InputFile.globalStyles[globalTheme] || {}
@@ -82,105 +83,98 @@ function InputFileInternal({
         ? InputFile.globalColors[globalTheme] || {}
         : {};
 
-    const jssClassName = useSophistication({
+    const jssClassNames = useSophistication({
         status,
         customColors: {
             ...globalColors,
             ...customColors
-        },
-        customStyles
+        }
     });
 
     const mergedStyles = {
         root: mergeStyles(globalStyles.root, customStyles.root, style),
-        textContainer: mergeStyles(
-            [customStyles.placeholder, !currentFile],
-            customStyles.text,
-            style
-        ),
-        label: mergeStyles(globalStyles.label, customStyles.label, style),
-        input: mergeStyles(globalStyles.input, customStyles.input, style)
+        button: mergeStyles(globalStyles.button, customStyles.button),
+        list: mergeStyles(globalStyles.list, customStyles.list)
     };
+
+    const blink = [
+        componentClassNames.blink,
+        status === 'highlight' || status === 'warning'
+    ];
 
     const mergedClassNames = {
         root: mergeClassNames(
-            [
-                componentClassNames.blink,
-                status === 'highlight' || status === 'warning'
-            ],
             resetClassNames.greedy,
             componentClassNames.root,
             globalClassNames.root,
             customClassNames.root,
-            jssClassName.root,
             className
         ),
-        contentContainer: mergeClassNames(componentClassNames.contentContainer),
-        textContainer: mergeClassNames(
-            componentClassNames.textContainer,
-            [componentClassNames.placeholder, !currentFile],
-            [customClassNames.placeholder, !currentFile],
-            customClassNames.text
+        input: mergeClassNames(componentClassNames.input, jssClassNames.input),
+        button: mergeClassNames(
+            blink,
+            componentClassNames.button,
+            jssClassNames.button,
+            globalClassNames.button,
+            customClassNames.button
         ),
-        label: mergeClassNames(
-            globalClassNames.label,
-            customClassNames.label,
-            className
-        ),
-        input: mergeClassNames(
-            componentClassNames.input,
-            globalClassNames.label,
-            customClassNames.label,
-            className
+        list: mergeClassNames(
+            blink,
+            componentClassNames.list,
+            globalClassNames.list,
+            customClassNames.list
         )
     };
 
     return (
         <span style={mergedStyles.root} className={mergedClassNames.root}>
-            <div className={mergedClassNames.contentContainer}>
-                <span
-                    style={mergedStyles.textContainer}
-                    className={mergedClassNames.textContainer}>
-                    {currentFile ? currentFile.name : placeholder}
-                </span>
-                {children}
-            </div>
             <input
                 {...other}
-                value={value}
-                multiple={false}
-                ref={inputRef}
+                id={id}
                 type={'file'}
                 name={name}
-                id={id}
                 accept={accept}
                 capture={capture}
-                style={mergedStyles.input}
-                className={mergedClassNames.input}
+                multiple={multiple}
                 onChange={onChange}
+                onBlur={onBlur}
+                className={mergedClassNames.input}
             />
-            <label
-                hidden={labelIsHidden}
+            <Button
+                component={'label'}
+                title={buttonTitle || name}
                 htmlFor={id}
-                style={mergedStyles.label}
-                className={mergedClassNames.label}>
-                {label || name}
-            </label>
+                style={mergedStyles.button}
+                className={mergedClassNames.button}
+            />
+            <span style={mergedStyles.list} className={mergedClassNames.list}>
+                {placeholder && !(value && value.length) ? (
+                    <span>{placeholder}</span>
+                ) : null}
+                {value &&
+                    value.map((file, index) => {
+                        return (
+                            <span key={index}>
+                                {file.name +
+                                    ' - ' +
+                                    stringUtils.toDataStorageUnits(file.size)}
+                            </span>
+                        );
+                    })}
+            </span>
         </span>
     );
 }
 
-type InputFilePropsType = {
+type InputFileProps = {
     ...CommonProps,
-    value: string,
-    files: FileList | null,
-    accept: string | null,
+    voidValue: string | null,
     mandatory: boolean,
     keepMissingStatus: boolean,
     match: string | null,
     errorMessages: {
-        mandatory?: string | ((any) => string | null) | {[string]: any} | null,
-        match?: string | ((any) => string | null) | {[string]: any} | null
+        mandatory?: string | null,
+        match?: string | null
     },
     plugins: InputPluginType,
     deferValidation: boolean,
@@ -188,25 +182,80 @@ type InputFilePropsType = {
 };
 
 type GlobalStyles = {
-    [string]: GlobalCustomStyles
+    [string]: CustomStyles
 };
 
 type GlobalClassNames = {
-    [string]: GlobalCustomClassNames
+    [string]: CustomClassNames
 };
 
 type GlobalColors = {
     [string]: CustomColors
 };
 
+function InputFile(props: InputFileProps) {
+    const {
+        name,
+        value,
+        voidValue,
+        mandatory,
+        keepMissingStatus,
+        match,
+        errorMessages,
+        plugins,
+        deferValidation,
+        onValidationResult,
+        onChange,
+        onBlur,
+        ...other
+    } = props;
+    return (
+        <InputRenderer
+            name={name}
+            value={value}
+            voidValue={voidValue}
+            mandatory={mandatory}
+            keepMissingStatus={keepMissingStatus}
+            match={match}
+            errorMessages={errorMessages}
+            plugins={plugins}
+            deferValidation={deferValidation}
+            onValidationResult={onValidationResult}
+            onBlur={onBlur}
+            inputRenderFn={(inputProps, inputRendererAPI) => {
+                return (
+                    <InputFileInternal
+                        {...other}
+                        name={inputProps.name}
+                        id={inputProps.id}
+                        value={inputProps.value}
+                        onChange={(e) => {
+                            inputRendererAPI.setNewValue(
+                                Array.from(e.target.files)
+                            );
+                            inputRendererAPI.setIsInteracted(true);
+                            if (onChange) {
+                                onChange(e);
+                            }
+                        }}
+                        onBlur={inputProps.onBlur}
+                        status={inputRendererAPI.status}
+                    />
+                );
+            }}
+        />
+    );
+}
+
 InputFile.defaultProps = {
-    value: '',
-    label: '',
-    accept: null,
-    files: null,
-    capture: null,
+    buttonTitle: '',
+    value: null,
+    voidValue: null,
+    placeholder: '',
+    accept: '*',
+    capture: undefined,
+    multiple: false,
     mandatory: true,
-    placeholder: 'No file chosen',
     keepMissingStatus: false,
     match: null,
     errorMessages: {
@@ -218,115 +267,32 @@ InputFile.defaultProps = {
     onValidationResult: null,
     onChange: null,
     onBlur: null,
-    style: null,
+    style: {},
     className: '',
-    customColors: {},
-    customClassNames: {},
     customStyles: {},
-    globalTheme: 'default',
-    children: null
+    customClassNames: {},
+    customColors: {},
+    globalTheme: 'default'
 };
 
 InputFile.globalStyles = ({
     default: {
-        root: null,
-        label: null,
-        input: null
+        root: {},
+        button: {},
+        list: {}
     }
 }: GlobalStyles);
 
 InputFile.globalClassNames = ({
     default: {
-        root: ''
+        root: '',
+        button: '',
+        list: ''
     }
 }: GlobalClassNames);
 
 InputFile.globalColors = ({
-    default: {
-        root: {}
-    }
+    default: {}
 }: GlobalColors);
 
-function InputFile(props: InputFilePropsType): React$Element<any> {
-    const {
-        name,
-        value,
-        files,
-        mandatory,
-        keepMissingStatus,
-        match,
-        errorMessages,
-        plugins,
-        deferValidation,
-        onValidationResult,
-        onChange,
-        onBlur,
-        children,
-        ...other
-    } = props;
-
-    const pluginArray = Array.isArray(plugins) ? plugins : [plugins];
-    const mergedPlugins: Array<InputPluginType> = [
-        lengthValidator({
-            minLength: 1
-        }),
-        ...pluginArray
-    ];
-
-    return (
-        <InputRenderer
-            name={name}
-            value={{
-                files: files,
-                value: value
-            }}
-            mandatory={mandatory}
-            keepMissingStatus={keepMissingStatus}
-            match={match}
-            errorMessages={errorMessages}
-            plugins={mergedPlugins}
-            deferValidation={deferValidation}
-            onValidationResult={onValidationResult}
-            onChange={onChange}
-            onBlur={onBlur}
-            stringifier={(val, callContext) => {
-                if (callContext === 'form') {
-                    return val.files;
-                }
-                if (callContext === 'validation') {
-                    return val.value;
-                }
-                return val;
-            }}
-            inputRenderFn={(inputProps, inputRendererAPI) => {
-                return (
-                    <InputFileInternal
-                        {...other}
-                        name={inputProps.name}
-                        currentValue={inputProps.value}
-                        onChange={(e) => {
-                            const newValue = e.target.files
-                                ? {
-                                      files: e.target.files,
-                                      value: e.target.value
-                                  }
-                                : null;
-                            inputRendererAPI.setNewValue(newValue);
-                            inputRendererAPI.setIsInteracted(true);
-                            if (onChange) {
-                                onChange(e);
-                            }
-                        }}
-                        onBlur={inputProps.onBlur}
-                        id={inputProps.id}
-                        status={inputRendererAPI.status}>
-                        {children}
-                    </InputFileInternal>
-                );
-            }}
-        />
-    );
-}
-
 export {InputFile};
-export type {InputFilePropsType};

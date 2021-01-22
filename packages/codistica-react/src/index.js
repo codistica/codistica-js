@@ -74,7 +74,6 @@ export {InputRenderer} from './utils/input-renderer';
 
 // TYPES
 export type {FormValidationObjectType} from './utils/form';
-export type {InputFilePropsType} from './components/input-file';
 export type {InputPluginType} from './utils/input-renderer';
 
 // TODO: CREATE UTILITY FOR style, className, componentClassNames, jssClassNames, customStyles, globalStyles, customClassNames, globalClassnames, customColors, globalColors, globalTheme, etc. Management, merging, application...

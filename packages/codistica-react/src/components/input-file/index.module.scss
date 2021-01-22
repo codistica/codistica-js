@@ -1,52 +1,44 @@
 .root {
-  position: absolute;
-  display: inline-block;
-  width: 267px;
-  height: 37px;
+  display: inline-flex;
+  flex-direction: column;
+  position: relative;
   margin: 5px;
-  background-color: transparent;
-  padding: 8px;
-  border: 1px solid #232323;
-  border-radius: 5px;
-  color: #232323;
-  font-family: 'Lucida Grande', 'Lucida Sans Unicode', arial, sans-serif;
-  font-size: small;
-  transition: border-bottom 0.2s linear, border 0.2s linear
-}
-
-.input,
-.contentContainer {
-  position: inherit;
-  display: flex;
-  top: 0;
-  left: 0;
-  width: inherit;
-  height: inherit;
-  cursor: pointer;
+  align-items: flex-start;
 }
 
 .input {
-  opacity: 0;
+  display: inline-block;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  font-size: 0;
+  cursor: pointer;
+  opacity: 0!important; // USING VISIBILITY PROPERTY WOULD BREAK FUNCTIONALITY
+  z-index: -10!important;
 }
 
-.textContainer {
-  display: flex;
-  overflow: hidden;
-  max-width: 267px;
+.button {
+  transition: color 0.2s linear, border 0.2s linear;
+}
+
+.list {
+  display: inline-flex;
   flex-direction: column;
-  justify-content: center;
-  margin: 5px;
-  padding: 8px;
-  white-space: nowrap;
+  color: #232323;
+  opacity: 0.6;
+  transition: color 0.2s linear;
+  margin-top: 10px;
 }
 
-.root:focus,
-.root:hover {
-  border-color: #e88b0e;
-}
-
-.placeholder {
-  opacity: 0.4;
+.list span {
+  margin: 2px 5px;
 }
 
 .blink {
@@ -63,9 +55,4 @@
   100% {
     opacity: 1;
   }
-}
-
-.defaultRenderRoot {
-  overflow: hidden;
-  width: 250px;
 }
