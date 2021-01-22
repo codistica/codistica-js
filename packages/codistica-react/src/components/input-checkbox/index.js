@@ -1,7 +1,5 @@
 /** @flow */
 
-/** @module react/components/input-checkbox */
-
 import React from 'react';
 import resetClassNames from '../../css/reset.module.scss';
 import {withSophistication} from '../../hocs/with-sophistication.js';
@@ -40,25 +38,11 @@ type InputCheckboxInternalProps = {
     getSophistication: (...args: Array<any>) => {[string]: string}
 };
 
-/**
- * @typedef inputCheckboxInternalPropsType
- * @property {string} id - Input ID.
- * @property {('valid'|'invalid'|'highlight'|'warning'|'missing'|'standBy'|null)} status - Input status.
- */
-
 const InputCheckboxInternal = withSophistication(
     styles,
     true
 )(
-    /**
-     * @classdesc A beautiful checkbox input component (Internal).
-     */
     class InputCheckboxInternal extends React.Component<InputCheckboxInternalProps> {
-        /**
-         * @instance
-         * @description React render method.
-         * @returns {Object<string,*>} React component.
-         */
         render() {
             const {
                 id,
@@ -94,8 +78,7 @@ const InputCheckboxInternal = withSophistication(
                 customColors: {
                     ...globalColors,
                     ...customColors
-                },
-                customStyles
+                }
             });
 
             const mergedStyles = {
@@ -172,39 +155,6 @@ type GlobalColors = {
     [string]: CustomColors
 };
 
-/**
- * @typedef inputCheckboxErrorMessagesType
- * @property {(string|(function(*): string|null)|Object<string,*>|null)} [mandatory=null] - Mandatory error message.
- * @property {(string|(function(*): string|null)|Object<string,*>|null)} [match=null] - Match error message.
- */
-
-/**
- * @typedef inputCheckboxPropsType
- * @property {string} name - Input name.
- * @property {string} [label=''] - Input label.
- * @property {boolean} [checked=null] - Input checked attribute.
- * @property {boolean} [mandatory=false] - Input mandatory flag.
- * @property {boolean} [keepMissingStatus=false] - Keep missing status after user interaction.
- * @property {(string|null)} [match=null] - Name of input that has to be matched to correctly validate.
- * @property {inputCheckboxErrorMessagesType} [errorMessages] - Validation error messages.
- * @property {*} [plugins=[]] - Input plugins.
- * @property {boolean} [deferValidation=true] - Defer input validation until there is an interaction.
- * @property {Function} [onValidationResult=null] - Callback for validationResult event.
- * @property {Function} [onChange=null] - Callback for change event.
- * @property {Function} [onBlur=null] - Callback for blur event.
- * @property {Object<string,*>} [style={}] - React prop.
- * @property {string} [className=''] - React prop.
- * @property {Object<string,*>} [customStyles={}] - Custom styles prop.
- * @property {Object<string,*>} [customClassNames={}] - Custom classNames prop.
- * @property {Object<string,*>} [customColors=null] - Custom colors prop.
- * @property {('default'|string|null)} [globalTheme='default'] - Global theme to be used.
- */
-
-/**
- * @description A beautiful checkbox input component.
- * @param {inputCheckboxPropsType} props - Component props.
- * @returns {Object<string,*>} React component.
- */
 function InputCheckbox(props: InputCheckboxProps) {
     const {
         name,

@@ -1,7 +1,5 @@
 /** @flow */
 
-/** @module react/classes/input-validator-plugin-utils */
-
 import {
     promiseUtils,
     objectUtils,
@@ -80,16 +78,6 @@ type Options = {
     deferThrottlingDelay: number | null
 };
 
-/**
- * @typedef inputValidatorPluginUtilsOptionsType
- * @property {Array<string>} [keys=[]] - Validation keys.
- * @property {boolean} [enableDeferCache=false] - Enable internal defer cache.
- * @property {(number|null)} [deferThrottlingDelay=null] - Internal defer throttling delay in milliseconds.
- */
-
-/**
- * @classdesc Input plugins utility class.
- */
 class InputValidatorPluginUtils {
     options: Options;
 
@@ -102,10 +90,6 @@ class InputValidatorPluginUtils {
     deferCaches: {[string]: DeferCacheType};
     deferHeartbeats: {[string]: (...args: Array<any>) => any};
 
-    /**
-     * @description Constructor.
-     * @param {inputValidatorPluginUtilsOptionsType} [options] - Options.
-     */
     constructor(options?: Options) {
         ({options} = inputValidatorPluginUtilsSchema.validate({options}));
         this.options = options;
@@ -141,15 +125,6 @@ class InputValidatorPluginUtils {
         (this: any).getValidatorOutput = this.getValidatorOutput.bind(this);
     }
 
-    /**
-     * @instance
-     * @description Initializes validator state.
-     * @param {string} value - Input value.
-     * @param {(boolean|null)} initialValidationStatus - Initial validation status value.
-     * @param {Object<string,(string|(function(*): string|null)|Object<string,*>|null)>} [rawMessages] - Raw messages.
-     * @param {Object<string,*>} [params] - Message parameters.
-     * @returns {void} Void.
-     */
     init(
         value: string,
         initialValidationStatus: boolean | null,
@@ -201,16 +176,6 @@ class InputValidatorPluginUtils {
         this.validatorOutput.data = {};
     }
 
-    /**
-     * @instance
-     * @description Sets specified result to key.
-     * @param {string} [key] - Key to be invalidated.
-     * @param {(boolean|null)} [result] - Result.
-     * @param {(string|(function(*): string|null)|Object<string,*>|null)} [rawMessage] - Raw message.
-     * @param {Object<string,*>} [params] - Message parameters.
-     * @param {boolean} [noAbort] - Do not abort deferred validation.
-     * @returns {void} Void.
-     */
     setKeyResult(
         key?: string,
         result: boolean | null,
@@ -237,14 +202,6 @@ class InputValidatorPluginUtils {
         }
     }
 
-    /**
-     * @instance
-     * @description Invalidates specified key or complete validation.
-     * @param {string} [key] - Key to be invalidated.
-     * @param {(string|(function(*): string|null)|Object<string,*>|null)} [rawMessage] - Raw message.
-     * @param {Object<string,*>} [params] - Message parameters.
-     * @returns {void} Void.
-     */
     invalidate(
         key?: string,
         rawMessage?: RawMessageType,
@@ -253,13 +210,6 @@ class InputValidatorPluginUtils {
         this.setKeyResult(key, false, rawMessage, params);
     }
 
-    /**
-     * @instance
-     * @description Invalidates all keys.
-     * @param {(string|(function(*): string|null)|Object<string,*>|null)} [rawMessage] - Raw message.
-     * @param {Object<string,*>} [params] - Message parameters.
-     * @returns {void} Void.
-     */
     invalidateAll(rawMessage?: RawMessageType, params?: {[string]: any}) {
         if (!this.options.keys.length) {
             this.validatorOutput.result = false;
@@ -270,14 +220,6 @@ class InputValidatorPluginUtils {
         }
     }
 
-    /**
-     * @instance
-     * @description Validates specified key or complete validation.
-     * @param {string} [key] - Key to be validated.
-     * @param {(string|(function(*): string|null)|Object<string,*>|null)} [rawMessage] - Raw message.
-     * @param {Object<string,*>} [params] - Message parameters.
-     * @returns {void} Void.
-     */
     validate(
         key?: string,
         rawMessage?: RawMessageType,
@@ -286,13 +228,6 @@ class InputValidatorPluginUtils {
         this.setKeyResult(key, true, rawMessage, params);
     }
 
-    /**
-     * @instance
-     * @description Validates all keys.
-     * @param {(string|(function(*): string|null)|Object<string,*>|null)} [rawMessage] - Raw message.
-     * @param {Object<string,*>} [params] - Message parameters.
-     * @returns {void} Void.
-     */
     validateAll(rawMessage?: RawMessageType, params?: {[string]: any}) {
         if (!this.options.keys.length) {
             this.validatorOutput.result = true;
@@ -303,14 +238,6 @@ class InputValidatorPluginUtils {
         }
     }
 
-    /**
-     * @instance
-     * @description Disables specified key or complete validation.
-     * @param {string} [key] - Key.
-     * @param {(string|(function(*): string|null)|Object<string,*>|null)} [rawMessage] - Raw message.
-     * @param {Object<string,*>} [params] - Message parameters.
-     * @returns {void} Void.
-     */
     disable(
         key?: string,
         rawMessage?: RawMessageType,
@@ -319,13 +246,6 @@ class InputValidatorPluginUtils {
         this.setKeyResult(key, null, rawMessage, params);
     }
 
-    /**
-     * @instance
-     * @description Disables all keys.
-     * @param {(string|(function(*): string|null)|Object<string,*>|null)} [rawMessage] - Raw message.
-     * @param {Object<string,*>} [params] - Message parameters.
-     * @returns {void} Void.
-     */
     disableAll(rawMessage?: RawMessageType, params?: {[string]: any}) {
         if (!this.options.keys.length) {
             this.validatorOutput.result = null;
@@ -336,16 +256,6 @@ class InputValidatorPluginUtils {
         }
     }
 
-    /**
-     * @instance
-     * @description Defer specified key validation.
-     * @param {string} key - Key.
-     * @param {(string|(function(*): string|null)|Object<string,*>|null)} [rawMessage] - Raw message.
-     * @param {Object<string,*>} [params] - Message parameters.
-     * @param {function(string,Object<string,*>): void} callback - Callback.
-     * @param {function(void): void} onAbort - Callback for abort event.
-     * @returns {void} Void.
-     */
     defer(
         key: string,
         rawMessage?: RawMessageType,
@@ -420,15 +330,6 @@ class InputValidatorPluginUtils {
         }
     }
 
-    /**
-     * @instance
-     * @description Creates context for defer callback execution.
-     * @param {string} key - Key.
-     * @param {function(boolean): void} resolve - Promise resolve method.
-     * @param {Map<string,(boolean|null)>} [cache] - Defer cache.
-     * @param {function(void): void} onAbort - Callback for abort event.
-     * @returns {Object<string,*>} Defer context.
-     */
     createDeferContext(
         key: string,
         resolve: (boolean) => void,
@@ -509,11 +410,6 @@ class InputValidatorPluginUtils {
         };
     }
 
-    /**
-     * @instance
-     * @description Returns true if there are pending active defer contexts and false otherwise.
-     * @returns {boolean} Result.
-     */
     isStandBy() {
         return objectUtils
             .getValuesArray(this.deferContexts)
@@ -522,12 +418,6 @@ class InputValidatorPluginUtils {
             });
     }
 
-    /**
-     * @instance
-     * @description Returns specified key validation status.
-     * @param {string} [key] - Key.
-     * @returns {(boolean|null)} Result.
-     */
     isValid(key?: string) {
         if (key) {
             return this.validatorOutput.report[key];
@@ -535,22 +425,10 @@ class InputValidatorPluginUtils {
         return this.validatorOutput.result;
     }
 
-    /**
-     * @instance
-     * @description Saves custom data item.
-     * @param {string} key - Data key.
-     * @param {*} value - Data value.
-     * @returns {void} Void.
-     */
     setData(key: string, value: any) {
         this.validatorOutput.data[key] = value;
     }
 
-    /**
-     * @instance
-     * @description Updates validation result value according to current reports.
-     * @returns {void} Void.
-     */
     updateResult() {
         if (this.isStandBy()) {
             this.validatorOutput.result = null;
@@ -578,23 +456,11 @@ class InputValidatorPluginUtils {
         this.validatorOutput.result = result;
     }
 
-    /**
-     * @instance
-     * @description Returns validator output.
-     * @returns {Object<string,*>} Validator output.
-     */
     getValidatorOutput(): ValidatorOutputType {
         this.previousValue = this.value;
         return this.validatorOutput;
     }
 
-    /**
-     * @description Creates a message object.
-     * @param {(string|(function(*): string|null)|Object<string,*>|null)} rawMessage - Raw message.
-     * @param {Object<string,*>} params - Message parameters.
-     * @param {Object<string,*>} options - Message options.
-     * @returns {Object<string,*>} Message object.
-     */
     static createMessageObject(
         rawMessage: RawMessageType,
         params?: {[string]: any},

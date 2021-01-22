@@ -4,6 +4,8 @@
 // LOWERCASE ACCENTED UNICODE RANGE: \u00DF-\u00FF
 
 // TODO: ADD JSDOC. WHY @enum DOES NOT WORK?
+// TODO: ALLOW TO SET/OVERRIDE REGEXP FLAGS?
+
 const REG_EXPS = {
     get IS_EMAIL() {
         return /^(?:(?:[^<>()[\]\\.,;:\s@"]+(?:\.[^<>()[\]\\.,;:\s@"]+)*)|(?:".+"))@(?:(?:\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(?:(?:[a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

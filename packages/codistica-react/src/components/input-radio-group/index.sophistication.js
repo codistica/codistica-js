@@ -29,17 +29,11 @@ type CustomColors = {
 };
 
 type Params = {
-    customStyles?: CustomStyles,
     customColors?: CustomColors,
     status?: StatusType
 };
 
 const styles = {
-    /**
-     * @description Input JSS styles.
-     * @param {*} params - Component props.
-     * @returns {Object<string,*>} Style.
-     */
     input(params: Params = {}) {
         const {focusColor = '#e88b0e'} = params.customColors || {};
         return {
@@ -48,11 +42,6 @@ const styles = {
             }
         };
     },
-    /**
-     * @description Label JSS styles.
-     * @param {*} params - Component props.
-     * @returns {Object<string,*>} Style.
-     */
     label(params: Params = {}) {
         const {
             borderColor = 'rgba(0,0,0,0.7)',
@@ -75,11 +64,6 @@ const styles = {
     }
 };
 
-/**
- * @description Returns status corresponding color.
- * @param {*} params - Component props.
- * @returns {(string|null)} Color or null.
- */
 function getStatusColor(params: Params) {
     const {
         validColor = '#94ff36',

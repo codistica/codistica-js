@@ -1,7 +1,5 @@
 /** @flow */
 
-/** @module react/components/input-text */
-
 import React from 'react';
 import resetClassNames from '../../css/reset.module.scss';
 import {withSophistication} from '../../hocs/with-sophistication.js';
@@ -18,6 +16,7 @@ import type {
 } from './index.sophistication.js';
 
 // TODO: RESET BROWSERS AUTOFILL STYLES.
+// TODO: ADD focusColor SUPPORT.
 
 type CommonProps = {
     name: string,
@@ -43,24 +42,11 @@ type InputTextInternalProps = {
     getSophistication: (...args: Array<any>) => {[string]: string}
 };
 
-/**
- * @typedef inputTextInternalPropsType
- * @property {string} id - Input ID.
- * @property {('valid'|'invalid'|'highlight'|'warning'|'missing'|'standBy'|null)} status - Input status.
- */
-
 const InputTextInternal = withSophistication(
     styles,
     true
 )(
-    /**
-     * @classdesc A beautiful text input component (Internal).
-     */
     class InputTextInternal extends React.Component<InputTextInternalProps> {
-        /**
-         * @description Constructor.
-         * @param {(inputTextPropsType|inputTextInternalPropsType)} [props] - Component props.
-         */
         constructor(props: InputTextInternalProps) {
             super(props);
 
@@ -69,11 +55,6 @@ const InputTextInternal = withSophistication(
             }
         }
 
-        /**
-         * @instance
-         * @description React render method.
-         * @returns {Object<string,*>} React component.
-         */
         render() {
             const {
                 id,
@@ -113,8 +94,7 @@ const InputTextInternal = withSophistication(
                 customColors: {
                     ...globalColors,
                     ...customColors
-                },
-                customStyles
+                }
             });
 
             const mergedStyles = {
@@ -203,40 +183,6 @@ type GlobalColors = {
     [string]: CustomColors
 };
 
-/**
- * @typedef inputTextErrorMessagesType
- * @property {(string|(function(*): string|null)|Object<string,*>|null)} [mandatory=null] - Mandatory error message.
- * @property {(string|(function(*): string|null)|Object<string,*>|null)} [match=null] - Match error message.
- */
-
-/**
- * @typedef inputTextPropsType
- * @property {string} name - Input name.
- * @property {string} [label=''] - Input label.
- * @property {string} [value=''] - Input value.
- * @property {(string|null)} [voidValue=''] - Value to consider input to be void.
- * @property {string} [type='text'] - Input type.
- * @property {string} [placeholder=''] - Input placeholder.
- * @property {boolean} [mandatory=false] - Input mandatory flag.
- * @property {boolean} [keepMissingStatus=false] - Keep missing status after user interaction.
- * @property {(string|null)} [match=null] - Name of input that has to be matched to correctly validate.
- * @property {inputTextErrorMessagesType} [errorMessages] - Validation error messages.
- * @property {*} [plugins=[]] - Input plugins.
- * @property {boolean} [deferValidation=true] - Defer input validation until there is an interaction.
- * @property {Function} [onValidationResult=null] - Callback for validationResult event.
- * @property {Function} [onKeyDown=null] - Callback for keyDown event.
- * @property {Function} [onChange=null] - Callback for change event.
- * @property {Function} [onBlur=null] - Callback for blur event.
- * @property {Object<string,*>} [customStyles={}] - Custom styles prop.
- * @property {Object<string,*>} [customClassNames={}] - Custom classNames prop.
- * @property {Object<string,*>} [customColors=null] - Custom colors prop.
- */
-
-/**
- * @description A beautiful text input component.
- * @param {inputTextPropsType} props - Component props.
- * @returns {Object<string,*>} React component.
- */
 function InputText(props: InputTextProps) {
     const {
         name,

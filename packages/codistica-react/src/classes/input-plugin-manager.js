@@ -1,7 +1,5 @@
 /** @flow */
 
-/** @module react/classes/input-plugin-manager */
-
 // TODO: SET PLUGINS OBJECTS DEFAULTS!
 
 import {arrayUtils, objectUtils} from '@codistica/core';
@@ -47,91 +45,11 @@ type InputPluginType =
 
 type RunValidatorsOutputType = {[string]: ValidatorOutputType};
 
-/**
- * @callback inputBlockerInstanceType
- * @param {Object<string,*>} e - Input event object.
- * @returns {boolean} - Should block.
- */
-
-/**
- * @typedef inputBlockerType
- * @property {'blocker'} type - Plugin type.
- * @property {string} name - Plugin name.
- * @property {inputBlockerInstanceType} plugin - Blocker instance.
- */
-
-/**
- * @callback inputFilterInstanceType
- * @param {string} value - Input value.
- * @returns {string} - Filtered output.
- */
-
-/**
- * @typedef inputFilterType
- * @property {'filter'} type - Plugin type.
- * @property {string} name - Plugin name.
- * @property {inputFilterInstanceType} plugin - Filter instance.
- */
-
-/**
- * @typedef {(string|RegExp|function(string): Object<string,*>)} inputValidatorInstanceType
- */
-
-/**
- * @typedef inputValidatorType
- * @property {'validator'} type - Plugin type.
- * @property {string} name - Plugin name.
- * @property {string} [groupName] - Plugin group name.
- * @property {Array<Object<string,*>>} [groupMessages] - Plugin group error messages.
- * @property {Array<Object<string,*>>} [messages] - Plugin error messages.
- * @property {inputValidatorInstanceType} plugin - Validator instance.
- */
-
-/**
- * @typedef {pluginType} inputPresetInstanceType
- */
-
-/**
- * @typedef inputPresetType
- * @property {'preset'} type - Plugin type.
- * @property {string} name - Plugin name.
- * @property {Array<Object<string,*>>} groupMessages - Plugin group error messages.
- * @property {inputPresetInstanceType} plugin - Preset instance.
- */
-
-/**
- * @typedef {(inputBlockerType|inputFilterType|inputValidatorType|inputPresetType)} allPluginsType
- */
-
-/**
- * @callback pluginWrapperType
- * @param {*} [options] - Plugin options.
- * @returns {allPluginsType} - Plugin.
- */
-
-/**
- * @typedef {((AllPluginsType|PluginWrapperType)|Array<(AllPluginsType|PluginWrapperType)>)} pluginType
- */
-
-/**
- * @typedef runValidatorsOutputType
- * @property {(boolean|null)} result - Validation result.
- * @property {Object<string,Object<string,(boolean|null)>>} report - Validation report.
- * @property {Array<Object<string,*>>} messages - Validation error messages.
- * @property {Object<string,Object<string,*>>} data - Validation data.
- */
-
-/**
- * @classdesc A class for input plugin management.
- */
 class InputPluginManager {
     blockers: Array<BlockerType>;
     filters: Array<FilterType>;
     validators: Array<ValidatorType>;
 
-    /**
-     * @description Constructor.
-     */
     constructor() {
         this.blockers = [];
         this.filters = [];
@@ -144,13 +62,6 @@ class InputPluginManager {
         (this: any).loadPlugins = this.loadPlugins.bind(this);
     }
 
-    /**
-     * @instance
-     * @description Validates input value using loaded validators.
-     * @param {string} stringValue - String value to be validated.
-     * @param {*} rawValue - Alternative raw value.
-     * @returns {runValidatorsOutputType} Result.
-     */
     runValidators(stringValue: string, rawValue: any): RunValidatorsOutputType {
         const output: RunValidatorsOutputType = {};
 
@@ -171,22 +82,10 @@ class InputPluginManager {
         return output;
     }
 
-    /**
-     * @instance
-     * @description Filters input using loaded filters.
-     * @param {string} value - Value to be filtered.
-     * @returns {string} Filtered value.
-     */
     runFilters(value: string): string {
         return this.filters.reduce((acc, filter) => filter.plugin(acc), value);
     }
 
-    /**
-     * @instance
-     * @description Indicates if event should be blocked using loaded blockers.
-     * @param {Object<string,*>} e - Event object.
-     * @returns {boolean} Result.
-     */
     runBlockers(e: {[string]: any}): boolean {
         const isPrintable = e.key && e.key.length === 1;
         return this.blockers.some((blocker) => {
@@ -194,12 +93,6 @@ class InputPluginManager {
         });
     }
 
-    /**
-     * @instance
-     * @description Load plugins into instance.
-     * @param {pluginType} plugins - Plugins to be loaded.
-     * @returns {void} Void.
-     */
     loadPlugins(plugins: InputPluginType) {
         const {blockers, filters, validators} = loadPlugins(plugins);
         this.blockers = mergePlugins<BlockerType>(this.blockers, blockers);
@@ -210,11 +103,6 @@ class InputPluginManager {
         );
     }
 
-    /**
-     * @description Initializes plugin if not already initialized.
-     * @param {(AllPluginsType|PluginWrapperType)} plugin - Plugin to be initialized.
-     * @returns {(AllPluginsType|null)} Initialized plugin.
-     */
     static initializePlugin(
         plugin: AllPluginsType | PluginWrapperType
     ): AllPluginsType | null {
@@ -230,11 +118,6 @@ class InputPluginManager {
     }
 }
 
-/**
- * @description Plugins merge utility function.
- * @param {...AllPluginsType} pluginsArg - Plugins to be loaded.
- * @returns {Array<AllPluginsType>} Merged plugins.
- */
 function mergePlugins<MergePluginType: AllPluginsType>(
     ...pluginsArg: Array<MergePluginType | Array<MergePluginType>>
 ): Array<MergePluginType> {
@@ -273,11 +156,6 @@ function mergePlugins<MergePluginType: AllPluginsType>(
     return output;
 }
 
-/**
- * @description Scans and initializes plugins.
- * @param {pluginType} plugins - Plugins to be loaded.
- * @returns {{blockers: Array<BlockerType>, filters: Array<FilterType>, validators: Array<ValidatorType>}} Plugins object.
- */
 function loadPlugins(
     plugins: InputPluginType
 ): {
@@ -332,13 +210,6 @@ function loadPlugins(
     return output;
 }
 
-/**
- * @description Calls validator for specified value and returns a normalized output.
- * @param {string} stringValue - String value to be validated.
- * @param {any} rawValue - Alternative raw value.
- * @param {inputValidatorType} validator - Validator instance to be used.
- * @returns {Object<string,*>} Validator output.
- */
 function getNormalizedValidatorOutput(
     stringValue: string,
     rawValue: any,

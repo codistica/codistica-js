@@ -1,14 +1,14 @@
 /** @flow */
 
-/** @module react/components/button */
-
 import React from 'react';
+import type {ComponentType} from 'react';
 import resetClassNames from '../../css/reset.module.scss';
 import {mergeClassNames} from '../../modules/merge-class-names.js';
 import {mergeStyles} from '../../modules/merge-styles.js';
 import componentClassNames from './index.module.scss';
 
 type Props = {
+    component: ComponentType<any> | string,
     title: string,
     disabled: boolean,
     href: null | string,
@@ -51,24 +51,6 @@ type GlobalClassNames = {
     }
 };
 
-/**
- * @typedef buttonPropsType
- * @property {string} [title=''] - Button title.
- * @property {boolean} [disabled=false] - Button is disabled.
- * @property {Function} [onClick=null] - Callback for click event.
- * @property {Function} [onClickEnabled=null] - Callback for clickEnabled event.
- * @property {Function} [onClickDisabled=null] - Callback for clickDisabled event.
- * @property {Function} [onTouchStart=null] - Callback for touchStart event.
- * @property {Object<string,*>} [style={}] - React prop.
- * @property {string} [className=''] - React prop.
- * @property {Object<string,*>} [customStyles={}] - Custom styles prop.
- * @property {Object<string,*>} [customClassNames={}] - Custom classNames prop.
- * @property {('default'|string|null)} [globalTheme='default'] - Global theme to be used.
- */
-
-/**
- * @classdesc A simple button component.
- */
 class Button extends React.Component<Props> {
     static globalStyles: GlobalStyles = {
         default: {
@@ -89,6 +71,7 @@ class Button extends React.Component<Props> {
     };
 
     static defaultProps = {
+        component: 'button',
         title: '',
         disabled: false,
         href: null,
@@ -103,10 +86,6 @@ class Button extends React.Component<Props> {
         globalTheme: 'default'
     };
 
-    /**
-     * @description Constructor.
-     * @param {buttonPropsType} [props] - Component props.
-     */
     constructor(props: Props) {
         super(props);
 
@@ -114,12 +93,6 @@ class Button extends React.Component<Props> {
         (this: any).onClickHandler = this.onClickHandler.bind(this);
     }
 
-    /**
-     * @instance
-     * @description Callback for click event.
-     * @param {Object<string,*>} e - Triggering event.
-     * @returns {void} Void.
-     */
     onClickHandler(e: {[string]: any}) {
         if (typeof this.props.onClick === 'function') {
             this.props.onClick(e);
@@ -135,22 +108,21 @@ class Button extends React.Component<Props> {
         }
     }
 
-    /**
-     * @instance
-     * @description React render method.
-     * @returns {Object<string,*>} React component.
-     */
     render() {
         const {
+            component: Component,
             title,
             disabled,
             href,
             onTouchStart,
+            onClickEnabled,
+            onClickDisabled,
             className,
             style,
             customStyles,
             customClassNames,
-            globalTheme
+            globalTheme,
+            ...other
         } = this.props;
 
         const globalStyles = globalTheme
@@ -204,7 +176,8 @@ class Button extends React.Component<Props> {
         };
 
         const ButtonComponent = (
-            <button
+            <Component
+                {...other}
                 type={'button'}
                 onClick={this.onClickHandler}
                 onTouchStart={(e) => {
@@ -215,7 +188,7 @@ class Button extends React.Component<Props> {
                 style={mergedStyles.button}
                 className={mergedClassNames.button}>
                 {title}
-            </button>
+            </Component>
         );
 
         return href ? (

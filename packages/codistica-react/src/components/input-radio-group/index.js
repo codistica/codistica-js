@@ -1,7 +1,5 @@
 /** @flow */
 
-/** @module react/components/input-radio-group */
-
 import {composeFn} from '@codistica/core';
 import React from 'react';
 import resetClassNames from '../../css/reset.module.scss';
@@ -19,7 +17,7 @@ import type {
     CustomColors
 } from './index.sophistication.js';
 
-// TODO: ADD SUPPORT FOR DOUBLE CLICK (TOUCH) TO UNCHECK. ADD SUPPORT FOR INITIALLY CHECKED
+// TODO: ADD SUPPORT FOR DOUBLE CLICK/TOUCH TO UNCHECK. ADD SUPPORT FOR INITIALLY CHECKED
 // TODO: ALLOW SELECTING BY CLICKING ON 'LABEL' (TITLE) TO MATCH NATIVE BEHAVIOR.
 
 type CommonProps = {
@@ -47,23 +45,8 @@ type InputRadioGroupInternalProps = {
 
 const hoc = composeFn(withGetUniqueID, withSophistication(styles, true));
 
-/**
- * @typedef inputRadioGroupInternalPropsType
- * @property {string} id - Input ID.
- * @property {string} [value=''] - Input value.
- * @property {('valid'|'invalid'|'highlight'|'warning'|'missing'|'standBy'|null)} status - Input status.
- */
-
 const InputRadioGroupInternal = hoc(
-    /**
-     * @classdesc A beautiful radio input component (Internal).
-     */
     class InputRadioGroupInternal extends React.Component<InputRadioGroupInternalProps> {
-        /**
-         * @instance
-         * @description React render method.
-         * @returns {Object<string,*>} React component.
-         */
         render() {
             const {
                 name,
@@ -100,8 +83,7 @@ const InputRadioGroupInternal = hoc(
                 customColors: {
                     ...globalColors,
                     ...customColors
-                },
-                customStyles
+                }
             });
 
             const mergedStyles = {
@@ -238,39 +220,6 @@ type GlobalColors = {
     [string]: CustomColors
 };
 
-/**
- * @typedef inputRadioGroupErrorMessagesType
- * @property {(string|(function(*): string|null)|Object<string,*>|null)} [mandatory=null] - Mandatory error message.
- * @property {(string|(function(*): string|null)|Object<string,*>|null)} [match=null] - Match error message.
- */
-
-/**
- * @typedef inputRadioGroupPropsType
- * @property {string} name - Input name.
- * @property {string} [label=''] - Input label.
- * @property {Object<string,*>} [radios={}] - Radios descriptor.
- * @property {boolean} [mandatory=false] - Input mandatory flag.
- * @property {boolean} [keepMissingStatus=false] - Keep missing status after user interaction.
- * @property {(string|null)} [match=null] - Name of input that has to be matched to correctly validate.
- * @property {inputRadioGroupErrorMessagesType} [errorMessages] - Validation error messages.
- * @property {*} [plugins=[]] - Input plugins.
- * @property {boolean} [deferValidation=true] - Defer input validation until there is an interaction.
- * @property {Function} [onValidationResult=null] - Callback for validationResult event.
- * @property {Function} [onChange=null] - Callback for change event.
- * @property {Function} [onBlur=null] - Callback for blur event.
- * @property {Object<string,*>} [style={}] - React prop.
- * @property {string} [className=''] - React prop.
- * @property {Object<string,*>} [customStyles={}] - Custom styles prop.
- * @property {Object<string,*>} [customClassNames={}] - Custom classNames prop.
- * @property {Object<string,*>} [customColors=null] - Custom colors prop.
- * @property {('default'|string|null)} [globalTheme='default'] - Global theme to be used.
- */
-
-/**
- * @description A beautiful radio input component.
- * @param {inputRadioGroupPropsType} props - Component props.
- * @returns {Object<string,*>} React component.
- */
 function InputRadioGroup(props: InputRadioGroupProps) {
     const {
         name,

@@ -200,9 +200,15 @@ class Form extends React.Component<Props> {
             const matchedInput = this.getInputByName(matchName);
             if (matchedInput) {
                 if (invert) {
-                    return matchedInput.state.value !== input.state.value;
+                    return (
+                        matchedInput.getValidationValue() !==
+                        input.getValidationValue()
+                    );
                 }
-                return matchedInput.state.value === input.state.value;
+                return (
+                    matchedInput.getValidationValue() ===
+                    input.getValidationValue()
+                );
             }
         }
         return result;

@@ -22,17 +22,11 @@ type CustomColors = {
 };
 
 type Params = {
-    customStyles?: CustomStyles,
     customColors?: CustomColors,
     status?: StatusType
 };
 
 const styles = {
-    /**
-     * @description Input JSS styles.
-     * @param {*} params - Component props.
-     * @returns {Object<string,*>} Style.
-     */
     input(params: Params = {}) {
         const {
             validColor = '#94ff36',

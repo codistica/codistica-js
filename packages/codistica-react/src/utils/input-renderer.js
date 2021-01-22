@@ -20,6 +20,10 @@
 
 // TODO: CREATE HOOK AND HOC? (inputManagerRenderer, useInputManager, withInputManager) (COMMON InputManager CLASS? HOW TO USE CONTEXT?)
 
+// TODO: PASS NON STRINGIFIED VALUE TO VALIDATORS AS SECOND ARGUMENT.
+
+// TODO: ADD SUPPORT FOR async STRINGIFIERS (EX. FOR FILES).
+
 import {objectUtils, stringify} from '@codistica/core';
 import React from 'react';
 import type {Node} from 'react';

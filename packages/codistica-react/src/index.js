@@ -77,13 +77,22 @@ export type {FormValidationObjectType} from './utils/form';
 export type {InputFilePropsType} from './components/input-file';
 export type {InputPluginType} from './utils/input-renderer';
 
+// TODO: CREATE UTILITY FOR style, className, componentClassNames, jssClassNames, customStyles, globalStyles, customClassNames, globalClassnames, customColors, globalColors, globalTheme, etc. Management, merging, application...
+// TODO: MAKE CHANGING GLOBAL STYLES, GLOBAL CLASSNAMES, GLOBAL COLORS, ETC. TO INSTANTLY UPDATE COMPONENTS.
+
+// TODO: CHECK ALL REGEXPS CASE SENSITIVENESS. CHECK REG_EXPS MODULE TOO.
+
+// TODO: MAKE ESLINT NOT FIX MISSING JSDOC WHEN --fix?
+
+// TODO: CHANGE SLIDES NAMING (INVERT). EX: CarouselSlide -> SlideCarousel...
+
+// TODO: FIX INPUTS COMPONENTS TYPES.
+
 // TODO: REMOVE NEXT/PREVIOUS group OPTION FROM ALL SLIDES.
 
 // TODO: CHECK/FIX EVENT EMITTER.
 
 // TODO: ALLOW SPRING CONFIG TO BE PASSED EVERYWHERE WHERE REACT SPRINGS IS BEING USED.
-
-// TODO: NORMALIZE TYPES EXPORTS.
 
 // TODO: FIX .md FILES LINKS.
 
