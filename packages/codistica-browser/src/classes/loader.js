@@ -592,6 +592,9 @@ class Loader extends EventEmitter {
      */
     onEndHandler(e, loaderPayload) {
         // DETACH HANDLERS
+        loaderPayload.off('success', this.onSuccessHandler);
+        loaderPayload.off('fail', this.onFailHandler);
+        loaderPayload.off('headers', this.onHeadersHandler);
         loaderPayload.off('totalChange', this.onTotalChangeHandler);
         loaderPayload.off('loadedChange', this.onLoadedChangeHandler);
         loaderPayload.off(
