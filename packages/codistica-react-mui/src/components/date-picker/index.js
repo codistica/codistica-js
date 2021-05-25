@@ -34,31 +34,6 @@ type Props = {
     classes: {[string]: string}
 };
 
-DatePicker.defaultProps = {
-    value: null,
-    voidValue: null,
-    containerProps: {},
-    required: true,
-    keepMissingStatus: false,
-    match: null,
-    errorMessages: {
-        mandatory: null,
-        match: null
-    },
-    plugins: [],
-    deferValidation: true,
-    onValidationResult: null,
-    onKeyDown: null,
-    onChange: null,
-    onBlur: null,
-    classes: {}
-};
-
-/**
- * @description Material UI text field component.
- * @param {Object<string,*>} props - Component props.
- * @returns {Object<string,*>} React component.
- */
 function DatePicker(props: Props) {
     const {
         name,
@@ -143,5 +118,25 @@ function DatePicker(props: Props) {
         />
     );
 }
+
+DatePicker.defaultProps = {
+    value: null,
+    voidValue: null,
+    containerProps: {},
+    required: true,
+    keepMissingStatus: false,
+    match: null,
+    errorMessages: {
+        mandatory: null,
+        match: null
+    },
+    plugins: [],
+    deferValidation: true,
+    onValidationResult: null,
+    onKeyDown: null,
+    onChange: null,
+    onBlur: null,
+    classes: {}
+};
 
 export {DatePicker};

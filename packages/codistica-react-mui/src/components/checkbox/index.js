@@ -34,31 +34,6 @@ type Props = {
     classes: {[string]: string}
 };
 
-Checkbox.defaultProps = {
-    label: '',
-    voidValue: 'false',
-    checked: false,
-    containerProps: {},
-    required: true,
-    keepMissingStatus: false,
-    match: null,
-    errorMessages: {
-        mandatory: null,
-        match: null
-    },
-    plugins: [],
-    deferValidation: true,
-    onValidationResult: null,
-    onChange: null,
-    onBlur: null,
-    classes: {}
-};
-
-/**
- * @description Material UI checkbox component.
- * @param {Object<string,*>} props - Component props.
- * @returns {Object<string,*>} React component.
- */
 function Checkbox(props: Props) {
     const {
         name,
@@ -137,5 +112,25 @@ function Checkbox(props: Props) {
         />
     );
 }
+
+Checkbox.defaultProps = {
+    label: '',
+    voidValue: 'false',
+    checked: false,
+    containerProps: {},
+    required: true,
+    keepMissingStatus: false,
+    match: null,
+    errorMessages: {
+        mandatory: null,
+        match: null
+    },
+    plugins: [],
+    deferValidation: true,
+    onValidationResult: null,
+    onChange: null,
+    onBlur: null,
+    classes: {}
+};
 
 export {Checkbox};

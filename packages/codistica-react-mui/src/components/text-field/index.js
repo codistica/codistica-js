@@ -34,32 +34,6 @@ type Props = {
     classes: {[string]: string}
 };
 
-TextField.defaultProps = {
-    value: '',
-    voidValue: '',
-    type: 'text',
-    containerProps: {},
-    required: true,
-    keepMissingStatus: false,
-    match: null,
-    errorMessages: {
-        mandatory: null,
-        match: null
-    },
-    plugins: [],
-    deferValidation: true,
-    onValidationResult: null,
-    onKeyDown: null,
-    onChange: null,
-    onBlur: null,
-    classes: {}
-};
-
-/**
- * @description Material UI text field component.
- * @param {Object<string,*>} props - Component props.
- * @returns {Object<string,*>} React component.
- */
 function TextField(props: Props) {
     const {
         name,
@@ -136,5 +110,26 @@ function TextField(props: Props) {
         />
     );
 }
+
+TextField.defaultProps = {
+    value: '',
+    voidValue: '',
+    type: 'text',
+    containerProps: {},
+    required: true,
+    keepMissingStatus: false,
+    match: null,
+    errorMessages: {
+        mandatory: null,
+        match: null
+    },
+    plugins: [],
+    deferValidation: true,
+    onValidationResult: null,
+    onKeyDown: null,
+    onChange: null,
+    onBlur: null,
+    classes: {}
+};
 
 export {TextField};

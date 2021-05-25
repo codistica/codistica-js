@@ -34,29 +34,6 @@ type Props = {
     classes: {[string]: string}
 };
 
-RadioGroup.defaultProps = {
-    radioProps: {},
-    containerProps: {},
-    required: true,
-    keepMissingStatus: false,
-    match: null,
-    errorMessages: {
-        mandatory: null,
-        match: null
-    },
-    plugins: [],
-    deferValidation: true,
-    onValidationResult: null,
-    onChange: null,
-    onBlur: null,
-    classes: {}
-};
-
-/**
- * @description Material UI radio group component.
- * @param {Object<string,*>} props - Component props.
- * @returns {Object<string,*>} React component.
- */
 function RadioGroup(props: Props) {
     const {
         name,
@@ -170,5 +147,23 @@ function RadioGroup(props: Props) {
         />
     );
 }
+
+RadioGroup.defaultProps = {
+    radioProps: {},
+    containerProps: {},
+    required: true,
+    keepMissingStatus: false,
+    match: null,
+    errorMessages: {
+        mandatory: null,
+        match: null
+    },
+    plugins: [],
+    deferValidation: true,
+    onValidationResult: null,
+    onChange: null,
+    onBlur: null,
+    classes: {}
+};
 
 export {RadioGroup};

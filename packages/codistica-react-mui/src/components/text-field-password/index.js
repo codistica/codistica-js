@@ -39,31 +39,6 @@ type Props = {
     classes: {[string]: string}
 };
 
-TextFieldPassword.defaultProps = {
-    value: '',
-    voidValue: '',
-    containerProps: {},
-    required: true,
-    keepMissingStatus: false,
-    match: null,
-    errorMessages: {
-        mandatory: null,
-        match: null
-    },
-    plugins: [],
-    deferValidation: true,
-    onValidationResult: null,
-    onKeyDown: null,
-    onChange: null,
-    onBlur: null,
-    classes: {}
-};
-
-/**
- * @description Material UI text field password component.
- * @param {Object<string,*>} props - Component props.
- * @returns {Object<string,*>} React component.
- */
 function TextFieldPassword(props: Props) {
     const {
         name,
@@ -156,5 +131,25 @@ function TextFieldPassword(props: Props) {
         />
     );
 }
+
+TextFieldPassword.defaultProps = {
+    value: '',
+    voidValue: '',
+    containerProps: {},
+    required: true,
+    keepMissingStatus: false,
+    match: null,
+    errorMessages: {
+        mandatory: null,
+        match: null
+    },
+    plugins: [],
+    deferValidation: true,
+    onValidationResult: null,
+    onKeyDown: null,
+    onChange: null,
+    onBlur: null,
+    classes: {}
+};
 
 export {TextFieldPassword};

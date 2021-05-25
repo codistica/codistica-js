@@ -19,18 +19,6 @@ type Props = {
     classes: {[string]: string}
 };
 
-LinearProgress.defaultProps = {
-    eta: null,
-    inertia: 1,
-    containerProps: {},
-    classes: {}
-};
-
-/**
- * @description Material UI text field component.
- * @param {Object<string,*>} props - Component props.
- * @returns {Object<string,*>} React component.
- */
 function LinearProgress(props: Props) {
     const {eta, inertia, containerProps, classes, ...other} = props;
     const componentClasses = useStyles();
@@ -74,5 +62,12 @@ function LinearProgress(props: Props) {
         </Box>
     );
 }
+
+LinearProgress.defaultProps = {
+    eta: null,
+    inertia: 1,
+    containerProps: {},
+    classes: {}
+};
 
 export {LinearProgress};

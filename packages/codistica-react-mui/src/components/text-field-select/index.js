@@ -35,32 +35,6 @@ type Props = {
     classes: {[string]: string}
 };
 
-TextFieldSelect.defaultProps = {
-    value: '',
-    voidValue: '',
-    options: [],
-    containerProps: {},
-    required: true,
-    keepMissingStatus: false,
-    match: null,
-    errorMessages: {
-        mandatory: null,
-        match: null
-    },
-    plugins: [],
-    deferValidation: true,
-    onValidationResult: null,
-    onKeyDown: null,
-    onChange: null,
-    onBlur: null,
-    classes: {}
-};
-
-/**
- * @description Material UI input text field select component.
- * @param {Object<string,*>} props - Component props.
- * @returns {Object<string,*>} React component.
- */
 function TextFieldSelect(props: Props) {
     const {
         name,
@@ -144,5 +118,26 @@ function TextFieldSelect(props: Props) {
         />
     );
 }
+
+TextFieldSelect.defaultProps = {
+    value: '',
+    voidValue: '',
+    options: [],
+    containerProps: {},
+    required: true,
+    keepMissingStatus: false,
+    match: null,
+    errorMessages: {
+        mandatory: null,
+        match: null
+    },
+    plugins: [],
+    deferValidation: true,
+    onValidationResult: null,
+    onKeyDown: null,
+    onChange: null,
+    onBlur: null,
+    classes: {}
+};
 
 export {TextFieldSelect};
