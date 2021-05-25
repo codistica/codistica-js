@@ -1,37 +1,23 @@
 /** @flow */
 
-/** @module react/utils/scroll-boundary */
-
 import React, {useRef, useEffect} from 'react';
 
 // TODO: WORK IN PROGRESS.
+// TODO: CAN SCROLLING ISOLATION BE ACHIEVED BY USING REACT PORTALS? TRY CLASSIC SOLUTION FIRST. INVESTIGATE.
+// TODO: REMOVE IF WORKS EXACTLY AS OverscrollBlocker? OR LEAVE AS A "WRAPPER"?
 
 type Props = {
     children: any
 };
 
-// TODO: CAN SCROLLING ISOLATION BE ACHIEVED BY USING REACT PORTALS? TRY CLASSIC SOLUTION FIRST. INVESTIGATE.
-// TODO: REMOVE IF WORKS EXACTLY AS OverscrollBlocker? OR LEAVE AS A "WRAPPER"?
-
-ScrollBoundary.defaultProps = {
-    children: null
-};
-
-/**
- * @typedef scrollBoundaryPropsType
- * @property {*} [children=null] - React prop.
- */
-
-/**
- * @description A div that acts as a trap for scroll related events propagation.
- * @param {scrollBoundaryPropsType} props - Component props.
- * @returns {Object<string,*>} React component.
- */
 function ScrollBoundary(props: Props) {
     const elementRef = useRef(null);
     const {children, ...other} = props;
 
     useEffect(() => {
+        const handler = function handler(e: {[string]: any}) {
+            console.log(e);
+        };
         const elem = elementRef.current;
         if (elem) {
             elem.addEventListener('touchstart', handler);
@@ -50,19 +36,14 @@ function ScrollBoundary(props: Props) {
     }, []);
 
     return (
-        <div {...other} ref={(ref) => (elementRef.current = ref)}>
+        <div {...other} ref={elementRef}>
             {children}
         </div>
     );
-
-    /**
-     * @description Handler.
-     * @param {Object<string,*>} e - Event object.
-     * @returns {void} Void.
-     */
-    function handler(e: {[string]: any}) {
-        console.log(e);
-    }
 }
+
+ScrollBoundary.defaultProps = {
+    children: null
+};
 
 export {ScrollBoundary};

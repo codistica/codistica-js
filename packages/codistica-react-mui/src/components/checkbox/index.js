@@ -1,7 +1,5 @@
 /** @flow */
 
-/** @module react-mui/components/checkbox */
-
 import {mergeClassNames, InputRenderer} from '@codistica/react';
 import type {InputPluginType} from '@codistica/react';
 import {
@@ -82,7 +80,6 @@ function Checkbox(props: Props) {
                                     checked={inputProps.value === 'true'}
                                     onChange={inputProps.onChange}
                                     onBlur={inputProps.onBlur}
-                                    error={error}
                                     required={required}
                                     classes={{
                                         ...classes,

@@ -14,7 +14,7 @@ import componentClassNames from './index.module.scss';
 function Background() {
     const backgroundContext = useContext(BackgroundContext);
 
-    const transitions = useTransition(
+    const transition = useTransition(
         backgroundContext.imgSrc || backgroundContext.movSrc,
         null,
         {
@@ -31,7 +31,7 @@ function Background() {
                 className={componentClassNames.opacityLayer}
                 style={{opacity: backgroundContext.opacity}}
             />
-            {transitions.map((transition) => {
+            {transition.map((transition) => {
                 return (
                     <animated.div
                         key={transition.key}

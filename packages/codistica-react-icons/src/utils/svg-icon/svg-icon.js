@@ -6,6 +6,7 @@ import {
     createSophistication
 } from '@codistica/react';
 import React, {forwardRef} from 'react';
+import type {ComponentType} from 'react';
 import componentClassNames from './index.module.scss';
 
 // TODO: FIX <any, any>
@@ -14,6 +15,7 @@ import componentClassNames from './index.module.scss';
 // TODO: ADD SUPPORT FOR SVG EFFECTS/FILTERS. (IS elements PROP SUFFICIENT?)
 
 type Props = {
+    component: ComponentType<any> | string,
     children: any,
     elements: any,
     className: string,
@@ -35,6 +37,7 @@ const useSophistication = createSophistication({
 
 const SvgIcon = forwardRef<any, any>(function SvgIcon(props: Props, ref) {
     const {
+        component: Component = 'svg',
         children,
         elements,
         className,
@@ -49,7 +52,7 @@ const SvgIcon = forwardRef<any, any>(function SvgIcon(props: Props, ref) {
     const jssClassNames = useSophistication({color});
 
     return (
-        <svg
+        <Component
             {...other}
             ref={ref}
             viewBox={viewBox || '0 0 512 512'}
@@ -69,7 +72,7 @@ const SvgIcon = forwardRef<any, any>(function SvgIcon(props: Props, ref) {
             {title ? <title>{title}</title> : null}
             {elements}
             {children}
-        </svg>
+        </Component>
     );
 });
 

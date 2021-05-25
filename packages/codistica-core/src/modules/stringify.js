@@ -1,5 +1,7 @@
 /** @module core/modules/stringify */
 
+import {stringify as _stringify} from './json-utils/internals/stringify.js';
+
 /**
  * @description Receives any value as input and returns its stringified version.
  * @param {*} input - Input value.
@@ -24,7 +26,7 @@ function stringify(input) {
     if (typeof input === 'undefined') {
         return 'undefined';
     } else {
-        return JSON.stringify(input);
+        return _stringify(input);
     }
 }
 

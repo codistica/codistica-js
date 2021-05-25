@@ -10,11 +10,6 @@ type Props = {
     className: string
 };
 
-ImageBackground.defaultProps = {
-    style: {},
-    className: ''
-};
-
 /**
  * @typedef imageBackgroundProps
  * @property {Object<string,*>} [style={}] - React prop.
@@ -37,5 +32,10 @@ function ImageBackground(props: Props) {
         />
     );
 }
+
+ImageBackground.defaultProps = {
+    style: {},
+    className: ''
+};
 
 export {ImageBackground};

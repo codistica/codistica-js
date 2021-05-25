@@ -6,13 +6,13 @@ function parseTest() {
     describe('parse()', () => {
         it('Should return the correct boolean.', () => {
             assert.isTrue(parse('true'));
-            assert.isFalse(parse('false'));
+            assert.isFalse(parse('False'));
         });
         it('Should return null.', () => {
             assert.isNull(parse('null'));
         });
         it('Should return undefined.', () => {
-            assert.isUndefined(parse('undefined'));
+            assert.isUndefined(parse(' UNDEFINED '));
         });
         it('Should return a number.', () => {
             assert.strictEqual(parse('5'), 5);

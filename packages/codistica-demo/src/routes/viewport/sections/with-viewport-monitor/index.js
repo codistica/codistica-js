@@ -27,17 +27,29 @@ function WithViewportMonitorSection() {
     const [elementSize, setElementSize] = useState({});
 
     useEffect(() => {
-        refreshSize();
-        viewportMonitor.on('change', refreshSize);
+        const onChangeHandler = function onChangeHandler() {
+            if (elementRef.current) {
+                setElementSize({
+                    height: Math.round(
+                        elementUtils.getOuterHeight(elementRef.current)
+                    ),
+                    width: Math.round(
+                        elementUtils.getOuterWidth(elementRef.current)
+                    )
+                });
+            }
+        };
+        onChangeHandler();
+        viewportMonitor.on('change', onChangeHandler);
         return () => {
-            viewportMonitor.off('change', refreshSize);
+            viewportMonitor.off('change', onChangeHandler);
         };
     }, []);
 
     return (
         <Section category={category} title={title} description={description}>
             <ViewportMonitorDiv
-                ref={(ref) => (elementRef.current = ref)}
+                ref={elementRef}
                 style={sizeStyle}
                 className={componentClassNames.rectangle}>
                 <p>{'With Viewport Monitor'}</p>
@@ -46,13 +58,6 @@ function WithViewportMonitorSection() {
             </ViewportMonitorDiv>
         </Section>
     );
-
-    function refreshSize() {
-        setElementSize({
-            height: Math.round(elementUtils.getOuterHeight(elementRef.current)),
-            width: Math.round(elementUtils.getOuterWidth(elementRef.current))
-        });
-    }
 }
 
 export {WithViewportMonitorSection};

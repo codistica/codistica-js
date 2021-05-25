@@ -24,6 +24,10 @@
 
 // TODO: ADD SUPPORT FOR async STRINGIFIERS (EX. FOR FILES).
 
+// TODO: ALLOW INPUTS TO BE CONTROLLED FROM THE OUTSIDE VIA value PROP. ADD controlled PROP OR SIMILAR TO DISABLE INTERNAL CONTROL?
+
+// TODO: ADD api PROP TO BE PASSED A ref OR callback? JUST LIKE REACT ref.
+
 import {objectUtils, stringify} from '@codistica/core';
 import React from 'react';
 import type {Node} from 'react';

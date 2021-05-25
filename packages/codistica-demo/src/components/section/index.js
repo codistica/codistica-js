@@ -12,10 +12,6 @@ type Props = {
     children: any
 };
 
-Section.defaultProps = {
-    children: null
-};
-
 /**
  * @typedef sectionPropsType
  * @property {string} category - Section category.
@@ -46,5 +42,9 @@ function Section(props: Props) {
         </div>
     );
 }
+
+Section.defaultProps = {
+    children: null
+};
 
 export {Section};

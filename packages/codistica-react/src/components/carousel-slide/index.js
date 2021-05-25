@@ -1,6 +1,8 @@
 /** @flow */
 
 // TODO: FIX CROSS DRAG INTERFERENCE. (EX. HORIZONTAL SLIDE SWITCHING WHEN SCROLLING VERTICALLY)
+// TODO: ADD CLICK TO GO FEATURE.
+// TODO: ADD ANIMATED SCALE FEATURE.
 
 import React, {useRef, useCallback, useEffect, useState} from 'react';
 import {animated, useSprings} from 'react-spring';

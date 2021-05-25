@@ -1,5 +1,7 @@
 /** @module core/modules/date-utils/parse-seconds */
 
+// TODO: RENAME TO secondsToClock.
+
 /**
  * @typedef parseSecondsReturnType
  * @property {number} hours - Hours.

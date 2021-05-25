@@ -5,7 +5,7 @@ import {prettify} from '../../../../modules/object-utils/internals/prettify.js';
 /** @see module:core/modules/object-utils/prettify */
 function prettifyTest() {
     describe('prettify()', () => {
-        it('Should return a pretified stringified object.', () => {
+        it('Should return a prettified stringified object.', () => {
             const tab = STRINGS.STD_TAB_SPACE;
             assert.strictEqual(
                 prettify({

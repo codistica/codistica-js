@@ -9,10 +9,6 @@ type Props = {
     children: any
 };
 
-BodyContainer.defaultProps = {
-    children: null
-};
-
 /**
  * @typedef bodyContainerPropsType
  * @property {*} [children=null] - React prop.
@@ -38,5 +34,9 @@ function BodyContainer(props: Props) {
         </div>
     );
 }
+
+BodyContainer.defaultProps = {
+    children: null
+};
 
 export {BodyContainer};

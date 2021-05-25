@@ -85,17 +85,17 @@ class LoaderThread {
      * @returns {void} Void.
      */
     run(loaderPayload) {
+        this.loaderPayload = loaderPayload;
+
         // ATTACH HANDLERS
-        loaderPayload.prependListener(
+        this.loaderPayload.prependListener(
             'computableProgress',
             this.onComputableProgressHandler
         );
-        loaderPayload.prependOnceListener('end', this.onEndHandler);
+        this.loaderPayload.prependOnceListener('end', this.onEndHandler);
 
         // SEND REQUEST
-        loaderPayload.send();
-
-        this.loaderPayload = loaderPayload;
+        this.loaderPayload.send();
     }
 
     /**

@@ -1,6 +1,6 @@
 /** @flow */
 
-import {LogBrowserConsoleBinder} from '@codistica/browser';
+import {LogBrowserConsoleBinder, getScrollingElement} from '@codistica/browser';
 import {log} from '@codistica/core';
 import React, {useRef} from 'react';
 import {Switch, Route, useLocation} from 'react-router-dom';
@@ -28,7 +28,6 @@ log.setConsoleBinder(new LogBrowserConsoleBinder());
 // TODO: CHECK WHY PAGE CAN SCROLL HORIZONTALLY ON MOBILE WHEN MENU IS OPEN (BESIDE OF ScrollBoundary NOT BEING APPLIED YET)
 // TODO: PREVENT TAB NAVIGATING MENU WHEN CLOSED.
 // TODO: TEST EVERYTHING ON MOBILE IN LANDSCAPE MODE.
-// TODO: USE will-change PROP WHERE NEEDED.
 // TODO: ADD 404 PAGE.
 // TODO: GLOBALLY CUSTOMIZE SOME COMPONENTS AS DEMO.
 // TODO: SEARCH FOR UNUSED SCSS COLORS IMPORTS.
@@ -36,13 +35,8 @@ log.setConsoleBinder(new LogBrowserConsoleBinder());
 
 // TODO: CREATE CUSTOM Waves MODULE (SPLIT INTO REUSABLE MODULES) + REACT COMPONENT (FOR CANVAS DISPLAYING). (USE CLONED REPOSITORY)
 
-const scrollingElement =
-    document.scrollingElement || document.getElementsByTagName('body')[0];
+const scrollingElement = getScrollingElement();
 
-/**
- * @description App main component.
- * @returns {Object<string,*>} React component.
- */
 function App() {
     const location = useLocation();
     const locationRef = useRef(location);

@@ -30,6 +30,9 @@ import {addStyles} from '../modules/element-utils/internals/add-styles.js';
 
 // TODO: CHECK AND ADJUST ALL USAGES.
 
+// TODO: AVOID USING DUMMY ELEMENTS TO MAKE MEASUREMENTS. ESPECIALLY POSITION FIXED ONES. SEE VIEWPORT PROJECT FOR ALTERNATIVES.
+// TODO: PLACE AND REMOVE ELEMENTS ONLY WHEN NEEDED?
+
 const viewportMonitorSchema = new Types({
     options: {
         type: 'Object',
@@ -88,7 +91,7 @@ class ViewportMonitor extends EventEmitter {
             width: '100vw',
             visibility: 'hidden',
             pointerEvents: 'none',
-            zIndex: '-100',
+            zIndex: '-10000',
             top: '0',
             left: '0'
         };

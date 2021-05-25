@@ -12,11 +12,6 @@ type Props = {
     className: string
 };
 
-Header.defaultProps = {
-    style: {},
-    className: ''
-};
-
 /**
  * @typedef headerProps
  * @property {Object<string,*>} [style={}] - React prop.
@@ -61,5 +56,10 @@ function Header(props: Props) {
         </div>
     );
 }
+
+Header.defaultProps = {
+    style: {},
+    className: ''
+};
 
 export {Header};

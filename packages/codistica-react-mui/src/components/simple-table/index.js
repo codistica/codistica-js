@@ -1,7 +1,5 @@
 /** @flow */
 
-/** @module react-mui/components/simple-table */
-
 import {
     Table,
     TableBody,
@@ -14,7 +12,7 @@ import React, {Fragment, useCallback} from 'react';
 
 type Props = {
     title: string,
-    keys: Array<string>,
+    keys: {[string]: string} | Array<string>,
     data: Array<{[string]: string | number | void}>
 };
 
@@ -42,12 +40,21 @@ function SimpleTable(props: Props) {
             </Typography>
             <Table size={'small'}>
                 <TableHead>
-                    <TableRow>{getRowElements(keys)}</TableRow>
+                    <TableRow>
+                        {getRowElements(
+                            Array.isArray(keys) ? keys : Object.values(keys)
+                        )}
+                    </TableRow>
                 </TableHead>
                 <TableBody>
-                    {data.map((entry, index) => (
+                    {data.map((item, index) => (
                         <TableRow key={index}>
-                            {getRowElements(Object.values(entry))}
+                            {getRowElements(
+                                (Array.isArray(keys)
+                                    ? keys
+                                    : Object.keys(keys)
+                                ).map((key) => item[key])
+                            )}
                         </TableRow>
                     ))}
                 </TableBody>

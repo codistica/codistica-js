@@ -1,6 +1,6 @@
 /** @flow */
 
-/** @module react-mui/components/linear-progress */
+// TODO: WORK IN PROGRESS. DOES THIS MAKE SENSE?
 
 import {LoadingBar} from '@codistica/core';
 import {mergeClassNames} from '@codistica/react';

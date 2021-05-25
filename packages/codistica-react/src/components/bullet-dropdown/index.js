@@ -1,7 +1,7 @@
 /** @flow */
 
 import {elementUtils} from '@codistica/browser';
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useLayoutEffect} from 'react';
 import resetClassNames from '../../css/reset.module.scss';
 import {withOnClickOutside} from '../../hocs/with-on-click-outside.js';
 import {mergeClassNames} from '../../modules/merge-class-names.js';
@@ -63,14 +63,14 @@ function BulletDropdown(props: Props) {
         globalTheme
     } = props;
 
-    const rootRef = useRef(null);
-    const [open, setOpen] = useState(null);
+    // TODO: REMOVE <any> AFTER UPDATING FLOW.
+    const rootRef = useRef<any>(null);
+
+    const [open, setOpen] = useState(false);
+    const [headerHeight, setHeaderHeight] = useState(0);
+    const [listHeight, setListHeight] = useState(0);
 
     const Element = autoClose ? Div : 'div';
-
-    const names = Object.getOwnPropertyNames(items);
-    const headerHeight = getHeaderHeight();
-    const listHeight = getListHeight();
 
     const globalStyles = globalTheme
         ? BulletDropdown.globalStyles[globalTheme] || {}
@@ -87,8 +87,7 @@ function BulletDropdown(props: Props) {
                     ? 'flex-end'
                     : 'flex-start'
                 : null,
-            height:
-                autoSpacing && open !== null ? headerHeight + listHeight : null
+            height: autoSpacing ? headerHeight + listHeight : null
         }),
         bullet: mergeStyles(globalStyles.bullet, customStyles.bullet, {
             transform: open ? 'rotate(90deg)' : null
@@ -122,22 +121,33 @@ function BulletDropdown(props: Props) {
         )
     };
 
-    const conditionalProps = {
-        onClickOutside() {
-            if (open) {
-                setOpen(false);
-            }
+    useLayoutEffect(() => {
+        if (rootRef.current) {
+            const elem = rootRef.current;
+            setHeaderHeight(elementUtils.getOuterHeight(elem.firstChild));
+            setListHeight(
+                Array.from(elem.lastChild.children).reduce(
+                    (acc, elem) => acc + elementUtils.getOuterHeight(elem),
+                    0
+                )
+            );
         }
-    };
+    }, []);
 
     return (
         <Element
-            {...(autoClose ? conditionalProps : {})}
-            ref={setRootRef}
+            {...(autoClose
+                ? {
+                      onClickOutside() {
+                          setOpen(false);
+                      }
+                  }
+                : {})}
+            ref={rootRef}
             style={mergedStyles.root}
             className={mergedClassNames.root}>
             <div
-                onClick={() => setOpen(!open)}
+                onClick={() => setOpen((prevOpen) => !prevOpen)}
                 className={componentClassNames.header}>
                 <span
                     style={mergedStyles.bullet}
@@ -156,7 +166,7 @@ function BulletDropdown(props: Props) {
                     opacity: open ? 1 : null
                 }}
                 className={componentClassNames.list}>
-                {names.map((name, index) => (
+                {Object.keys(items).map((name, index) => (
                     <a
                         key={index}
                         href={items[name]}
@@ -172,30 +182,6 @@ function BulletDropdown(props: Props) {
             </div>
         </Element>
     );
-
-    function setRootRef(ref: any) {
-        rootRef.current = ref;
-        if (open === null) {
-            setOpen(false);
-        }
-    }
-
-    function getHeaderHeight() {
-        if (!rootRef.current) {
-            return 0;
-        }
-        return elementUtils.getOuterHeight(rootRef.current.firstChild);
-    }
-
-    function getListHeight() {
-        if (!rootRef.current) {
-            return 0;
-        }
-        return Array.from(rootRef.current.lastChild.children).reduce(
-            (acc, elem) => acc + elementUtils.getOuterHeight(elem),
-            0
-        );
-    }
 }
 
 BulletDropdown.defaultProps = {

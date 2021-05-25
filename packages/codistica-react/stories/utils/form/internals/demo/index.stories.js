@@ -1,5 +1,6 @@
 /** @flow */
 
+import {stringify} from '@codistica/core';
 import React from 'react';
 import {
     Button,
@@ -414,9 +415,9 @@ function listReports(formValidationObject: FormValidationObjectType) {
                     continue;
                 }
                 output.push(
-                    <span key={index}>{`${
-                        '  ' + reportItemName
-                    }: ${JSON.stringify(report[reportItemName])}`}</span>
+                    <span key={index}>{`${'  ' + reportItemName}: ${stringify(
+                        report[reportItemName]
+                    )}`}</span>
                 );
                 index++;
             }
@@ -457,9 +458,9 @@ function listData(formValidationObject: FormValidationObjectType) {
                     continue;
                 }
                 output.push(
-                    <span key={index}>{`${
-                        '  ' + dataSetItemKey
-                    }: ${JSON.stringify(dataSet[dataSetItemKey])}`}</span>
+                    <span key={index}>{`${'  ' + dataSetItemKey}: ${stringify(
+                        dataSet[dataSetItemKey]
+                    )}`}</span>
                 );
                 index++;
             }

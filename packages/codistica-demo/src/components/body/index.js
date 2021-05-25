@@ -1,6 +1,6 @@
 /** @flow */
 
-import {elementUtils} from '@codistica/browser';
+import {elementUtils, getScrollingElement} from '@codistica/browser';
 import {mergeClassNames, withViewportMonitor} from '@codistica/react';
 import React, {useContext, useEffect} from 'react';
 import {MenuContext} from '../../contexts/menu-context.js';
@@ -9,21 +9,13 @@ import componentClassNames from './index.module.scss';
 
 const ViewportMonitorDiv = withViewportMonitor<{}>('div');
 
-const scrollingElement =
-    document.scrollingElement || document.getElementsByTagName('body')[0];
+const scrollingElement = getScrollingElement();
 
 type Props = {
     noOverscroll: boolean,
     headerSpacer: null | boolean,
     appLayout: boolean,
     children: any
-};
-
-Body.defaultProps = {
-    noOverscroll: false,
-    headerSpacer: null,
-    appLayout: false,
-    children: null
 };
 
 /**
@@ -74,5 +66,12 @@ function Body(props: Props) {
         </Element>
     );
 }
+
+Body.defaultProps = {
+    noOverscroll: false,
+    headerSpacer: null,
+    appLayout: false,
+    children: null
+};
 
 export {Body};

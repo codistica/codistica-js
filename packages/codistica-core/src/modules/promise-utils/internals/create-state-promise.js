@@ -1,5 +1,8 @@
 /** @module core/modules/create-state-promise */
 
+// TODO: RENAME TO addState.
+// TODO: CONVERT TO CLASS?
+
 /**
  * @typedef createStatePromiseWrappedPromiseType
  * @property {function(): boolean} [isPending] - Is pending method.

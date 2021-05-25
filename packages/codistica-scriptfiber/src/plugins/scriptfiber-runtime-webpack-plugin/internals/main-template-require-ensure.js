@@ -2,6 +2,8 @@
 
 import {Template} from 'webpack';
 
+// TODO: USE @codistica/core stringify
+
 /**
  * @description Scriptfiber JSONP Chunk Loading script generator.
  * @param {Object<string,*>} mainTemplate - Main template object.

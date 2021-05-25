@@ -1,7 +1,5 @@
 /** @flow */
 
-/** @module react-mui/components/date-picker */
-
 import {mergeClassNames, InputRenderer} from '@codistica/react';
 import type {InputPluginType} from '@codistica/react';
 import {default as MomentUtils} from '@date-io/moment';

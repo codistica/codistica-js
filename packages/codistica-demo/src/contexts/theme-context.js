@@ -13,10 +13,6 @@ const ThemeContext: Object = createContext({
     setTheme: null
 });
 
-ThemeProvider.defaultProps = {
-    children: null
-};
-
 function ThemeProvider(props: Props) {
     const [theme, setTheme] = useState('dark');
     const {children} = props;
@@ -32,5 +28,9 @@ function ThemeProvider(props: Props) {
         </MaterialThemeProvider>
     );
 }
+
+ThemeProvider.defaultProps = {
+    children: null
+};
 
 export {ThemeContext, ThemeProvider};

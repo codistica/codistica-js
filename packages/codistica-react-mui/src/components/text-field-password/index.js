@@ -1,7 +1,5 @@
 /** @flow */
 
-/** @module react-mui/components/text-field-password */
-
 import {mergeClassNames, InputRenderer} from '@codistica/react';
 import type {InputPluginType} from '@codistica/react';
 import {

@@ -12,6 +12,7 @@ import {TracklessSlideSectionA} from './sections/trackless-slide-a/index.js';
 // TODO: CHECK ALL SLIDES VARIABLES TYPES WHEN NO CHILDREN. (HANDLE NaN)
 // TODO: DOES ALL SLIDES SUPPORT gap? (EXCEPT FOR CAROUSEL OBVIOUSLY) IS IT NEEDED?
 // TODO: FIX children COMPARE USING ONLY length.
+// TODO: ADD MORE EVENTS TO SLIDES.
 
 function SlidesRoute() {
     return (

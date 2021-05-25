@@ -3,6 +3,7 @@
 import {default as jsonLoader} from 'json-loader';
 import {getOptions} from 'loader-utils';
 
+// TODO: USE @codistica/core parse/stringify
 // TODO: SEE OTHER LOADER WRITING POSSIBILITIES LIKE LOADER DEPENDENCIES, etc. MAYBE IT OPENS NEW POSSIBILITIES
 
 // TODO

@@ -26,6 +26,9 @@ function ViewportMonitorSection() {
     });
 
     useEffect(() => {
+        const onChangeHandler = function onChangeHandler(e) {
+            setViewportState(e);
+        };
         viewportMonitor.on('change', onChangeHandler);
         return () => {
             viewportMonitor.off('change', onChangeHandler);
@@ -71,10 +74,6 @@ function ViewportMonitorSection() {
             </h3>
         </Section>
     );
-
-    function onChangeHandler(e) {
-        setViewportState(e);
-    }
 }
 
 export {ViewportMonitorSection};

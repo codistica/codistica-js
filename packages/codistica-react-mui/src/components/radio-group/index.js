@@ -1,7 +1,5 @@
 /** @flow */
 
-/** @module react-mui/components/radio-group */
-
 import type {InputPluginType} from '@codistica/react';
 import {mergeClassNames, InputRenderer} from '@codistica/react';
 import {

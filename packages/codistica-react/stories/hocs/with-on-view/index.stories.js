@@ -3,7 +3,7 @@
 import {Demo} from './internals/demo/index.stories.js';
 
 const meta = {
-    title: 'With On View'
+    title: 'With onView'
 };
 
 export {Demo};

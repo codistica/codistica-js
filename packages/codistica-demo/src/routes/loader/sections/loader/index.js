@@ -4,7 +4,7 @@ import {Loader} from '@codistica/browser';
 import {stringUtils} from '@codistica/core';
 import {Button} from '@codistica/react';
 import {LinearProgress} from '@codistica/react-mui';
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Section} from '../../../../components/section/index.js';
 import componentClassNames from './index.module.scss';
 import {getPayloadsData} from './internals/generate-links.js';
@@ -36,13 +36,6 @@ getPayloadsData(source).forEach((payloadData) => {
     });
 });
 
-/**
- * @description Prepares input for displaying.
- * @param {*} input - Input.
- * @param {number} [length=10] - Length.
- * @param {boolean} [round] - Round.
- * @returns {string} Output.
- */
 function display(input, length, round) {
     if (typeof input !== 'number') {
         input = 0;
@@ -57,10 +50,6 @@ const category = 'DEMO';
 const title = 'Loader Demo';
 const description = 'TODO.';
 
-/**
- * @description Loader demo section.
- * @returns {Object<string,*>} Section.
- */
 function LoaderDemo() {
     const [progress, setProgress] = useState(null);
     const [stats, setStats] = useState(null);
@@ -80,36 +69,35 @@ function LoaderDemo() {
         inProgress: null
     };
 
-    const onRefreshHandler = useCallback(({progress, stats, performance}) => {
-        setProgress({
-            ...progress
-        });
-        setStats({
-            ...stats
-        });
-        setPerformance({
-            ...performance
-        });
-    }, []);
-
     useEffect(() => {
-        loader.on('refresh', onRefreshHandler);
+        const onRefreshHandler = function onRefreshHandler({
+            progress,
+            stats,
+            performance
+        }) {
+            setProgress({
+                ...progress
+            });
+            setStats({
+                ...stats
+            });
+            setPerformance({
+                ...performance
+            });
+        };
 
-        /**
-         * @description Callback for end event.
-         * @returns {void} Void.
-         */
         const onEndHandler = function onEndHandler() {
             loader.off('refresh', onRefreshHandler);
         };
 
+        loader.on('refresh', onRefreshHandler);
         loader.once('end', onEndHandler);
 
         return () => {
             loader.off('refresh', onRefreshHandler);
             loader.off('end', onEndHandler);
         };
-    }, [onRefreshHandler]);
+    }, []);
 
     if (progress) {
         data.totalData = progress.total;

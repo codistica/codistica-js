@@ -9,6 +9,7 @@ import {getDisplayName} from '../modules/get-display-name.js';
 import {getRefHandler} from '../modules/get-ref-handler.js';
 
 // TODO: TYPES (SEE HOC TYPING FROM JSS REPO AND COMPONENT THROUGH HOC TYPING).
+// TODO: ADD OPTION TO EXECUTE HANDLER ONCE ON MOUNT. CHECK OTHER COMPONENTS/HOCS/HOOKS IN THIS LIBRARY THAT COULD DO THE SAME.
 
 type Props = {
     children: any,
@@ -19,7 +20,7 @@ type Context = {|
     instanceCount: number,
     handlers: Set<(...args: Array<any>) => any>,
     isAttached: boolean,
-    wait: boolean,
+    ticking: boolean,
     lastEvent: {[string]: any} | null
 |};
 
@@ -31,20 +32,20 @@ const context: Context = {
     instanceCount: 0,
     handlers: new Set(),
     isAttached: false,
-    wait: false,
+    ticking: false,
     lastEvent: null
 };
 
 function globalHandler(e) {
     context.lastEvent = e;
-    if (!context.wait) {
+    if (!context.ticking) {
         requestAnimationFrame(() => {
             Array.from(context.handlers.values()).forEach((handler) =>
                 handler(context.lastEvent)
             );
-            context.wait = false;
+            context.ticking = false;
         });
-        context.wait = true;
+        context.ticking = true;
     }
 }
 

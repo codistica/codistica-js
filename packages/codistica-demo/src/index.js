@@ -11,6 +11,8 @@ import './fonts/jura-codistica/jura-codistica.css';
 // TODO: REPLACE create-react-app SETUP WITH A CUSTOM SETUP FROM SCRATCH.
 // TODO: REMOVE JSDOC.
 
+// TODO: MOVE StrictMode AND BrowserRouter TO App TO MAKE TESTS WORK. ADJUST TESTS.
+
 ReactDOM.render(
     <StrictMode>
         <BrowserRouter>

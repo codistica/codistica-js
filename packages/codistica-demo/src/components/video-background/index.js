@@ -12,13 +12,6 @@ type Props = {
     className: string
 };
 
-VideoBackground.defaultProps = {
-    type: 'video/mp4',
-    loop: true,
-    style: {},
-    className: ''
-};
-
 /**
  * @typedef videoBackgroundProps
  * @property {string} src - Video source.
@@ -57,5 +50,12 @@ function VideoBackground(props: Props) {
         console.log('CAN PLAY THROUGH!');
     }
 }
+
+VideoBackground.defaultProps = {
+    type: 'video/mp4',
+    loop: true,
+    style: {},
+    className: ''
+};
 
 export {VideoBackground};

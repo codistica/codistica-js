@@ -4,7 +4,7 @@ import {default as centered} from '@storybook/addon-centered/react';
 import React from 'react';
 import {withTooltip, createSophistication} from '../../../../src/index.js';
 
-const Span = withTooltip<{}>('span');
+const Span = withTooltip('span');
 
 const useSophistication = createSophistication({
     root: {

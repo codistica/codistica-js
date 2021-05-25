@@ -8,6 +8,8 @@ import {mergeStyles} from '../../modules/merge-styles.js';
 import {TrackSlide} from '../track-slide/index.js';
 
 // TODO: ADD SUPPORT FOR KEYBOARD NAVIGATION (NAVIGATE WITH ARROWS, GOTO WITH NUMBERS, ETC)
+// TODO: IMPROVE. ALLOW FURTHER BEHAVIOR CUSTOMIZATION.
+// TODO: DOES THIS COMPONENT MAKE SENSE? IF MODAL COMPONENT IS CREATED, THIS COMPONENT WOULD BE EASY TO REPLICATE.
 
 const OverscrollBlockerDiv = withOverscrollBlocker<{}>('div');
 
@@ -44,12 +46,17 @@ type GlobalClassNames = {
 
 function FullScreenSlide(props: Props) {
     const {
-        elements,
+        direction,
+        startingPosition,
+        itemsPerView,
+        onMount,
+        onNewPosition,
         children,
-        customStyles,
-        customClassNames,
+        elements,
         style,
         className,
+        customStyles,
+        customClassNames,
         globalTheme,
         ...others
     } = props;
@@ -83,16 +90,20 @@ function FullScreenSlide(props: Props) {
 
     return (
         <OverscrollBlockerDiv
+            {...others}
             style={mergedStyles.root}
             className={mergedClassNames.root}>
             {elements}
             <TrackSlide
-                {...others}
+                direction={direction}
+                startingPosition={startingPosition}
+                itemsPerView={itemsPerView}
+                onMount={onMount}
+                onNewPosition={onNewPosition}
                 dimensions={{
                     height: '100%',
                     width: '100%'
-                }}
-                globalTheme={null}>
+                }}>
                 {children}
             </TrackSlide>
         </OverscrollBlockerDiv>

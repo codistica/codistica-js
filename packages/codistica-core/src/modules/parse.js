@@ -1,28 +1,27 @@
 /** @module core/modules/parse */
 
+import {parse as _parse} from './json-utils/internals/parse.js';
+
 /**
  * @description Receives a raw string and returns its best found data type representation.
  * @param {string} str - Input string.
  * @returns {*} Parsed value.
  */
 function parse(str) {
-    const normStr = str.trim().toLowerCase();
+    const trimmed = str.trim().toLowerCase();
 
-    if (normStr === 'undefined') {
+    if (trimmed.toLowerCase() === 'undefined') {
         return undefined;
     }
 
-    const parsedNum = parseFloat(normStr);
+    const num = parseFloat(trimmed);
 
-    if (
-        !Number.isNaN(parsedNum) &&
-        parsedNum.toString().length === normStr.length
-    ) {
-        return parsedNum;
+    if (!Number.isNaN(num) && num.toString().length === trimmed.length) {
+        return num;
     }
 
     try {
-        return JSON.parse(normStr);
+        return _parse(trimmed);
     } catch {
         return str;
     }
