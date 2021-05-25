@@ -1,7 +1,7 @@
 /** @flow */
 
 import {eventListenerObjectSupport} from '@codistica/browser';
-import {log, conditionalTimeout} from '@codistica/core';
+import {conditionalTimeout} from '@codistica/core';
 import {default as hoistNonReactStatics} from 'hoist-non-react-statics';
 import React, {useRef, useCallback, useEffect, forwardRef} from 'react';
 import type {ComponentType} from 'react';
@@ -143,8 +143,6 @@ function withOnDrag(options?: Options) {
                         timeoutRef.current = conditionalTimeout(
                             grabThreshold,
                             () => {
-                                log.debug('onStart()', 'DRAG STARTED')();
-
                                 if (!componentRef.current) {
                                     return;
                                 }
@@ -204,8 +202,6 @@ function withOnDrag(options?: Options) {
                                         touchIdentifierRef.current
                                 )))
                     ) {
-                        log.debug('onEnd()', 'DRAG ENDED')();
-
                         if (!componentRef.current) {
                             return;
                         }

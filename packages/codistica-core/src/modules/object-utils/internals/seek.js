@@ -1,6 +1,5 @@
 /** @module core/modules/object-utils/seek */
 
-import {log} from '../../log.js';
 import {isArrayPath} from './is-array-path.js';
 import {isObject} from './is-object.js';
 import {isPureObject} from './is-pure-object.js';
@@ -40,10 +39,6 @@ function seek(root, path, newValue, force) {
         if (key !== '') {
             currentElem[key] = value;
         } else {
-            log.warning(
-                'seek()',
-                'PASSED REFERENCE WILL BE OVERWRITTEN. OBJECT WILL HAVE TO BE UPDATED MANUALLY'
-            )();
             root = value;
         }
         currentValue = value;
@@ -65,10 +60,6 @@ function seek(root, path, newValue, force) {
                     return undefined;
                 } else {
                     if (typeof currentValue !== 'undefined' && !force) {
-                        log.warning(
-                            'seek()',
-                            'GIVEN PATH REQUIRES EXISTING VALUE OVERWRITING. ABORTING. (SET force TO true TO OVERRIDE)'
-                        )();
                         return null;
                     } else {
                         setValue(isArrayPath(pathArray[i + 1]) ? [] : {});
@@ -80,10 +71,6 @@ function seek(root, path, newValue, force) {
                 return currentValue;
             } else {
                 if (typeof currentValue !== 'undefined' && !force) {
-                    log.warning(
-                        'seek()',
-                        'GIVEN PATH REQUIRES EXISTING VALUE OVERWRITING. ABORTING. (SET force TO true TO OVERRIDE)'
-                    )();
                     return null;
                 } else {
                     setValue(newValue);

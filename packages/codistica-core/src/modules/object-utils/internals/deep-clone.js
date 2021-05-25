@@ -1,7 +1,6 @@
 /** @module core/modules/object-utils/deep-clone */
 
 import {Types} from '@codistica/types';
-import {log} from '../../log.js';
 import {forEachSync} from './for-each-sync.js';
 import {hasKeys} from './has-keys.js';
 import {isPureObject} from './is-pure-object.js';
@@ -36,7 +35,6 @@ function deepClone(obj, options) {
 
     ({obj, options} = deepCloneSchema.validate({obj, options}));
     if (!deepCloneSchema.isValid()) {
-        log.error('deepClone()', 'ARGUMENTS ERROR. ABORTING')();
         return null;
     }
 
@@ -47,13 +45,6 @@ function deepClone(obj, options) {
         : Array.isArray(obj)
         ? []
         : null;
-
-    if (options.maxDepth !== Infinity) {
-        log.debug(
-            'deepClone()',
-            'SETTING maxDepth WHILE CLONING WILL COPY A REFERENCE OF ELEMENTS BEYOND THAT POINT'
-        )();
-    }
 
     forEachSync(
         obj,

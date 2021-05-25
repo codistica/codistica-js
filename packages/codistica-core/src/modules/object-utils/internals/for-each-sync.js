@@ -1,7 +1,6 @@
 /** @module core/modules/object-utils/for-each-sync */
 
 import {Types} from '@codistica/types';
-import {log} from '../../log.js';
 import {checkOne} from '../../reg-exp-utils/internals/check-one.js';
 import {getKeys} from './get-keys.js';
 import {hasKeys} from './has-keys.js';
@@ -96,7 +95,6 @@ function forEachSync(root, callback, options) {
         options
     }));
     if (!forEachSyncSchema.isValid()) {
-        log.error('forEachSync()', 'ARGUMENTS ERROR. ABORTING')();
         return null;
     }
 
@@ -147,10 +145,6 @@ function forEachSync(root, callback, options) {
 
         // REPLACE VALUE
         if (replaceObj.shouldReplace) {
-            log.warning(
-                'forEachSync()',
-                'PASSED REFERENCE WILL BE OVERWRITTEN. OBJECT WILL HAVE TO BE UPDATED MANUALLY'
-            )();
             root = replaceObj.newValue;
             if (!replaceObj.shouldRecurse) {
                 return root;
@@ -194,7 +188,6 @@ function forEachSync(root, callback, options) {
         // SCAN SIBLINGS
         for (let i = 0; i < length; i++) {
             if (stopGlobalFlag) {
-                log.debug('forEachSync()', 'ABORTING RECURSION')();
                 return;
             }
 
@@ -212,13 +205,11 @@ function forEachSync(root, callback, options) {
 
             // CHECK IGNORE
             if (checkOne(newPath, options.ignore)) {
-                log.debug('forEachSync()', `IGNORING ${newPath}`)();
                 continue;
             }
 
             // CHECK ONLY
             if (options.only !== null && !checkOne(newPath, options.only)) {
-                log.debug('forEachSync()', `IGNORING ${newPath}`)();
                 continue;
             }
 
@@ -226,10 +217,6 @@ function forEachSync(root, callback, options) {
                 // CHECK FOR CIRCULAR REFERENCES
                 if (options.circularCheck) {
                     if (branchCircularCache.has(elem[key])) {
-                        log.debug(
-                            'forEachSync()',
-                            `CIRCULAR REFERENCE FOUND AT: ${newPath}. SKIPPING`
-                        )();
                         stopCurrentFlag = true;
                         if (typeof options.onCircular === 'function') {
                             options.onCircular(
@@ -246,10 +233,6 @@ function forEachSync(root, callback, options) {
                 // CHECK FOR REFERENCE
                 if (options.referenceCheck) {
                     if (globalReferenceCache.has(elem[key])) {
-                        log.debug(
-                            'forEachSync()',
-                            `REFERENCE FOUND AT: ${newPath}. SKIPPING`
-                        )();
                         stopCurrentFlag = true;
                         if (typeof options.onReference === 'function') {
                             options.onReference(
@@ -281,7 +264,6 @@ function forEachSync(root, callback, options) {
                     branchCircularCache.delete(elem[key]);
                 }
                 elem[key] = replaceObj.newValue;
-                log.debug('forEachSync()', `${newPath} - HAS BEEN REPLACED`)();
                 if (replaceObj.shouldRecurse) {
                     length++;
                     keysArray.push(key);

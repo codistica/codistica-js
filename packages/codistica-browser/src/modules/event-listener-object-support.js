@@ -1,7 +1,5 @@
 /** @module browser/modules/event-listener-object-support */
 
-import {log} from '@codistica/core';
-
 const eventListenerObjectSupport = {
     capture: null,
     passive: null
@@ -36,8 +34,7 @@ try {
     );
     window.addEventListener('test', null, eventOptions);
     window.removeEventListener('test', null, eventOptions);
-} catch (err) {
-    log.error('eventListenerObjectSupport', err);
+} catch {
     eventListenerObjectSupport.capture = false;
     eventListenerObjectSupport.passive = false;
 }
