@@ -1,9 +1,5 @@
 /** @module core/classes/event-emitter */
 
-// TODO: TEMP.
-let addedCount = 0;
-let removedCount = 0;
-
 /**
  * @classdesc A class for NodeJS like event support.
  */
@@ -12,7 +8,7 @@ class EventEmitter {
      * @description Constructor.
      */
     constructor() {
-        /** @type {Map<string,Array<Function>>} */
+        /** @type {Map<string,Array<*>>} */
         this.eventListeners = new Map();
     }
 
@@ -24,12 +20,12 @@ class EventEmitter {
      * @returns {boolean} Boolean indicating if specified event had attached listeners.
      */
     emit(eventName, ...args) {
-        const listeners = this.eventListeners.get(eventName);
-        if (!listeners || !listeners.length) {
+        const listeners = this.eventListeners.get(eventName) || [];
+        if (!listeners.length) {
             return false;
         }
-        // USING slice() CREATES A NEW ARRAY PREVENTING ISSUES IF ONE LISTENER MODIFIES ORIGINAL ARRAY DURING ITERATION
-        listeners.slice().forEach((listener) => {
+        // USING [...listeners] CREATES A NEW ARRAY PREVENTING ISSUES IF ONE LISTENER MODIFIES ORIGINAL ARRAY DURING ITERATION
+        [...listeners].forEach((listener) => {
             listener(...args);
         });
         return true;
@@ -71,18 +67,19 @@ class EventEmitter {
      * @returns {EventEmitter} EventEmitter.
      */
     once(eventName, listener) {
-        const that = this;
-        const listeners = this.eventListeners.get(eventName) || [];
         /**
          * @description Wrapped listener.
          * @param {...*} args - Args.
          */
-        const wrappedListener = function wrappedListener(...args) {
-            that.off(eventName, wrappedListener);
+        const wrappedListener = (...args) => {
             listener(...args);
+            this.off(eventName, wrappedListener);
         };
-        addListener(listeners, wrappedListener);
-        this.eventListeners.set(eventName, listeners);
+
+        wrappedListener.originalListener = listener;
+
+        this.on(eventName, wrappedListener);
+
         return this;
     }
 
@@ -94,18 +91,19 @@ class EventEmitter {
      * @returns {EventEmitter} EventEmitter.
      */
     prependOnceListener(eventName, listener) {
-        const that = this;
-        const listeners = this.eventListeners.get(eventName) || [];
         /**
          * @description Wrapped listener.
          * @param {...*} args - Args.
          */
-        const wrappedListener = function wrappedListener(...args) {
-            that.off(eventName, wrappedListener);
+        const wrappedListener = (...args) => {
             listener(...args);
+            this.off(eventName, wrappedListener);
         };
-        addListener(listeners, wrappedListener, true);
-        this.eventListeners.set(eventName, listeners);
+
+        wrappedListener.originalListener = listener;
+
+        this.prependListener(eventName, wrappedListener);
+
         return this;
     }
 
@@ -117,16 +115,20 @@ class EventEmitter {
      * @returns {EventEmitter} EventEmitter.
      */
     off(eventName, listener) {
-        const listeners = this.eventListeners.get(eventName);
+        const listeners = this.eventListeners.get(eventName) || [];
         removeListener(listeners, listener);
-        this.eventListeners.set(eventName, listeners);
+        if (listeners.length) {
+            this.eventListeners.set(eventName, listeners);
+        } else {
+            this.eventListeners.delete(eventName);
+        }
         return this;
     }
 }
 
 /**
  * @description Add listener helper.
- * @param {Array<Function>} listeners - Listeners array.
+ * @param {Array<*>} listeners - Listeners array.
  * @param {Function} listener - Listener to be added.
  * @param {boolean} [prepend] - Prepend listener.
  * @returns {void} Void.
@@ -138,22 +140,21 @@ function addListener(listeners, listener, prepend) {
     } else {
         listeners.push(listener);
     }
-    addedCount++;
-    console.log('Added: ' + addedCount);
 }
 
 /**
  * @description Remove listener helper.
- * @param {Array<Function>} listeners - Listeners array.
+ * @param {Array<*>} listeners - Listeners array.
  * @param {Function} listener - Listener to be removed.
  * @returns {void} Void.
  */
 function removeListener(listeners, listener) {
     for (let i = 0; i < listeners.length; i++) {
-        if (listeners[i] === listener) {
+        if (
+            listeners[i] === listener ||
+            listeners[i].originalListener === listener
+        ) {
             listeners.splice(i, 1);
-            removedCount++;
-            console.log('Removed: ' + removedCount);
             return;
         }
     }

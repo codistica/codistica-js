@@ -1,17 +1,17 @@
 import {assert} from 'chai';
 import {EventEmitter} from '../../classes/event-emitter.js';
 
-// TODO: ADD TESTS FOR NUMBER OF ADDED/REMOVED LISTENERS. CONSIDER MULTIPLE CASES: BY USER, AUTOMATICALLY WHEN USING once SUBSCRIBERS, ETC.
-
 /** @see module:core/classes/event-emitter */
 function eventEmitterTest() {
     describe('EventEmitter', () => {
         const eventEmitter = new EventEmitter();
 
-        const testData = {
-            listenerAReceivedParams: [],
-            listenerBExecutionCount: 0,
-            listenerCExecutionCount: 0
+        const data = {
+            eventAReceivedParams: [],
+            eventBExecutionCount: 0,
+            eventCExecutionCount: 0,
+            eventDExecutionCount: 0,
+            eventEExecutionCount: 0
         };
 
         /**
@@ -21,7 +21,7 @@ function eventEmitterTest() {
          * @returns {void} Void.
          */
         const listenerA = function listenerA(param1, param2) {
-            testData.listenerAReceivedParams = [param1, param2];
+            data.eventAReceivedParams = [param1, param2];
         };
 
         /**
@@ -29,7 +29,7 @@ function eventEmitterTest() {
          * @returns {void} Void.
          */
         const listenerB = function listenerB() {
-            testData.listenerBExecutionCount++;
+            data.eventBExecutionCount++;
         };
 
         /**
@@ -37,12 +37,24 @@ function eventEmitterTest() {
          * @returns {void} Void.
          */
         const listenerC = function listenerC() {
-            testData.listenerCExecutionCount++;
+            data.eventCExecutionCount++;
+        };
+
+        /**
+         * @description Listener D.
+         * @returns {void} Void.
+         */
+        const listenerD = function listenerD() {
+            data.eventDExecutionCount++;
         };
 
         eventEmitter.on('eventA', listenerA);
         eventEmitter.once('eventB', listenerB);
-        eventEmitter.on('eventB', listenerC);
+        eventEmitter.on('eventC', listenerC);
+        eventEmitter.once('eventD', listenerD);
+        eventEmitter.prependOnceListener('eventE', () => {
+            data.eventEExecutionCount++;
+        });
 
         describe('emit()', () => {
             it('Should return true when listeners are found for specified event.', () => {
@@ -60,36 +72,56 @@ function eventEmitterTest() {
             });
         });
 
-        eventEmitter.off('eventB', listenerC);
+        eventEmitter.off('eventC', listenerC);
+        eventEmitter.off('eventD', listenerD);
 
         let eventBCallCount = 0;
         while (eventBCallCount < 5) {
             eventEmitter.emit('eventB');
+            eventEmitter.emit('eventC');
+            eventEmitter.emit('eventD');
+            eventEmitter.emit('eventE');
             eventBCallCount++;
         }
 
         describe('once()', () => {
             it('Should have executed only once.', () => {
-                assert.strictEqual(testData.listenerBExecutionCount, 1);
+                assert.strictEqual(data.eventBExecutionCount, 1);
+                assert.strictEqual(data.eventEExecutionCount, 1);
             });
         });
 
         describe('on()', () => {
             it('Should have received correct arguments.', () => {
-                assert.strictEqual(
-                    testData.listenerAReceivedParams[0],
-                    'param1'
-                );
-                assert.strictEqual(
-                    testData.listenerAReceivedParams[1],
-                    'param2'
-                );
+                assert.strictEqual(data.eventAReceivedParams[0], 'param1');
+                assert.strictEqual(data.eventAReceivedParams[1], 'param2');
             });
         });
 
         describe('off()', () => {
             it('Should have not executed.', () => {
-                assert.strictEqual(testData.listenerCExecutionCount, 0);
+                assert.strictEqual(data.eventCExecutionCount, 0);
+                assert.strictEqual(data.eventDExecutionCount, 0);
+            });
+        });
+
+        describe('Memory Performance', () => {
+            it('Should remain only one event handler.', () => {
+                const events = Array.from(eventEmitter.eventListeners.keys());
+                const listeners = Array.from(
+                    eventEmitter.eventListeners.values()
+                );
+                assert.deepEqual(events, ['eventA']);
+                assert.deepEqual(listeners, [[listenerA]]);
+            });
+            it('Should not remain any event handler.', () => {
+                eventEmitter.off('eventA', listenerA);
+                const events = Array.from(eventEmitter.eventListeners.keys());
+                const listeners = Array.from(
+                    eventEmitter.eventListeners.values()
+                );
+                assert.isEmpty(events);
+                assert.isEmpty(listeners);
             });
         });
     });
