@@ -62,18 +62,19 @@
         "@material-ui/core": "^4.11.0",
         "@material-ui/icons": "^4.9.1",
         "@material-ui/pickers": "^3.2.10",
-        "@testing-library/jest-dom": "^5.11.6",
-        "@testing-library/react": "^11.2.2",
-        "@testing-library/user-event": "^12.5.0",
         "react": "^17.0.1",
         "react-dom": "^17.0.1",
         "react-router-dom": "^5.2.0",
-        "react-scripts": "4.0.1",
         "react-spring": "^8.0.27",
-        "sine-waves": "^0.3.0"
+        "sine-waves": "^0.3.0",
+        "web-vitals": "^0.2.4"
     },
     "devDependencies": {
+        "@testing-library/jest-dom": "^5.11.6",
+        "@testing-library/react": "^11.2.2",
+        "@testing-library/user-event": "^12.5.0",
         "@types/jest": "^26.0.13",
-        "node-sass": "^4.14.1"
+        "node-sass": "^4.14.1",
+        "react-scripts": "4.0.1"
     }
 }
