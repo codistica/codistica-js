@@ -6,13 +6,10 @@ function shuffleTest() {
     describe('shuffle()', () => {
         // TODO: PREVENT ERROR WHEN OUTPUT IS EQUAL TO INPUT
         it('Should return an array with randomly shuffled elements from input array.', () => {
-            assert.notSameOrderedMembers(shuffle([1, 2, 3, 4, 5]), [
-                1,
-                2,
-                3,
-                4,
-                5
-            ]);
+            assert.notSameOrderedMembers(
+                shuffle([1, 2, 3, 4, 5]),
+                [1, 2, 3, 4, 5]
+            );
             assert.notSameOrderedMembers(
                 shuffle([undefined, null, undefined, null]),
                 [null, undefined, false]

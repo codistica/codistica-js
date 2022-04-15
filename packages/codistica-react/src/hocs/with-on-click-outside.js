@@ -169,12 +169,8 @@ function withOnClickOutside<ComponentConfig: {}>(
          * @returns {Object<string,*>} React component.
          */
         render() {
-            const {
-                onClickOutside,
-                children,
-                forwardedRef,
-                ...other
-            } = this.props;
+            const {onClickOutside, children, forwardedRef, ...other} =
+                this.props;
             return (
                 <InnerComponent {...other} ref={this.setComponentRef}>
                     {children}

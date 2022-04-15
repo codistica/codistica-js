@@ -41,9 +41,9 @@ class RecompileWebpackPlugin {
             fileUtils.getAbsolutePath(filePath)
         );
 
-        this.options.timestampFiles = (
-            options.timestampFiles || []
-        ).map((filePath) => fileUtils.getAbsolutePath(filePath));
+        this.options.timestampFiles = (options.timestampFiles || []).map(
+            (filePath) => fileUtils.getAbsolutePath(filePath)
+        );
 
         this.options.maxRecompilations =
             typeof options.maxRecompilations === 'number'
@@ -53,9 +53,9 @@ class RecompileWebpackPlugin {
         this.options.emitOnce =
             typeof options.emitOnce === 'boolean' ? options.emitOnce : false;
 
-        this.options.allowedPlugins = (
-            options.allowedPlugins || []
-        ).map((plugin) => getPluginName(plugin));
+        this.options.allowedPlugins = (options.allowedPlugins || []).map(
+            (plugin) => getPluginName(plugin)
+        );
 
         this.compiler = null;
         this.fileDependencies = [];

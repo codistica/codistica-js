@@ -150,19 +150,17 @@ class InputValidatorPluginUtils {
                             params !== null &&
                             Object.hasOwnProperty.call(params, key)
                         ) {
-                            acc[
-                                key
-                            ] = InputValidatorPluginUtils.createMessageObject(
-                                rawMessage,
-                                params[key]
-                            );
+                            acc[key] =
+                                InputValidatorPluginUtils.createMessageObject(
+                                    rawMessage,
+                                    params[key]
+                                );
                         } else {
-                            acc[
-                                key
-                            ] = InputValidatorPluginUtils.createMessageObject(
-                                rawMessage,
-                                params
-                            );
+                            acc[key] =
+                                InputValidatorPluginUtils.createMessageObject(
+                                    rawMessage,
+                                    params
+                                );
                         }
                     }
                     return acc;
@@ -189,12 +187,11 @@ class InputValidatorPluginUtils {
             }
             this.validatorOutput.report[key] = result;
             if (rawMessage) {
-                this.validatorOutput.messages[
-                    key
-                ] = InputValidatorPluginUtils.createMessageObject(
-                    rawMessage,
-                    params
-                );
+                this.validatorOutput.messages[key] =
+                    InputValidatorPluginUtils.createMessageObject(
+                        rawMessage,
+                        params
+                    );
             }
             this.updateResult();
         } else if (!this.options.keys.length) {
@@ -295,36 +292,34 @@ class InputValidatorPluginUtils {
             }
 
             // CREATE VALIDATION PROMISE
-            this.validatorOutput.promises[
-                key
-            ] = promiseUtils.createStatePromise(
-                new Promise((resolve) => {
-                    const context = this.createDeferContext(
-                        key,
-                        resolve,
-                        this.deferCaches[key],
-                        onAbort
-                    );
+            this.validatorOutput.promises[key] =
+                promiseUtils.createStatePromise(
+                    new Promise((resolve) => {
+                        const context = this.createDeferContext(
+                            key,
+                            resolve,
+                            this.deferCaches[key],
+                            onAbort
+                        );
 
-                    this.deferContexts[key] = context;
+                        this.deferContexts[key] = context;
 
-                    if (this.options.deferThrottlingDelay) {
-                        // WITH THROTTLING
-                        if (!this.deferHeartbeats[key]) {
-                            this.deferHeartbeats[
-                                key
-                            ] = createHeartbeatTimeout();
-                        }
-                        this.deferHeartbeats[key](() => {
-                            context.updateValue();
+                        if (this.options.deferThrottlingDelay) {
+                            // WITH THROTTLING
+                            if (!this.deferHeartbeats[key]) {
+                                this.deferHeartbeats[key] =
+                                    createHeartbeatTimeout();
+                            }
+                            this.deferHeartbeats[key](() => {
+                                context.updateValue();
+                                callback(this.value, context);
+                            }, this.options.deferThrottlingDelay);
+                        } else {
+                            // WITHOUT THROTTLING
                             callback(this.value, context);
-                        }, this.options.deferThrottlingDelay);
-                    } else {
-                        // WITHOUT THROTTLING
-                        callback(this.value, context);
-                    }
-                })
-            );
+                        }
+                    })
+                );
 
             this.setKeyResult(key, null, rawMessage, params, true);
         }

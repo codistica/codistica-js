@@ -156,9 +156,7 @@ function mergePlugins<MergePluginType: AllPluginsType>(
     return output;
 }
 
-function loadPlugins(
-    plugins: InputPluginType
-): {
+function loadPlugins(plugins: InputPluginType): {
     blockers: Array<BlockerType>,
     filters: Array<FilterType>,
     validators: Array<ValidatorType>
@@ -244,15 +242,14 @@ function getNormalizedValidatorOutput(
                     continue;
                 }
                 if (validator.errorMessages[i]) {
-                    validatorOutput.messages[
-                        i
-                    ] = InputValidatorPluginUtils.createMessageObject(
-                        validator.errorMessages[i],
-                        undefined,
-                        {
-                            sortKey: -1
-                        }
-                    );
+                    validatorOutput.messages[i] =
+                        InputValidatorPluginUtils.createMessageObject(
+                            validator.errorMessages[i],
+                            undefined,
+                            {
+                                sortKey: -1
+                            }
+                        );
                 }
             }
         }
@@ -266,15 +263,14 @@ function getNormalizedValidatorOutput(
                     continue;
                 }
                 if (validator.groupErrorMessages[i]) {
-                    validatorOutput.messages[
-                        i
-                    ] = InputValidatorPluginUtils.createMessageObject(
-                        validator.groupErrorMessages[i],
-                        undefined,
-                        {
-                            sortKey: -1
-                        }
-                    );
+                    validatorOutput.messages[i] =
+                        InputValidatorPluginUtils.createMessageObject(
+                            validator.groupErrorMessages[i],
+                            undefined,
+                            {
+                                sortKey: -1
+                            }
+                        );
                 }
             }
         }

@@ -79,7 +79,8 @@ function withOnView(trackOutside?: boolean) {
                         componentRef.current &&
                         e.target.contains(componentRef.current)
                     ) {
-                        const elemRect = componentRef.current.getBoundingClientRect();
+                        const elemRect =
+                            componentRef.current.getBoundingClientRect();
                         const viewWidth = viewportMonitor.getViewportWidth();
                         const viewHeight = viewportMonitor.getViewportHeight();
 

@@ -66,9 +66,8 @@ class DemoClass extends React.Component<Props, State> {
         this.formInstance = null;
 
         // BIND METHODS
-        (this: any).onValidationResultHandler = this.onValidationResultHandler.bind(
-            this
-        );
+        (this: any).onValidationResultHandler =
+            this.onValidationResultHandler.bind(this);
         (this: any).blinkForm = this.blinkForm.bind(this);
     }
 

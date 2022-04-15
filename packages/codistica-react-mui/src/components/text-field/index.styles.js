@@ -34,9 +34,10 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     standBy: {
-        '& input:focus + fieldset, & .Mui-focused + div::before, & .Mui-focused + div::after': {
-            borderColor: `${theme.palette.action.focus}!important`
-        }
+        '& input:focus + fieldset, & .Mui-focused + div::before, & .Mui-focused + div::after':
+            {
+                borderColor: `${theme.palette.action.focus}!important`
+            }
     },
     '@keyframes blink': {
         '0%': {

@@ -61,9 +61,9 @@ function getScriptfiberConfig(configPath) {
             )
         );
 
-        output = /** @type {getScriptfiberConfigConfigType} */ (getScriptfiberConfigConfigSchema.validate(
-            output
-        ));
+        output = /** @type {getScriptfiberConfigConfigType} */ (
+            getScriptfiberConfigConfigSchema.validate(output)
+        );
 
         if (!getScriptfiberConfigConfigSchema.isValid()) {
             throw new TypeError('INVALID CONFIGURATION.');

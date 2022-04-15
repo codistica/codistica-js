@@ -56,9 +56,8 @@ function withViewportMonitor<ComponentConfig: {}>(
             super(props);
 
             // BIND METHODS
-            (this: any).onViewportChangeHandler = this.onViewportChangeHandler.bind(
-                this
-            );
+            (this: any).onViewportChangeHandler =
+                this.onViewportChangeHandler.bind(this);
             (this: any).setComponentRef = this.setComponentRef.bind(this);
         }
 

@@ -39,7 +39,9 @@ async function copy(input, targetDirPath, force) {
                 const sourceDirName = basename(sourceDirPath);
 
                 await Promise.all(
-                    (await scan(sourceDirPath)).map(async (sourcePath) => {
+                    (
+                        await scan(sourceDirPath)
+                    ).map(async (sourcePath) => {
                         const relativePath = sourcePath.replace(
                             sourceDirPath,
                             ''

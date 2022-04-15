@@ -216,9 +216,9 @@ class ViewportMonitor extends EventEmitter {
 
             if (this.optons.CSSCustomProperties) {
                 // UPDATE CSS CUSTOM PROPERTIES
-                cssRoot = /** @type {HTMLElement} */ (document.querySelector(
-                    ':root'
-                ));
+                cssRoot = /** @type {HTMLElement} */ (
+                    document.querySelector(':root')
+                );
                 if (cssRoot && cssRoot.style) {
                     cssRoot.style.setProperty(
                         '--vh',

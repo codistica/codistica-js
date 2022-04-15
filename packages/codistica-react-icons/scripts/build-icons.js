@@ -87,9 +87,8 @@ for (const key in relativePaths) {
                     svgo: svgoResult,
                     /** @todo FOLLOW https://github.com/svg/svgo/issues/1306 */
                     hasDynamicIDs: svgoResult.data.includes('getUniqueID('),
-                    hasBackgroundColor: svgoResult.data.includes(
-                        'backgroundColor ||'
-                    )
+                    hasBackgroundColor:
+                        svgoResult.data.includes('backgroundColor ||')
                 };
             })
         )

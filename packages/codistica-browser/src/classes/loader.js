@@ -120,9 +120,8 @@ class Loader extends EventEmitter {
         this.onHeadersHandler = this.onHeadersHandler.bind(this);
         this.onTotalChangeHandler = this.onTotalChangeHandler.bind(this);
         this.onLoadedChangeHandler = this.onLoadedChangeHandler.bind(this);
-        this.onComputableProgressHandler = this.onComputableProgressHandler.bind(
-            this
-        );
+        this.onComputableProgressHandler =
+            this.onComputableProgressHandler.bind(this);
         this.onEndHandler = this.onEndHandler.bind(this);
     }
 

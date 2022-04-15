@@ -139,9 +139,8 @@ function withOnScrollAction<ComponentConfig: {}>(
             (this: any).handler = this.handler.bind(this);
             (this: any).dispatch = this.dispatch.bind(this);
             (this: any).getSourcePriority = this.getSourcePriority.bind(this);
-            (this: any).getEmissionPriority = this.getEmissionPriority.bind(
-                this
-            );
+            (this: any).getEmissionPriority =
+                this.getEmissionPriority.bind(this);
             (this: any).setComponentRef = this.setComponentRef.bind(this);
         }
 
@@ -442,9 +441,8 @@ function withOnScrollAction<ComponentConfig: {}>(
          * @returns {number} Event priority.
          */
         getEmissionPriority(eventType: any, axis: string): number {
-            const eventPriority = this.emissionEventPriority[axis].get(
-                eventType
-            );
+            const eventPriority =
+                this.emissionEventPriority[axis].get(eventType);
             return typeof eventPriority === 'number' ? eventPriority : 6;
         }
 

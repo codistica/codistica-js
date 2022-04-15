@@ -244,7 +244,9 @@ class Types {
                 }
             } else {
                 if (this.ruleSetCache.get(ruleCheckResult)) {
-                    overriddenDef = /** @type {typesRuleSetType} */ (ruleCheckResult);
+                    overriddenDef = /** @type {typesRuleSetType} */ (
+                        ruleCheckResult
+                    );
                 }
                 if (
                     overriddenDef ||

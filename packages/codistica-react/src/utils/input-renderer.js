@@ -321,9 +321,8 @@ class InputRenderer extends React.Component<InputRendererPropsType, State> {
                       )
                     : this.getValidationValue();
                 // RUN VALIDATORS
-                this.validatorsOutput = this.inputPluginManager.runValidators(
-                    validationValue
-                );
+                this.validatorsOutput =
+                    this.inputPluginManager.runValidators(validationValue);
             }
 
             for (const validatorName in this.validatorsOutput) {

@@ -114,9 +114,8 @@ class Form extends React.Component<Props> {
         (this: any).validateForm = this.validateForm.bind(this);
         (this: any).warnInvalids = this.warnInvalids.bind(this);
         (this: any).clear = this.clear.bind(this);
-        (this: any).getInputElementByName = this.getInputElementByName.bind(
-            this
-        );
+        (this: any).getInputElementByName =
+            this.getInputElementByName.bind(this);
         (this: any).getInputByName = this.getInputByName.bind(this);
 
         this.FormContextValue = {

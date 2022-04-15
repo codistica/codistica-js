@@ -70,9 +70,8 @@ class LoaderThread {
 
         // BIND METHODS
         this.run = this.run.bind(this);
-        this.onComputableProgressHandler = this.onComputableProgressHandler.bind(
-            this
-        );
+        this.onComputableProgressHandler =
+            this.onComputableProgressHandler.bind(this);
         this.onEndHandler = this.onEndHandler.bind(this);
         this.clear = this.clear.bind(this);
         this.reset = this.reset.bind(this);
