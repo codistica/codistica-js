@@ -3,15 +3,42 @@
 // UPPERCASE ACCENTED UNICODE RANGE: \u00C0-\u00DE
 // LOWERCASE ACCENTED UNICODE RANGE: \u00DF-\u00FF
 
-// TODO: ADD JSDOC. WHY @enum DOES NOT WORK?
 // TODO: ALLOW TO SET/OVERRIDE REGEXP FLAGS?
 
+/**
+ * @typedef {RegExp} regExpType
+ * @readonly
+ */
+
+/**
+ * @typedef regExpsType
+ * @property {regExpType} IS_EMAIL - Matches a valid email address.
+ * @property {regExpType} REG_EXP_RESERVED - Matches all characters that need to be escaped inside RegExp expressions.
+ * @property {regExpType} CSS_RESERVED - Matches all characters that need to be escaped inside CSS identifiers.
+ * @property {regExpType} LETTERS - Matches all letters.
+ * @property {regExpType} LOW_LETTERS - Matches all lowercase letters.
+ * @property {regExpType} UP_LETTERS - Matches all uppercase letters.
+ * @property {regExpType} SPECIALS - Matches all special characters.
+ * @property {regExpType} NON_LETTERS - Matches all non-letter characters.
+ * @property {regExpType} NON_SPECIALS - Matches all non-special characters.
+ * @property {regExpType} FIRST_LETTERS - Matches all first letters.
+ * @property {regExpType} SPLIT_BY_CHAR - Matches all characters. Useful for correct/consistent splitting.
+ * @property {regExpType} SHORTHEX - Matches all short hexadecimal expressions.
+ * @property {regExpType} LONGHEX - Matches all long hexadecimal expressions.
+ */
+
+/**
+ * @type {regExpsType}
+ */
 const REG_EXPS = {
     get IS_EMAIL() {
         return /^(?:(?:[^<>()[\]\\.,;:\s@"]+(?:\.[^<>()[\]\\.,;:\s@"]+)*)|(?:".+"))@(?:(?:\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(?:(?:[a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     },
     get REG_EXP_RESERVED() {
         return /[-/\\^$*+?.()|[\]{}]/g;
+    },
+    get CSS_RESERVED() {
+        return /([[\].#*$><+~=|^:(),"'`\s])/g;
     },
     get LETTERS() {
         return /[a-zA-Z\u00C0-\u00FF]/g;

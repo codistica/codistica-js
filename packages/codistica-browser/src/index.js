@@ -15,6 +15,7 @@ export {LoaderThread} from './classes/loader-thread.js';
 export {ViewportMonitor} from './classes/viewport-monitor.js';
 
 // MODULES
+export {escapeCSS} from './modules/escape-css.js';
 export {eventListenerObjectSupport} from './modules/event-listener-object-support.js';
 export {getSafeResponseHeaders} from './modules/get-safe-response-headers.js';
 export {getScrollingElement} from './modules/get-scrolling-element.js';

@@ -26,6 +26,12 @@ function regExpsTest() {
             assert.isFalse(checkAll('abc', REG_EXPS.REG_EXP_RESERVED));
         });
 
+        it('Should match CSS reserved characters.', () => {
+            assert.isTrue(checkAll('my-class=', REG_EXPS.CSS_RESERVED));
+            assert.isTrue(checkAll('my+class', REG_EXPS.CSS_RESERVED));
+            assert.isFalse(checkAll('my-class', REG_EXPS.CSS_RESERVED));
+        });
+
         it('Should match letters.', () => {
             SEEDS.alpha.split(REG_EXPS.SPLIT_BY_CHAR).forEach((char) => {
                 assert.isTrue(checkAll(char, REG_EXPS.LETTERS));
