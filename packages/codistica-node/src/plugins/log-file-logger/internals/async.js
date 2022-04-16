@@ -38,7 +38,7 @@ class LogFileLogger extends LogFileLoggerCore {
      * @async
      * @description Send log method.
      * @param {logFileLoggerLogObjType} logObj - The log object.
-     * @returns {Promise<void>} Void.
+     * @returns {Promise<void>} Promise. Void.
      */
     async sendLog(logObj) {
         // TODO

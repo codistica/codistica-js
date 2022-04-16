@@ -25,7 +25,7 @@ const deepCloneSchema = new Types({
 
 /**
  * @description Clones the input object/array own elements one-by-one at every depth.
- * @param {(Object<string,*>|Array<*>)} obj - Object<string,*>/array to be cloned.
+ * @param {(Object<string,*>|Array<*>)} obj - Object/array to be cloned.
  * @param {deepCloneOptionsType} [options] - Cloning options.
  * @returns {(Object<string,*>|null)} Cloned object/array.
  */

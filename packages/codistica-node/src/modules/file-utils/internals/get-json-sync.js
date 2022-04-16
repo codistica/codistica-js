@@ -14,7 +14,7 @@ function getJSONSync(path) {
     try {
         return jsonUtils.parse(readFileSync(path, 'utf8'));
     } catch (err) {
-        log.error('getJSON()', err);
+        log.error('getJSON()', err)();
         return null;
     }
 }

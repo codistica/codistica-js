@@ -2,7 +2,7 @@
 
 /**
  * @description Converts an object/array like path string to an array containing the path segments.
- * @param {string} str - Object<string,*> path string.
+ * @param {string} str - Object path string.
  * @returns {Array<*>} Resulting array.
  */
 function stringToPathArray(str) {

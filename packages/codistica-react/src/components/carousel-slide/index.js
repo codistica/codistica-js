@@ -5,6 +5,7 @@
 // TODO: ADD ANIMATED SCALE FEATURE.
 
 import React, {useRef, useCallback, useEffect, useState} from 'react';
+import type {Element} from 'react';
 import {animated, useSprings} from 'react-spring';
 import {useGesture} from 'react-use-gesture';
 import resetClassNames from '../../css/reset.module.scss';
@@ -12,16 +13,16 @@ import {mergeClassNames} from '../../modules/merge-class-names.js';
 import {mergeStyles} from '../../modules/merge-styles.js';
 import componentClassNames from './index.module.scss';
 
-type Props = {
+type DefaultProps = {|
     direction: 'row' | 'column',
     startingPosition: number,
     dimensions: {
         height: string | number,
         width: string | number,
-        minHeight?: string | number,
-        minWidth?: string | number,
-        maxHeight?: string | number,
-        maxWidth?: string | number
+        minHeight?: string | number | null,
+        minWidth?: string | number | null,
+        maxHeight?: string | number | null,
+        maxWidth?: string | number | null
     },
     drift: number,
     offset: number,
@@ -41,6 +42,10 @@ type Props = {
         item?: string
     },
     globalTheme: 'default' | string | null
+|};
+
+type Props = {
+    ...DefaultProps
 };
 
 type GlobalStyles = {
@@ -57,7 +62,7 @@ type GlobalClassNames = {
     }
 };
 
-function CarouselSlide(props: Props) {
+function CarouselSlide(props: Props): Element<'div'> {
     const {
         direction,
         startingPosition,
@@ -299,10 +304,17 @@ function CarouselSlide(props: Props) {
     );
 }
 
-CarouselSlide.defaultProps = {
+CarouselSlide.defaultProps = ({
     direction: 'row',
     startingPosition: 0,
-    itemsPerView: 1,
+    dimensions: {
+        height: 100,
+        width: 100,
+        minHeight: null,
+        minWidth: null,
+        maxHeight: null,
+        maxWidth: null
+    },
     drift: 0,
     offset: 0,
     showOverflow: false,
@@ -315,7 +327,7 @@ CarouselSlide.defaultProps = {
     customStyles: {},
     customClassNames: {},
     globalTheme: 'default'
-};
+}: DefaultProps);
 
 CarouselSlide.globalStyles = ({
     default: {

@@ -6,6 +6,8 @@ import {isPureObject} from './is-pure-object.js';
 import {pathToKey} from './path-to-key.js';
 import {stringToPathArray} from './string-to-path-array.js';
 
+// TODO: RENAME? TO assign? seek CAN ACTUALLY 'SET' and 'GET'.
+
 /**
  * @description Allows getting or setting values from/to an object/array structure. Recreates indicated path structure when not already existent.
  * @param {(Object<string,*>|Array<*>)} root - The object root for seek.
@@ -20,7 +22,7 @@ function seek(root, path, newValue, force) {
     // TODO: SUPPORT MODE: DEL (DELETE) (USING delete KEYWORD).
 
     const pathArray = Array.isArray(path) ? path : stringToPathArray(path);
-    const MODE = typeof newValue === 'undefined' ? 'GET' : 'SET';
+    const MODE = typeof newValue === 'undefined' ? 'GET' : 'SET'; // TODO: IMPROVE.
     const length = pathArray.unshift(''); // INCLUDE ROOT
     const lastIndex = length - 1;
 

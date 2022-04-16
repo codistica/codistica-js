@@ -3,6 +3,8 @@
 import {log, urlUtils, randomizer, EventEmitter} from '@codistica/core';
 import {getSafeResponseHeaders} from '../modules/get-safe-response-headers.js';
 
+// TODO: HANDLE BETTER COMPRESSION/DECOMPRESSION CASE. ULTIMATE GOAL IS PROGRESS TRACKING.
+
 /**
  * @description Available events.
  * @event LoaderPayload#headers

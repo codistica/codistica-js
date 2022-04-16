@@ -15,7 +15,7 @@ async function getJSON(path) {
     try {
         return jsonUtils.parse(await readFile(path));
     } catch (err) {
-        log.error('getJSON()', err);
+        log.error('getJSON()', err)();
         return null;
     }
 }

@@ -13,7 +13,7 @@ const pluginHooks = new WeakMap();
 
 /**
  * @typedef recompileWebpackPluginOptionsType
- * @property {Array<string>} [purgeFiles=[]] - File paths to be purged from Webpack's input filesystem.
+ * @property {Array<string>} [purgeFiles=[]] - File paths to be purged from Webpack input file system.
  * @property {Array<string>} [timestampFiles=[]] - File paths whose modify timestamp must be updated.
  * @property {number} [maxRecompilations=1] - Number of re-compilations.
  * @property {boolean} [emitOnce=false] - Only emit assets on final compilation.
@@ -176,7 +176,7 @@ class RecompileWebpackPlugin {
                     }
 
                     this.options.purgeFiles.forEach((file) => {
-                        // PURGE FROM INPUT FILESYSTEM
+                        // PURGE FROM INPUT FILE SYSTEM
                         if (
                             this.compiler.inputFileSystem &&
                             this.compiler.inputFileSystem.purge

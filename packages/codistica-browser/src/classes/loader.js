@@ -5,7 +5,7 @@ import {LoaderPayload} from './loader-payload.js';
 import {LoaderThread} from './loader-thread.js';
 
 // TODO: CHECK THAT ALL EVENT HANDLERS ARE BEING ADDED/REMOVED CORRECTLY AND THAT THERE ARE NO CONFLICTS.
-// TODO: CHECK ALL MODEL AND CALCULATIONS.
+// TODO: CHECK ALL MODELS AND CALCULATIONS.
 // TODO: SIMPLIFY/IMPROVE PERFORMANCE ALGORITHMS.
 
 // TODO: IMPROVE/REDUCE LOG DENSITY AND LOG LEVELS.
@@ -615,7 +615,7 @@ class Loader extends EventEmitter {
         } else {
             this.balanceThreads();
 
-            // CALL NEXT THREADS
+            // CALL NEXT REQUESTS
             this.callNextRequests();
         }
     }

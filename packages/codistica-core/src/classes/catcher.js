@@ -31,6 +31,8 @@ class Catcher {
         ({options} = catcherSchema.validate({options}));
         /** @type {catcherOptionsType} */
         this.options = options;
+
+        this.onReject = this.onReject.bind(this);
     }
 
     /**
@@ -50,9 +52,10 @@ class Catcher {
         // TODO: ADD RETHROW UTILITY.
         // TODO: USE WRAPPERS? BINDING?
         if (this.options.enableLogging) {
-            log.error('onReject()', reason);
+            log.error('onReject()', reason)();
         }
         // TODO: RE-THROW IF NOT HANDLED.
+        // TODO: ADD OPTION TO ALWAYS RE-THROW?
         // TODO: USER SHOULD BE ABLE TO ACCESS ORIGINAL ERROR OBJECT OR AT LEAST RECEIVE ERROR NAME/CODE TO KNOW HOW TO HANDLE IT.
         return undefined;
     }

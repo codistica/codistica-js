@@ -1,5 +1,7 @@
 /** @flow */
 
+// TODO: CONVERT TO FUNCTIONAL COMPONENT?
+
 // TODO: MAKE IT POSSIBLE TO SPECIFY A KEY FOR RETRIEVING VALUE FROM event.target OBJECT ('value', 'files', ETC.) OR TO USE A RETRIEVER FUNCTION.
 
 // TODO: RENAME asyncValidator TO asyncCallbackValidator AND CREATE callbackValidator.
