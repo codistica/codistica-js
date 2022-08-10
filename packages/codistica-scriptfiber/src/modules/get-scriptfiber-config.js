@@ -5,7 +5,7 @@ import {Types} from '@codistica/types';
 
 // TODO: CREATE SCRIPTFIBER CONFIG AND BOOTLOADER CONFIG JSON SCHEMAS
 
-const getScriptfiberConfigConfigSchema = new Types({
+const getScriptfiberConfigConfigTypes = new Types({
     type: 'Object',
     def: {
         appPath: {type: 'string', def: './src/index.js'},
@@ -62,10 +62,10 @@ function getScriptfiberConfig(configPath) {
         );
 
         output = /** @type {getScriptfiberConfigConfigType} */ (
-            getScriptfiberConfigConfigSchema.validate(output)
+            getScriptfiberConfigConfigTypes.validate(output)
         );
 
-        if (!getScriptfiberConfigConfigSchema.isValid()) {
+        if (!getScriptfiberConfigConfigTypes.isValid()) {
             throw new TypeError('INVALID CONFIGURATION.');
         }
 

@@ -7,7 +7,7 @@ import {
 } from '@codistica/core';
 import {Types} from '@codistica/types';
 
-const inputValidatorPluginUtilsSchema = new Types({
+const inputValidatorPluginUtilsTypes = new Types({
     options: {
         type: 'Object',
         def: {
@@ -91,7 +91,7 @@ class InputValidatorPluginUtils {
     deferHeartbeats: {[string]: (...args: Array<any>) => any};
 
     constructor(options?: Options) {
-        ({options} = inputValidatorPluginUtilsSchema.validate({options}));
+        ({options} = inputValidatorPluginUtilsTypes.validate({options}));
         this.options = options;
 
         this.value = '';

@@ -12,7 +12,7 @@ const rawExpSchema = {
     def: null
 };
 
-const forEachSyncSchema = new Types({
+const forEachSyncTypes = new Types({
     root: {type: '!undefined'},
     callback: {type: 'Function'},
     options: {
@@ -89,13 +89,13 @@ const forEachSyncSchema = new Types({
  * @returns {*} Resulting object.
  */
 function forEachSync(root, callback, options) {
-    ({root, callback, options} = forEachSyncSchema.validate({
+    ({root, callback, options} = forEachSyncTypes.validate({
         root,
         callback,
         options
     }));
 
-    if (!forEachSyncSchema.isValid()) {
+    if (!forEachSyncTypes.isValid()) {
         return null;
     }
 

@@ -6,7 +6,7 @@ import {spaceFilter} from '../../input-filters/internals/space-filter.js';
 import {uppercaseFilter} from '../../input-filters/internals/uppercase-filter.js';
 import {emailValidator} from '../../input-validators/internals/email-validator.js';
 
-const emailPresetSchema = new Types({
+const emailPresetTypes = new Types({
     options: {
         type: 'Object',
         def: {
@@ -39,7 +39,7 @@ const emailPresetSchema = new Types({
  * @returns {{type: 'preset', name: string, groupErrorMessages: Array<string>, plugin: Array<*>}} Preset.
  */
 function emailPreset(options) {
-    ({options} = emailPresetSchema.validate({options}));
+    ({options} = emailPresetTypes.validate({options}));
 
     const {generic, ...otherErrorMessages} = options.errorMessages;
 

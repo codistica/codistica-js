@@ -8,7 +8,7 @@ const messageSchema = {
     def: null
 };
 
-const asyncValidatorSchema = new Types({
+const asyncValidatorTypes = new Types({
     options: {
         type: 'Object',
         def: {
@@ -70,7 +70,7 @@ const asyncValidatorSchema = new Types({
  * @returns {{type: 'validator', name: string, messages: Array<string>, plugin: function(string): Object<string,*>}} Validator.
  */
 function asyncValidator(options) {
-    ({options} = asyncValidatorSchema.validate({options}));
+    ({options} = asyncValidatorTypes.validate({options}));
 
     const utils = new InputValidatorPluginUtils({
         keys: ['asyncValidator'],

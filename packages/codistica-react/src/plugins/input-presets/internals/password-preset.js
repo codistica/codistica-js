@@ -5,7 +5,7 @@ import {spaceBlocker} from '../../input-blockers/internals/space-blocker.js';
 import {spaceFilter} from '../../input-filters/internals/space-filter.js';
 import {passwordValidator} from '../../input-validators/internals/password-validator.js';
 
-const passwordPresetSchema = new Types({
+const passwordPresetTypes = new Types({
     options: {
         type: 'Object',
         def: {
@@ -38,7 +38,7 @@ const passwordPresetSchema = new Types({
  * @returns {{type: 'preset', name: string, groupErrorMessages: Array<string>, plugin: Array<*>}} Preset.
  */
 function passwordPreset(options) {
-    ({options} = passwordPresetSchema.validate({options}));
+    ({options} = passwordPresetTypes.validate({options}));
 
     const {generic, ...otherErrorMessages} = options.errorMessages;
 

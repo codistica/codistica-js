@@ -11,7 +11,7 @@ import {nonSingleSpaceFilter} from '../../input-filters/internals/non-single-spa
 import {trailingSpaceFilter} from '../../input-filters/internals/trailing-space-filter.js';
 import {uppercaseFilter} from '../../input-filters/internals/uppercase-filter.js';
 
-const prettifyPresetSchema = new Types({
+const prettifyPresetTypes = new Types({
     options: {
         type: 'Object',
         def: {
@@ -38,7 +38,7 @@ const prettifyPresetSchema = new Types({
  * @returns {{type: 'preset', name: string, groupErrorMessages: Array<string>, plugin: Array<*>}} Preset.
  */
 function prettifyPreset(options) {
-    ({options} = prettifyPresetSchema.validate({options}));
+    ({options} = prettifyPresetTypes.validate({options}));
 
     return {
         type: 'preset',

@@ -9,7 +9,7 @@ import {whichScrollLimitReached} from '../modules/element-utils/internals/which-
 // TODO: TRY FIXING ISSUE WHEN TRYING TO SCROLL DIAGONALLY AGAINST A LIMIT. NON LIMIT-REACHED AXIS GETS BLOCKED TOO. (SET SCROLL MANUALLY WHEN DEFAULT PREVENTED? OPTIONALLY).
 // TODO: STOP PROPAGATION TO PREVENT OTHER ELEMENTS WITH SCROLL BLOCKER ACTING REDUNDANTLY?
 
-const overscrollBlockerSchema = new Types({
+const overscrollBlockerTypes = new Types({
     options: {
         type: 'Object',
         def: {
@@ -36,7 +36,7 @@ class OverscrollBlocker {
      * @param {overscrollBlockerOptionsType} [options] - Overscroll handling options.
      */
     constructor(options) {
-        ({options} = overscrollBlockerSchema.validate({options}));
+        ({options} = overscrollBlockerTypes.validate({options}));
 
         this.touchPos = {
             x: 0,

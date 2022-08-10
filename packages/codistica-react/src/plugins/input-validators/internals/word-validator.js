@@ -8,7 +8,7 @@ const messageSchema = {
     def: null
 };
 
-const wordValidatorSchema = new Types({
+const wordValidatorTypes = new Types({
     options: {
         type: 'Object',
         def: {
@@ -42,7 +42,7 @@ const wordValidatorSchema = new Types({
  * @returns {{type: 'validator', name: string, messages: Array<string>, plugin: function(string): Object<string,*>}} Validator.
  */
 function wordValidator(options) {
-    ({options} = wordValidatorSchema.validate({options}));
+    ({options} = wordValidatorTypes.validate({options}));
 
     const utils = new InputValidatorPluginUtils();
 

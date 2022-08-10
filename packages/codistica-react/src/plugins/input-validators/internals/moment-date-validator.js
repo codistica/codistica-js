@@ -11,7 +11,7 @@ const messageSchema = {
     def: null
 };
 
-const momentDateValidatorSchema = new Types({
+const momentDateValidatorTypes = new Types({
     options: {
         type: 'Object',
         def: {
@@ -61,7 +61,7 @@ const momentDateValidatorSchema = new Types({
  * @returns {{type: 'validator', name: string, messages: Array<string>, plugin: function(string): Object<string,*>}} Validator.
  */
 function momentDateValidator(options) {
-    ({options} = momentDateValidatorSchema.validate({options}));
+    ({options} = momentDateValidatorTypes.validate({options}));
 
     const utils = new InputValidatorPluginUtils({
         keys: ['minDate', 'maxDate', 'minAge', 'format', 'separator']

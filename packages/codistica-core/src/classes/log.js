@@ -28,7 +28,7 @@ import {stringify} from '../modules/stringify.js';
 
 // TODO: ADD OPTION TO NOT DISPLAY CALLER.
 
-const logSchema = new Types({
+const logTypes = new Types({
     options: {
         type: 'Object',
         def: {
@@ -92,7 +92,7 @@ class Log {
      * @param {logOptionsType} [options] - Log options object.
      */
     constructor(options) {
-        ({options} = logSchema.validate({options}));
+        ({options} = logTypes.validate({options}));
         /** @type {logOptionsType} */
         this.options = options;
     }

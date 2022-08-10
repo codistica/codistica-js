@@ -17,6 +17,8 @@
 
 // TODO: ALLOW PASSING CONSTRUCTOR AS TYPE (EX: Date) TO CHECK instanceof AND CHECK USAGES TO APPLY WHERE POSSIBLE.
 
+// TODO: CHECK NAMING.
+
 /**
  * @typedef {(typesRuleType|typesRuleSetType)} typesSchemaType
  */
@@ -31,7 +33,7 @@
  * @property {*} [min] - Min element value.
  * @property {*} [max] - Max element value.
  * @property {(Array<*>|*)} [equal] - The received value must be equal to one of the specified values.
- * @property {(typesRuleSetType|*)} [def] - Default value/mainSchema to be applied if type is not satisfied.
+ * @property {(typesRuleSetType|*)} [def] - Default value/schema to be applied if type is not satisfied.
  * @property {boolean} [optional] - Indicates that the presence of the value represented by this rule is not mandatory.
  * @property {boolean} [strict] - Do not allow extra properties.
  */
@@ -65,13 +67,13 @@
 class Types {
     /**
      * @description Constructor.
-     * @param {typesSchemaType} mainSchema - Instance main schema.
+     * @param {typesSchemaType} schema - Instance schema.
      */
-    constructor(mainSchema) {
+    constructor(schema) {
         const that = this;
 
-        if (!Types.isValidSchema(mainSchema)) {
-            mainSchema = {type: '!undefined'};
+        if (!Types.isValidSchema(schema)) {
+            throw new Error('Types - INVALID SCHEMA. ABORTING.');
         }
 
         /** @type {(WeakMap<(typesRuleType|*),boolean>)} */
@@ -79,7 +81,7 @@ class Types {
         /** @type {(WeakMap<(typesRuleSetType|*),boolean>)} */
         this.ruleSetCache = new WeakMap();
         /** @type {typesSchemaType} */
-        this.mainSchema = mainSchema;
+        this.schema = schema;
         /** @type {(boolean|null)} */
         this.validationState = null;
 
@@ -87,15 +89,12 @@ class Types {
         const branchCircularCache = new Set();
 
         // BUILD CACHE
-        this.ruleCache.set(this.mainSchema, Types.isValidRule(this.mainSchema));
-        this.ruleSetCache.set(
-            this.mainSchema,
-            Types.isValidRuleSet(this.mainSchema)
-        );
+        this.ruleCache.set(this.schema, Types.isValidRule(this.schema));
+        this.ruleSetCache.set(this.schema, Types.isValidRuleSet(this.schema));
 
-        branchCircularCache.add(this.mainSchema);
+        branchCircularCache.add(this.schema);
 
-        recurse(this.mainSchema);
+        recurse(this.schema);
 
         /**
          * @description Recursive function.
@@ -143,7 +142,7 @@ class Types {
 
     /**
      * @instance
-     * @description Validate input using instance main schema.
+     * @description Validate input using instance schema.
      * @param {*} input - Input value to be validated.
      * @returns {*} Validated input.
      */
@@ -151,8 +150,8 @@ class Types {
         let rule = null;
         let ruleSet = null;
 
-        if (this.ruleCache.get(this.mainSchema)) {
-            rule = /** @type {typesRuleType} */ (this.mainSchema);
+        if (this.ruleCache.get(this.schema)) {
+            rule = /** @type {typesRuleType} */ (this.schema);
 
             this.validationState = true;
 
@@ -167,8 +166,8 @@ class Types {
                     input = rule.def;
                 }
             }
-        } else if (this.ruleSetCache.get(this.mainSchema)) {
-            ruleSet = /** @type {typesRuleSetType} */ (this.mainSchema);
+        } else if (this.ruleSetCache.get(this.schema)) {
+            ruleSet = /** @type {typesRuleSetType} */ (this.schema);
 
             this.validationState = true;
 

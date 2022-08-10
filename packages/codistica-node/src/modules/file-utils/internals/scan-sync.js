@@ -6,18 +6,16 @@ import {log, regExpUtils} from '@codistica/core';
 import {Types} from '@codistica/types';
 import {getAbsolutePath} from './get-absolute-path.js';
 
-const rawExpSchema = {
-    type: ['string', 'RegExp', 'Array<string|RegExp>'],
-    def: null
-};
-
-const scanSyncSchema = new Types({
+const scanSyncTypes = new Types({
     path: {type: '!undefined'},
     options: {
         type: 'Object',
         def: {
             maxDepth: {type: 'number', def: Infinity},
-            ignore: rawExpSchema,
+            ignore: {
+                type: ['string', 'RegExp', 'Array<string|RegExp>'],
+                def: null
+            },
             reverse: {type: 'boolean', def: false}
         }
     }
@@ -39,12 +37,12 @@ const scanSyncSchema = new Types({
  * @returns {(Array<string>)} Found files path array.
  */
 function scanSync(path, options) {
-    ({path, options} = scanSyncSchema.validate({
+    ({path, options} = scanSyncTypes.validate({
         path,
         options
     }));
 
-    if (!scanSyncSchema.isValid()) {
+    if (!scanSyncTypes.isValid()) {
         log.error('scanSync()', 'ARGUMENTS ERROR. ABORTING')();
         return [];
     }

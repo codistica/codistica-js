@@ -7,7 +7,7 @@ import {leadingSpaceFilter} from '../../input-filters/internals/leading-space-fi
 import {nonSingleSpaceFilter} from '../../input-filters/internals/non-single-space-filter.js';
 import {trailingSpaceFilter} from '../../input-filters/internals/trailing-space-filter.js';
 
-const spacesPresetSchema = new Types({
+const spacesPresetTypes = new Types({
     options: {
         type: 'Object',
         def: {
@@ -34,7 +34,7 @@ const spacesPresetSchema = new Types({
  * @returns {{type: 'preset', name: string, groupErrorMessages: Array<string>, plugin: Array<*>}} Preset.
  */
 function spacesPreset(options) {
-    ({options} = spacesPresetSchema.validate({options}));
+    ({options} = spacesPresetTypes.validate({options}));
 
     return {
         type: 'preset',

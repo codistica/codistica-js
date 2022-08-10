@@ -7,18 +7,16 @@ import {readdir} from '../../promisified-fs/internals/readdir.js';
 import {stat} from '../../promisified-fs/internals/stat.js';
 import {getAbsolutePath} from './get-absolute-path.js';
 
-const rawExpSchema = {
-    type: ['string', 'RegExp', 'Array<string|RegExp>'],
-    def: null
-};
-
-const scanSchema = new Types({
+const scanTypes = new Types({
     path: {type: '!undefined'},
     options: {
         type: 'Object',
         def: {
             maxDepth: {type: 'number', def: Infinity},
-            ignore: rawExpSchema,
+            ignore: {
+                type: ['string', 'RegExp', 'Array<string|RegExp>'],
+                def: null
+            },
             reverse: {type: 'boolean', def: false}
         }
     }
@@ -41,12 +39,12 @@ const scanSchema = new Types({
  * @returns {(Promise<Array<string>>)} Promise. Found files path array.
  */
 async function scan(path, options) {
-    ({path, options} = scanSchema.validate({
+    ({path, options} = scanTypes.validate({
         path,
         options
     }));
 
-    if (!scanSchema.isValid()) {
+    if (!scanTypes.isValid()) {
         log.error('scan()', 'ARGUMENTS ERROR. ABORTING')();
         return [];
     }

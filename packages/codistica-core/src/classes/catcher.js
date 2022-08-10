@@ -5,7 +5,7 @@ import {log} from '../modules/log.js';
 
 // TODO: WORK IN PROGRESS.
 
-const catcherSchema = new Types({
+const catcherTypes = new Types({
     options: {
         type: 'Object',
         def: {
@@ -28,7 +28,7 @@ class Catcher {
      * @param {catcherOptionsType} [options] - Catcher options.
      */
     constructor(options) {
-        ({options} = catcherSchema.validate({options}));
+        ({options} = catcherTypes.validate({options}));
         /** @type {catcherOptionsType} */
         this.options = options;
 

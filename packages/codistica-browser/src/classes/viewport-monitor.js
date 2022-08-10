@@ -22,7 +22,7 @@ import {addStyles} from '../modules/element-utils/internals/add-styles.js';
 
 // TODO: CREATE HOOK IN @codistica/react
 
-// TODO: IMPROVE NAMINGS. (ESPECIALLY EVENT EMITTER NAMES! 'change', 'shift'... MAKE THEM MORE INDICATIVE).
+// TODO: IMPROVE NAMING. (ESPECIALLY EVENT EMITTER NAMES! 'change', 'shift'... MAKE THEM MORE INDICATIVE).
 // TODO: CREATE onEnd VERSION OF EMITTED EVENTS. CUSTOMIZABLE THRESHOLD.
 // TODO: DO NOT LET STRANGE EVENTS POLLUTE USABLE EMITTED EVENTS (LIKE onClick HANDLING MAKING change FIRE).
 
@@ -33,7 +33,7 @@ import {addStyles} from '../modules/element-utils/internals/add-styles.js';
 // TODO: AVOID USING DUMMY ELEMENTS TO MAKE MEASUREMENTS. ESPECIALLY POSITION FIXED ONES. SEE VIEWPORT PROJECT FOR ALTERNATIVES.
 // TODO: PLACE AND REMOVE ELEMENTS ONLY WHEN NEEDED?
 
-const viewportMonitorSchema = new Types({
+const viewportMonitorTypes = new Types({
     options: {
         type: 'Object',
         def: {
@@ -62,7 +62,7 @@ class ViewportMonitor extends EventEmitter {
     constructor(options) {
         super();
 
-        ({options} = viewportMonitorSchema.validate({options}));
+        ({options} = viewportMonitorTypes.validate({options}));
 
         this.optons = options;
 

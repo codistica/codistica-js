@@ -12,7 +12,7 @@ const rawExpSchema = {
     def: null
 };
 
-const forEachSchema = new Types({
+const forEachTypes = new Types({
     root: {type: '!undefined'},
     callback: {type: 'Function'},
     options: {
@@ -90,13 +90,13 @@ const forEachSchema = new Types({
  * @returns {Promise<*>} Promise. Resulting object.
  */
 async function forEach(root, callback, options) {
-    ({root, callback, options} = forEachSchema.validate({
+    ({root, callback, options} = forEachTypes.validate({
         root,
         callback,
         options
     }));
 
-    if (!forEachSchema.isValid()) {
+    if (!forEachTypes.isValid()) {
         return null;
     }
 

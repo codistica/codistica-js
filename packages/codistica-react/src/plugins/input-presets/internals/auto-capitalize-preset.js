@@ -4,7 +4,7 @@ import {Types} from '@codistica/types';
 import {capitalizeFirstsFilter} from '../../input-filters/internals/capitalize-firsts-filter.js';
 import {uppercaseFilter} from '../../input-filters/internals/uppercase-filter.js';
 
-const autoCapitalizePresetSchema = new Types({
+const autoCapitalizePresetTypes = new Types({
     options: {
         type: 'Object',
         def: {
@@ -31,7 +31,7 @@ const autoCapitalizePresetSchema = new Types({
  * @returns {{type: 'preset', name: string, groupErrorMessages: Array<string>, plugin: Array<*>}} Preset.
  */
 function autoCapitalizePreset(options) {
-    ({options} = autoCapitalizePresetSchema.validate({options}));
+    ({options} = autoCapitalizePresetTypes.validate({options}));
 
     return {
         type: 'preset',

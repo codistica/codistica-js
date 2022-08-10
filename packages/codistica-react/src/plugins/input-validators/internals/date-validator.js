@@ -9,7 +9,7 @@ const messageSchema = {
     def: null
 };
 
-const dateValidatorSchema = new Types({
+const dateValidatorTypes = new Types({
     options: {
         type: 'Object',
         def: {
@@ -59,7 +59,7 @@ const dateValidatorSchema = new Types({
  * @returns {{type: 'validator', name: string, messages: Array<string>, plugin: function(string): Object<string,*>}} Validator.
  */
 function dateValidator(options) {
-    ({options} = dateValidatorSchema.validate({options}));
+    ({options} = dateValidatorTypes.validate({options}));
 
     const utils = new InputValidatorPluginUtils({
         keys: ['minDate', 'maxDate', 'minAge', 'format', 'separator']

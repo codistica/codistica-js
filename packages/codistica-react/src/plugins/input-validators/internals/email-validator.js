@@ -9,7 +9,7 @@ const messageSchema = {
     def: null
 };
 
-const emailValidatorSchema = new Types({
+const emailValidatorTypes = new Types({
     options: {
         type: 'Object',
         def: {
@@ -49,7 +49,7 @@ const emailValidatorSchema = new Types({
  * @returns {{type: 'validator', name: string, messages: Array<string>, plugin: function(string): Object<string,*>}} Validator.
  */
 function emailValidator(options) {
-    ({options} = emailValidatorSchema.validate({options}));
+    ({options} = emailValidatorTypes.validate({options}));
 
     const utils = new InputValidatorPluginUtils({
         keys: ['format', 'username', 'domain']

@@ -7,7 +7,7 @@ import {hasKeys} from './has-keys.js';
 import {isObject} from './is-object.js';
 import {seek} from './seek.js';
 
-const deepMergeSchema = new Types({
+const deepMergeTypes = new Types({
     source: {type: '!undefined'},
     target: {type: '!undefined'},
     options: {
@@ -33,13 +33,13 @@ const deepMergeSchema = new Types({
  * @returns {(Object<string,*>|null)} Merged object/array.
  */
 function deepMerge(source, target, options) {
-    ({source, target, options} = deepMergeSchema.validate({
+    ({source, target, options} = deepMergeTypes.validate({
         source,
         target,
         options
     }));
 
-    if (!deepMergeSchema.isValid()) {
+    if (!deepMergeTypes.isValid()) {
         return null;
     }
 

@@ -8,7 +8,7 @@ const messageSchema = {
     def: null
 };
 
-const lengthValidatorSchema = new Types({
+const lengthValidatorTypes = new Types({
     options: {
         type: 'Object',
         def: {
@@ -46,7 +46,7 @@ const lengthValidatorSchema = new Types({
  * @returns {{type: 'validator', name: string, messages: Array<string>, plugin: function(string): Object<string,*>}} Validator.
  */
 function lengthValidator(options) {
-    ({options} = lengthValidatorSchema.validate({options}));
+    ({options} = lengthValidatorTypes.validate({options}));
 
     const utils = new InputValidatorPluginUtils({
         keys: ['minLength', 'maxLength']

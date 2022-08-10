@@ -9,7 +9,7 @@ const messageSchema = {
     def: null
 };
 
-const passwordValidatorSchema = new Types({
+const passwordValidatorTypes = new Types({
     options: {
         type: 'Object',
         def: {
@@ -61,7 +61,7 @@ const passwordValidatorSchema = new Types({
  * @returns {{type: 'validator', name: string, messages: Array<string>, plugin: function(string): Object<string,*>}} Validator.
  */
 function passwordValidator(options) {
-    ({options} = passwordValidatorSchema.validate({options}));
+    ({options} = passwordValidatorTypes.validate({options}));
 
     const utils = new InputValidatorPluginUtils({
         keys: ['length', 'numbers', 'lowercases', 'uppercases', 'specials']

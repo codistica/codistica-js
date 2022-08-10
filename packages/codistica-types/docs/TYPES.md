@@ -15,7 +15,7 @@ syntax and behavior can change in the future._**
 ```js
 import {Types} from '@codistica/types';
 
-const myFunctionSchema = new Types({
+const myFunctionTypes = new Types({
     argA: {type: '!undefined'},
     argB: {type: 'Function'},
     argC: {
@@ -30,13 +30,13 @@ const myFunctionSchema = new Types({
 });
 
 function myFunction(argA, argB, argC) {
-    ({argA, argB, argC} = myFunctionSchema.validate({
+    ({argA, argB, argC} = myFunctionTypes.validate({
         argA,
         argB,
         argC
     }));
 
-    if (!myFunctionSchema.isValid()) {
+    if (!myFunctionTypes.isValid()) {
         return;
     }
 }

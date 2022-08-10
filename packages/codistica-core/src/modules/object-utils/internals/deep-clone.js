@@ -6,7 +6,7 @@ import {hasKeys} from './has-keys.js';
 import {isPureObject} from './is-pure-object.js';
 import {seek} from './seek.js';
 
-const deepCloneSchema = new Types({
+const deepCloneTypes = new Types({
     obj: {type: '!undefined'},
     options: {
         type: 'Object',
@@ -33,9 +33,9 @@ function deepClone(obj, options) {
     // TODO: ADD OPTION TO SKIP FUNCTIONS AND OTHER NON CLONABLE ELEMENTS. OR CLONE WITH OTHER METHODS? (STRING/EVAL?). NOT BY DEFAULT.
     // TODO: ADD reference (?) PATTERN OPTION TO COPY BY REFERENCE SPECIFIED PATHS RATHER THAN VALUE PER VALUE COPYING. (CASE WHEN WE WANT A FRESH OBJECT WITHOUT BREAKING SOME INTERNAL STRUCTURES (LIKE REFERENCED INSTANCES))
 
-    ({obj, options} = deepCloneSchema.validate({obj, options}));
+    ({obj, options} = deepCloneTypes.validate({obj, options}));
 
-    if (!deepCloneSchema.isValid()) {
+    if (!deepCloneTypes.isValid()) {
         return null;
     }
 
