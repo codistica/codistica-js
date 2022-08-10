@@ -1,4 +1,4 @@
-// TODO: TEMP. REVERT TO "module.exports = '@codistica/prettier-config-default' AFTER FIXING PRESET.
+/** @todo REVERT TO "module.exports = '@codistica/prettier-config-default';" AFTER FIXING PRESET. */
 
 const {
     jsxBracketSameLine, // DEPRECATED

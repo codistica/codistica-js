@@ -36,7 +36,8 @@
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/codistica/codistica-js.git"
+        "url": "https://github.com/codistica/codistica-js.git",
+        "directory": "packages/codistica-react-icons"
     },
     "bugs": {
         "url": "https://github.com/codistica/codistica-js/issues"
@@ -48,7 +49,7 @@
         "node": ">=10.0.0"
     },
     "scripts": {
-        "start": "start-storybook -p 6008",
+        "start": "start-storybook -p 3011",
         "build": "build-storybook",
         "utils:build-icons": "babel-node --config-file ../../babel.config.js scripts/build-icons.js",
         "flow": "flow",

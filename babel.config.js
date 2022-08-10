@@ -7,6 +7,8 @@
 module.exports = function babelConfig(api) {
     api.cache(true);
     return {
+        /** @todo FOLLOW https://github.com/babel/babel/issues/5261 */
+        sourceMaps: true,
         presets: [
             [
                 '@codistica/babel-preset-default',

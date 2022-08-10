@@ -38,7 +38,8 @@
     "types": "./types/index.d.ts",
     "repository": {
         "type": "git",
-        "url": "https://github.com/codistica/codistica-js.git"
+        "url": "https://github.com/codistica/codistica-js.git",
+        "directory": "packages/codistica-scriptfiber"
     },
     "bugs": {
         "url": "https://github.com/codistica/codistica-js/issues"

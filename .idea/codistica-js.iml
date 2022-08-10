@@ -43,6 +43,9 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/codistica-types/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/codistica-types/lib-es" />
       <excludeFolder url="file://$MODULE_DIR$/packages/codistica-types/types" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-react-icons/storybook-static" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-react/storybook-static" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/codistica-react-mui/storybook-static" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

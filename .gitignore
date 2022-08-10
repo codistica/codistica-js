@@ -5,6 +5,7 @@ packages/*/lib-es
 packages/*/types
 packages/*/jsdoc
 packages/*/build-icons-output
+packages/*/storybook-static
 
 ### Custom (create-react-app) ###
 /.pnp

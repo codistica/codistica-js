@@ -51,7 +51,10 @@ module.exports = {
         // REACT PACKAGES
         {
             files: [...reactPackages, './packages/*/stories/**/*.js'],
-            extends: ['@codistica/eslint-config-default/react-preset']
+            extends: ['@codistica/eslint-config-default/react-preset'],
+            rules: {
+                'react/prop-types': 'off'
+            }
         },
         // STORYBOOK
         {

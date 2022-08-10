@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {controlledTimeout} from '../../modules/controlled-timeout.js';
 
-/** @see: module:core/modules/controlled-timeout*/
+/** @see module:core/modules/controlled-timeout*/
 function controlledTimeoutTest() {
     describe('controlledTimeout()', () => {
         it('Should not trigger the timeout.', async () => {

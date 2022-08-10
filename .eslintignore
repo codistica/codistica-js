@@ -5,6 +5,7 @@
 **/types
 **/jsdoc
 **/build-icons-output
+**/storybook-static
 !.jsdocrc.js
 !.mocharc.js
 !.prettierrc.js

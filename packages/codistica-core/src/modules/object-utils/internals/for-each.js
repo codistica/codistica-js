@@ -95,6 +95,7 @@ async function forEach(root, callback, options) {
         callback,
         options
     }));
+
     if (!forEachSchema.isValid()) {
         return null;
     }

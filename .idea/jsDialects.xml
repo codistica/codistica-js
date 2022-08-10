@@ -4,7 +4,7 @@
     <file url="file://$PROJECT_DIR$/packages/codistica-demo" dialect="FLOW" />
     <file url="file://$PROJECT_DIR$/packages/codistica-react" dialect="FLOW" />
     <file url="file://$PROJECT_DIR$/packages/codistica-react-icons" dialect="FLOW" />
-    <file url="file://$PROJECT_DIR$/packages/codistica-react-icons/scripts" dialect="ES6" />
+    <file url="file://$PROJECT_DIR$/packages/codistica-react-icons/src/scripts" dialect="ES6" />
     <file url="file://$PROJECT_DIR$/packages/codistica-react-mui" dialect="FLOW" />
   </component>
 </project>

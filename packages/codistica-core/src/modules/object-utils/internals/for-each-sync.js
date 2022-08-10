@@ -94,6 +94,7 @@ function forEachSync(root, callback, options) {
         callback,
         options
     }));
+
     if (!forEachSyncSchema.isValid()) {
         return null;
     }

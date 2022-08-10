@@ -34,6 +34,7 @@ function deepClone(obj, options) {
     // TODO: ADD reference (?) PATTERN OPTION TO COPY BY REFERENCE SPECIFIED PATHS RATHER THAN VALUE PER VALUE COPYING. (CASE WHEN WE WANT A FRESH OBJECT WITHOUT BREAKING SOME INTERNAL STRUCTURES (LIKE REFERENCED INSTANCES))
 
     ({obj, options} = deepCloneSchema.validate({obj, options}));
+
     if (!deepCloneSchema.isValid()) {
         return null;
     }
