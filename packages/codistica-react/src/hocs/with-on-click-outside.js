@@ -3,8 +3,10 @@
 /** @module react/hocs/with-on-click-outside */
 
 import {eventListenerObjectSupport} from '@codistica/browser';
+import {default as hoistNonReactStatics} from 'hoist-non-react-statics';
 import React, {Component, forwardRef} from 'react';
 import type {AbstractComponent, Config} from 'react';
+import {getDisplayName} from '../modules/get-display-name.js';
 
 const eventOptions = eventListenerObjectSupport.capture
     ? {capture: true}
@@ -40,7 +42,7 @@ function withOnClickOutside<ComponentConfig: {}>(
     /**
      * @classdesc Higher order component.
      */
-    class HOC extends Component<Props> {
+    class Wrapper extends Component<Props> {
         static defaultProps: DefaultProps = {
             onClickOutside: null,
             children: null,
@@ -179,11 +181,16 @@ function withOnClickOutside<ComponentConfig: {}>(
         }
     }
 
-    return forwardRef<ComponentConfig & Config<Props, DefaultProps>, HOC>(
-        (props, ref) => {
-            return <HOC {...props} forwardedRef={ref} />;
-        }
-    );
+    const HOC = forwardRef<
+        ComponentConfig & Config<Props, DefaultProps>,
+        Wrapper
+    >((props, ref) => {
+        return <Wrapper {...props} forwardedRef={ref} />;
+    });
+
+    HOC.displayName = `withOnClickOutside(${getDisplayName(InnerComponent)})`;
+
+    return hoistNonReactStatics(HOC, InnerComponent);
 }
 
 export {withOnClickOutside};

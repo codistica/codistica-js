@@ -194,6 +194,7 @@ class DemoClass extends React.Component<Props, State> {
                     <InputText
                         placeholder={'Email'}
                         name={'email'}
+                        autoComplete={'username'}
                         plugins={inputPresets.emailPreset({
                             errorMessages: {
                                 generic: 'Please insert a valid email address.'
@@ -208,6 +209,7 @@ class DemoClass extends React.Component<Props, State> {
                         placeholder={'Password (strong)'}
                         name={'password'}
                         type={'password'}
+                        autoComplete={'new-password'}
                         plugins={inputPresets.passwordPreset({
                             errorMessages: {
                                 generic: 'Please check this field:',
@@ -232,6 +234,7 @@ class DemoClass extends React.Component<Props, State> {
                         placeholder={'Repeat Password'}
                         name={'repeatPassword'}
                         type={'password'}
+                        autoComplete={'new-password'}
                         match={'password'}
                         errorMessages={{
                             mandatory: 'This field is mandatory.',

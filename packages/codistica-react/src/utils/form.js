@@ -312,7 +312,7 @@ class Form extends React.Component<Props> {
     getInputElementByName(inputName: string): HTMLInputElement | null {
         return (
             this.formRef.current &&
-            this.formRef.current.querySelector(`input[name=${inputName}]`)
+            this.formRef.current.querySelector(`input[name="${inputName}"]`)
         );
     }
 

@@ -1,5 +1,6 @@
 /** @flow */
 
+import {escapeCSS} from '@codistica/browser';
 import type {StatusType} from '../../utils/input-renderer.js';
 import componentClassNames from './index.module.scss';
 
@@ -31,7 +32,7 @@ const styles = {
     input(params: Params = {}) {
         const {focusColor = '#e88b0e'} = params.customColors || {};
         return {
-            [`&:focus + .${componentClassNames.label}::before`]: {
+            [`&:focus + .${escapeCSS(componentClassNames.label)}::before`]: {
                 borderColor: getStatusColor(params) || focusColor
             }
         };
