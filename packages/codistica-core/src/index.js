@@ -1,6 +1,7 @@
 // *** IMPORTS ***
 
 import * as arrayUtils from './modules/array-utils/index.js';
+import * as asyncUtils from './modules/async-utils/index.js';
 import * as dateUtils from './modules/date-utils/index.js';
 import * as jsonUtils from './modules/json-utils/index.js';
 import * as numberUtils from './modules/number-utils/index.js';
@@ -16,6 +17,7 @@ import * as urlUtils from './modules/url-utils/index.js';
 // GROUPS
 export {
     arrayUtils,
+    asyncUtils,
     dateUtils,
     jsonUtils,
     numberUtils,
@@ -48,6 +50,7 @@ export {createHeartbeatTimeout} from './modules/create-heartbeat-timeout.js';
 export {log} from './modules/log.js';
 export {memoizeHOF} from './modules/memoize-hof.js';
 export {noop} from './modules/noop.js';
+export {once} from './modules/once.js';
 export {parse} from './modules/parse.js';
 export {stringify} from './modules/stringify.js';
 

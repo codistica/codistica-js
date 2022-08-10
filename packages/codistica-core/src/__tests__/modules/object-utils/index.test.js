@@ -1,5 +1,6 @@
 import {addReadOnlyPropertyTest} from './internals/add-read-only-property.test.js';
 import {deepCloneTest} from './internals/deep-clone.test.js';
+import {deepMergeTest} from './internals/deep-merge.test.js';
 import {forEachSyncTest} from './internals/for-each-sync.test.js';
 import {forEachTest} from './internals/for-each.test.js';
 import {getKeysTest} from './internals/get-keys.test.js';
@@ -23,6 +24,7 @@ function objectUtilsTest() {
     describe('objectUtils', () => {
         addReadOnlyPropertyTest();
         deepCloneTest();
+        deepMergeTest();
         forEachSyncTest();
         forEachTest();
         getKeysTest();

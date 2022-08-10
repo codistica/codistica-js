@@ -1,5 +1,6 @@
 import {addReadOnlyProperty} from './internals/add-read-only-property.js';
 import {deepClone} from './internals/deep-clone.js';
+import {deepMerge} from './internals/deep-merge.js';
 import {forEachSync} from './internals/for-each-sync.js';
 import {forEach} from './internals/for-each.js';
 import {getKeys} from './internals/get-keys.js';
@@ -28,6 +29,7 @@ import {truncate} from './internals/truncate.js';
 export {
     addReadOnlyProperty,
     deepClone,
+    deepMerge,
     forEachSync,
     forEach,
     getKeys,
