@@ -26,8 +26,8 @@ async function clearDir(input, deleteRoot) {
 
     const paths = (await scan(input)).reverse();
 
-    if (!deleteRoot) {
-        paths.pop();
+    if (deleteRoot) {
+        paths.push(input);
     }
 
     return await remove(paths);

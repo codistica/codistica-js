@@ -13,12 +13,13 @@ const rawExpSchema = {
 };
 
 const scanSchema = new Types({
-    startingDirectory: {type: '!undefined'},
+    path: {type: '!undefined'},
     options: {
         type: 'Object',
         def: {
             maxDepth: {type: 'number', def: Infinity},
-            ignore: rawExpSchema
+            ignore: rawExpSchema,
+            reverse: {type: 'boolean', def: false}
         }
     }
 });
@@ -29,35 +30,33 @@ const scanSchema = new Types({
  * @typedef scanOptionsType
  * @property {number} [maxDepth=Infinity] - Recursion maximum depth.
  * @property {scanRawExpType} [ignore=null] - Paths to be ignored.
+ * @property {boolean} [reverse=false] - Reverse scan.
  */
 
 /**
  * @async
  * @description Recurse through passed starting directory path and returns an array with all found paths.
- * @param {string} startingDirectory - The starting directory path.
+ * @param {string} path - The starting directory path.
  * @param {scanOptionsType} [options] - Scan options.
  * @returns {(Promise<Array<string>>)} Promise. Found files path array.
  */
-async function scan(startingDirectory, options) {
-    ({startingDirectory, options} = scanSchema.validate({
-        startingDirectory,
+async function scan(path, options) {
+    ({path, options} = scanSchema.validate({
+        path,
         options
     }));
+
     if (!scanSchema.isValid()) {
         log.error('scan()', 'ARGUMENTS ERROR. ABORTING')();
         return [];
     }
 
+    path = getAbsolutePath(path);
+
     const output = [];
-    let startingStat = null;
 
-    startingDirectory = getAbsolutePath(startingDirectory);
-    output.push(startingDirectory);
-
-    startingStat = await stat(startingDirectory).catch(catcher.onReject);
-
-    if (startingStat.isDirectory()) {
-        await recurse(startingDirectory, 0);
+    if ((await stat(path).catch(catcher.onReject)).isDirectory()) {
+        await recurse(path, 0);
     } else {
         log.error('scan()', 'NOT A DIRECTORY')();
     }
@@ -65,28 +64,37 @@ async function scan(startingDirectory, options) {
     /**
      * @async
      * @description Recursive function.
-     * @param {string} dirPath - Current directory path.
-     * @param {number} depth - Current directory depth.
+     * @param {string} _path - Current directory path.
+     * @param {number} _depth - Current directory depth.
      * @returns {Promise<void>} Promise. Void.
      */
-    async function recurse(dirPath, depth) {
-        let names = await readdir(dirPath).catch(catcher.onReject);
-        let currentPath = null;
-        let currentStat = null;
-        depth++;
+    async function recurse(_path, _depth) {
+        if (_depth > options.maxDepth) {
+            return;
+        }
+
+        const names = await readdir(_path).catch(catcher.onReject);
+
         for (const name of names) {
-            currentPath = join(dirPath, name);
+            const currentPath = join(_path, name);
 
             // CHECK IGNORE
             if (regExpUtils.checkOne(currentPath, options.ignore)) {
                 continue;
             }
 
-            currentStat = await stat(currentPath).catch(catcher.onReject);
+            const currentStat = await stat(currentPath).catch(catcher.onReject);
 
-            output.push(currentPath);
-            if (currentStat.isDirectory() && depth < options.maxDepth) {
-                await recurse(currentPath, depth);
+            if (!options.reverse) {
+                output.push(currentPath);
+            }
+
+            if (currentStat.isDirectory()) {
+                await recurse(currentPath, _depth + 1);
+            }
+
+            if (options.reverse) {
+                output.push(currentPath);
             }
         }
     }

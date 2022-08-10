@@ -6,8 +6,8 @@ import {removeSync} from '../../../../modules/file-utils/internals/remove-sync.j
 function removeSyncTest() {
     describe('removeSync()', () => {
         it('Should correctly remove specified directory.', () => {
-            assert.isNotEmpty(removeSync('./mock-root/txt'));
-            assert.isFalse(existsSync('./mock-root/txt'));
+            assert.isNotEmpty(removeSync('./mock-root'));
+            assert.isFalse(existsSync('./mock-root'));
         });
     });
 }

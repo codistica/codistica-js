@@ -9,19 +9,19 @@ import {scanSync} from '../../../../modules/file-utils/internals/scan-sync.js';
 function moveSyncTest() {
     describe('moveSync()', () => {
         it('Should correctly move specified directory.', () => {
-            const originalDirPaths = scanSync('./mock-root/txt')
-                .filter((path) => containsPath('./mock-root/txt', path))
+            const originalDirPaths = scanSync('./mock-root/dir-b')
+                .filter((path) => containsPath('./mock-root/dir-b', path))
                 .map((path) => basename(path));
 
             assert.isNotEmpty(
-                moveSync('./mock-root/txt', './mock-root/copy/destination')
+                moveSync('./mock-root/dir-b', './mock-root/copy/destination')
             );
 
-            assert.isFalse(existsSync('./mock-root/txt'));
+            assert.isFalse(existsSync('./mock-root/dir-b'));
 
-            const movedDirPaths = scanSync('./mock-root/copy/destination/txt')
+            const movedDirPaths = scanSync('./mock-root/copy/destination/dir-b')
                 .filter((path) =>
-                    containsPath('./mock-root/copy/destination/txt', path)
+                    containsPath('./mock-root/copy/destination/dir-b', path)
                 )
                 .map((path) => basename(path));
 

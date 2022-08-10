@@ -33,7 +33,12 @@ function copySync(input, targetDirPath, force) {
             const sourceDirPath = currentInput;
             const sourceDirName = basename(sourceDirPath);
 
-            scanSync(sourceDirPath).map((sourcePath) => {
+            /**
+             * @description Callback.
+             * @param {string} sourcePath - Copy source path.
+             * @returns {void} - Void.
+             */
+            const cb = function cb(sourcePath) {
                 const relativePath = sourcePath.replace(sourceDirPath, '');
 
                 const destinationPath = join(
@@ -51,7 +56,11 @@ function copySync(input, targetDirPath, force) {
                         copiedPaths.push(sourcePath);
                     }
                 }
-            });
+            };
+
+            cb(sourceDirPath);
+
+            scanSync(sourceDirPath).forEach(cb);
         } else {
             // COPY FILE
 

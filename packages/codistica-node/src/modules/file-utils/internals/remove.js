@@ -1,7 +1,6 @@
 /** @module node/modules/file-utils/remove */
 
-import {arrayUtils, catcher, log} from '@codistica/core';
-import {readdir} from '../../promisified-fs/internals/readdir.js';
+import {arrayUtils, log} from '@codistica/core';
 import {rmdir} from '../../promisified-fs/internals/rmdir.js';
 import {stat} from '../../promisified-fs/internals/stat.js';
 import {unlink} from '../../promisified-fs/internals/unlink.js';
@@ -16,12 +15,13 @@ import {scan} from './scan.js';
  * @returns {Promise<Array<string>>} Promise. Removed paths array.
  */
 async function remove(input) {
-    const removedPaths = [];
-    await Promise.all(
-        arrayUtils.normalize(input).map(async (currentInput) => {
-            currentInput = getAbsolutePath(currentInput);
+    const removedPathsSet = new Set();
 
-            if (!isInCwd(currentInput)) {
+    await Promise.all(
+        arrayUtils.normalize(input).map(async (path) => {
+            path = getAbsolutePath(path);
+
+            if (!isInCwd(path)) {
                 log.error(
                     'remove()',
                     'RECEIVED PATH IS OUTSIDE OF THE CURRENT WORKING DIRECTORY. OPERATION NOT PERMITTED. ABORTING'
@@ -29,24 +29,38 @@ async function remove(input) {
                 return;
             }
 
-            const currentStat = await stat(currentInput).catch(
-                catcher.onReject
-            );
-
-            if (currentStat.isDirectory()) {
-                if ((await readdir(currentInput)).length) {
-                    await remove((await scan(currentInput)).reverse());
-                } else {
-                    await rmdir(currentInput).catch(catcher.onReject);
-                    removedPaths.push(currentInput);
+            /**
+             * @async
+             * @description Remove.
+             * @param {string} _target - Target path.
+             * @returns {Promise<void>} - Promise. Void.
+             */
+            const _remove = async function _remove(_target) {
+                if (removedPathsSet.has(_target)) {
+                    return;
                 }
-            } else {
-                await unlink(currentInput).catch(catcher.onReject);
-                removedPaths.push(currentInput);
+
+                if ((await stat(_target)).isDirectory()) {
+                    await rmdir(_target);
+                    removedPathsSet.add(_target);
+                } else {
+                    await unlink(_target);
+                    removedPathsSet.add(_target);
+                }
+            };
+
+            if ((await stat(path)).isDirectory()) {
+                const content = await scan(path, {reverse: true});
+                for (const target of content) {
+                    await _remove(target);
+                }
             }
+
+            await _remove(path);
         })
     );
-    return removedPaths;
+
+    return Array.from(removedPathsSet.values());
 }
 
 export {remove};

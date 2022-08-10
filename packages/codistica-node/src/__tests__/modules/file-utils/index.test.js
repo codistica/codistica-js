@@ -5,15 +5,21 @@ const tests = {
     clearDirSyncTest: './internals/clear-dir-sync.test.js',
     containsPathTest: './internals/contains-path.test.js',
     copySyncTest: './internals/copy-sync.test.js',
+    existsTest: './internals/exists.test.js',
     getJsonSyncTest: './internals/get-json-sync.test.js',
     moveSyncTest: './internals/move-sync.test.js',
+    removeTest: './internals/remove.test.js',
     removeSyncTest: './internals/remove-sync.test.js'
 };
 
 function fileUtilsTest() {
     describe('fileUtils', () => {
         mock.config({
-            startFresh: true
+            cacheAutoClear: true,
+            cacheWhitelist: [
+                /\/get-mock-file-system\/index\.js$/,
+                /\/modules\/log\.js$/
+            ]
         });
 
         for (const key in tests) {
@@ -25,7 +31,7 @@ function fileUtilsTest() {
                 [
                     {
                         request: 'fs',
-                        exports: getMockFileSystem(),
+                        exports: getMockFileSystem(true),
                         ignore: /node_modules/,
                         requester: __filename
                     }

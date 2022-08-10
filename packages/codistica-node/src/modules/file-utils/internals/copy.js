@@ -38,32 +38,35 @@ async function copy(input, targetDirPath, force) {
                 const sourceDirPath = currentInput;
                 const sourceDirName = basename(sourceDirPath);
 
-                await Promise.all(
-                    (
-                        await scan(sourceDirPath)
-                    ).map(async (sourcePath) => {
-                        const relativePath = sourcePath.replace(
-                            sourceDirPath,
-                            ''
-                        );
+                /**
+                 * @async
+                 * @description Callback.
+                 * @param {string} sourcePath - Copy source path.
+                 * @returns {Promise<void>} - Promise. Void.
+                 */
+                const cb = async function cb(sourcePath) {
+                    const relativePath = sourcePath.replace(sourceDirPath, '');
 
-                        const destinationPath = join(
-                            targetDirPath,
-                            sourceDirName,
-                            relativePath
-                        );
+                    const destinationPath = join(
+                        targetDirPath,
+                        sourceDirName,
+                        relativePath
+                    );
 
-                        if (!(await exists(destinationPath)) || force) {
-                            if ((await stat(sourcePath)).isDirectory()) {
-                                await mkdir(destinationPath);
-                                copiedPaths.push(sourcePath);
-                            } else {
-                                await copyFile(sourcePath, destinationPath);
-                                copiedPaths.push(sourcePath);
-                            }
+                    if (!(await exists(destinationPath)) || force) {
+                        if ((await stat(sourcePath)).isDirectory()) {
+                            await mkdir(destinationPath);
+                            copiedPaths.push(sourcePath);
+                        } else {
+                            await copyFile(sourcePath, destinationPath);
+                            copiedPaths.push(sourcePath);
                         }
-                    })
-                );
+                    }
+                };
+
+                await cb(sourceDirPath);
+
+                await Promise.all((await scan(sourceDirPath)).map(cb));
             } else {
                 // COPY FILE
 

@@ -18,6 +18,7 @@ import {scanSync} from './internals/scan-sync.js';
 import {scan} from './internals/scan.js';
 import {searchUpwards} from './internals/search-upwards.js';
 
+// TODO: REVIEW ALL CODE.
 // TODO: CREATE TESTS (WITH CUSTOM FS MOCK).
 // TODO: TEST WITH HIDDEN FILES, ALIASES/LINKS, ETC.
 // TODO: TEST root FILES/DIRECTORIES OPERATIONS.

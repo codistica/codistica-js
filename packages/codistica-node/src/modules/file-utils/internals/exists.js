@@ -17,7 +17,6 @@ async function exists(path) {
         return true;
     } catch (err) {
         if (err.code !== 'ENOENT') {
-            // TODO: THIS COULD BE A GOOD EXAMPLE OF HOW ERRORS SHOULD BE MANAGED.
             log.error('exists()', err)();
             throw err;
         }

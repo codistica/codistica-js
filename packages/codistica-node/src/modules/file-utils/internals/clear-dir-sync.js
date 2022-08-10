@@ -25,8 +25,8 @@ function clearDirSync(input, deleteRoot) {
 
     const paths = scanSync(input).reverse();
 
-    if (!deleteRoot) {
-        paths.pop();
+    if (deleteRoot) {
+        paths.push(input);
     }
 
     return removeSync(paths);

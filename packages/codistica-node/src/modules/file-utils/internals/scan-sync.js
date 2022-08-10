@@ -12,12 +12,13 @@ const rawExpSchema = {
 };
 
 const scanSyncSchema = new Types({
-    startingDirectory: {type: '!undefined'},
+    path: {type: '!undefined'},
     options: {
         type: 'Object',
         def: {
             maxDepth: {type: 'number', def: Infinity},
-            ignore: rawExpSchema
+            ignore: rawExpSchema,
+            reverse: {type: 'boolean', def: false}
         }
     }
 });
@@ -28,62 +29,69 @@ const scanSyncSchema = new Types({
  * @typedef scanSyncOptionsType
  * @property {number} [maxDepth=Infinity] - Recursion maximum depth.
  * @property {scanSyncRawExpType} [ignore=null] - Paths to be ignored.
+ * @property {boolean} [reverse=false] - Reverse scan.
  */
 
 /**
  * @description Recurse through passed starting directory path and returns an array with all found paths.
- * @param {string} startingDirectory - The starting directory path.
+ * @param {string} path - The starting directory path.
  * @param {scanSyncOptionsType} [options] - Scan options.
  * @returns {(Array<string>)} Found files path array.
  */
-function scanSync(startingDirectory, options) {
-    ({startingDirectory, options} = scanSyncSchema.validate({
-        startingDirectory,
+function scanSync(path, options) {
+    ({path, options} = scanSyncSchema.validate({
+        path,
         options
     }));
+
     if (!scanSyncSchema.isValid()) {
         log.error('scanSync()', 'ARGUMENTS ERROR. ABORTING')();
         return [];
     }
 
+    path = getAbsolutePath(path);
+
     const output = [];
-    let startingStat = null;
 
-    startingDirectory = getAbsolutePath(startingDirectory);
-    output.push(startingDirectory);
-
-    startingStat = statSync(startingDirectory);
-
-    if (startingStat.isDirectory()) {
-        recurse(startingDirectory, 0);
+    if (statSync(path).isDirectory()) {
+        recurse(path, 0);
     } else {
         log.error('scanSync()', 'NOT A DIRECTORY')();
     }
 
     /**
      * @description Recursive function.
-     * @param {string} dirPath - Current directory path.
-     * @param {number} depth - Current directory depth.
+     * @param {string} _path - Current directory path.
+     * @param {number} _depth - Current directory depth.
      * @returns {void} Void.
      */
-    function recurse(dirPath, depth) {
-        let names = readdirSync(dirPath);
-        let currentPath = null;
-        let currentStat = null;
-        depth++;
+    function recurse(_path, _depth) {
+        if (_depth > options.maxDepth) {
+            return;
+        }
+
+        const names = readdirSync(_path);
+
         for (const name of names) {
-            currentPath = join(dirPath, name);
+            const currentPath = join(_path, name);
 
             // CHECK IGNORE
             if (regExpUtils.checkOne(currentPath, options.ignore)) {
                 continue;
             }
 
-            currentStat = statSync(currentPath);
+            const currentStat = statSync(currentPath);
 
-            output.push(currentPath);
-            if (currentStat.isDirectory() && depth < options.maxDepth) {
-                recurse(currentPath, depth);
+            if (!options.reverse) {
+                output.push(currentPath);
+            }
+
+            if (currentStat.isDirectory()) {
+                recurse(currentPath, _depth + 1);
+            }
+
+            if (options.reverse) {
+                output.push(currentPath);
             }
         }
     }

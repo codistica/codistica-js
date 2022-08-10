@@ -8,7 +8,7 @@ import {isAbsolute, resolve, normalize} from 'path';
  * @returns {string} Absolute path.
  */
 function getAbsolutePath(path) {
-    return isAbsolute(path) ? normalize(path) : resolve(process.cwd(), path);
+    return isAbsolute(path) ? normalize(path) : resolve(path);
 }
 
 export {getAbsolutePath};

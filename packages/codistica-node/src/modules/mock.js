@@ -2,10 +2,9 @@
 
 import {Module as _Module} from 'module';
 
-// TODO: SEE ORIGINAL mockery PACKAGE. ADD MISSING FEATURES, CHECK AND IMPROVE.
+// TODO: SEE ORIGINAL mockery AND proxyquire PACKAGES. ADD MISSING FEATURES, CHECK AND IMPROVE.
 // TODO: DO NOT USE DEPRECATED module.parent (USE require.main AND module.children).
 // TODO: USE ITERATORS DIRECTLY (IF POSSIBLE).
-// TODO: PREVENT THIS MODULE FROM DISAPPEARING FROM CACHE.
 // TODO: REMEMBER TO CLEAN REFERENCES FROM REAL MODULE TREE (?). DURING CACHE CLEAN AND AFTER NORMALLY LOADING A TARGET MODULE. (SEE MOCKERY SOURCE CODE. DO BETTER). REMOVE MODULES WHEN CLEARED FROM CACHE? GO FROM main? OR SAVE "toBeCleaned" MODULES ON THE WAY?
 
 // TODO: CONSIDER ALL LOADING CASES AND COMBINATIONS (LAZY AND NORMAL require, ASYNC import, STATIC import...).
@@ -18,6 +17,9 @@ import {Module as _Module} from 'module';
 // TODO: CHECK FOR OPTIMIZATIONS.
 
 // TODO: RUN CURRENT CACHE AGAINST NEW MOCK OBJECT ON REGISTRATION, IGNORING REQUEST/CHILDREN, CLEARING MATCHED ENTRIES. (MAKE CONFIGURABLE)
+
+// TODO: TRY require.cache INSTEAD OF Module._cache, IMPLEMENT BOTH IF IT WORKS (PRIORITY TO Module._cache).
+// TODO: REPLACE Module._resolveFilename WITH resolve PACKAGE OR SIMILAR?
 
 /** @type {Object<string,*>} */
 const Module = _Module;
@@ -35,24 +37,26 @@ const Module = _Module;
 
 /**
  * @typedef mockOptionsType
- * @property {boolean} autoStart - Auto start hooking based on mock registrations.
- * @property {('enable'|'disable'|'preserve')} cacheMode - Cache mode.
+ * @property {boolean} auto - Enables auto and autostop hooking based on mock registrations.
  * @property {boolean} allowNoTarget - Allow no target to be specified.
- * @property {boolean} startFresh - Start with a fresh cache.
+ * @property {('enable'|'disable'|'preserve')} cacheMode - Cache mode.
+ * @property {Array<(RegExp|string)>} cacheWhitelist - List of modules to be always preserved in cache.
+ * @property {boolean} cacheAutoClear - Automatically clear cache when hooking is enabled.
  */
 
 /** @type {mockOptionsType} */
 const defaultOptions = {
-    autoStart: true,
+    auto: true,
     cacheMode: 'preserve',
+    cacheWhitelist: [],
     allowNoTarget: false,
-    startFresh: false
+    cacheAutoClear: false
 };
 
 /**
  * @typedef mockContextType
  * @property {Map<string,mockObjectType>} registeredMocks - Registered mocks.
- * @property {function(string, Object<string,any>, boolean): *} originalLoader - Original loader.
+ * @property {function(string, Object<string,*>, boolean): *} originalLoader - Original loader.
  * @property {Object<string,*>} originalCache - Original cache.
  * @property {Map<string,Object<string,*>>} virtualModules - Virtual modules tree. TODO: JSDoc virtualModules.
  * @property {mockOptionsType} options - Options.
@@ -91,9 +95,6 @@ function getKey(request, options) {
     if (options) {
         Object.keys(options).forEach((k) => {
             const val = options[k];
-            if (typeof val === 'function') {
-                return;
-            }
             if (val) {
                 if (typeof val === 'string') {
                     key.push(val);
@@ -112,7 +113,7 @@ function getKey(request, options) {
  * @param {(RegExp|string)} pattern - Pattern.
  * @returns {boolean} Result.
  */
-function checkAgainstPattern(value, pattern) {
+function check(value, pattern) {
     if (typeof pattern === 'string') {
         return value === pattern;
     } else {
@@ -143,13 +144,13 @@ function getMatchedMockObject(filename, currentRequest) {
         }
 
         if (mockObject.target) {
-            if (!checkAgainstPattern(filename, mockObject.target)) {
+            if (!check(filename, mockObject.target)) {
                 continue;
             }
         }
 
         if (mockObject.ignore) {
-            if (checkAgainstPattern(filename, mockObject.ignore)) {
+            if (check(filename, mockObject.ignore)) {
                 continue;
             }
         }
@@ -160,9 +161,7 @@ function getMatchedMockObject(filename, currentRequest) {
 
             // TODO: HANDLE CIRCULAR REFERENCES.
             while (current) {
-                if (
-                    checkAgainstPattern(current.filename, mockObject.requester)
-                ) {
+                if (check(current.filename, mockObject.requester)) {
                     passed = true;
                     break;
                 }
@@ -176,7 +175,7 @@ function getMatchedMockObject(filename, currentRequest) {
         }
 
         if (currentRequest) {
-            if (!checkAgainstPattern(currentRequest, mockObject.request)) {
+            if (!check(currentRequest, mockObject.request)) {
                 continue;
             }
         } else {
@@ -191,10 +190,7 @@ function getMatchedMockObject(filename, currentRequest) {
 
             if (
                 !children.some((child) => {
-                    return checkAgainstPattern(
-                        child.filename,
-                        mockObject.request
-                    );
+                    return check(child.filename, mockObject.request);
                 })
             ) {
                 continue;
@@ -256,7 +252,7 @@ function createVirtualModule(input, parent) {
 /**
  * @description The loader replacement that is used when hooking is enabled.
  * @param {string} rawRequest - Raw request.
- * @param {Object<string,any>} requesterModule - Requester module.
+ * @param {Object<string,*>} requesterModule - Requester module.
  * @param {boolean} isMain - Is main.
  * @returns {*} Loaded module exports.
  */
@@ -322,10 +318,11 @@ function customLoader(rawRequest, requesterModule, isMain) {
 
 /**
  * @typedef mockOptionsUserType
- * @property {boolean} [autoStart=true] - Auto start hooking based on mock registrations.
- * @property {('enable'|'disable'|'preserve')} [cacheMode='preserve'] - Cache mode.
+ * @property {boolean} [auto=true] - Auto start hooking based on mock registrations.
  * @property {boolean} [allowNoTarget=false] - Allow no target to be specified.
- * @property {boolean} [startFresh] - Start with a fresh cache.
+ * @property {('enable'|'disable'|'preserve')} [cacheMode='preserve'] - Cache mode.
+ * @property {Array<(RegExp|string)>} [cacheWhitelist] - Set of modules to be always preserved in cache.
+ * @property {boolean} [cacheAutoClear] - Automatically clear cache when hooking is enabled.
  */
 
 /**
@@ -356,8 +353,8 @@ function enable() {
     context.originalCache = Module._cache;
     Module._cache = {};
 
-    if (context.options.startFresh) {
-        copyCacheNative(context.originalCache, Module._cache);
+    if (context.options.cacheAutoClear) {
+        copyCacheEssentials(context.originalCache, Module._cache);
     } else {
         copyCacheAll(context.originalCache, Module._cache);
     }
@@ -375,7 +372,7 @@ function disable() {
         return;
     }
 
-    copyCacheNative(Module._cache, context.originalCache);
+    copyCacheEssentials(Module._cache, context.originalCache);
     Module._cache = context.originalCache;
     context.originalCache = null;
 
@@ -390,7 +387,7 @@ function disable() {
 function clearCache() {
     if (context.originalCache) {
         Module._cache = {};
-        copyCacheNative(context.originalCache, Module._cache);
+        copyCacheEssentials(context.originalCache, Module._cache);
     }
 }
 
@@ -419,7 +416,7 @@ function registerMock(request, exports, options = {}) {
 
     context.registeredMocks.set(key, mockObject);
 
-    if (context.options.autoStart) {
+    if (context.options.auto) {
         enable();
     }
 
@@ -445,7 +442,7 @@ function registerMock(request, exports, options = {}) {
 function unregisterMock(request, options) {
     context.registeredMocks.delete(getKey(request, options));
 
-    if (context.options.autoStart && !context.registeredMocks.size) {
+    if (context.options.auto && !context.registeredMocks.size) {
         disable();
     }
 }
@@ -460,14 +457,24 @@ function unregisterAll() {
 }
 
 /**
- * @description Copies native addons from source to target cache.
+ * @description Copies native addons and whitelisted entries from source to target cache.
  * @param {Object<string,*>} source - Source.
  * @param {Object<string,*>} target - Target.
+ * @param {boolean} [overwrite] - Overwrite target.
  * @returns {void} Void.
  */
-function copyCacheNative(source, target) {
+function copyCacheEssentials(source, target, overwrite) {
     Object.keys(source).forEach((k) => {
-        if (k.indexOf('.node') > -1 && !target[k]) {
+        const isNative = k.indexOf('.node') > -1;
+        const isCurrentModule = k === __filename;
+        const isWhitelisted =
+            context.options.cacheWhitelist.findIndex((pattern) =>
+                check(k, pattern)
+            ) > -1;
+        if (
+            (isNative || isCurrentModule || isWhitelisted) &&
+            (!target[k] || overwrite)
+        ) {
             target[k] = source[k];
         }
     });
@@ -477,11 +484,12 @@ function copyCacheNative(source, target) {
  * @description Copies all entries from source to target cache.
  * @param {Object<string,*>} source - Source.
  * @param {Object<string,*>} target - Target.
+ * @param {boolean} [overwrite] - Overwrite target.
  * @returns {void} Void.
  */
-function copyCacheAll(source, target) {
+function copyCacheAll(source, target, overwrite) {
     Object.keys(source).forEach((k) => {
-        if (!target[k]) {
+        if (!target[k] || overwrite) {
             target[k] = source[k];
         }
     });
@@ -490,7 +498,7 @@ function copyCacheAll(source, target) {
 /**
  * @typedef mockRequireOptions
  * @property {boolean} [clearCache=false] - Clear cache before start loading.
- * @property {boolean} [autoClean=true] - Automatically unregister mock objects after loading finishes.
+ * @property {boolean} [autoUnregister=true] - Automatically unregister mock objects after loading finishes.
  */
 
 // TODO: AUTO GET requesterModule SOMEHOW? THIS WOULD HAVE TO BE AN INDEPENDENT MODULE, SELF CLEARING FROM CACHE (SEE proxyquire), RECURSE FROM process.mainModule TO module.filename AND GET PARENT. DO ONLY WHEN NO requesterModule PASSED. MAKE requesterModule OPTIONAL AND PLACE INSIDE options.
@@ -508,15 +516,17 @@ function require(id, mocks, requesterModule, options) {
     if (!options) {
         options = {
             clearCache: false,
-            autoClean: true
+            autoUnregister: true
         };
     } else {
         options.clearCache =
             typeof options.clearCache === 'boolean'
                 ? options.clearCache
                 : false;
-        options.autoClean =
-            typeof options.autoClean === 'boolean' ? options.autoClean : true;
+        options.autoUnregister =
+            typeof options.autoUnregister === 'boolean'
+                ? options.autoUnregister
+                : true;
     }
 
     if (Array.isArray(mocks)) {
@@ -540,7 +550,7 @@ function require(id, mocks, requesterModule, options) {
 
     const requiredModule = requesterModule.require(id);
 
-    if (options && options.autoClean) {
+    if (options && options.autoUnregister) {
         toUnregister.forEach((mockUtils) => mockUtils.unregister());
     }
 
