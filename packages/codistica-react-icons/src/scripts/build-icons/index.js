@@ -1,14 +1,32 @@
-import {readFileSync, writeFileSync, mkdirSync} from 'fs';
+#!/usr/bin/env node
+
 import {resolve, join, basename} from 'path';
-import {stringUtils, log} from '@codistica/core';
-import {fileUtils, LogNodeConsoleBinder} from '@codistica/node';
+import {stringUtils, log, catcher} from '@codistica/core';
+import {
+    fileUtils,
+    promisifiedFs,
+    LogNodeConsoleBinder,
+    parseCmdArgs
+} from '@codistica/node';
 import {ESLint} from 'eslint';
 import {default as Mustache} from 'mustache';
 import {default as prettier} from 'prettier';
-import {default as SVGO} from 'svgo';
-import {svgoConfig} from './svgo-config.js';
+import {optimize} from 'svgo';
+import {svgoConfig} from './configs/svgo-config.js';
+
+const {scan, exists, remove, copy} = fileUtils;
+const {readFile, mkdir, writeFile} = promisifiedFs;
 
 log.setConsoleBinder(new LogNodeConsoleBinder());
+
+catcher.options.enableLogging = true;
+
+// TODO: CHECK THAT PLUGINS WILL NOT BREAK WHAT THEY DON'T UNDERSTAND.
+// TODO: TEST RETURNED PROMISES.
+// TODO: CHECK PLUGINS EXECUTION ORDER.
+// TODO: CHECK OUTPUT. COMPARE WITH OLD. USE GIT? CREATE ICONS BACKUP
+// TODO: NORMALIZE log CASING.
+// TODO: WRITE TESTS.
 
 // TODO: REGULATE MAXIMUM PARALLEL OPERATIONS (CREATE/USE EXISTING UTILS?). INVESTIGATE.
 // TODO: USE STREAMS WHERE/IF POSSIBLE/NEEDED.
@@ -28,57 +46,62 @@ log.setConsoleBinder(new LogNodeConsoleBinder());
  * - BE CAREFUL WITH SVG FILES NAMING. FILES NAMES WILL BE USED TO NAME ICONS COMPONENTS.
  */
 
-if (!process.argv[2]) {
-    log.error('build-icons', 'No SVG directory path specified')();
+const args = parseCmdArgs(process.argv);
+
+const options = {
+    source: args.source || args.s,
+    output: args.output || args.o
+};
+
+if (!options.source) {
+    log.error('build-icons', 'No source path specified')();
     process.abort();
 }
 
-const relativePaths = {
-    svgDir: process.argv[2],
-    outputDir: '../build-icons-output',
-    rootDir: '../',
-    iconTemplate: './templates/icon.mustache',
-    indexTemplate: './templates/index.mustache',
-    storyTemplate: './templates/story.mustache'
-};
-
-const absolutePaths = {};
-
-// GET ABSOLUTE PATHS
-for (const key in relativePaths) {
-    if (!Object.hasOwnProperty.call(relativePaths, key)) {
-        continue;
-    }
-    absolutePaths[key] = resolve(__dirname, relativePaths[key]);
+if (!options.output) {
+    log.error('build-icons', 'No output path specified')();
+    process.abort();
 }
+
+const paths = {
+    source: resolve(options.source),
+    output: resolve(options.output),
+    root: resolve(__dirname, '../../../'),
+    utils: resolve(__dirname, '../../utils'),
+    iconTemplate: resolve(__dirname, './templates/icon.mustache'),
+    indexTemplate: resolve(__dirname, './templates/index.mustache'),
+    storyTemplate: resolve(__dirname, './templates/story.mustache')
+};
 
 (async () => {
     // LOAD MUSTACHE TEMPLATES
     log.progress('build-icons', 'Loading templates')();
     const templates = {
-        icon: readFileSync(absolutePaths.iconTemplate, 'utf8'),
-        index: readFileSync(absolutePaths.indexTemplate, 'utf8'),
-        story: readFileSync(absolutePaths.storyTemplate, 'utf8')
+        icon: await readFile(paths.iconTemplate),
+        index: await readFile(paths.indexTemplate),
+        story: await readFile(paths.storyTemplate)
     };
 
     // GET SOURCE SVG PATHS
     log.progress('build-icons', 'Searching SVG files')();
-    const sourceFilenames = fileUtils
-        .scanSync(absolutePaths.svgDir)
-        .filter((basename) => /\.svg$/.test(basename));
+    const sourceFilenames = (await scan(paths.source)).filter((basename) =>
+        basename.endsWith('.svg')
+    );
 
     // PREPARE ICONS DATA OBJECTS
     log.progress('build-icons', 'Optimizing')();
-    const svgo = new SVGO(svgoConfig);
     const iconsDataObjects = (
         await Promise.all(
             sourceFilenames.map(async (filename) => {
                 const rawName = basename(filename).replace(/\.svg$/, '');
                 const name = stringUtils.toKebabCase(rawName);
                 const componentName = stringUtils.toPascalCase(rawName);
-                const svgoResult = await svgo.optimize(
-                    readFileSync(filename, 'utf8')
-                );
+
+                const svgoResult = optimize(await readFile(filename), {
+                    ...svgoConfig,
+                    path: filename
+                });
+
                 return {
                     name,
                     basename: name + '.js',
@@ -106,19 +129,16 @@ for (const key in relativePaths) {
 
     // CREATE OUTPUT DIRECTORIES
     log.progress('build-icons', 'Creating output directories')();
-    if (fileUtils.existsSync(absolutePaths.outputDir)) {
-        fileUtils.removeSync(absolutePaths.outputDir);
+    if (await exists(paths.output)) {
+        await remove(paths.output);
     }
-    mkdirSync(join(absolutePaths.outputDir, 'src/icons'), {recursive: true});
-    mkdirSync(join(absolutePaths.outputDir, 'stories/icons'), {
+    await mkdir(join(paths.output, 'src/icons'), {recursive: true});
+    await mkdir(join(paths.output, 'stories/icons'), {
         recursive: true
     });
 
-    // COPY NON PROCESSED SOURCE FILES
-    fileUtils.copySync(
-        join(absolutePaths.rootDir, 'src/utils'),
-        join(absolutePaths.outputDir, 'src')
-    );
+    // COPY utils
+    await copy(paths.utils, join(paths.output, 'src'));
 
     // SETUP MUSTACHE
     Mustache.escape = function escape(a) {
@@ -135,32 +155,27 @@ for (const key in relativePaths) {
         }
     });
 
-    // SETUP PRETTIER
-    const prettierOptions =
-        (await prettier.resolveConfig(
-            join(absolutePaths.rootDir, 'src/index.js')
-        )) || {};
+    const createFile = async (template, data, relativePath) => {
+        const virtualPath = resolve(paths.root, relativePath); // THIS IS THE PATH THAT THE OUTPUT WOULD HAVE IN root
+        const outputPath = join(paths.output, relativePath);
 
-    const createFile = async function createFile(template, data, relativePath) {
         const mustacheOutput = Mustache.render(template, data);
 
         const [eslintOutput] = await eslint.lintText(mustacheOutput, {
             // WILL BE USED BY ESLINT TO RESOLVE CONFIGURATION
-            filePath: resolve(absolutePaths.rootDir, relativePath)
+            filePath: virtualPath
         });
 
         const prettierOutput = prettier.format(
             eslintOutput.output || eslintOutput.source || mustacheOutput,
             {
-                ...prettierOptions,
+                ...((await prettier.resolveConfig(virtualPath)) || {}),
                 /** @todo REMOVE WHEN INCLUDED IN NEW @codistica/prettier-config-default RELEASE */
                 parser: 'babel'
             }
         );
 
-        const outputPath = join(absolutePaths.outputDir, relativePath);
-
-        writeFileSync(outputPath, prettierOutput, 'utf8');
+        await writeFile(outputPath, prettierOutput);
     };
 
     log.progress('build-icons', 'Creating files')();
