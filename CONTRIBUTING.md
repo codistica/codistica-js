@@ -99,8 +99,7 @@ _(NOTE: The repository has to be built for tests to work)_
 
 ### Tests Locations
 
-Tests are located under the `src/__tests__` directories of each package, replicating the same
-file structure as the `src` directory itself.
+Tests are located just beside the source file, respecting the following naming convention: `name-of-source-file.test.js`.
 
 ### Adding/Modifying/Removing Tests
 

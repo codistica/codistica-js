@@ -24,15 +24,13 @@
     "license": "MIT",
     "main": "./lib/index.js",
     "module": "./lib-es/index.js",
-    "directories": {
-        "lib": "./lib",
-        "test": "./lib/__tests__"
-    },
+    "directories": {},
     "files": [
         "lib",
         "lib-es",
-        "!**/__tests__",
-        "!*.test.*"
+        "!**/*.test.js",
+        "!**/*.test.js.map",
+        "!*/test-utils"
     ],
     "repository": {
         "type": "git",

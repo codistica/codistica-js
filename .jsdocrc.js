@@ -7,7 +7,7 @@ module.exports = {
     source: {
         include: ['./src'],
         includePattern: '.+[\\/]src[\\/].+\\.js$',
-        excludePattern: '.+[\\/]src[\\/]__tests__/.+$'
+        excludePattern: '.+[\\/]src[\\/].+\\.test\\.js$'
     },
     sourceType: 'module',
     tags: {

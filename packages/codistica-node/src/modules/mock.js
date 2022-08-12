@@ -37,7 +37,7 @@ const Module = _Module;
 
 /**
  * @typedef mockOptionsType
- * @property {boolean} auto - Enables auto and autostop hooking based on mock registrations.
+ * @property {boolean} auto - Enables auto-start and auto-stop hooking based on mock registrations.
  * @property {boolean} allowNoTarget - Allow no target to be specified.
  * @property {('enable'|'disable'|'preserve')} cacheMode - Cache mode.
  * @property {Array<(RegExp|string)>} cacheWhitelist - List of modules to be always preserved in cache.
@@ -184,7 +184,7 @@ function getMatchedMockObject(filename, currentRequest) {
             if (virtualModule.children.size) {
                 children = Array.from(virtualModule.children.values());
             } else if (cachedModule && cachedModule.children.length) {
-                // THIS ARE ONLY THE CHILDREN MODULES THAT HAVE BEEN REQUIRED FOR THE FIRST TIME BY THE CURRENT MODULE, BUT IS THE BEST ALTERNATIVE BEFORE CLEARING CACHE.
+                // THESE ARE ONLY THE CHILDREN MODULES THAT HAVE BEEN REQUIRED FOR THE FIRST TIME BY THE CURRENT MODULE, BUT IS THE BEST ALTERNATIVE BEFORE CLEARING CACHE.
                 children = cachedModule.children;
             }
 
