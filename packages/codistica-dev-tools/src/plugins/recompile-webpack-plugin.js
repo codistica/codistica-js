@@ -6,6 +6,8 @@ import {Stats} from 'webpack';
 import {getPluginName} from '../modules/webpack-utils/internals/get-plugin-name.js';
 import {preventTaps} from '../modules/webpack-utils/internals/prevent-taps.js';
 
+const {getAbsolutePath} = fileUtils;
+
 /** @typedef {{shouldRecompile: SyncBailHook<Object<string,*>>, beforeRecompile: SyncHook<Object<string,*>>, finish: SyncHook<Stats>}} recompileWebpackPluginHooksType */
 
 /** @type {WeakMap<Object<string,*>, recompileWebpackPluginHooksType>} */
@@ -38,11 +40,11 @@ class RecompileWebpackPlugin {
         };
 
         this.options.purgeFiles = (options.purgeFiles || []).map((filePath) =>
-            fileUtils.getAbsolutePath(filePath)
+            getAbsolutePath(filePath)
         );
 
         this.options.timestampFiles = (options.timestampFiles || []).map(
-            (filePath) => fileUtils.getAbsolutePath(filePath)
+            (filePath) => getAbsolutePath(filePath)
         );
 
         this.options.maxRecompilations =

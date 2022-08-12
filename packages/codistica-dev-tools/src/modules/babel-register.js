@@ -3,6 +3,8 @@
 import {isAbsolute, join, relative} from 'path';
 import {fileUtils} from '@codistica/node';
 
+const {searchUpwards} = fileUtils;
+
 /**
  * @async
  * @description Runs the specified script using Babel Register.
@@ -13,7 +15,7 @@ import {fileUtils} from '@codistica/node';
  * @throws {Error} If no script is found.
  */
 async function babelRegister(script) {
-    const babelPresetEnvPath = await fileUtils.searchUpwards(
+    const babelPresetEnvPath = await searchUpwards(
         __dirname,
         './node_modules/@babel/preset-env',
         process.cwd()
@@ -27,7 +29,7 @@ async function babelRegister(script) {
         throw new Error('NO VALID SCRIPT ARGUMENT FOUND.');
     }
 
-    const foundScriptPath = await fileUtils.searchUpwards(
+    const foundScriptPath = await searchUpwards(
         __dirname,
         isAbsolute(script) ? script : join('./node_modules/.bin/', script),
         process.cwd()
