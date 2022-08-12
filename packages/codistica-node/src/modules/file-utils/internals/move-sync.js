@@ -3,6 +3,8 @@
 import {copySync} from './copy-sync.js';
 import {removeSync} from './remove-sync.js';
 
+// TODO: DELETE AFTER EACH COPY SEQUENTIALLY? DIRECT IMPLEMENTATION? OR USE yield/async/generator IN copy MODULE?
+
 /**
  * @description Moves specified files.
  * @param {(Array<string>|string)} input - Input.

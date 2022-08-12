@@ -1,16 +1,19 @@
-/** @module node/modules/file-utils/get-paths-tree */
+/** @module node/modules/file-utils/get-paths-tree-sync */
 
 import {statSync} from 'fs';
 import {objectUtils} from '@codistica/core';
 import {scanSync} from './scan-sync.js';
+
+// TODO: WIP
+// TODO: IMPROVE!
+// TODO: CREATE async VERSION.
 
 /**
  * @description Builds a tree of directories starting at the specified path.
  * @param {string} startingDirectory - The starting directory.
  * @returns {Object<string,*>} Directory tree.
  */
-function getPathsTree(startingDirectory) {
-    // TODO: IMPROVE!
+function getPathsTreeSync(startingDirectory) {
     const output = {
         ext: {},
         dir: {}
@@ -43,4 +46,4 @@ function getPathsTree(startingDirectory) {
     return output;
 }
 
-export {getPathsTree};
+export {getPathsTreeSync};

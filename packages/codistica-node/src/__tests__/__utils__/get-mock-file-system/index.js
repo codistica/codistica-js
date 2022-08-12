@@ -64,8 +64,8 @@ function getMockFileSystem(addRandomDelay = false) {
 
     /**
      * @description A HOF to simulate FS delay.
-     * @param {function(...any): any} fn - Inner function.
-     * @returns {function(...any): any} - Wrapped function.
+     * @param {function(...*): *} fn - Inner function.
+     * @returns {function(...*): *} - Wrapped function.
      */
     const withRandomDelay = function withRandomDelay(fn) {
         return (...args) => {

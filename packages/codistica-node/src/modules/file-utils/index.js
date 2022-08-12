@@ -4,18 +4,25 @@ import {copySync} from './internals/copy-sync.js';
 import {copy} from './internals/copy.js';
 import {existsSync} from './internals/exists-sync.js';
 import {exists} from './internals/exists.js';
+import {forEachSync} from './internals/for-each-sync.js';
+import {forEach} from './internals/for-each.js';
 import {getAbsolutePath} from './internals/get-absolute-path.js';
 import {getJSONSync} from './internals/get-json-sync.js';
 import {getJSON} from './internals/get-json.js';
-import {getPathsTree} from './internals/get-paths-tree.js';
+import {getPathsTreeSync} from './internals/get-paths-tree-sync.js';
+import {moveByExtSync} from './internals/move-by-ext-sync.js';
+import {moveByExt} from './internals/move-by-ext.js';
 import {moveSync} from './internals/move-sync.js';
 import {move} from './internals/move.js';
+import {pruneDirSync} from './internals/prune-dir-sync.js';
+import {pruneDir} from './internals/prune-dir.js';
 import {putJSONSync} from './internals/put-json-sync.js';
 import {putJSON} from './internals/put-json.js';
 import {removeSync} from './internals/remove-sync.js';
 import {remove} from './internals/remove.js';
 import {scanSync} from './internals/scan-sync.js';
 import {scan} from './internals/scan.js';
+import {searchUpwardsSync} from './internals/search-upwards-sync.js';
 import {searchUpwards} from './internals/search-upwards.js';
 
 // TODO: REVIEW ALL CODE.
@@ -41,23 +48,30 @@ import {searchUpwards} from './internals/search-upwards.js';
 // TODO: AVOID RACE CONDITIONS.
 
 export {
-    clearDir,
     clearDirSync,
+    clearDir,
     copySync,
     copy,
-    exists,
     existsSync,
+    exists,
+    forEachSync,
+    forEach,
     getAbsolutePath,
-    getJSON,
     getJSONSync,
-    getPathsTree,
+    getJSON,
+    getPathsTreeSync,
+    moveByExtSync,
+    moveByExt,
     moveSync,
     move,
-    putJSON,
+    pruneDirSync,
+    pruneDir,
     putJSONSync,
+    putJSON,
     removeSync,
     remove,
     scanSync,
     scan,
+    searchUpwardsSync,
     searchUpwards
 };
