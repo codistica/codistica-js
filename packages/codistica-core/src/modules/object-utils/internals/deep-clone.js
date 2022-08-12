@@ -1,6 +1,7 @@
 /** @module core/modules/object-utils/deep-clone */
 
 import {Types} from '@codistica/types';
+import {log} from '../../log.js';
 import {forEachSync} from './for-each-sync.js';
 import {hasKeys} from './has-keys.js';
 import {isPureObject} from './is-pure-object.js';
@@ -36,6 +37,7 @@ function deepClone(obj, options) {
     ({obj, options} = deepCloneTypes.validate({obj, options}));
 
     if (!deepCloneTypes.isValid()) {
+        log.error('deepClone()', 'ARGUMENTS ERROR. ABORTING')();
         return null;
     }
 

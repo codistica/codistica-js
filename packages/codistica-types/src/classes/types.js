@@ -19,6 +19,8 @@
 
 // TODO: CHECK NAMING.
 
+// TODO: PRINT USEFUL WARNINGS WHEN VALIDATION FAILS AND WHEN DEFAULT VALUE IS BEING USED.
+
 /**
  * @typedef {(typesRuleType|typesRuleSetType)} typesSchemaType
  */

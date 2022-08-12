@@ -1,6 +1,7 @@
 /** @module core/modules/async-utils/for-each */
 
 /**
+ * @async
  * @description Iterates over passed elements executing callback asynchronously with specified concurrency limit.
  * @param {Array<*>} elems - Elements to iterate.
  * @param {Function} callback - Callback.

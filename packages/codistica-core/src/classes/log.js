@@ -27,6 +27,11 @@ import {stringify} from '../modules/stringify.js';
 // TODO: CHANGE verbose WITH full? OR SIMILAR. (verbose AND debug CAN BE USED AS SYNONYMS)
 
 // TODO: ADD OPTION TO NOT DISPLAY CALLER.
+// TODO: ADD OPTION TO OVERRIDE CALLER (SO LOGS FOR A SCRIPT CAN HAVE THE SAME CALLER)
+
+// TODO: SUPPORT MULTIPLE MESSAGES (...msgs)
+
+// TODO: AVOID CODE REPETITION
 
 const logTypes = new Types({
     options: {

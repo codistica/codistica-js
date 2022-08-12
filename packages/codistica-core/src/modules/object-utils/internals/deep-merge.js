@@ -1,6 +1,7 @@
 /** @module core/modules/object-utils/deep-merge */
 
 import {Types} from '@codistica/types';
+import {log} from '../../log.js';
 import {deepClone} from './deep-clone.js';
 import {forEachSync} from './for-each-sync.js';
 import {hasKeys} from './has-keys.js';
@@ -40,6 +41,7 @@ function deepMerge(source, target, options) {
     }));
 
     if (!deepMergeTypes.isValid()) {
+        log.error('deepMerge()', 'ARGUMENTS ERROR. ABORTING')();
         return null;
     }
 

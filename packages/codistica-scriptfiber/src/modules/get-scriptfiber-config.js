@@ -3,6 +3,8 @@
 import {fileUtils} from '@codistica/node';
 import {Types} from '@codistica/types';
 
+const {getJSONSync, getAbsolutePath} = fileUtils;
+
 // TODO: CREATE SCRIPTFIBER CONFIG AND BOOTLOADER CONFIG JSON SCHEMAS
 
 const getScriptfiberConfigConfigTypes = new Types({
@@ -53,8 +55,8 @@ function getScriptfiberConfig(configPath) {
         // GET FROM CACHE
         output = cachedConfig;
     } else {
-        output = fileUtils.getJSONSync(
-            fileUtils.getAbsolutePath(
+        output = getJSONSync(
+            getAbsolutePath(
                 typeof configPath === 'string'
                     ? configPath
                     : './scriptfiber-config.json'
@@ -69,13 +71,11 @@ function getScriptfiberConfig(configPath) {
             throw new TypeError('INVALID CONFIGURATION.');
         }
 
-        output.appPath = fileUtils.getAbsolutePath(output.appPath);
+        output.appPath = getAbsolutePath(output.appPath);
 
-        output.bootloaderPath = fileUtils.getAbsolutePath(
-            output.bootloaderPath
-        );
+        output.bootloaderPath = getAbsolutePath(output.bootloaderPath);
 
-        output.bootloaderConfigPath = fileUtils.getAbsolutePath(
+        output.bootloaderConfigPath = getAbsolutePath(
             output.bootloaderConfigPath
         );
 
