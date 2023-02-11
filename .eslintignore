@@ -10,3 +10,5 @@
 !.mocharc.js
 !.prettierrc.js
 !.eslintrc.js
+!.github
+!.mocha

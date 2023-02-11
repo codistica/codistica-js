@@ -21,6 +21,8 @@
 
 // TODO: PRINT USEFUL WARNINGS WHEN VALIDATION FAILS AND WHEN DEFAULT VALUE IS BEING USED.
 
+// TODO: ADD JSDOC FOR SUPPORTED TYPES (EX: string, boolean, !string...)
+
 /**
  * @typedef {(typesRuleType|typesRuleSetType)} typesSchemaType
  */

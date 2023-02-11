@@ -7,6 +7,15 @@ packages/*/jsdoc
 packages/*/build-icons-output
 packages/*/storybook-static
 
+### Custom (yarn) ###
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
 ### Custom (create-react-app) ###
 /.pnp
 .pnp.js

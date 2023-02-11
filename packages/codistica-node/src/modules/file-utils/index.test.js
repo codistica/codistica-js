@@ -1,14 +1,10 @@
 import {readdirSync} from 'fs';
 import {resolve} from 'path';
 import {getMockFileSystem} from '../../test-utils/get-mock-file-system/index.js';
-import {mock} from '../mock.js';
+import {mock} from '../mock-utils/index.js';
 
-mock.config({
-    cacheAutoClear: true,
-    cacheWhitelist: [
-        /\/get-mock-file-system\/index\.js$/,
-        /\/modules\/log\.js$/
-    ]
+mock.setConfig({
+    cacheSafeList: [/\/get-mock-file-system\/index\.js$/, /\/modules\/log\.js$/] // TODO: ? REMOVE? HOIST TO setup-tests?
 });
 
 const tests = readdirSync(resolve(__dirname, './internals'))
@@ -22,12 +18,14 @@ const tests = readdirSync(resolve(__dirname, './internals'))
  */
 const runTests = function runTests(addRandomDelay) {
     for (const test of tests) {
+        mock.clearCache(); // TODO: TEMP
         mock.require(
             test,
             [
                 {
                     request: 'fs',
                     exports: getMockFileSystem(addRandomDelay),
+                    target: '*',
                     ignore: /node_modules/,
                     requester: __filename
                 }

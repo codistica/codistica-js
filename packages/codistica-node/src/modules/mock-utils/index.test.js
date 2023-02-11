@@ -1,7 +1,10 @@
 import {resolve} from 'path';
 import {assert} from 'chai';
-import {getMockFileSystem} from '../test-utils/get-mock-file-system/index.js';
-import {mock} from './mock.js';
+import {getMockFileSystem} from '../../test-utils/get-mock-file-system/index.js';
+import {mock} from './index.js';
+
+// TODO: ADD TEST FOR NON OBJECT exports
+// TODO: CHECK __esModule PROPERTY FOR ESM, CJS AND NON-EXISTENT MODULES. ALSO FOR default ESM EXPORTS.
 
 const toUnregister = [];
 
@@ -23,11 +26,9 @@ describe('Mock', () => {
 
         toUnregister.push(
             mock.registerMock('fs', getMockFileSystem(), {
-                target: /./,
-                requester: resolve(
-                    __dirname,
-                    '../test-utils/mock-test-utils/use-mock-fs.js'
-                )
+                target: '*',
+                ignore: /node_modules/,
+                requester: resolve(__dirname, './test-utils/targets/mock-fs.js')
             })
         );
     });
@@ -39,34 +40,33 @@ describe('Mock', () => {
     });
 
     it('Should get import content in the right order.', async () => {
-        const {content} = await import(
-            '../test-utils/mock-test-utils/module-a.js'
-        );
+        const {content} = await import('./test-utils/modules/module-a.js');
         assert.strictEqual(content, 'A B C D');
     });
 
     it('Should get data from mock file system.', async () => {
-        const {content} = await import(
-            '../test-utils/mock-test-utils/use-mock-fs.js'
-        );
+        const {content} = await import('./test-utils/targets/mock-fs.js');
         assert.strictEqual(content, 'MOCK DATA');
     });
 
-    it('Should get data from mock file system (using mock.require() method).', async () => {
+    it('Should get data from mock file system (using mock.require method).', async () => {
         const {content} = await import(
-            '../test-utils/mock-test-utils/use-mock-fs-require.js'
+            './test-utils/targets/mock-require-fs.js'
         );
         assert.strictEqual(content, 'MOCK DATA');
     });
 
     it('Should get data from real file system.', async () => {
+        // THIS SHOULD BE LAST TO TEST THAT MOCK SYSTEM CORRECTLY AVOIDS MODULE TREE POISONING
         const {content} = await import(
-            '../test-utils/mock-test-utils/use-real-fs.js'
+            './test-utils/targets/do-not-mock-fs.js'
         );
         assert.strictEqual(content, 'REAL DATA');
     });
 
     after(() => {
-        toUnregister.forEach((mockUtils) => mockUtils.unregister());
+        toUnregister.forEach(
+            (mockUtils) => mockUtils && mockUtils.unregister()
+        );
     });
 });

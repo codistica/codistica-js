@@ -14,6 +14,7 @@ import {isPureObject} from './internals/is-pure-object.js';
 import {isReference} from './internals/is-reference.js';
 import {parseCircular} from './internals/parse-circular.js';
 import {pathToKey} from './internals/path-to-key.js';
+import {prettify} from './internals/prettify.js';
 import {renameProperty} from './internals/rename-property.js';
 import {seek} from './internals/seek.js';
 import {stringToPathArray} from './internals/string-to-path-array.js';
@@ -43,6 +44,7 @@ export {
     isReference,
     parseCircular,
     pathToKey,
+    prettify,
     renameProperty,
     seek,
     stringToPathArray,

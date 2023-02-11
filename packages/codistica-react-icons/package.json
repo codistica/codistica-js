@@ -30,7 +30,7 @@
         "lib-es",
         "!**/*.test.js",
         "!**/*.test.js.map",
-        "!*/test-utils"
+        "!**/test-utils"
     ],
     "repository": {
         "type": "git",

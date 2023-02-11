@@ -10,7 +10,7 @@ export {fileUtils, promisifiedFs};
 
 // MODULES
 export {getCmdOption} from './modules/get-cmd-option.js';
-export {mock} from './modules/mock.js';
+export {mock} from './modules/mock-utils/index.js';
 export {parseCmdArgs} from './modules/parse-cmd-args.js';
 
 // PLUGINS

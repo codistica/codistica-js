@@ -58,14 +58,14 @@ function parse(str) {
                 index: accIndex,
                 type: typesMap.get(accType),
                 /**
-                 * @description Next item.
+                 * @description Getter: Next item.
                  * @returns {parseObjectType} Item.
                  */
                 get next() {
                     return output[output.indexOf(item) + 1] || null;
                 },
                 /**
-                 * @description Previous item.
+                 * @description Getter: Previous item.
                  * @returns {parseObjectType} Item.
                  */
                 get previous() {

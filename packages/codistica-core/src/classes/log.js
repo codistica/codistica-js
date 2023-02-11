@@ -41,6 +41,7 @@ const logTypes = new Types({
             typeSize: {type: 'number', def: 15},
             callerSize: {type: 'number', def: 25},
             loggers: {type: 'Array', def: []},
+            safeLogFn: {type: 'boolean', def: false},
             consoleBinder: {type: ['Function', 'null'], def: null}
         }
     }
@@ -85,6 +86,7 @@ const logTypes = new Types({
  * @property {number} [typeSize=15] - Log type string size.
  * @property {number} [callerSize=25] - Log caller string size.
  * @property {Array<logLoggerType>} [loggers=[]] - Loggers array.
+ * @property {boolean} [safeLogFn=false] - Check if log function callback is called.
  * @property {(logConsoleBinderType|null)} [consoleBinder=null] - Console binder.
  */
 
@@ -334,11 +336,35 @@ class Log {
             logger.sendLog(logObj);
         });
 
+        /**
+         * @description Wrap log function to check if returned callback is synchronously called.
+         * @param {Function} logFn - Log function.
+         * @returns {Function} Wrapped log function.
+         */
+        const getSafeLogFn = (logFn) => {
+            const context = {
+                called: false
+            };
+
+            Promise.resolve().then(() => {
+                if (!context.called) {
+                    this.error('log', 'IGNORED LOG CALLBACK')();
+                }
+            });
+
+            return (...args) => {
+                context.called = true;
+                logFn(...args);
+            };
+        };
+
         // CALL CONSOLE BINDER AND RETURN BOUND LOG FUNCTION
         if (this.options.consoleBinder !== null) {
-            return this.options.consoleBinder.sendLog(logObj);
+            return this.options.safeLogFn
+                ? getSafeLogFn(this.options.consoleBinder.sendLog(logObj))
+                : this.options.consoleBinder.sendLog(logObj);
         } else {
-            return noop;
+            return this.options.safeLogFn ? getSafeLogFn(noop) : noop;
         }
     }
 

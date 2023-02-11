@@ -31,7 +31,7 @@
         "types",
         "!**/*.test.js",
         "!**/*.test.js.map",
-        "!*/test-utils"
+        "!**/test-utils"
     ],
     "types": "./types/index.d.ts",
     "repository": {

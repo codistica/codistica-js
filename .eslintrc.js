@@ -69,6 +69,14 @@ module.exports = {
             files: jsdocPackages,
             extends: ['@codistica/eslint-config-default/jsdoc']
         },
+        // MOCK
+        {
+            files: ['./packages/codistica-node/src/modules/mock-utils/**/*.js'],
+            extends: ['@codistica/eslint-config-default/node-module'],
+            globals: {
+                require: 'readonly'
+            }
+        },
         // PUBLIC REACT PACKAGES INDEX FILES (EXCEPTION)
         /** @todo FOLLOW https://github.com/facebook/flow/issues/8354. */
         /** @todo FOLLOW https://youtrack.jetbrains.com/issue/WEB-45239. */

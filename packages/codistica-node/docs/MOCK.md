@@ -40,8 +40,9 @@ import {mock} from '@codistica/node';
 import {fs as mockFs} from 'memfs';
 
 mock.registerMock('fs', mockFs, {
-    target: /./,
-    requester: resolve(__dirname, './some-path/requester-module.js')
+    target: '*',
+    ignore: /node_modules/,
+    requester: resolve(__dirname, './some-relative-path/requester-module.js')
 });
 ```
 
@@ -49,7 +50,7 @@ mock.registerMock('fs', mockFs, {
 import {mock} from '@codistica/node';
 
 mock.registerMock('nonexistent-module', 'MOCKED!', {
-    target: /./
+    target: /target-path\/target-module\.js$/
 });
 ```
 

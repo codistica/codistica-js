@@ -11,7 +11,7 @@ import {mainTemplateRequireEnsure} from './internals/main-template-require-ensur
 // TODO: GET mini-css-extract-plugin OPTIONS FROM PLUGIN INSTANCE. GET IT USING webpackUtils
 
 /**
- * @typedef ScriptfiberRuntimeWebpackPluginOptionsType
+ * @typedef scriptfiberRuntimeWebpackPluginOptionsType
  * @property {Array<string>} [noEvent=false] - Use internal module system to communicate with loader instead of global events.
  */
 
@@ -21,7 +21,7 @@ import {mainTemplateRequireEnsure} from './internals/main-template-require-ensur
 class ScriptfiberRuntimeWebpackPlugin {
     /**
      * @description Constructor.
-     * @param {ScriptfiberRuntimeWebpackPluginOptionsType} [options] - Plugin options.
+     * @param {scriptfiberRuntimeWebpackPluginOptionsType} [options] - Plugin options.
      */
     constructor(options) {
         this.options = options || {
